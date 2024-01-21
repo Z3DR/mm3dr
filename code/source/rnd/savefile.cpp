@@ -264,10 +264,10 @@ namespace rnd {
     if (gSettingsContext.skipBombersMinigame) {
       // Not sure if bombers code is used elsewhere in the game's code
       saveData.bomberscode[0] = 0x01;
-      saveData.bomberscode[1] = 0x01;
-      saveData.bomberscode[2] = 0x01;
-      saveData.bomberscode[3] = 0x01;
-      saveData.bomberscode[4] = 0x01;
+      saveData.bomberscode[1] = 0x02;
+      saveData.bomberscode[2] = 0x03;
+      saveData.bomberscode[3] = 0x04;
+      saveData.bomberscode[4] = 0x05;
       saveData.clock_town_temp_flags.bomber_open_hideout = 1;  // Currently gets reset by Song of time
     }
 
@@ -509,7 +509,7 @@ namespace rnd {
     }
     if (gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_NONE) {
       equipmentData.sword_shield.sword = game::SwordType::NoSword;
-      saveData.equipment.data->item_btn_b = game::ItemId::None;
+      saveData.equipment.data[0].item_btn_b = game::ItemId::None;
     } else if (gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_KOKIRI) {
       equipmentData.sword_shield.sword = game::SwordType::KokiriSword;
       saveData.equipment.data[0].item_btn_b = game::ItemId::KokiriSword;

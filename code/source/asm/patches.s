@@ -115,13 +115,16 @@ patch_DoNotRemoveKeys:
 .section .patch_DoNotGiveSwordBackOnReset
 .global patch_DoNotGiveSwordBackOnReset
 patch_DoNotGiveSwordBackOnReset:
-    nop
-    nop
-    nop
+    bl hook_DoNotGiveSwordBackOnReset
 
 .section .patch_RemoveItemBUsabilityOnReset
 .global patch_RemoveItemBUsabilityOnReset
 patch_RemoveItemBUsabilityOnReset:
+    bl hook_DoNotGiveSwordBackOnResetTwo
+
+.section .patch_RemoveSwordFlagsOnReset
+.global patch_RemoveSwordFlagsOnReset
+patch_RemoveSwordFlagsOnReset:
     nop
 
 .section .patch_RemoveDekuMaskCheckSoT
@@ -144,6 +147,11 @@ patch_SpawnFastElegyStatues:
 .global patch_CheckCurrentInventoryOverrideItem
 patch_CheckCurrentInventoryOverrideItem:
     b hook_CheckCurrentInventory
+
+.section .patch_ForceSwordUpgradeOnHuman
+.global patch_ForceSwordUpgradeOnHuman
+patch_ForceSwordUpgradeOnHuman:
+    mov r0,#0x0
 
 .section .patch_CheckDungeonItems
 .global patch_CheckDungeonItems
