@@ -26,7 +26,7 @@ namespace rnd {
     saveData.anonymous_162 = saveData.anonymous_162 | 0x6000;
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::MaskOfTruth);
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::PictographBox);
-    rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::PowderKeg);
+    // rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::PowderKeg);
     // saveData.inventory.inventory_count_register.quiver_upgrade = game::Quiver::Quiver50;
     saveData.inventory.inventory_count_register.bomb_bag_upgrade = game::BombBag::BombBag40;
     saveData.inventory.inventory_count_register.wallet_upgrade = 2;
@@ -42,8 +42,8 @@ namespace rnd {
     saveData.inventory.items[8] = game::ItemId::DekuStick;
     saveData.inventory.items[9] = game::ItemId::DekuNuts;
     saveData.inventory.items[10] = game::ItemId::MagicBean;
-    saveData.inventory.items[12] = game::ItemId::PowderKeg;
-    // saveData.inventory.items[13] = game::ItemId::PictographBox;
+    // saveData.inventory.items[12] = game::ItemId::PowderKeg;
+    saveData.inventory.items[13] = game::ItemId::PictographBox;
     // saveData.inventory.items[14] = game::ItemId::LensOfTruth;
     saveData.inventory.items[15] = game::ItemId::Hookshot;
     saveData.inventory.items[20] = game::ItemId::LandTitleDeed;
@@ -480,6 +480,7 @@ namespace rnd {
     }
 
     if (gSettingsContext.startingPictographBox > 0) {
+      rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::PictographBox);
       saveData.inventory.items[13] = game::ItemId::PictographBox;
     }
 

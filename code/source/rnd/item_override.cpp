@@ -44,9 +44,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x26;
     rItemOverrides[0].value.looksLikeItemId = 0x26;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
-    rItemOverrides[1].value.getItemId = 0x60;
-    rItemOverrides[1].value.looksLikeItemId = 0x60;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
+    rItemOverrides[1].value.getItemId = 0x34;
+    rItemOverrides[1].value.looksLikeItemId = 0x34;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -465,8 +465,8 @@ namespace rnd {
       gExtSaveData.givenItemChecks.enGmGivenItem = 1;
     } else if (storedActorId == game::act::Id::EnOsh) {
       gExtSaveData.givenItemChecks.enOshGivenItem = 1;
-    } else if (storedActorId == game::act::Id::EnDai) {
-      gExtSaveData.givenItemChecks.enDaiGivenItem = 1;
+    } else if (storedGetItemId == rnd::GetItemID::GI_POWDER_KEG) {
+      gExtSaveData.givenItemChecks.enGoGivenItem = 1;
     }
   }
 
@@ -614,10 +614,10 @@ namespace rnd {
         player->get_item_id = -(s16)GetItemID::GI_BOTTLE_SEAHORSE_REFILL;
         break;
       case 0x70:
-        player->get_item_id = -(s16)GetItemID::GI_BOTTLE_SEAHORSE_REFILL;
+        player->get_item_id = -(s16)GetItemID::GI_BOTTLE_MYSTERY_MILK;
         break;
       default:
-        player->get_item_id = -(s16)GetItemID::GI_BOTTLE_MYSTERY_MILK_REFILL;
+        player->get_item_id = -(s16)GetItemID::GI_RUPEE_BLUE;
         break;
       }
       return;
@@ -751,7 +751,18 @@ namespace rnd {
       return givenItems.enFsnANMGivenItem ? (int) currentItem
         : (int)0xFF;
     } else if (currentItem == game::ItemId::PowderKeg) {
-      return givenItems.enDaiGivenItem ? (int) currentItem
+      // Check scene if we want to buy from goron.
+      auto* gctx = rnd::GetContext().gctx;
+
+      if (gctx->scene == game::SceneId::BombShop) {
+        #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+          rnd::util::Print("%s: Do we have powder keg? Item %u is %u\n", __func__, currentItem, game::HasItem((game::ItemId)currentItem));	
+        #endif
+        return game::HasItem((game::ItemId)currentItem) ? (int) currentItem
+          : (int)0xFF;
+      }
+      
+      return givenItems.enGoGivenItem ? (int) currentItem
         : (int)0xFF;
     }
     auto& inventory = game::GetCommonData().save.inventory.items;
