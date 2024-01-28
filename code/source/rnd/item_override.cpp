@@ -755,9 +755,6 @@ namespace rnd {
       auto* gctx = rnd::GetContext().gctx;
 
       if (gctx->scene == game::SceneId::BombShop) {
-        #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("%s: Do we have powder keg? Item %u is %u\n", __func__, currentItem, game::HasItem((game::ItemId)currentItem));	
-        #endif
         return game::HasItem((game::ItemId)currentItem) ? (int) currentItem
           : (int)0xFF;
       }

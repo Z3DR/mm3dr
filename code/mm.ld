@@ -267,6 +267,10 @@ SECTIONS{
     *(.patch_EnteringLocation)
   }
 
+  .patch_TwinmoldRemoveGiantMaskCheck 0x2652D8 : {
+    *(.patch_TwinmoldRemoveGiantMaskCheck)
+  }
+
   /* .patch_TwinmoldConsistentDamage 0x28E544 : {
     *(.patch_TwinmoldConsistentDamage)
   } */

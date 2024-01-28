@@ -289,6 +289,12 @@ OverrideItemID_patch:
 patch_EnteringLocation:
     bl hook_EnteringLocation
 
+@ NOP the branch for checking if we have giant's mask and set flag anyway.
+.section .patch_TwinmoldRemoveGiantMaskCheck
+.global patch_TwinmoldRemoveGiantMaskCheck
+patch_TwinmoldRemoveGiantMaskCheck:
+    nop
+
 .section .patch_RemoveGoronMaskCheckDarmani
 .global patch_RemoveGoronMaskCheckDarmani
 patch_RemoveGoronMaskCheckDarmani:
