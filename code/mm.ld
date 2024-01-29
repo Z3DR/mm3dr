@@ -127,10 +127,6 @@ SECTIONS{
     *(.patch_CheckCurrentInventoryOverrideItem)
   }
 
-  /* .patch_CheckCurrentInventoryOverrideItemTwo 0x201060 : {
-    *(.patch_CheckCurrentInventoryOverrideItemTwo)
-  } */
-
   /* .patch_OverrideItemIDFour 0x1FBD10 : {
     *(.patch_OverrideItemIdIndex)
   } */
@@ -265,10 +261,6 @@ SECTIONS{
 
   .patch_EnteringLocation 0x23aa54 : {
     *(.patch_EnteringLocation)
-  }
-
-  .patch_TwinmoldRemoveGiantMaskCheck 0x2652D8 : {
-    *(.patch_TwinmoldRemoveGiantMaskCheck)
   }
 
   /* .patch_TwinmoldConsistentDamage 0x28E544 : {

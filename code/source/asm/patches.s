@@ -169,13 +169,6 @@ patch_SpawnFastElegyStatues:
 patch_CheckCurrentInventoryOverrideItem:
     b hook_CheckCurrentInventory
 
-.section .patch_CheckCurrentInventoryOverrideItemTwo
-.global patch_CheckCurrentInventoryOverrideItemTwo
-patch_CheckCurrentInventoryOverrideItemTwo:
-    b hook_CheckCurrentInventory
-
-
-
 .section .patch_ForceSwordUpgradeOnHuman
 .global patch_ForceSwordUpgradeOnHuman
 patch_ForceSwordUpgradeOnHuman:
@@ -288,12 +281,6 @@ OverrideItemID_patch:
 .global patch_EnteringLocation
 patch_EnteringLocation:
     bl hook_EnteringLocation
-
-@ NOP the branch for checking if we have giant's mask and set flag anyway.
-.section .patch_TwinmoldRemoveGiantMaskCheck
-.global patch_TwinmoldRemoveGiantMaskCheck
-patch_TwinmoldRemoveGiantMaskCheck:
-    nop
 
 .section .patch_RemoveGoronMaskCheckDarmani
 .global patch_RemoveGoronMaskCheckDarmani
