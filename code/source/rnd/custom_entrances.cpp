@@ -1,7 +1,8 @@
 #include "rnd/custom_entrances.h"
 
 namespace rnd {
-  extern "C" bool SceneEntranceOverride() {
+  extern "C" {
+  bool SceneEntranceOverride() {
     game::CommonData& cdata = game::GetCommonData();
     game::GlobalContext* gctx = GetContext().gctx;
     bool didWarp = false;
@@ -36,4 +37,27 @@ namespace rnd {
       gctx->field_C529_one_to_clear_input = 0x14;
     return didWarp;
   }
+
+  bool IsTempleScene(int scene) {
+
+    if (scene == (int)game::SceneId::Woodfall || scene == (int)game::SceneId::SnowheadTemple ||
+        scene == (int)game::SceneId::GreatBayTemple || scene == (int)game::SceneId::StoneTowerTemple ||
+        scene == (int)game::SceneId::StoneTowerTempleInverted) {
+          #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+            rnd::util::Print("%s: We are a temple scene! ID is %#04x returning true %u\n", __func__, (s16)scene, true);	
+          #endif
+          return true;
+        }
+      
+    else
+      return false;
+  }
+
+  void printR1(int scene) {
+    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+            rnd::util::Print("%s: We are a temple scene! ID is %s\n", __func__, (s16)scene);	
+          #endif
+  }
+  }
+
 }  // namespace rnd

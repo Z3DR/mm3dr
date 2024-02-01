@@ -14,7 +14,10 @@ extern "C" {
 #endif
 
 namespace rnd {
-  extern "C" bool SceneEntranceOverride();
+  extern "C" {
+    bool SceneEntranceOverride();
+    bool IsTempleScene(int);
+  }
 }  // namespace rnd
 
 #endif

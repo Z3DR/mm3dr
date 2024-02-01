@@ -71,6 +71,57 @@ doNotOverrideCutscene:
     bl 0x22A7F8
     b 0x1B1838
 
+.global hook_TempleAsLastScene
+hook_TempleAsLastScene:
+    push {r0-r12, lr}
+    bl IsTempleScene
+    cmp r0,#0x1
+    pop {r0-r12, lr}
+    beq 0x1C936C
+    @ original instruction.
+    push {lr}
+    bl 0x190A54
+    pop {lr}
+    bx lr
+
+.global hook_DebugHook
+hook_DebugHook:
+    push {r0-r12,lr}
+    mov r5, r0
+    bl printR1
+    pop {r0-r12,lr}
+    str r2, [r1], #20
+    bx lr
+
+.global hook_DoNotResetFlagsGeneric
+hook_DoNotResetFlagsGeneric:
+    push {r0-r12, lr}
+    bl IsTempleScene
+    cmp r0,#0x1
+    pop {r0-r12, lr}
+    beq templeCaseGeneric
+    @beq 0x1C93C8
+    add r0,r0,#0x1
+    bx lr
+templeCaseGeneric:
+    add r0,r0,#0x1
+    add r0,r0,#0x1
+    bx lr
+
+.global hook_DoNotResetTempleFlags
+hook_DoNotResetTempleFlags:
+    mov r0, #0x0
+    push {r0-r12, lr}
+    bl IsTempleScene
+    cmp r0,#0x1
+    pop {r0-r12, lr}
+    bne templeCase
+    @beq 0x1C93C8
+    b 0x1C9370
+templeCase:
+    add r0,r0,#0x1
+    b 0x1C9370
+
 .global hook_ChangeSOHToCustomText
 hook_ChangeSOHToCustomText:
     push {r0-r2, lr}
