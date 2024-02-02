@@ -63,21 +63,9 @@ SECTIONS{
     *(.patch_RemoveMysteryMilkTimer)
   }
 
-  /* .patch_TempleAsLastScence 0x1C9310 : {
-    *(.patch_TempleAsLastScence)
-  }*/
-
-  .patch_DoNotResetTempleFlags 0x1c936c : {
-  *(.patch_AttemptKeepChestsClosed)
+  .patch_DoNotResetTempleFlags 0x1C936C : {
+    *(.patch_DoNotResetTempleFlags)
   } 
-
-   /* .patch_tmp 0x545a30 : {
-    *(.patch_tmp)
-  } */
-
-  /*.patch_tmp2 0x1c93cc : {
-    *(.patch_tmp2)
-  } */
 
   .patch_DoNotRemoveKeys 0x1C9B94 : {
     *(.patch_DoNotRemoveKeys)

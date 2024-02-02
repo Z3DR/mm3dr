@@ -38,25 +38,13 @@ namespace rnd {
     return didWarp;
   }
 
-  bool IsTempleScene(int scene) {
-
-    if (scene == (int)game::SceneId::Woodfall || scene == (int)game::SceneId::SnowheadTemple ||
-        scene == (int)game::SceneId::GreatBayTemple || scene == (int)game::SceneId::StoneTowerTemple ||
-        scene == (int)game::SceneId::StoneTowerTempleInverted) {
-          #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-            rnd::util::Print("%s: We are a temple scene! ID is %#04x returning true %u\n", __func__, (s16)scene, true);	
-          #endif
-          return true;
-        }
-      
-    else
-      return false;
-  }
-
-  void printR1(int scene) {
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-            rnd::util::Print("%s: We are a temple scene! ID is %s\n", __func__, (s16)scene);	
-          #endif
+  void ForceTempleFlags() {
+    game::PersistentSceneCycleFlags* cycleFlags = game::GetPersistentCycleStruct();
+    cycleFlags[(u32)game::SceneId::WoodfallTemple].switch1 = 0xFFFFFFFF;
+    cycleFlags[(u32)game::SceneId::SnowheadTemple].switch1 = 0xFFFFFFFF;
+    cycleFlags[(u32)game::SceneId::GreatBayTemple].switch1 = 0xFFFFFFFF;
+    cycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1 = 0xFFFFFFFF;
+    cycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1 = 0xFFFFFFFF;
   }
   }
 

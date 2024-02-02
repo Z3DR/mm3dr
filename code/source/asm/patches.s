@@ -95,14 +95,6 @@ patch_OverrideCutsceneNextEntrance:
 patch_RemoveMysteryMilkTimer:
     nop
 
-@ There's a check on gctx->scene here that we 
-@ should ignore if we are a temple to avoid
-@ resetting any doors.
-.section .patch_TempleAsLastScence
-.global patch_TempleAsLastScence
-patch_TempleAsLastScence:
-    @bl hook_TempleAsLastScene
-
 @ Skip past all the fairy and 
 @ door resetting if we are the temples
 @ as we don't want to softlock users
@@ -110,19 +102,7 @@ patch_TempleAsLastScence:
 .section .patch_DoNotResetTempleFlags
 .global patch_DoNotResetTempleFlags
 patch_DoNotResetTempleFlags:
-    b hook_DoNotResetTempleFlags
-
-.section .patch_tmp
-.global patch_tmp
-patch_tmp:
-    bl hook_DoNotResetFlagsGeneric
-
-.section .patch_tmp2
-.global patch_tmp2
-patch_tmp2:
-    nop
-    cmp r0,#0x75
-    nop
+    bl hook_DoNotResetTempleFlags
 
 @ Skips past a loop that resets all
 @ values in the each dungeon for 

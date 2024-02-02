@@ -15,8 +15,8 @@ extern "C" {
 
 namespace rnd {
   extern "C" {
-    bool SceneEntranceOverride();
-    bool IsTempleScene(int);
+  bool SceneEntranceOverride();
+  void ForceTempleFlags();
   }
 }  // namespace rnd
 
