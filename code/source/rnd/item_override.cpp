@@ -724,8 +724,10 @@ namespace rnd {
         }
         break;
       default:
+        player->get_item_id = -(s16)GetItemID::GI_RUPEE_BLUE;
         break;
       }
+      return;
     }
     ItemOverride_Activate(override);
     s16 baseItemId = rActiveItemRow->baseItemId;
