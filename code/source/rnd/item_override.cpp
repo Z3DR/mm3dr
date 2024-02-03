@@ -483,6 +483,16 @@ namespace rnd {
       }
     } else if (storedActorId == game::act::Id::EnShn) {
       gExtSaveData.givenItemChecks.enShnGivenItem = 1;
+    } else if (storedGetItemId == rnd::GetItemID::GI_MOONS_TEAR) {
+      gExtSaveData.givenItemChecks.enObjMoonStoneGivenItem = 1;
+    } else if (storedGetItemId == rnd::GetItemID::GI_TOWN_TITLE_DEED) {
+      gExtSaveData.givenItemChecks.enTownDeedGivenItem = 1;
+    } else if (storedGetItemId == rnd::GetItemID::GI_SWAMP_TITLE_DEED) {
+      gExtSaveData.givenItemChecks.enSwampDeedGivenItem = 1;
+    } else if (storedGetItemId == rnd::GetItemID::GI_MOUNTAIN_TITLE_DEED) {
+      gExtSaveData.givenItemChecks.enMtnDeedGivenItem = 1;
+    } else if (storedGetItemId == rnd::GetItemID::GI_OCEAN_TITLE_DEED) {
+      gExtSaveData.givenItemChecks.enOcnDeedGivenItemsed = 1;
     }
   }
 
@@ -637,6 +647,31 @@ namespace rnd {
         break;
       }
       return;
+    } else if (override.value.getItemId > 0x45 && override.value.getItemId < 0x4B) {
+      // This check is mainly to ensure we do not have repeatable progressive items within these base items.
+      // This is to ensure fairness and allows us to place these items without second guessing in logic.
+      // Let's be a bit rude and give them fishing passes.
+      if (incomingGetItemId == (s16)GetItemID::GI_MOONS_TEAR &&
+          gExtSaveData.givenItemChecks.enObjMoonStoneGivenItem == 1) {
+        player->get_item_id = (s16)GetItemID::GI_FISHING_HOLE_PASS;
+        return;
+      } else if (incomingGetItemId == (s16)GetItemID::GI_TOWN_TITLE_DEED &&
+                 gExtSaveData.givenItemChecks.enTownDeedGivenItem == 1) {
+        player->get_item_id = (s16)GetItemID::GI_FISHING_HOLE_PASS;
+        return;
+      } else if (incomingGetItemId == (s16)GetItemID::GI_SWAMP_TITLE_DEED &&
+                 gExtSaveData.givenItemChecks.enSwampDeedGivenItem == 1) {
+        player->get_item_id = (s16)GetItemID::GI_FISHING_HOLE_PASS;
+        return;
+      } else if (incomingGetItemId == (s16)GetItemID::GI_MOUNTAIN_TITLE_DEED &&
+                 gExtSaveData.givenItemChecks.enMtnDeedGivenItem == 1) {
+        player->get_item_id = (s16)GetItemID::GI_FISHING_HOLE_PASS;
+        return;
+      } else if (incomingGetItemId == (s16)GetItemID::GI_OCEAN_TITLE_DEED &&
+                 gExtSaveData.givenItemChecks.enOcnDeedGivenItemsed == 1) {
+        player->get_item_id = (s16)GetItemID::GI_FISHING_HOLE_PASS;
+        return;
+      }
     }
     ItemOverride_Activate(override);
     s16 baseItemId = rActiveItemRow->baseItemId;

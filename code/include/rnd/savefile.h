@@ -7,7 +7,7 @@
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 12
+#define EXTSAVEDATA_VERSION 13
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
@@ -74,8 +74,13 @@ namespace rnd {
       BitField<30, 1, u64> enGoGivenItem;
       BitField<31, 1, u64> enBoss02GivenItem;
       BitField<32, 1, u64> enGinkoManGivenItem;
-      BitField<33, 31, u64> enShnGivenItem;
-      BitField<34, 30, u64> unused;
+      BitField<33, 1, u64> enShnGivenItem;
+      BitField<34, 1, u64> enObjMoonStoneGivenItem;
+      BitField<35, 1, u64> enTownDeedGivenItem;
+      BitField<35, 1, u64> enSwampDeedGivenItem;
+      BitField<35, 1, u64> enMtnDeedGivenItem;
+      BitField<35, 1, u64> enOcnDeedGivenItemsed;
+      BitField<35, 25, u64> unused;
     };
     GivenItemRegister givenItemChecks;
     union FairyCollectRegister {
