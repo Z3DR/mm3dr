@@ -448,7 +448,7 @@ namespace rnd {
       gExtSaveData.givenItemChecks.enDnoGivenItem = 1;
     } else if (storedActorId == game::act::Id::NpcGreatFairy) {
       gExtSaveData.givenItemChecks.bgDyYoseizoGivenItem = 1;
-    } else if (storedActorId == game::act::Id::EnIn) {
+    } else if (storedActorId == game::act::Id::EnIn && storedGetItemId == (s16)GetItemID::GI_MASK_GARO) {
       gExtSaveData.givenItemChecks.enInGivenItem = 1;
     } else if (storedActorId == game::act::Id::EnHs) {
       gExtSaveData.givenItemChecks.enHsGivenItem = 1;
