@@ -77,10 +77,15 @@ namespace rnd {
       BitField<33, 1, u64> enShnGivenItem;
       BitField<34, 1, u64> enObjMoonStoneGivenItem;
       BitField<35, 1, u64> enTownDeedGivenItem;
-      BitField<35, 1, u64> enSwampDeedGivenItem;
-      BitField<35, 1, u64> enMtnDeedGivenItem;
-      BitField<35, 1, u64> enOcnDeedGivenItemsed;
-      BitField<35, 25, u64> unused;
+      BitField<36, 1, u64> enSwampDeedGivenItem;
+      BitField<37, 1, u64> enMtnDeedGivenItem;
+      BitField<38, 1, u64> enOcnDeedGivenItem;
+      BitField<39, 1, u64> bottleMilkGiven;
+      BitField<40, 1, u64> bottleGoldDustGiven;
+      BitField<41, 1, u64> bottleSeahorseGiven;
+      BitField<42, 1, u64> bottleChateuGiven;
+      BitField<43, 1, u64> bottleMysteryMilkGiven;
+      BitField<44, 20, u64> unused;
     };
     GivenItemRegister givenItemChecks;
     union FairyCollectRegister {

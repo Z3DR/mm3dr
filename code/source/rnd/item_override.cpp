@@ -44,9 +44,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x26;
     rItemOverrides[0].value.looksLikeItemId = 0x26;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0xA1;
-    rItemOverrides[1].value.looksLikeItemId = 0xA1;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
+    rItemOverrides[1].value.getItemId = 0x60;
+    rItemOverrides[1].value.looksLikeItemId = 0x60;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -448,7 +448,7 @@ namespace rnd {
       gExtSaveData.givenItemChecks.enDnoGivenItem = 1;
     } else if (storedActorId == game::act::Id::NpcGreatFairy) {
       gExtSaveData.givenItemChecks.bgDyYoseizoGivenItem = 1;
-    } else if (storedActorId == game::act::Id::EnIn && storedGetItemId == (s16)GetItemID::GI_MASK_GARO) {
+    } else if (storedActorId == game::act::Id::EnIn && storedGetItemId == GetItemID::GI_MASK_GARO) {
       gExtSaveData.givenItemChecks.enInGivenItem = 1;
     } else if (storedActorId == game::act::Id::EnHs) {
       gExtSaveData.givenItemChecks.enHsGivenItem = 1;
@@ -492,7 +492,7 @@ namespace rnd {
     } else if (storedGetItemId == rnd::GetItemID::GI_MOUNTAIN_TITLE_DEED) {
       gExtSaveData.givenItemChecks.enMtnDeedGivenItem = 1;
     } else if (storedGetItemId == rnd::GetItemID::GI_OCEAN_TITLE_DEED) {
-      gExtSaveData.givenItemChecks.enOcnDeedGivenItemsed = 1;
+      gExtSaveData.givenItemChecks.enOcnDeedGivenItem = 1;
     }
   }
 
@@ -546,6 +546,33 @@ namespace rnd {
       rnd::util::GetPointer<void(u8)>(0x548260)(0x5);
       break;
     default:
+      break;
+    }
+    return;
+  }
+
+  void ItemOverride_SetBottleRefill(game::act::Player* player, s16 refItemId, bool isChest = false) {
+    switch (refItemId) {
+    case 0x60:
+      player->get_item_id = isChest ? -(s16)GetItemID::GI_BOTTLE_MILK_REFILL : (s16)GetItemID::GI_BOTTLE_MILK_REFILL;
+      break;
+    case 0x6A:
+      player->get_item_id =
+          isChest ? -(s16)GetItemID::GI_BOTTLE_GOLD_DUST_REFILL : (s16)GetItemID::GI_BOTTLE_GOLD_DUST_REFILL;
+      break;
+    case 0x6F:
+      player->get_item_id =
+          isChest ? -(s16)GetItemID::GI_BOTTLE_CHATEAU_ROMANI_REFILL : (s16)GetItemID::GI_BOTTLE_CHATEAU_ROMANI_REFILL;
+      break;
+    case 0x6E:
+      player->get_item_id =
+          isChest ? -(s16)GetItemID::GI_BOTTLE_SEAHORSE_REFILL : (s16)GetItemID::GI_BOTTLE_SEAHORSE_REFILL;
+      break;
+    case 0x70:
+      player->get_item_id = isChest ? -(s16)GetItemID::GI_BOTTLE_MYSTERY_MILK : (s16)GetItemID::GI_BOTTLE_MYSTERY_MILK;
+      break;
+    default:
+      player->get_item_id = isChest ? -(s16)GetItemID::GI_RUPEE_BLUE : (s16)GetItemID::GI_RUPEE_BLUE;
       break;
     }
     return;
@@ -626,26 +653,7 @@ namespace rnd {
       rnd::util::Print("%s: Our ref item id is %#04x\n", __func__, refItemId);
 #endif
       ItemOverride_Clear();
-      switch (refItemId) {
-      case 0x60:
-        player->get_item_id = -(s16)GetItemID::GI_BOTTLE_MILK_REFILL;
-        break;
-      case 0x6A:
-        player->get_item_id = -(s16)GetItemID::GI_BOTTLE_GOLD_DUST_REFILL;
-        break;
-      case 0x6F:
-        player->get_item_id = -(s16)GetItemID::GI_BOTTLE_CHATEAU_ROMANI_REFILL;
-        break;
-      case 0x6E:
-        player->get_item_id = -(s16)GetItemID::GI_BOTTLE_SEAHORSE_REFILL;
-        break;
-      case 0x70:
-        player->get_item_id = -(s16)GetItemID::GI_BOTTLE_MYSTERY_MILK;
-        break;
-      default:
-        player->get_item_id = -(s16)GetItemID::GI_RUPEE_BLUE;
-        break;
-      }
+      ItemOverride_SetBottleRefill(player, (s16)refItemId, true);
       return;
     } else if (override.value.getItemId > 0x45 && override.value.getItemId < 0x4B) {
       // This check is mainly to ensure we do not have repeatable progressive items within these base items.
@@ -668,9 +676,55 @@ namespace rnd {
         player->get_item_id = (s16)GetItemID::GI_FISHING_HOLE_PASS;
         return;
       } else if (incomingGetItemId == (s16)GetItemID::GI_OCEAN_TITLE_DEED &&
-                 gExtSaveData.givenItemChecks.enOcnDeedGivenItemsed == 1) {
+                 gExtSaveData.givenItemChecks.enOcnDeedGivenItem == 1) {
         player->get_item_id = (s16)GetItemID::GI_FISHING_HOLE_PASS;
         return;
+      }
+    } else if (override.key.type != ItemOverride_Type::OVR_CHEST && override.value.getItemId == 0x60 ||
+               (override.value.getItemId > 0x69 && override.value.getItemId < 0x71)) {
+      switch (override.value.getItemId) {
+      case 0x60:
+        if (gExtSaveData.givenItemChecks.bottleMilkGiven == 0) {
+          gExtSaveData.givenItemChecks.bottleMilkGiven = 1;
+        } else {
+          ItemOverride_SetBottleRefill(player, (s16) override.value.getItemId);
+          return;
+        }
+        break;
+      case 0x6A:
+        if (gExtSaveData.givenItemChecks.bottleGoldDustGiven == 0) {
+          gExtSaveData.givenItemChecks.bottleGoldDustGiven = 1;
+        } else {
+          ItemOverride_SetBottleRefill(player, (s16) override.value.getItemId);
+          return;
+        }
+        break;
+      case 0x6F:
+        if (gExtSaveData.givenItemChecks.bottleGoldDustGiven == 0) {
+          gExtSaveData.givenItemChecks.bottleGoldDustGiven = 1;
+        } else {
+          ItemOverride_SetBottleRefill(player, (s16) override.value.getItemId);
+          return;
+        }
+        break;
+      case 0x6E:
+        if (gExtSaveData.givenItemChecks.bottleSeahorseGiven == 0) {
+          gExtSaveData.givenItemChecks.bottleSeahorseGiven = 1;
+        } else {
+          ItemOverride_SetBottleRefill(player, (s16) override.value.getItemId);
+          return;
+        }
+        break;
+      case 0x70:
+        if (gExtSaveData.givenItemChecks.bottleMysteryMilkGiven == 0) {
+          gExtSaveData.givenItemChecks.bottleMysteryMilkGiven = 1;
+        } else {
+          ItemOverride_SetBottleRefill(player, (s16) override.value.getItemId);
+          return;
+        }
+        break;
+      default:
+        break;
       }
     }
     ItemOverride_Activate(override);
