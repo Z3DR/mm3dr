@@ -47,9 +47,509 @@ namespace rnd {
         gExtSaveData.itemCollected[i] = 1;
       }
     }
+    SpoilerLog_CheckMultiLocationItems(type, scene, flag);
     return -1;
   }
-
+  u8 SpoilerLog_CheckMultiLocationItems(ItemOverride_Type type, u8 scene, u8 flag) {
+     //#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+     //    rnd::util::Print(
+     //        "%s: CheckMultiLocationItems passed values:\nActor Type %d\nScene: %d\nFlag: %d\n",
+     //        __func__, type, scene, flag);
+     //#endif
+    //#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    //    rnd::util::Print("%s: passed the scene check for %d\n", __func__,scene);
+    //#endif
+      
+    //Koume in Potion Shop > Koume in Woods
+    if ((scene == 0x0A) && (flag == 0x59) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x64 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Koume in Woods > Koume in Potion Shop
+    if ((scene == 0x64) && (flag == 0x59) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x0A && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //SCT Postbox > NCT & ECT Postboxes
+    if ((scene == 0x6F) && (flag == 0xBA) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x6E && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x6C && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //NCT Postbox > SCT & ECT Postboxes
+    if ((scene == 0x6E) && (flag == 0xBA) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x6F && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x6C && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //ECT Postbox > NCT & SCT Postboxes
+    if ((scene == 0x6C) && (flag == 0xBA) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x6E && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x6F && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //NCT Tingle Clocktown Map > Ikana Tingle Clocktown Map
+    if ((scene == 0x6E) && (flag == 0xB4) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x13 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Ikana Tingle Clocktown Map > NCT Tingle Clocktown Map
+    if ((scene == 0x13) && (flag == 0xB4) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x6E && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //NCT Tingle Woodfall Map > Woodfall Tingle Woodfall Map
+    if ((scene == 0x6E) && (flag == 0xB5) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x40 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Woodfall Tingle Woodfall Map > NCT Tingle Woodfall Map
+    if ((scene == 0x40) && (flag == 0xB5) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x6E && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Woodfall Tingle Snowhead Map > Snowhead Tingle Snowhead Map (winter)
+    if ((scene == 0x40) && (flag == 0xB6) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x5D && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Woodfall Tingle Snowhead Map > Snowhead Tingle Snowhead Map (Spring)
+    if ((scene == 0x40) && (flag == 0xB6) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x5E && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Snowhead Tingle Snowhead Map (Winter) > Woodfall Tingle Snowhead Map
+    if ((scene == 0x5D) && (flag == 0xB6) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x40 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Snowhead Tingle Snowhead Map (Spring) > Woodfall Tingle Snowhead Map 
+    if ((scene == 0x5E) && (flag == 0xB6) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x40 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Snowhead Tingle Snowhead Map (Winter) > Snowhead Tingle Snowhead Map (Spring)
+    if ((scene == 0x5D) && (flag == 0xB6) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x5E && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Snowhead Tingle Snowhead Map (Spring) > Snowhead Tingle Snowhead Map (Winter)
+    if ((scene == 0x5E) && (flag == 0xB6) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x5D && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Snowhead Tingle Ranch Map (Winter) > Ranch Tingle Ranch Map
+    if ((scene == 0x5D) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x22 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Snowhead Tingle Ranch Map (Spring) > Ranch Tingle Ranch Map
+    if ((scene == 0x5E) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x22 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Ranch Tingle Ranch Map > Snowhead Tingle Snowhead Map (Winter)
+    if ((scene == 0x22) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x5E && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Ranch Tingle Ranch Map > Snowhead Tingle Snowhead Map (Spring)
+    if ((scene == 0x22) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x5D && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Ranch Tingle Great Bay Map  > Great Bay Tingle Great Bay Map
+    if ((scene == 0x22) && (flag == 0xB8) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x37 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Great Bay Tingle Great Bay Map  > Ranch Tingle Great Bay Map
+    if ((scene == 0x37) && (flag == 0xB8) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x22 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Great Bay Tingle Stone Tower Map  > Stone Tower Tingle Stone Tower Map
+    if ((scene == 0x37) && (flag == 0xB9) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x13 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //Stone Tower Tingle Stone Tower Map  > Great Bay Tingle Stone Tower Map
+    if ((scene == 0x13) && (flag == 0xB9) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x37 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //NCT Keaton > MR Keaton & MV Keaton
+    if ((scene == 0x6E) && (flag == 0x03) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x22 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x5A && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //MR Keaton > NCT Keaton & MV Keaton
+    if ((scene == 0x22) && (flag == 0x03) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x6E && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x5A && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //MV Keaton > MR Keaton & NCT Keaton
+    if ((scene == 0x5A) && (flag == 0x03) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x22 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x6E && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //GV Powder Keg Challenge (Winter)  > GV Powder Keg Challenge (Spring)
+    if ((scene == 0x4D) && (flag == 0x34) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x48 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //GV Powder Keg Challenge (Spring)  > GV Powder Keg Challenge (Winter)
+    if ((scene == 0x48) && (flag == 0x34) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x4D && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //GV Deku Merchant Purchase (Winter)  > GV Deku Merchant Purchase(Spring)
+    if ((scene == 0x4D) && (flag == 0x1D) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x48 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //GV Deku Merchant Purchase (Spring)  > GV Deku Merchant Purchase(Winter)
+    if ((scene == 0x48) && (flag == 0x1D) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x4D && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //GV Deku Merchant Trade (Winter)  > GV Deku Merchant Trade(Spring)
+    if ((scene == 0x4D) && (flag == 0x99) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x48 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //GV Deku Merchant Trade (Spring)  > GV Deku Merchant Trade(Winter)
+    if ((scene == 0x48) && (flag == 0x99) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x4D && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //GV Ledge Heart Piece (Winter)  > GV Ledge Heart Piece (Spring)
+    if ((scene == 0x4D) && (flag == 0x00) && (type == ItemOverride_Type::OVR_COLLECTABLE)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x48 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //GV Ledge Heart Piece (Spring)  > GV Ledge Heart Piece(Winter)
+    if ((scene == 0x48) && (flag == 0x00) && (type == ItemOverride_Type::OVR_COLLECTABLE)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x4D && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //SS Deku Merchant Purchase (Poison)  > SS Deku Merchant Purchase(Clear)
+    if ((scene == 0x45) && (flag == 0x35) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x00 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //SS Deku Merchant Purchase (Clear)  > SS Deku Merchant Purchase(Poison)
+    if ((scene == 0x00) && (flag == 0x35) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x45 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //SS Deku Merchant Trade (Poison)  > SS Deku Merchant Trade (Clear)
+    if ((scene == 0x45) && (flag == 0x98) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x00 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //SS Deku Merchant Trade (Clear)  > SS Deku Merchant Trade (Poison)
+    if ((scene == 0x00) && (flag == 0x98) && (type == ItemOverride_Type::OVR_BASE_ITEM)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x45 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //SS Tourist Center Roof HP (Poison)  > SS Tourist Center Roof HP (Clear)
+    if ((scene == 0x45) && (flag == 0x00) && (type == ItemOverride_Type::OVR_COLLECTABLE)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x00 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    //SS Tourist Center Roof HP (Clear)  > SS Tourist Center Roof HP (Poison)
+    if ((scene == 0x00) && (flag == 0x00) && (type == ItemOverride_Type::OVR_COLLECTABLE)){
+      for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+        if (gSpoilerData.ItemLocations[i].LocationScene == 0x45 && gSpoilerData.ItemLocations[i].OverrideType == type &&
+            gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+          gSpoilerData.ItemLocations[i].Collected = true;
+          // Since it's not saved here, we need to return
+          gExtSaveData.itemCollected[i] = 1;
+        }
+      }
+    }
+    return -1;
+  }
   u8 SpoilerData_CollectableCheck(SpoilerItemLocation itemLoc) {
     // TODO: Implement Collectable Checking. no need to use bits as we have
     // builtin BitField classes.
