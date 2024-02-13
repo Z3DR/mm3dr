@@ -16,7 +16,8 @@ namespace rnd {
   namespace gearscreen {
     extern "C" void GearScreen_GetStoredTradeItem(game::ui::screens::GearScreen*);
     void GearScreen_DrawAndShowItem(game::ItemId, game::ui::Anim*, u16, int);
-    bool GearScreen_LoopDeedsForward(game::ui::screens::GearScreen*, int, game::ItemId);
+    bool GearScreen_LoopTradeItemsForward(game::ui::screens::GearScreen*, int, game::ItemId);
+    bool GearScreen_LoopTradeItemsBackward(game::ui::screens::GearScreen*, int, game::ItemId);
     int GearScreen_GetTextIdFromItemId(game::ItemId);
     int GearScreen_GetModelIdFromItemId(game::ItemId);
   }  // namespace gearscreen

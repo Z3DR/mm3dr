@@ -11,8 +11,6 @@ namespace rnd {
         const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
         
         // Sixth Slot [5] of Inventory array is the Title deed slot. 17 [16] is letter to kafei?
-        /*GearScreen_DrawAndShowItem(game::ItemId::SwampTitleDeed, gearScreen->icon_event00_l->return_empty_idle_anim,
-                                     0x172B, 0x41);*/
         if (newButtons == (u32)game::pad::Button::R) {
 
           // Check what is in current slot.
@@ -22,27 +20,25 @@ namespace rnd {
             if (firstFoundItem == game::ItemId::None) {
               firstFoundItem = gExtSaveData.collectedTradeItems[i];
             }
-            if (GearScreen_LoopDeedsForward(gearScreen, i, firstFoundItem)) break;
+            if (GearScreen_LoopTradeItemsForward(gearScreen, i, firstFoundItem)) break;
           }
         } else if (newButtons == (u32)game::pad::Button::L) {
-          #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-              rnd::util::Print("%s: L button pressed!\n", __func__);	
-            #endif
-          for (int i = 5; i >= 0; i--) {
+          for (int i = 4; i >= 0; i--) {
             if (firstFoundItem == game::ItemId::None) {
               firstFoundItem = gExtSaveData.collectedTradeItems[i];
             }
-            
-          
-
+            if (GearScreen_LoopTradeItemsBackward(gearScreen, i, firstFoundItem)) break;
           }
         }
-          
+      } else if (gearScreen->cursorIndex == 2) {
+        #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+          rnd::util::Print("%s: Index 2!\n", __func__);	
+        #endif
       }
       return;
     }
 
-    bool GearScreen_LoopDeedsForward(game::ui::screens::GearScreen* gearScreen,int i, game::ItemId firstFoundItem) {
+    bool GearScreen_LoopTradeItemsForward(game::ui::screens::GearScreen* gearScreen,int i, game::ItemId firstFoundItem) {
       auto& items = game::GetCommonData().save.inventory.items;
       int textId;
       int modelId;
@@ -71,6 +67,44 @@ namespace rnd {
                                 textId, modelId);
         return true;
       } else if (i == 4 && firstFoundItem != game::ItemId::None) {
+        textId = GearScreen_GetTextIdFromItemId(firstFoundItem);
+        modelId = GearScreen_GetModelIdFromItemId(firstFoundItem);
+        GearScreen_DrawAndShowItem(firstFoundItem , gearScreen->icon_event00_l->return_empty_idle_anim,
+                                textId, modelId);
+        return true;
+      }
+      return false;
+    }
+
+    bool GearScreen_LoopTradeItemsBackward(game::ui::screens::GearScreen* gearScreen,int i, game::ItemId firstFoundItem) {
+      auto& items = game::GetCommonData().save.inventory.items;
+      int textId;
+      int modelId;
+      
+      // Base case, if we have a none item, give the first available item.
+      if (items[5] == game::ItemId::None && gExtSaveData.collectedTradeItems[i] != game::ItemId::None) {
+        textId = GearScreen_GetTextIdFromItemId(gExtSaveData.collectedTradeItems[i]);
+        modelId = GearScreen_GetModelIdFromItemId(gExtSaveData.collectedTradeItems[i]);
+        GearScreen_DrawAndShowItem(gExtSaveData.collectedTradeItems[i] , gearScreen->icon_event00_l->return_empty_idle_anim,
+                                textId, modelId);
+        return true;
+      }
+      // Second case - we're not the last element and we contain an item, then swap that item.
+      if (i != 0 && gExtSaveData.collectedTradeItems[i] != game::ItemId::None &&
+          (int)items[5] > (int)gExtSaveData.collectedTradeItems[i]) {
+        textId = GearScreen_GetTextIdFromItemId(gExtSaveData.collectedTradeItems[i]);
+        modelId = GearScreen_GetModelIdFromItemId(gExtSaveData.collectedTradeItems[i]);
+        GearScreen_DrawAndShowItem(gExtSaveData.collectedTradeItems[i] , gearScreen->icon_event00_l->return_empty_idle_anim,
+                                textId, modelId);
+        return true;
+      } else if (i == 0 && gExtSaveData.collectedTradeItems[i] != game::ItemId::None &&
+        gExtSaveData.collectedTradeItems[i] != items[5]) {
+        textId = GearScreen_GetTextIdFromItemId(gExtSaveData.collectedTradeItems[i]);
+        modelId = GearScreen_GetModelIdFromItemId(gExtSaveData.collectedTradeItems[i]);
+        GearScreen_DrawAndShowItem(gExtSaveData.collectedTradeItems[i] , gearScreen->icon_event00_l->return_empty_idle_anim,
+                                textId, modelId);
+        return true;
+      } else if (i == 0 && firstFoundItem != game::ItemId::None) {
         textId = GearScreen_GetTextIdFromItemId(firstFoundItem);
         modelId = GearScreen_GetModelIdFromItemId(firstFoundItem);
         GearScreen_DrawAndShowItem(firstFoundItem , gearScreen->icon_event00_l->return_empty_idle_anim,

@@ -782,9 +782,9 @@ namespace rnd {
     memset(&gExtSaveData.scenesDiscovered, 0, sizeof(gExtSaveData.scenesDiscovered));
     memset(&gExtSaveData.itemCollected, 0, sizeof(gExtSaveData.itemCollected));
     #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        gExtSaveData.collectedTradeItems[0] = game::ItemId::None;
+        gExtSaveData.collectedTradeItems[0] = game::ItemId::MoonTear;
         gExtSaveData.collectedTradeItems[1] = game::ItemId::LandTitleDeed;
-        gExtSaveData.collectedTradeItems[2] = game::ItemId::None;
+        gExtSaveData.collectedTradeItems[2] = game::ItemId::SwampTitleDeed;
         gExtSaveData.collectedTradeItems[3] = game::ItemId::MountainTitleDeed;
         gExtSaveData.collectedTradeItems[4] = game::ItemId::OceanTitleDeed;
     #else
@@ -794,7 +794,6 @@ namespace rnd {
     #endif
     
     // TODO: Settings options belong in ext.
-    // memset(&gExtSaveData.scenesDiscovered, 0, sizeof(gExtSaveData.scenesDiscovered));
     // memset(&gExtSaveData.entrancesDiscovered, 0, sizeof(gExtSaveData.entrancesDiscovered));
     // // Ingame Options
     // gExtSaveData.option_EnableBGM          = gSettingsContext.playMusic;
