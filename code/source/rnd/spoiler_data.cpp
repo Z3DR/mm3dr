@@ -45,6 +45,7 @@ namespace rnd {
         gSpoilerData.ItemLocations[i].Collected = true;
         // Since it's not saved here, we need to return
         gExtSaveData.itemCollected[i] = 1;
+        break;//stop searching 
       }
     }
     SpoilerLog_CheckMultiLocationItems(type, scene, flag);
@@ -236,6 +237,7 @@ namespace rnd {
           gSpoilerData.ItemLocations[i].Collected = true;
           // Since it's not saved here, we need to return
           gExtSaveData.itemCollected[i] = 1;
+          break;
         }
     }
   }
