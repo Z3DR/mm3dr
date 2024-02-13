@@ -415,6 +415,10 @@ SECTIONS{
     *(.patch_DisableExistingTrigger)
   }
 
+  .patch_SwapStoredTradeItems 0x5a6b44 : {
+    *(.patch_SwapStoredTradeItems)
+  }
+
   .patch_ShorterAnimationOpen 0x5B1758 : {
     *(.patch_ShorterAnimationOpenOne)
   }

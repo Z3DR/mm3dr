@@ -107,7 +107,6 @@ namespace rnd {
     gSettingsContext.freeScarecrow = 1;
     saveData.activate_dungeon_skip_portal_0xF0_for_all = 0xF0;
     SaveFile_FillOverWorldMapData();
-
 #endif
     // TODO: Decomp event flags. Most likely in the large anonymous structs in the SaveData.
     u8 isNewFile = saveData.has_completed_intro;
@@ -782,6 +781,18 @@ namespace rnd {
     memset(&gExtSaveData.chestRewarded, 0, sizeof(gExtSaveData.chestRewarded));
     memset(&gExtSaveData.scenesDiscovered, 0, sizeof(gExtSaveData.scenesDiscovered));
     memset(&gExtSaveData.itemCollected, 0, sizeof(gExtSaveData.itemCollected));
+    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+        gExtSaveData.collectedTradeItems[0] = game::ItemId::None;
+        gExtSaveData.collectedTradeItems[1] = game::ItemId::LandTitleDeed;
+        gExtSaveData.collectedTradeItems[2] = game::ItemId::None;
+        gExtSaveData.collectedTradeItems[3] = game::ItemId::MountainTitleDeed;
+        gExtSaveData.collectedTradeItems[4] = game::ItemId::OceanTitleDeed;
+    #else
+    for (int i = 0; i < 9; i++) {
+      gExtSaveData.collectedTradeItems[i] = game::ItemId::None;
+    }
+    #endif
+    
     // TODO: Settings options belong in ext.
     // memset(&gExtSaveData.scenesDiscovered, 0, sizeof(gExtSaveData.scenesDiscovered));
     // memset(&gExtSaveData.entrancesDiscovered, 0, sizeof(gExtSaveData.entrancesDiscovered));
@@ -887,5 +898,9 @@ namespace rnd {
     extDataWriteFileDirectly(fsa, path, &gExtSaveData, 0, sizeof(gExtSaveData));
     extDataUnmount(fsa);
   }
+
+  // SaveFile_DrawAndShowUIMessage() {
+
+  // }
 
 }  // namespace rnd

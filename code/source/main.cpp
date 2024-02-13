@@ -6,6 +6,7 @@
 #include "game/sound.h"
 #include "game/states/state.h"
 #include "game/ui.h"
+#include "game/ui/screens/gearscreen.h"
 #include "rnd/extdata.h"
 #include "rnd/icetrap.h"
 #include "rnd/input.h"
@@ -75,6 +76,12 @@ namespace rnd {
 
     context.gctx = static_cast<game::GlobalContext*>(state);
     Input_Update();
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    const u32 newButtons = context.gctx->pad_state.input.new_buttons.flags;
+    game::ui::screens::GearScreen* gearScreen = game::ui::screens::GetGearScreen();
+    if (newButtons == (u32)game::pad::Button::ZR)
+      rnd::util::Print("%s: Field 195 is %u\n", __func__, gearScreen->cursorIndex);
+#endif
     if (context.gctx->GetPlayerActor()) {
       ItemOverride_Update();
       link::HandleFastOcarina(context.gctx);
@@ -99,11 +106,7 @@ namespace rnd {
 
     const u32 pressedButtons = gctx->pad_state.input.buttons.flags;
     const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    auto* saveData = GetContext().gctx->GetPlayerActor();
-    if (newButtons == (u32)game::pad::Button::ZR)
-      rnd::util::Print("%s: Flag is %#08x\n", __func__, saveData->flags1);
-#endif
+
     if (gSettingsContext.customMaskButton != 0 && pressedButtons == gSettingsContext.customMaskButton) {
       game::ui::OpenScreen(game::ui::ScreenType::Masks);
     } else if (gSettingsContext.customItemButton != 0 && pressedButtons == gSettingsContext.customItemButton) {

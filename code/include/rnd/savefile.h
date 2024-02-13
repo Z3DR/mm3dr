@@ -3,11 +3,12 @@
 
 #include "common/bitfield.h"
 #include "game/common_data.h"
+#include "game/ui/screens/gearscreen.h"
 #include "rnd/extdata.h"
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 15
+#define EXTSAVEDATA_VERSION 16
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
@@ -32,6 +33,7 @@ namespace rnd {
   void SaveFile_LoadExtSaveData(u32 saveNumber);
   u8 SaveFile_GetIsSceneDiscovered(u8 sceneNum);
   extern "C" void SaveFile_SaveExtSaveData();
+  extern "C" void SaveFile_GetStoredTradeItem(game::ui::screens::GearScreen*);
 
   typedef struct {
     u32 version;  // Needs to always be the first field of the structure
@@ -115,6 +117,7 @@ namespace rnd {
     u32 scenesDiscovered[SAVEFILE_SCENES_DISCOVERED_IDX_COUNT];
     u8 itemCollected[SAVEFILE_SPOILER_ITEM_MAX];
     u8 chestRewarded[116][32];  // Reward table that's stored by scene and chest param/flag.
+    game::ItemId collectedTradeItems[9];
   } ExtSaveData;
 
   extern "C" ExtSaveData gExtSaveData;

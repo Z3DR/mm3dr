@@ -324,6 +324,11 @@ patch_ReadGamePad:
 patch_DisableExistingTrigger:
     b 0x059bb60 @branches past all the checks for button presses and whatnot. We override all of this.
 
+.section .patch_SwapStoredTradeItems
+.global patch_SwapStoredTradeItems
+patch_SwapStoredTradeItems:
+    bl hook_SwapStoredTradeItems
+
 .section .patch_ItemCloseOnSelect
 .global patch_ItemCloseOnSelect
 patch_ItemCloseOnSelect:
