@@ -781,18 +781,22 @@ namespace rnd {
     memset(&gExtSaveData.chestRewarded, 0, sizeof(gExtSaveData.chestRewarded));
     memset(&gExtSaveData.scenesDiscovered, 0, sizeof(gExtSaveData.scenesDiscovered));
     memset(&gExtSaveData.itemCollected, 0, sizeof(gExtSaveData.itemCollected));
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        gExtSaveData.collectedTradeItems[0] = game::ItemId::MoonTear;
-        gExtSaveData.collectedTradeItems[1] = game::ItemId::LandTitleDeed;
-        gExtSaveData.collectedTradeItems[2] = game::ItemId::SwampTitleDeed;
-        gExtSaveData.collectedTradeItems[3] = game::ItemId::MountainTitleDeed;
-        gExtSaveData.collectedTradeItems[4] = game::ItemId::OceanTitleDeed;
-    #else
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    gExtSaveData.collectedTradeItems[0] = game::ItemId::MoonTear;
+    gExtSaveData.collectedTradeItems[1] = game::ItemId::LandTitleDeed;
+    gExtSaveData.collectedTradeItems[2] = game::ItemId::SwampTitleDeed;
+    gExtSaveData.collectedTradeItems[3] = game::ItemId::MountainTitleDeed;
+    gExtSaveData.collectedTradeItems[4] = game::ItemId::OceanTitleDeed;
+    gExtSaveData.collectedTradeItems[5] = game::ItemId::RoomKey;
+    gExtSaveData.collectedTradeItems[6] = game::ItemId::LetterToKafei;
+    gExtSaveData.collectedTradeItems[7] = game::ItemId::PendantOfMemories;
+    gExtSaveData.collectedTradeItems[8] = game::ItemId::LetterToMama;
+#else
     for (int i = 0; i < 9; i++) {
       gExtSaveData.collectedTradeItems[i] = game::ItemId::None;
     }
-    #endif
-    
+#endif
+
     // TODO: Settings options belong in ext.
     // memset(&gExtSaveData.entrancesDiscovered, 0, sizeof(gExtSaveData.entrancesDiscovered));
     // // Ingame Options

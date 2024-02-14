@@ -891,21 +891,21 @@ namespace rnd {
 
       [0xAE] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Map, 0x6137, 0x000A0,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
+                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_MAP,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveDungeonItem, (s16)3, (s16)0),  // Map (Woodfall)
 
       [0xAF] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Map, 0x6138, 0x000A0,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
+                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_MAP,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveDungeonItem, (s16)3, (s16)1),  // Map (Snowhead)
 
       [0xB0] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Map, 0x6139, 0x000A0,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
+                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_MAP,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveDungeonItem, (s16)3, (s16)2),  // Map (Great Bay)
 
       [0xB1] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Map, 0x613A, 0x000A0,
-                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_MAP,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveDungeonItem, (s16)3,
                         (s16)3),  // Map (Stone Tower)
 
@@ -919,32 +919,32 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveMagic, (s16)-1, (s16)-1),  // Small Magic
 
       [0xB4] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::MapUnused, 0x00B4,
-                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_MAP,
+                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                         (s16)-1),  // Map of Clocktown
 
       [0xB5] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::MapUnused, 0x00B5,
-                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_MAP,
+                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                         (s16)-1),  // Map of Woodfall
 
       [0xB6] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::MapUnused, 0x00B6,
-                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_MAP,
+                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                         (s16)-1),  // Map of Snowhead
 
       [0xB7] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::MapUnused, 0x00B7,
-                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_MAP,
+                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                         (s16)-1),  // Map of Romani Ranch
 
       [0xB8] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::MapUnused, 0x00B8,
-                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_MAP,
+                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                         (s16)-1),  // Map of Great Bay
 
       [0xB9] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::MapUnused, 0x00B9,
-                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_MAP,
+                        0x024D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                         (s16)-1),  // Map of Stone Tower
 
