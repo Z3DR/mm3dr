@@ -704,6 +704,9 @@ namespace rnd {
     } else {
       // Player initially is given magic 0x30 on save creation. This prevents that.
       playerData.magic = 0x0;
+#ifdef ENABLE_DEBUG
+      playerData.magic = 0x30;
+#endif
     }
 
     if (gSettingsContext.startingDoubleDefense) {
@@ -781,7 +784,7 @@ namespace rnd {
     memset(&gExtSaveData.chestRewarded, 0, sizeof(gExtSaveData.chestRewarded));
     memset(&gExtSaveData.scenesDiscovered, 0, sizeof(gExtSaveData.scenesDiscovered));
     memset(&gExtSaveData.itemCollected, 0, sizeof(gExtSaveData.itemCollected));
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+#ifdef ENABLE_DEBUG
     gExtSaveData.collectedTradeItems[0] = game::ItemId::MoonTear;
     gExtSaveData.collectedTradeItems[1] = game::ItemId::LandTitleDeed;
     gExtSaveData.collectedTradeItems[2] = game::ItemId::SwampTitleDeed;

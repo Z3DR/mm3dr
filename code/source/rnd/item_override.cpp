@@ -613,10 +613,10 @@ namespace rnd {
   void ItemOverride_GetItemTextAndItemID(game::act::Player* actor) {
     if (rActiveItemRow != NULL) {
       if (rActiveItemOverride.key.type == ItemOverride_Type::OVR_CHEST) {
-        // Check and see if we have trade items or repeatable bottles and add to the array.
-        #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("%s: Active item row item ID is %#04x\n", __func__, rActiveItemRow->itemId);	
-        #endif
+// Check and see if we have trade items or repeatable bottles and add to the array.
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+        rnd::util::Print("%s: Active item row item ID is %#04x\n", __func__, rActiveItemRow->itemId);
+#endif
         // Only set if we're not a trade item or bottled item.
         if ((rActiveItemRow->itemId < 0x12 && rActiveItemRow->itemId > 0x30) && (rActiveItemRow->itemId < 0x9F)) {
           // XXX: Hacky fix but maybe we need to redo how we track chests. Mark Giant's Mask Chest
@@ -921,9 +921,9 @@ namespace rnd {
   }
 
   void DebugStatement(game::ItemId curItemSlot) {
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: Current item slot is %#04x\n", __func__, curItemSlot);	
-    #endif
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Current item slot is %#04x\n", __func__, curItemSlot);
+#endif
   }
   }
 }  // namespace rnd
