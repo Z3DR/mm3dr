@@ -89,6 +89,11 @@ namespace rnd {
 
   GetItemID ItemUpgrade_RefillBottle(game::SaveData* saveCtx, GetItemID getItemId) {
     switch (getItemId) {
+    case GetItemID::GI_BOTTLE_POTION_RED:
+      if (gExtSaveData.givenItemChecks.bottleRedPotionGiven == 1) {
+        return GetItemID::GI_POTION_RED;
+      }
+      break;
     case GetItemID::GI_BOTTLE_MILK:
       if (gExtSaveData.givenItemChecks.bottleMilkGiven == 1) {
         return GetItemID::GI_BOTTLE_MILK_REFILL;

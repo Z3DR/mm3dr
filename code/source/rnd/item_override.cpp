@@ -45,8 +45,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x26;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0xA1;
-    rItemOverrides[1].value.looksLikeItemId = 0xA1;
+    rItemOverrides[1].value.getItemId = 0xB4;
+    rItemOverrides[1].value.looksLikeItemId = 0xB4;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -472,7 +472,7 @@ namespace rnd {
       gExtSaveData.givenItemChecks.enOshGivenItem = 1;
     } else if (storedGetItemId == GetItemID::GI_POWDER_KEG) {
       gExtSaveData.givenItemChecks.enGoGivenItem = 1;
-    } else if ((s16)storedGetItemId == -(s16)GetItemID::GI_MASK_GIANTS) {
+    } else if (storedGetItemId == GetItemID::GI_MASK_GIANTS) {
       gExtSaveData.givenItemChecks.enBoss02GivenItem = 1;
     } else if (storedActorId == game::act::Id::EnGinkoMan) {
       if (gExtSaveData.givenItemChecks.enGinkoManGivenItem == 0) {
@@ -494,17 +494,13 @@ namespace rnd {
       gExtSaveData.givenItemChecks.enOcnDeedGivenItem = 1;
     } else if (storedGetItemId == GetItemID::GI_BOTTLE_MILK) {
       gExtSaveData.givenItemChecks.bottleMilkGiven = 1;
-    } else if (storedGetItemId == GetItemID::GI_BOTTLE_GOLD_DUST ||
-               (s16)storedGetItemId == -(s16)GetItemID::GI_BOTTLE_GOLD_DUST) {
+    } else if (storedGetItemId == GetItemID::GI_BOTTLE_GOLD_DUST) {
       gExtSaveData.givenItemChecks.bottleGoldDustGiven = 1;
-    } else if (storedGetItemId == GetItemID::GI_BOTTLE_CHATEAU_ROMANI ||
-               (s16)storedGetItemId == -(s16)GetItemID::GI_BOTTLE_CHATEAU_ROMANI) {
+    } else if (storedGetItemId == GetItemID::GI_BOTTLE_CHATEAU_ROMANI) {
       gExtSaveData.givenItemChecks.bottleChateuGiven = 1;
-    } else if (storedGetItemId == GetItemID::GI_BOTTLE_SEAHORSE ||
-               (s16)storedGetItemId == -(s16)GetItemID::GI_BOTTLE_SEAHORSE) {
+    } else if (storedGetItemId == GetItemID::GI_BOTTLE_SEAHORSE) {
       gExtSaveData.givenItemChecks.bottleSeahorseGiven = 1;
-    } else if (storedGetItemId == GetItemID::GI_BOTTLE_MYSTERY_MILK ||
-               (s16)storedGetItemId == -(s16)GetItemID::GI_BOTTLE_MYSTERY_MILK) {
+    } else if (storedGetItemId == GetItemID::GI_BOTTLE_MYSTERY_MILK) {
       gExtSaveData.givenItemChecks.bottleMysteryMilkGiven = 1;
     }
   }
@@ -654,8 +650,15 @@ namespace rnd {
     if (fromActor != NULL && incomingGetItemId != 0) {
       s16 getItemId = ItemOverride_CheckNpc(fromActor->id, incomingGetItemId, incomingNegative);
       storedActorId = fromActor->id;
-      storedGetItemId = (GetItemID)incomingGetItemId;
+      storedGetItemId = incomingNegative ? (GetItemID)-incomingGetItemId : (GetItemID)incomingGetItemId;
       override = ItemOverride_Lookup(fromActor, (u16)gctx->scene, getItemId);
+      if (override.key.all != 0) {
+        // Override the stored get item if we are a bottled item.
+        if (override.value.getItemId == 0x59 || override.value.getItemId == 0x60 || override.value.getItemId == 0x6A ||
+            override.value.getItemId == 0x6E || override.value.getItemId == 0x6F || override.value.getItemId == 0x70) {
+          storedGetItemId = (GetItemID) override.value.getItemId;
+        }
+      }
     }
     if (override.key.all == 0) {
       // No override, use base game's item code
@@ -749,6 +752,11 @@ namespace rnd {
   }
 
   void ItemOverride_GetSoHItem(game::GlobalContext* gctx, game::act::Actor* fromActor, s16 incomingItemId) {
+    game::act::Player* link = gctx->GetPlayerActor();
+    // Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
+    // This is mainly prevalent when the item override is in a calc function (Anju).
+    if (link->get_item_id != 0x00)
+      return;
     if (incomingItemId == 0x7A) {
       gExtSaveData.givenItemChecks.enZogGivenItem = 1;
     } else if (incomingItemId == 0x79) {
@@ -762,6 +770,7 @@ namespace rnd {
     } else if (incomingItemId == 0x85) {
       gExtSaveData.givenItemChecks.kafeiGivenItem = 1;
     }
+
     ItemOverride_GetItem(gctx, fromActor, gctx->GetPlayerActor(), incomingItemId);
     return;
   }
