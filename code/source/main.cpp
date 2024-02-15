@@ -76,12 +76,6 @@ namespace rnd {
 
     context.gctx = static_cast<game::GlobalContext*>(state);
     Input_Update();
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    const u32 newButtons = context.gctx->pad_state.input.new_buttons.flags;
-    game::ui::screens::GearScreen* gearScreen = game::ui::screens::GetGearScreen();
-    if (newButtons == (u32)game::pad::Button::ZR)
-      rnd::util::Print("%s: Field 195 is %u\n", __func__, gearScreen->cursorIndex);
-#endif
     if (context.gctx->GetPlayerActor()) {
       ItemOverride_Update();
       link::HandleFastOcarina(context.gctx);

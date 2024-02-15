@@ -26,6 +26,7 @@ namespace rnd {
     saveData.anonymous_162 = saveData.anonymous_162 | 0x6000;
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::MaskOfTruth);
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::PictographBox);
+    rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::BlastMask);
     // rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::PowderKeg);
     // saveData.inventory.inventory_count_register.quiver_upgrade = game::Quiver::Quiver50;
     saveData.inventory.inventory_count_register.bomb_bag_upgrade = game::BombBag::BombBag40;

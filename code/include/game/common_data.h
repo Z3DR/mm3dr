@@ -226,13 +226,13 @@ namespace game {
     /// In-game time.
     /// 0x0000 is midnight, 0x4000 is 6am, 0x8000 is noon, 0xc000 is 6pm.
     u16 time;
-    u16 anonymous_3;
+    u16 jinxTimer;
     u16 rupee_accumulator;
     act::Player::Form player_form;
     char anonymous_5;
     bool has_tatl;
     char anonymous_7;
-    char anonymous_8;
+    char bButtonUsability;
     char anonymous_9;
     char anonymous_10;
     char anonymous_11;
