@@ -767,29 +767,29 @@ namespace rnd {
       // TODO: Trade quest items
       [0x96] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MoonTear, 0x0096, 0x01B1,
                         (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_MOONS_TEAR,
-                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Moon's Tear
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveTradeItem, (s16)0, (s16)-1),  // Moon's Tear
 
       [0x97] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::LandTitleDeed, 0x0097, 0x01B2,
                    (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_TOWN_TITLE_DEED,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
+                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveTradeItem, (s16)1,
                    (s16)-1),  // Land Title Deed
 
       [0x98] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SwampTitleDeed, 0x0098, 0x01B2,
                    (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_SWAMP_TITLE_DEED,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
+                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveTradeItem, (s16)2,
                    (s16)-1),  // Swamp Title Deed
 
       [0x99] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MountainTitleDeed, 0x0099,
                         0x01B2, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
                         (s32)DrawGraphicItemID::DI_MOUNTAIN_TITLE_DEED, (rnd::upgradeFunc)ItemUpgrade_None,
-                        ItemEffect_None, (s16)-1, (s16)-1),  // Mountain Title Deed
+                        ItemEffect_GiveTradeItem, (s16)3, (s16)-1),  // Mountain Title Deed
 
       [0x9A] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::OceanTitleDeed, 0x009A, 0x01B2,
                    (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_OCEAN_TITLE_DEED,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
+                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveTradeItem, (s16)4,
                    (s16)-1),  // Ocean Title Deed
 
       [0x9B] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GreatFairySword, 0x009B,
@@ -820,12 +820,12 @@ namespace rnd {
 
       [0xA0] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::RoomKey, 0x00A0, 0x020F,
                         (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_ROOM_KEY,
-                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Room Key
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveTradeItem, (s16)5, (s16)-1),  // Room Key
 
       [0xA1] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::LetterToMama, 0x00A1, 0x0245,
                    (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_MAMAS_LETTER,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
+                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveTradeItem, (s16)8,
                    (s16)-1),  // Letter To Mama
 
       [0xA2] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::DECORATED_SMALL, (u8)game::ItemId::SmallKey, 0x6136,
@@ -871,13 +871,13 @@ namespace rnd {
       [0xAA] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::LetterToKafei, 0x00AA, 0x0210,
                    (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_LETTER_TO_KAFEI,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
+                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveTradeItem, (s16)6,
                    (s16)-1),  // Letter To Kafei
 
       [0xAB] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::PendantOfMemories, 0x00AB,
                         0x0215, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
                         (s32)DrawGraphicItemID::DI_PENDANT_OF_MEMORIES, (rnd::upgradeFunc)ItemUpgrade_None,
-                        ItemEffect_None, (s16)-1, (s16)-1),  // Pendant Of Memories
+                        ItemEffect_GiveTradeItem, (s16)7, (s16)-1),  // Pendant Of Memories
 
       [0xAC] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Compass, 0x613D,
                         0x00091, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_COMPASS,

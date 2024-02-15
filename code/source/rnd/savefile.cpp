@@ -211,7 +211,7 @@ namespace rnd {
     saveData.turtle_flags.skip_swimming_to_great_bay_temple_cutscene = 1;
 
     // Needs to be greater than zero to skip first time song of time cutscene
-    saveData.player.song_of_time_counter = 1;
+    saveData.player.three_day_reset_count = 1;
   }
 
   void SaveFile_SetFastAnimationFlags() {

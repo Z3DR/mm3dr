@@ -104,6 +104,11 @@ patch_RemoveMysteryMilkTimer:
 patch_DoNotResetTempleFlags:
     bl hook_DoNotResetTempleFlags
 
+.section .patch_DoNotRemoveTradeItems
+.global patch_DoNotRemoveTradeItems
+patch_DoNotRemoveTradeItems:
+    b 0x1C9AD0
+
 @ Skips past a loop that resets all
 @ values in the each dungeon for 
 @ keys/fairies/boss key/etc

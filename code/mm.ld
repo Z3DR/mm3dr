@@ -67,6 +67,10 @@ SECTIONS{
     *(.patch_DoNotResetTempleFlags)
   } 
 
+  .patch_DoNotRemoveTradeItems 0x1c9aa8 : {
+    *(.patch_DoNotRemoveTradeItems)
+  }
+
   .patch_DoNotRemoveKeys 0x1C9B94 : {
     *(.patch_DoNotRemoveKeys)
   }

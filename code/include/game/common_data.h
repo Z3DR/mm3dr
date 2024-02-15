@@ -49,7 +49,7 @@ namespace game {
   struct PlayerData {
     char field_11C[4];
     u8 gap_124[2];
-    u16 song_of_time_counter;  // Plays song of time cutscene when == 0
+    u16 three_day_reset_count;  // Plays song of time cutscene when == 0
     char16_t playerName[8];
     u16 anonymous_h;
 
@@ -316,7 +316,7 @@ namespace game {
     int previous_defeated_boss;  // or last viewed giant cutscene, values 4 and greater makes
                                  // woodfall giant repeat for all temples.
     // u8 gap1221[3];
-    int anonymous_63;
+    int stolenItems;
     u8 gap1220[8];
     u16 bank_rupee_count;
     u16 anonymous_64;

@@ -45,8 +45,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x26;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0xAB;
-    rItemOverrides[1].value.looksLikeItemId = 0xAB;
+    rItemOverrides[1].value.getItemId = 0xA1;
+    rItemOverrides[1].value.looksLikeItemId = 0xA1;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -614,7 +614,11 @@ namespace rnd {
     if (rActiveItemRow != NULL) {
       if (rActiveItemOverride.key.type == ItemOverride_Type::OVR_CHEST) {
         // Check and see if we have trade items or repeatable bottles and add to the array.
-        if (rActiveItemRow->itemId < 0x28 || (rActiveItemRow->itemId > 0x30 && rActiveItemRow->itemId < 0x9f)) {
+        #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+          rnd::util::Print("%s: Active item row item ID is %#04x\n", __func__, rActiveItemRow->itemId);	
+        #endif
+        // Only set if we're not a trade item or bottled item.
+        if ((rActiveItemRow->itemId < 0x12 && rActiveItemRow->itemId > 0x30) && (rActiveItemRow->itemId < 0x9F)) {
           // XXX: Hacky fix but maybe we need to redo how we track chests. Mark Giant's Mask Chest
           // to be repeatably obtainable since we're not extending this array to 126 in the second dimension.
           if (rActiveItemOverride.key.flag < 0x20)
@@ -659,9 +663,7 @@ namespace rnd {
       player->get_item_id = incomingGetItemId;
       return;
     } else if (override.key.type == ItemOverride_Type::OVR_CHEST &&
-               gExtSaveData.chestRewarded[override.key.scene][override.key.flag] == 1 &&
-               (override.value.getItemId != 0x60 || override.value.getItemId != 0x6A ||
-                (override.value.getItemId < 0x6E && override.value.getItemId > 0x70))) {
+               gExtSaveData.chestRewarded[override.key.scene][override.key.flag] == 1) {
       // Override was already given, check to see if we're a refill item now, if not, give a blue rupee instead.
       // Only do this for items that are not bottle refills.
       // Bottle logic is taken care of in the ItemUpgrade function.
@@ -916,6 +918,12 @@ namespace rnd {
 
   u32 ItemOverride_GetOshExtData() {
     return (u32)gExtSaveData.givenItemChecks.enOshGivenItem;
+  }
+
+  void DebugStatement(game::ItemId curItemSlot) {
+    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: Current item slot is %#04x\n", __func__, curItemSlot);	
+    #endif
   }
   }
 }  // namespace rnd
