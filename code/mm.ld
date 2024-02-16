@@ -363,6 +363,10 @@ SECTIONS{
     *(.patch_CheckMoTRequirement)
   }
 
+  .patch_TradeItemDeleteMoonsTear 0x3B5280 : {
+    *(.patch_TradeItemDeleteMoonsTear)
+  }
+
   .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {
     *(.patch_OverrideWalletSpiderHouseTwo)
   }
@@ -401,6 +405,22 @@ SECTIONS{
 
   .patch_CouplesMaskGiveItem 0x46E228 : {
     *(.patch_CouplesMaskGiveItem)
+  }
+
+  .patch_TradeItemDeleteLandTitleDeed 0x477710 : {
+    *(.patch_TradeItemDeleteLandTitleDeed)
+  }
+
+  .patch_TradeItemDeleteSwampTitleDeed 0x47771C : {
+    *(.patch_TradeItemDeleteSwampTitleDeed)
+  }
+
+  .patch_TradeItemDeleteMountainTitleDeed 0x477728 : {
+    *(.patch_TradeItemDeleteMountainTitleDeed)
+  }
+
+  .patch_TradeItemDeleteOceanTitleDeed 0x477748 : {
+    *(.patch_TradeItemDeleteOceanTitleDeed)
   }
 
   .patch_LoadExtData 0x48C760 : {

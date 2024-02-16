@@ -5,6 +5,7 @@ extern "C" {
 #include "rnd/item_effect.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
+#include "rnd/item_table.h"
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
 #include "common/debug.h"
 #endif
@@ -906,6 +907,25 @@ namespace rnd {
     extDataUnmount(fsa);
   }
 
+  extern "C" void SaveFile_RemoveStoredDeed(u16 item, u8 slot) {
+    // This is a get item ID, we need to translate it to the regular item ID.
+    ItemRow* gidItemRow = ItemTable_GetItemRowFromIndex(item);
+    game::ItemId firstItem = game::ItemId::None;
+    for (int i = 0; i < 4; i++) {
+      if (gidItemRow->itemId != (u8)gExtSaveData.collectedTradeItems[i] && firstItem == game::ItemId::None) {
+        firstItem = gExtSaveData.collectedTradeItems[i];
+      }
+      if (gidItemRow->itemId == (u8)gExtSaveData.collectedTradeItems[i]) {
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+            rnd::util::Print("%s: Found item %#04x in our array, setting to none.\n", __func__);	
+          #endif
+          gExtSaveData.collectedTradeItems[i] = game::ItemId::None;
+      }
+    }
+    // Place the item in inventory, if there is no item to place it simply places none.
+    // game::SaveData& saveData = game::GetCommonData().save;
+    // saveData.inventory.items[slot] = firstItem;
+  }
   // SaveFile_DrawAndShowUIMessage() {
 
   // }

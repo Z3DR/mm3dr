@@ -104,10 +104,6 @@ patch_RemoveMysteryMilkTimer:
 patch_DoNotResetTempleFlags:
     bl hook_DoNotResetTempleFlags
 
-.section .patch_DoNotRemoveTradeItems
-.global patch_DoNotRemoveTradeItems
-patch_DoNotRemoveTradeItems:
-    b 0x1C9AD0
 
 @ Skips past a loop that resets all
 @ values in the each dungeon for 
@@ -328,11 +324,6 @@ patch_ReadGamePad:
 .global patch_DisableExistingTrigger
 patch_DisableExistingTrigger:
     b 0x059bb60 @branches past all the checks for button presses and whatnot. We override all of this.
-
-.section .patch_SwapStoredTradeItems
-.global patch_SwapStoredTradeItems
-patch_SwapStoredTradeItems:
-    bl hook_SwapStoredTradeItems
 
 .section .patch_ItemCloseOnSelect
 .global patch_ItemCloseOnSelect
