@@ -347,6 +347,10 @@ SECTIONS{
     *(.patch_IceArrowsAnywhere)
   }
 
+  .patch_changeChestTypeToMatchContents 0x31cad4 : {
+    *(.patch_changeChestTypeToMatchContents)
+  }
+
   .patch_RemoveZoraMaskCheckMikau 0x32BBB8 : {
     *(.patch_RemoveZoraMaskCheckMikau)
   }

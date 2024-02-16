@@ -389,6 +389,12 @@ patch_SaveExtDataOnOwl:
 patch_IceArrowsAnywhere:
     nop
 
+.section .patch_changeChestTypeToMatchContents
+.global patch_changeChestTypeToMatchContents
+patch_changeChestTypeToMatchContents:
+    bl hook_changeChestTypeToMatchContents
+    @mov r2, #0x02
+
 .section .patch_RemoveZoraMaskCheckMikau
 .global patch_RemoveZoraMaskCheckMikau
 patch_RemoveZoraMaskCheckMikau:
