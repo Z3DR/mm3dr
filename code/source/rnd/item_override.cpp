@@ -614,12 +614,12 @@ namespace rnd {
         rnd::util::Print("%s: Active item row item ID is %#04x\n", __func__, rActiveItemRow->itemId);
 #endif
         // Only set if we're not a trade item or bottled item.
-        if ((rActiveItemRow->itemId < 0x12 && rActiveItemRow->itemId > 0x30) && (rActiveItemRow->itemId < 0x9F)) {
+        /*if ((rActiveItemRow->itemId < 0x12 && rActiveItemRow->itemId > 0x30) && (rActiveItemRow->itemId < 0x9F)) {
           // XXX: Hacky fix but maybe we need to redo how we track chests. Mark Giant's Mask Chest
           // to be repeatably obtainable since we're not extending this array to 126 in the second dimension.
           if (rActiveItemOverride.key.flag < 0x20)
             gExtSaveData.chestRewarded[rActiveItemOverride.key.scene][rActiveItemOverride.key.flag] = 1;
-        }
+        }*/
       }
       game::GlobalContext* gctx = GetContext().gctx;
       u16 textId = rActiveItemRow->textId;
@@ -665,13 +665,20 @@ namespace rnd {
       ItemOverride_Clear();
       player->get_item_id = incomingGetItemId;
       return;
-    } else if (override.key.type == ItemOverride_Type::OVR_CHEST &&
-               gExtSaveData.chestRewarded[override.key.scene][override.key.flag] == 1) {
+    } else if (override.key.type == ItemOverride_Type::OVR_CHEST /*&&
+               gExtSaveData.chestRewarded[override.key.scene][override.key.flag] == 1*/) {
       // Override was already given, check to see if we're a refill item now, if not, give a blue rupee instead.
       // Only do this for items that are not bottle refills.
       // Bottle logic is taken care of in the ItemUpgrade function.
-      override.value.getItemId = 0x02;
-      override.value.looksLikeItemId = 0x02;
+      // TODO: Check if we have the item in our inventory. If not, give the item back.
+      ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
+      if (itemToBeGiven->itemId < 0x4A && game::HasItem((game::ItemId)itemToBeGiven->itemId)) {
+        override.value.getItemId = 0x02;
+        override.value.looksLikeItemId = 0x02;
+      } else if (itemToBeGiven->itemId == 0xFF) {
+        override.value.getItemId = 0x02;
+        override.value.looksLikeItemId = 0x02;
+      }
     }
 
     // This check is mainly to ensure we do not have repeatable progressive items within these base items.
