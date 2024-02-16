@@ -500,8 +500,6 @@ namespace rnd {
       gExtSaveData.givenItemChecks.bottleChateuGiven = 1;
     } else if (storedGetItemId == GetItemID::GI_BOTTLE_SEAHORSE) {
       gExtSaveData.givenItemChecks.bottleSeahorseGiven = 1;
-    } else if (storedGetItemId == GetItemID::GI_BOTTLE_MYSTERY_MILK) {
-      gExtSaveData.givenItemChecks.bottleMysteryMilkGiven = 1;
     }
   }
 
@@ -611,15 +609,13 @@ namespace rnd {
       if (rActiveItemOverride.key.type == ItemOverride_Type::OVR_CHEST) {
 // Check and see if we have trade items or repeatable bottles and add to the array.
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("%s: Active item row item ID is %#04x\n", __func__, rActiveItemRow->itemId);
+        rnd::util::Print("%s: Active item row item ID is %#04x and key flag is %#04x\n", __func__,
+                         rActiveItemRow->itemId, rActiveItemOverride.key.flag);
 #endif
         // Only set if we're not a trade item or bottled item.
-        /*if ((rActiveItemRow->itemId < 0x12 && rActiveItemRow->itemId > 0x30) && (rActiveItemRow->itemId < 0x9F)) {
-          // XXX: Hacky fix but maybe we need to redo how we track chests. Mark Giant's Mask Chest
-          // to be repeatably obtainable since we're not extending this array to 126 in the second dimension.
-          if (rActiveItemOverride.key.flag < 0x20)
-            gExtSaveData.chestRewarded[rActiveItemOverride.key.scene][rActiveItemOverride.key.flag] = 1;
-        }*/
+        if ((rActiveItemRow->itemId < 0x12 || rActiveItemRow->itemId > 0x30) && (rActiveItemRow->itemId < 0x9F)) {
+          gExtSaveData.chestRewarded[rActiveItemOverride.key.scene][rActiveItemOverride.key.flag] = 1;
+        }
       }
       game::GlobalContext* gctx = GetContext().gctx;
       u16 textId = rActiveItemRow->textId;
@@ -665,17 +661,16 @@ namespace rnd {
       ItemOverride_Clear();
       player->get_item_id = incomingGetItemId;
       return;
-    } else if (override.key.type == ItemOverride_Type::OVR_CHEST /*&&
-               gExtSaveData.chestRewarded[override.key.scene][override.key.flag] == 1*/) {
-      // Override was already given, check to see if we're a refill item now, if not, give a blue rupee instead.
+    } else if (override.key.type == ItemOverride_Type::OVR_CHEST &&
+               gExtSaveData.chestRewarded[override.key.scene][override.key.flag] == 1) {
+      // Override was already given, check to see if the item exists in inventory, if it does
+      // then we give a blue rupee. Only check for inventory items. If an item is a heart piece
+      // do not give multiples.
       // Only do this for items that are not bottle refills.
-      // Bottle logic is taken care of in the ItemUpgrade function.
-      // TODO: Check if we have the item in our inventory. If not, give the item back.
+      // Bottle logic is taken care of in the ItemUpgrade function for each bottle.
       ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
-      if (itemToBeGiven->itemId < 0x4A && game::HasItem((game::ItemId)itemToBeGiven->itemId)) {
-        override.value.getItemId = 0x02;
-        override.value.looksLikeItemId = 0x02;
-      } else if (itemToBeGiven->itemId == 0xFF) {
+      if (game::HasMask((game::ItemId)itemToBeGiven->itemId) || game::HasItem((game::ItemId)itemToBeGiven->itemId) ||
+          itemToBeGiven->itemId > 0x49) {
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
       }
