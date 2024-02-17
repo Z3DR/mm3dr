@@ -13,9 +13,7 @@ patch_DoNotRemoveTradeItems:
 .section .patch_TradeItemDeleteMoonsTear
 .global patch_TradeItemDeleteMoonsTear
 patch_TradeItemDeleteMoonsTear:
-  mov r2,#0x96
-  bl hook_RemoveTradeItemFromInventory
-  mov r2,#0x97
+  bl hook_RemoveMoonTearFromInventory
 
 .section .patch_TradeItemDeleteLandTitleDeed
 .global patch_TradeItemDeleteLandTitleDeed
@@ -32,6 +30,10 @@ patch_TradeItemDeleteSwampTitleDeed:
 patch_TradeItemDeleteMountainTitleDeed:
   bleq hook_RemoveTradeItemFromInventory
 
+.section .patch_RemoveKafeiItemFromExtSlot
+.global patch_RemoveKafeiItemFromExtSlot
+patch_RemoveKafeiItemFromExtSlot:
+  bl hook_RemoveKafeiItemFromExtSlot
 
 .section .patch_SwapStoredTradeItems
 .global patch_SwapStoredTradeItems

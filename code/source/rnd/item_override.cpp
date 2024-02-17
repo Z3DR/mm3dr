@@ -729,10 +729,16 @@ namespace rnd {
   void ItemOverride_GetFairyRewardItem(game::GlobalContext* gctx, game::act::GreatFairy* fromActor,
                                        s16 incomingItemId) {
     int fairyEntrance = game::GetCommonData().sub1.entrance;
-    if (fairyEntrance == 0x4600 && gExtSaveData.fairyRewards.nct != 1) {
-      gExtSaveData.fairyRewards.nct = 1;
-      ItemOverride_PushPendingFairyRewardItem(gctx, fromActor, 0x86);
-      ItemOverride_PushPendingFairyRewardItem(gctx, fromActor, 0x0E);
+    if (fairyEntrance == 0x4600) {
+      if (gExtSaveData.fairyRewards.nct == 0) {
+        ItemOverride_PushPendingFairyRewardItem(gctx, fromActor, 0x0E);
+        gExtSaveData.fairyRewards.nct = 1;
+        return;
+      } else if (gExtSaveData.fairyRewards.nct == 1 && game::HasMask(game::ItemId::DekuMask)) {
+        ItemOverride_PushPendingFairyRewardItem(gctx, fromActor, 0x86);
+        gExtSaveData.fairyRewards.nct = 2;
+        return;
+      }
       return;
     } else if (fairyEntrance == 0x4610 && gExtSaveData.fairyRewards.woodfall != 1) {
       gExtSaveData.fairyRewards.woodfall = 1;

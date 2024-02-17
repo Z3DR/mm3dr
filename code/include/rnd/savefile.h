@@ -33,10 +33,11 @@ namespace rnd {
   void SaveFile_LoadExtSaveData(u32 saveNumber);
   u8 SaveFile_GetIsSceneDiscovered(u8 sceneNum);
   extern "C" void SaveFile_SaveExtSaveData();
-  extern "C" void SaveFile_RemoveStoredDeed(u16, u8);
+  extern "C" void SaveFile_RemoveStoredTradeItem(u16, u8);
   extern "C" void SaveFile_RemoveTradeItemFromSlot(u16, u8);
+  extern "C" u8 SaveFile_GetItemCurrentlyInSlot(u8);
 
-  typedef struct {
+      typedef struct {
     u32 version;  // Needs to always be the first field of the structure
     u32 playtimeSeconds;
     u32 isNewFile;
@@ -95,12 +96,12 @@ namespace rnd {
     union FairyCollectRegister {
       u8 raw;
 
-      BitField<0, 1, u8> nct;
-      BitField<1, 1, u8> woodfall;
-      BitField<2, 1, u8> snowhead;
-      BitField<3, 1, u8> great_bay;
-      BitField<4, 1, u8> ikana;
-      BitField<5, 3, u8> unused;
+      BitField<0, 2, u8> nct;
+      BitField<2, 1, u8> woodfall;
+      BitField<3, 1, u8> snowhead;
+      BitField<4, 1, u8> great_bay;
+      BitField<5, 1, u8> ikana;
+      BitField<6, 2, u8> unused;
     };
     FairyCollectRegister fairyRewards;
     union TingleCollectRegister {

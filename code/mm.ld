@@ -367,9 +367,9 @@ SECTIONS{
     *(.patch_CheckMoTRequirement)
   }
 
-  /* .patch_TradeItemDeleteMoonsTear 0x3B5280 : {
+  .patch_TradeItemDeleteMoonsTear 0x3B5214 : {
     *(.patch_TradeItemDeleteMoonsTear)
-  } */
+  }
 
   .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {
     *(.patch_OverrideWalletSpiderHouseTwo)
@@ -425,6 +425,10 @@ SECTIONS{
 
   .patch_LoadExtData 0x48C760 : {
     *(.patch_LoadExtData)
+  }
+
+  .patch_RemoveKafeiItemFromExtSlot 0x4AD1B8 : {
+    *(.patch_RemoveKafeiItemFromExtSlot)
   }
 
   .patch_IncomingGetItemID 0x4B1394 : {

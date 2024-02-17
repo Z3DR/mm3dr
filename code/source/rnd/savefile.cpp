@@ -52,6 +52,7 @@ namespace rnd {
 
     saveData.inventory.masks[5] = game::ItemId::DekuMask;
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::BremenMask);
+    rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::Bottle);
     saveData.inventory.masks[11] = game::ItemId::GoronMask;
     saveData.inventory.masks[17] = game::ItemId::ZoraMask;
     saveData.inventory.masks[23] = game::ItemId::FierceDeityMask;
@@ -135,7 +136,7 @@ namespace rnd {
       // saveData.inventory.collect_register.song_of_healing = 1;  // until happy mask salesman is overridden
       saveData.player.owl_statue_flags.clock_town = 1;
 #ifdef ENABLE_DEBUG
-      gSettingsContext.startingKokiriSword = 0;
+      gSettingsContext.startingKokiriSword = 3;
       gSettingsContext.startingShield = 0;
 #endif
       SaveFile_SetStartingInventory();
@@ -907,13 +908,27 @@ namespace rnd {
     extDataUnmount(fsa);
   }
 
-  extern "C" void SaveFile_RemoveStoredDeed(u16 item, u8 slot) {
+  extern "C" void SaveFile_RemoveStoredTradeItem(u16 item, u8 slot) {
     // This is a get item ID, we need to translate it to the regular item ID.
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Item and slot are %#04x %u\n", __func__, item, slot);
+#endif
+    if (slot != 5 && slot != 17) return;
     ItemRow* gidItemRow = ItemTable_GetItemRowFromIndex(item);
     game::ItemId firstItem = game::ItemId::None;
-    for (int i = 0; i < 4; i++) {
+    
+    for (int i = 0; i < 9; i++) {
       if (gidItemRow->itemId != (u8)gExtSaveData.collectedTradeItems[i] && firstItem == game::ItemId::None) {
-        firstItem = gExtSaveData.collectedTradeItems[i];
+        if (slot == 17 && i > 5 && i < 8) {
+          #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+          rnd::util::Print("%s: Slot is 17 and our found item is %#04x\n", __func__,
+                           gExtSaveData.collectedTradeItems[i]);
+#endif
+          firstItem = gExtSaveData.collectedTradeItems[i];
+        }
+          
+        else if (slot == 5 && i < 5)
+          firstItem = gExtSaveData.collectedTradeItems[i];
       }
       if (gidItemRow->itemId == (u8)gExtSaveData.collectedTradeItems[i]) {
         gExtSaveData.collectedTradeItems[i] = game::ItemId::None;
@@ -933,6 +948,13 @@ namespace rnd {
         }
       }
     }
+  }
+
+  extern "C" u8 SaveFile_GetItemCurrentlyInSlot(u8 slot) {
+    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Current slot is %#04x\n", __func__, game::GetCommonData().save.inventory.items[slot]);
+#endif
+    return (u8)game::GetCommonData().save.inventory.items[slot];
   }
   // SaveFile_DrawAndShowUIMessage() {
 
