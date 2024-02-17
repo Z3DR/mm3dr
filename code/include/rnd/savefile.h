@@ -34,6 +34,7 @@ namespace rnd {
   u8 SaveFile_GetIsSceneDiscovered(u8 sceneNum);
   extern "C" void SaveFile_SaveExtSaveData();
   extern "C" void SaveFile_RemoveStoredDeed(u16, u8);
+  extern "C" void SaveFile_RemoveTradeItemFromSlot(u16, u8);
 
   typedef struct {
     u32 version;  // Needs to always be the first field of the structure

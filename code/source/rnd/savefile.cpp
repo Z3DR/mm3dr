@@ -3,9 +3,9 @@ extern "C" {
 }
 #include <string.h>
 #include "rnd/item_effect.h"
+#include "rnd/item_table.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
-#include "rnd/item_table.h"
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
 #include "common/debug.h"
 #endif
@@ -916,15 +916,23 @@ namespace rnd {
         firstItem = gExtSaveData.collectedTradeItems[i];
       }
       if (gidItemRow->itemId == (u8)gExtSaveData.collectedTradeItems[i]) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-            rnd::util::Print("%s: Found item %#04x in our array, setting to none.\n", __func__);	
-          #endif
-          gExtSaveData.collectedTradeItems[i] = game::ItemId::None;
+        gExtSaveData.collectedTradeItems[i] = game::ItemId::None;
       }
     }
     // Place the item in inventory, if there is no item to place it simply places none.
-    // game::SaveData& saveData = game::GetCommonData().save;
-    // saveData.inventory.items[slot] = firstItem;
+    game::SaveData& saveData = game::GetCommonData().save;
+    saveData.inventory.items[slot] = firstItem;
+  }
+  extern "C" void SaveFile_RemoveTradeItemFromSlot(u16 item, u8 slot) {
+    // This is a get item ID, we need to translate it to the regular item ID.
+    if (slot == 5) {
+      for (int i = 0; i < 4; i++) {
+        if (item == (u16)gExtSaveData.collectedTradeItems[i]) {
+          gExtSaveData.collectedTradeItems[i] = game::ItemId::None;
+          break;
+        }
+      }
+    }
   }
   // SaveFile_DrawAndShowUIMessage() {
 

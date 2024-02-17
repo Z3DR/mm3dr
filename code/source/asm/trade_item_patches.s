@@ -1,5 +1,9 @@
 .arm
 
+.section .patch_RemoveTradeItemFromSlot
+.global patch_RemoveTradeItemFromSlot
+patch_RemoveTradeItemFromSlot:
+  bleq hook_RemoveTradeItemFromExtSlot
 
 .section .patch_DoNotRemoveTradeItems
 .global patch_DoNotRemoveTradeItems
@@ -16,7 +20,7 @@ patch_TradeItemDeleteMoonsTear:
 .section .patch_TradeItemDeleteLandTitleDeed
 .global patch_TradeItemDeleteLandTitleDeed
 patch_TradeItemDeleteLandTitleDeed:
-  bl hook_RemoveTradeItemFromInventory
+  bleq hook_RemoveTradeItemFromInventory
   
 .section .patch_TradeItemDeleteSwampTitleDeed
 .global patch_TradeItemDeleteSwampTitleDeed
@@ -27,11 +31,7 @@ patch_TradeItemDeleteSwampTitleDeed:
 .global patch_TradeItemDeleteMountainTitleDeed
 patch_TradeItemDeleteMountainTitleDeed:
   bleq hook_RemoveTradeItemFromInventory
-  
-.section .patch_TradeItemDeleteOceanTitleDeed
-.global patch_TradeItemDeleteOceanTitleDeed
-patch_TradeItemDeleteOceanTitleDeed:
-  bleq hook_RemoveTradeItemFromInventory
+
 
 .section .patch_SwapStoredTradeItems
 .global patch_SwapStoredTradeItems

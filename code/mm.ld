@@ -55,6 +55,10 @@ SECTIONS{
     *(.patch_KeepBowOnEpona)
   }
 
+  .patch_RemoveTradeItemFromSlot 0x1AFE8C : {
+    *(.patch_RemoveTradeItemFromSlot)
+  }
+
   .patch_OverrideCutsceneNextEntrance 0x1B1834 : {
     *(.patch_OverrideCutsceneNextEntrance)
   }
@@ -363,9 +367,9 @@ SECTIONS{
     *(.patch_CheckMoTRequirement)
   }
 
-  .patch_TradeItemDeleteMoonsTear 0x3B5280 : {
+  /* .patch_TradeItemDeleteMoonsTear 0x3B5280 : {
     *(.patch_TradeItemDeleteMoonsTear)
-  }
+  } */
 
   .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {
     *(.patch_OverrideWalletSpiderHouseTwo)
@@ -411,16 +415,12 @@ SECTIONS{
     *(.patch_TradeItemDeleteLandTitleDeed)
   }
 
-  .patch_TradeItemDeleteSwampTitleDeed 0x47771C : {
+   .patch_TradeItemDeleteSwampTitleDeed 0x47771C : {
     *(.patch_TradeItemDeleteSwampTitleDeed)
   }
 
   .patch_TradeItemDeleteMountainTitleDeed 0x477728 : {
     *(.patch_TradeItemDeleteMountainTitleDeed)
-  }
-
-  .patch_TradeItemDeleteOceanTitleDeed 0x477748 : {
-    *(.patch_TradeItemDeleteOceanTitleDeed)
   }
 
   .patch_LoadExtData 0x48C760 : {
