@@ -355,7 +355,7 @@ hook_changeChestTypeToMatchContents:
     ldrh r2,[r4,#0x1C]
     lsl r2, r2, #0x14
     lsr r2,r2, #0x19
-    bl Chest_OverrideTexture
+    bl Chest_OverrideSize
     cmp r0,#0xFF
     beq doNotOverrideChestType
     strb r0,[r4,#0x3e9]

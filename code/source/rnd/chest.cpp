@@ -3,7 +3,7 @@
 
 namespace rnd {
   extern "C" {
-  game::actors::EnBoxType Chest_OverrideTexture(game::actors::En_Box* actor, game::GlobalContext* gctx, s16 gid) {
+  game::actors::EnBoxType Chest_OverrideSize(game::actors::En_Box* actor, game::GlobalContext* gctx, s16 gid) {
     // First check to see if setting is enabled.
     // TODO: Create setting
     if (gSettingsContext.chestSize == 0) {
@@ -18,10 +18,8 @@ namespace rnd {
           actor->chest_type == game::actors::EnBoxType::ENBOX_TYPE_BIG_ORNATE) {
         if (itemToBeGiven->baseItemId == 0x02)
           return game::actors::EnBoxType::ENBOX_TYPE_SMALL;
-        else if (itemToBeGiven->baseItemId == 0x2B)
+        else if (itemToBeGiven->baseItemId == 0x2B || itemToBeGiven->baseItemId == 0x78)
           return game::actors::EnBoxType::ENBOX_TYPE_BIG;
-        else if (itemToBeGiven->baseItemId == 0x78)
-          return game::actors::EnBoxType::ENBOX_TYPE_BIG_ORNATE;
       } else if (actor->chest_type == game::actors::EnBoxType::ENBOX_TYPE_BIG_INVISIBLE ||
                  actor->chest_type == game::actors::EnBoxType::ENBOX_TYPE_SMALL_INVISIBLE) {
         if (itemToBeGiven->baseItemId == 0x02)
