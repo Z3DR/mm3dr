@@ -37,7 +37,7 @@ namespace rnd {
   extern "C" void SaveFile_RemoveTradeItemFromSlot(u16, u8);
   extern "C" u8 SaveFile_GetItemCurrentlyInSlot(u8);
 
-      typedef struct {
+  typedef struct {
     u32 version;  // Needs to always be the first field of the structure
     u32 playtimeSeconds;
     u32 isNewFile;

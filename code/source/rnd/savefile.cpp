@@ -28,6 +28,7 @@ namespace rnd {
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::MaskOfTruth);
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::PictographBox);
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::BlastMask);
+    rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::KafeiMask);
     // rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::PowderKeg);
     // saveData.inventory.inventory_count_register.quiver_upgrade = game::Quiver::Quiver50;
     saveData.inventory.inventory_count_register.bomb_bag_upgrade = game::BombBag::BombBag40;
@@ -913,20 +914,21 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: Item and slot are %#04x %u\n", __func__, item, slot);
 #endif
-    if (slot != 5 && slot != 17) return;
+    if (slot != 5 && slot != 17)
+      return;
     ItemRow* gidItemRow = ItemTable_GetItemRowFromIndex(item);
     game::ItemId firstItem = game::ItemId::None;
-    
+
     for (int i = 0; i < 9; i++) {
       if (gidItemRow->itemId != (u8)gExtSaveData.collectedTradeItems[i] && firstItem == game::ItemId::None) {
         if (slot == 17 && i > 5 && i < 8) {
-          #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
           rnd::util::Print("%s: Slot is 17 and our found item is %#04x\n", __func__,
                            gExtSaveData.collectedTradeItems[i]);
 #endif
           firstItem = gExtSaveData.collectedTradeItems[i];
         }
-          
+
         else if (slot == 5 && i < 5)
           firstItem = gExtSaveData.collectedTradeItems[i];
       }
@@ -951,7 +953,7 @@ namespace rnd {
   }
 
   extern "C" u8 SaveFile_GetItemCurrentlyInSlot(u8 slot) {
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: Current slot is %#04x\n", __func__, game::GetCommonData().save.inventory.items[slot]);
 #endif
     return (u8)game::GetCommonData().save.inventory.items[slot];
