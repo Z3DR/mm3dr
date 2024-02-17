@@ -622,120 +622,112 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSmallKey, (s16)1,
                         (s16)-1),  // Small Key (Snowhead)
 
-      [0x78] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::DekuMask, 0x0078, 0x01BD,
+      [0x78] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::DekuMask, 0x0078, 0x01BD,
                         (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DEKU_MASK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Deku Mask
 
-      [0x79] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::GoronMask, 0x0079,
-                        0x0119, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GORON_MASK,
+      [0x79] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GoronMask, 0x0079, 0x0119,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GORON_MASK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Goron Mask
 
-      [0x7A] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::ZoraMask, 0x007A, 0x011A,
+      [0x7A] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::ZoraMask, 0x007A, 0x011A,
                         (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_ZORA_MASK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Zora Mask
 
-      [0x7B] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::FierceDeityMask, 0x007B,
-                        0x0242, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
-                        (s32)DrawGraphicItemID::DI_FIERCE_DEITY_MASK, (rnd::upgradeFunc)ItemUpgrade_None,
-                        ItemEffect_None, (s16)-1,
-                        (s16)-1),  // Fierce Deity Mask
+      [0x7B] =
+          ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::FierceDeityMask, 0x007B, 0x0242,
+                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_FIERCE_DEITY_MASK,
+                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
+                   (s16)-1),  // Fierce Deity Mask
 
-      [0x7C] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::CaptainHat, 0x007C, 0x0102,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_CAPTAINS_HAT,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Captain Hat
+      [0x7C] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::CaptainHat, 0x007C, 0x0102,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_CAPTAINS_HAT,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Captain Hat
 
-      [0x7D] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::GiantMask, 0x007D, 0x0226,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GIANTS_MASK,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Giant Mask
+      [0x7D] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GiantMask, 0x007D, 0x0226,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GIANTS_MASK,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Giant Mask
 
       [0x7E] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::AllNightMask, 0x007E, 0x0265,
+          ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::AllNightMask, 0x007E, 0x0265,
                    (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_ALL_NIGHT_MASK,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                    (s16)-1),  // All Night Mask
 
-      [0x7F] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::BunnyHood, 0x007F,
-                        0x0103, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_BUNNY_HOOD,
+      [0x7F] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::BunnyHood, 0x007F, 0x0103,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_BUNNY_HOOD,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Bunny Hood
 
-      [0x80] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::KeatonMask, 0x0080, 0x0100,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_KEATON_MASK,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Keaton Mask
+      [0x80] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::KeatonMask, 0x0080, 0x0100,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_KEATON_MASK,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Keaton Mask
 
-      [0x81] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::GaroMask, 0x0081, 0x0209,
+      [0x81] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GaroMask, 0x0081, 0x0209,
                         (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GARO_MASK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Garo Mask
 
-      [0x82] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::RomaniMask, 0x0082, 0x021F,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_ROMANIS_MASK,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Romani Mask
+      [0x82] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::RomaniMask, 0x0082, 0x021F,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_ROMANIS_MASK,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Romani Mask
 
-      [0x83] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::CircusLeaderMask, 0x0083,
+      [0x83] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::CircusLeaderMask, 0x0083,
                         0x0259, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
                         (s32)DrawGraphicItemID::DI_CIRCUS_LEADER_MASK, (rnd::upgradeFunc)ItemUpgrade_None,
                         ItemEffect_None, (s16)-1,
                         (s16)-1),  // Circus Leader Mask
 
-      [0x84] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::PostmanHat, 0x0084, 0x0225,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_POSTMANS_HAT,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Postman Hat
+      [0x84] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::PostmanHat, 0x0084, 0x0225,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_POSTMANS_HAT,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Postman Hat
 
-      [0x85] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::CoupleMask, 0x0085, 0x0282,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_COUPLES_MASK,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Couple's Mask
+      [0x85] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::CoupleMask, 0x0085, 0x0282,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_COUPLES_MASK,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Couple's Mask
 
-      [0x86] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::GreatFairyMask, 0x0086,
-                        0x020A, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
-                        (s32)DrawGraphicItemID::DI_GREAT_FAIRY_MASK, (rnd::upgradeFunc)ItemUpgrade_None,
-                        ItemEffect_None, (s16)-1,
-                        (s16)-1),  // Great Fairy's Mask
+      [0x86] =
+          ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GreatFairyMask, 0x0086, 0x020A,
+                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GREAT_FAIRY_MASK,
+                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
+                   (s16)-1),  // Great Fairy's Mask
 
-      [0x87] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::GibdoMask, 0x0087,
-                        0x020B, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GIBDO_MASK,
+      [0x87] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GibdoMask, 0x0087, 0x020B,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GIBDO_MASK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Gibdo's Mask
 
       [0x88] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::DonGeroMask, 0x0088, 0x0266,
+          ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::DonGeroMask, 0x0088, 0x0266,
                    (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_DON_GERO_MASK,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Don Gero's Mask
 
-      [0X89] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::KamaroMask, 0x0089, 0x027D,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_KAMARO_MASK,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Kamaro's Mask
+      [0X89] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::KamaroMask, 0x0089, 0x027D,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_KAMARO_MASK,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Kamaro's Mask
 
       [0x8A] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::MaskOfTruth, 0x008A, 0x0104,
+          ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MaskOfTruth, 0x008A, 0x0104,
                    (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_MASK_OF_TRUTH,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Mask of Truth
 
-      [0x8B] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::StoneMask, 0x008B,
-                        0x0254, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_STONE_MASK,
+      [0x8B] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::StoneMask, 0x008B, 0x0254,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_STONE_MASK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Stone Mask
 
-      [0x8C] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::BremenMask, 0x008C, 0x025A,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_BREMEN_MASK,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Bremen Mask
+      [0x8C] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::BremenMask, 0x008C, 0x025A,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_BREMEN_MASK,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Bremen Mask
 
-      [0x8D] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::BlastMask, 0x008D,
-                        0x026D, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_BLAST_MASK,
+      [0x8D] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::BlastMask, 0x008D, 0x026D,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_BLAST_MASK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Blast Mask
 
       [0x8E] =
-          ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::MaskOfScents, 0x008E, 0x027E,
+          ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MaskOfScents, 0x008E, 0x027E,
                    (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_MASK_OF_SCENTS,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                    (s16)-1),  // Mask Of Scents
 
-      [0x8F] = ITEM_ROW((u32)GetItemID::GI_MASK_DEKU, ChestType::WOODEN_BIG, (u8)game::ItemId::KafeiMask, 0x008F,
-                        0x0258, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_KAFEI_MASK,
+      [0x8F] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::KafeiMask, 0x008F, 0x0258,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_KAFEI_MASK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Kafei Mask
 
       [0x90] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::DECORATED_SMALL, (u8)game::ItemId::SmallKey, 0x6135,
