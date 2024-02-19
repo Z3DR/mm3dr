@@ -45,8 +45,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x26;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0x01;
-    rItemOverrides[1].value.looksLikeItemId = 0x01;
+    rItemOverrides[1].value.getItemId = 0x0C;
+    rItemOverrides[1].value.looksLikeItemId = 0x0C;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -452,6 +452,8 @@ namespace rnd {
       gExtSaveData.givenItemChecks.bgDyYoseizoGivenItem = 1;
     } else if (storedActorId == game::act::Id::EnIn && storedGetItemId == GetItemID::GI_MASK_GARO) {
       gExtSaveData.givenItemChecks.enInGivenItem = 1;
+    } else if (storedActorId == game::act::Id::EnIn && storedGetItemId == GetItemID::GI_BOTTLE_MYSTERY_MILK) {
+      gExtSaveData.givenItemChecks.enInMysteryMilkGiven = 1;
     } else if (storedActorId == game::act::Id::EnHs) {
       gExtSaveData.givenItemChecks.enHsGivenItem = 1;
     } else if (storedActorId == game::act::Id::EnHgo) {
@@ -587,6 +589,12 @@ namespace rnd {
     return 0x00;
   }
 
+  bool ItemOverride_IsItemObtained(ItemOverride override) {
+    ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
+    return (game::HasMask((game::ItemId)itemToBeGiven->itemId) || game::HasItem((game::ItemId)itemToBeGiven->itemId) ||
+            (itemToBeGiven->itemId > 0x49 && itemToBeGiven->itemId < 0x9E));
+  }
+
   extern "C" {
   bool ItemOverride_CheckAromaGivenItem() {
     if (gExtSaveData.givenItemChecks.enAlGivenItem > 0)
@@ -668,37 +676,22 @@ namespace rnd {
       // Override was already given, check to see if the item exists in inventory, if it does
       // then we give a blue rupee. Only check for inventory items. If an item is a heart piece
       // do not give multiples.
-      // Only do this for items that are not bottle refills.
-      // Bottle logic is taken care of in the ItemUpgrade function for each bottle.
-      ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
-      if (game::HasMask((game::ItemId)itemToBeGiven->itemId) || game::HasItem((game::ItemId)itemToBeGiven->itemId) ||
-          (itemToBeGiven->itemId > 0x49 && itemToBeGiven->itemId < 0x9E)) {
-        // XXX: Maybe do a secondary check to see if we a have a bottle to fill items in?
-        // This could maybe be done in the future if we shuffle in refills, and make sure the user
-        // does not receive the item if it is a refill.
-        // This would avoid issues if a single bottle was stolen in second cycle and a user goes to get a refill item.
+      if (ItemOverride_IsItemObtained(override)) {
+        // Do a secondary check as well for bottled items, and check to see if we have an empty bottle in our inventory.
+        // If we don't, then do not give the item as we don't want to override items in users inventories.
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
       } else if (override.value.getItemId == 0x59 || override.value.getItemId == 0x60 ||
                  override.value.getItemId == 0x6A || override.value.getItemId == 0x6E ||
                  override.value.getItemId == 0x6F) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("%s: Our item is a bottle. Checking if we need refill?\n", __func__);
-#endif
         switch (override.value.getItemId) {
         case 0x59:
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("%s: POTION WAS GIVEN ONCE BUT NOW WE NEED A REFILL INSTEAD.\n", __func__);
-#endif
           if (gExtSaveData.givenItemChecks.bottleRedPotionGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
             override.value.getItemId = 0x02;
             override.value.looksLikeItemId = 0x02;
           }
           break;
         case 0x60:
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("%s: MILK WAS GIVEN ONCE BUT NOW WE NEED A REFILL INSTEAD.\n", __func__);
-#endif
           if (gExtSaveData.givenItemChecks.bottleMilkGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
             override.value.getItemId = 0x02;
             override.value.looksLikeItemId = 0x02;
@@ -706,26 +699,17 @@ namespace rnd {
           break;
         case 0x6A:
           if (gExtSaveData.givenItemChecks.bottleGoldDustGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-            rnd::util::Print("%s: GOLD DUST WAS GIVEN ONCE BUT NOW WE NEED A REFILL INSTEAD.\n", __func__);
-#endif
             override.value.getItemId = 0x02;
             override.value.looksLikeItemId = 0x02;
           }
           break;
         case 0x6E:
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("%s: SEAHORSE WAS GIVEN ONCE BUT NOW WE NEED A REFILL INSTEAD.\n", __func__);
-#endif
           if (gExtSaveData.givenItemChecks.bottleSeahorseGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
             override.value.getItemId = 0x02;
             override.value.looksLikeItemId = 0x02;
           }
           break;
         case 0x6F:
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("%s: CHATEU WAS GIVEN ONCE BUT NOW WE NEED A REFILL INSTEAD.\n", __func__);
-#endif
           if (gExtSaveData.givenItemChecks.bottleChateuGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
             override.value.getItemId = 0x02;
             override.value.looksLikeItemId = 0x02;
@@ -740,6 +724,7 @@ namespace rnd {
     // This check is mainly to ensure we do not have repeatable progressive items within these base items.
     // This is to ensure fairness and allows us to place these items without second guessing in logic.
     // Let's be a bit rude and give them fishing passes.
+    // XXX: This may be simplified with the IsItemObtained checks as well.
     if (override.value.getItemId > 0x45 || override.value.getItemId < 0x4A) {
       if (incomingGetItemId == (s16)GetItemID::GI_MOONS_TEAR &&
           gExtSaveData.givenItemChecks.enObjMoonStoneGivenItem == 1) {
@@ -768,7 +753,20 @@ namespace rnd {
         return;
       }
     }
-
+    if (incomingGetItemId == 0x70 || incomingGetItemId == 0x94) {
+      // If we've completed the milk quest, make sure we're not a heart piece
+      // or any way to cheese the game.
+      if (gExtSaveData.givenItemChecks.enInMysteryMilkGiven == 1 && ItemOverride_IsItemObtained(override)) {
+        override.value.getItemId = 0x02;
+        override.value.looksLikeItemId = 0x02;
+      }
+    } else if (incomingGetItemId == (s16)GetItemID::GI_POWDER_KEG &&
+               (gctx->scene == game::SceneId::GoronVillageWinter || gctx->scene == game::SceneId::GoronVillageSpring) &&
+               gExtSaveData.givenItemChecks.enGoGivenItem == 1) {
+      // Also check if we are not the powder keg area as to avoid getting multiple items.
+      override.value.getItemId = 0x02;
+      override.value.looksLikeItemId = 0x02;
+    }
     ItemOverride_Activate(override);
     s16 baseItemId = rActiveItemRow->baseItemId;
 
@@ -916,7 +914,6 @@ namespace rnd {
       if (gctx->scene == game::SceneId::GoronVillageWinter || gctx->scene == game::SceneId::GoronVillageSpring) {
         return givenItems.enGoGivenItem ? (int) currentItem
         : (int)0xFF;
-        
       }
       
       return game::HasItem((game::ItemId)currentItem) ? (int) currentItem
@@ -996,12 +993,6 @@ namespace rnd {
 
   u32 ItemOverride_GetOshExtData() {
     return (u32)gExtSaveData.givenItemChecks.enOshGivenItem;
-  }
-
-  void DebugStatement(game::ItemId curItemSlot) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Current item slot is %#04x\n", __func__, curItemSlot);
-#endif
   }
   }
 }  // namespace rnd
