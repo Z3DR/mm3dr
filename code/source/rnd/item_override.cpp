@@ -670,7 +670,14 @@ namespace rnd {
       // Bottle logic is taken care of in the ItemUpgrade function for each bottle.
       ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
       if (game::HasMask((game::ItemId)itemToBeGiven->itemId) || game::HasItem((game::ItemId)itemToBeGiven->itemId) ||
-          itemToBeGiven->itemId > 0x49) {
+          (itemToBeGiven->itemId > 0x49 && itemToBeGiven->itemId < 0x9E)) {
+        // XXX: Maybe do a secondary check to see if we a have a bottle to fill items in?
+        // This could maybe be done in the future if we shuffle in refills, and make sure the user
+        // does not receive the item if it is a refill.
+        // This would avoid issues if a single bottle was stolen in second cycle and a user goes to get a refill item.
+        override.value.getItemId = 0x02;
+        override.value.looksLikeItemId = 0x02;
+      } else if (itemToBeGiven->itemId > 0x9E && !game::HasBottle(game::ItemId::Bottle)) {
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
       }
@@ -762,7 +769,7 @@ namespace rnd {
   void ItemOverride_GetSoHItem(game::GlobalContext* gctx, game::act::Actor* fromActor, s16 incomingItemId) {
     game::act::Player* link = gctx->GetPlayerActor();
     // Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
-    // This is mainly prevalent when the item override is in a calc function (Anju).
+    // This is mainly prevalent when the item override is in a calc function (Anju & Kafei).
     if (link->get_item_id != 0x00)
       return;
     if (incomingItemId == 0x7A) {
