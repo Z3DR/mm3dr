@@ -354,8 +354,8 @@ SECTIONS{
   .patch_IceArrowsAnywhere 0x31874C : {
     *(.patch_IceArrowsAnywhere)
   }
-
-  .patch_changeChestTypeToMatchContents 0x31cad4 : {
+  /*0x31cad4*/
+  .patch_changeChestTypeToMatchContents 0x31ce0c : {
     *(.patch_changeChestTypeToMatchContents)
   }
 

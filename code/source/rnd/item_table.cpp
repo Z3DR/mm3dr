@@ -356,8 +356,8 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1),  // Hookshot
 
       [0x42] =
-          ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::LensOfTruth, 0x0042,
-                   0x00C0, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_LENS_OF_TRUTH,
+          ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_BIG, (u8)game::ItemId::LensOfTruth, 0x0042, 0x00C0,
+                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_LENS_OF_TRUTH,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                    (s16)-1),  // Lens of Truth
 
