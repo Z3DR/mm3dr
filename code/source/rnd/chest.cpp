@@ -12,7 +12,6 @@ namespace rnd {
     s16 gid = (actor->dyna.params << 0x14) >> 0x19;
     game::SceneId scene = gctx->scene;
     ItemOverride override = ItemOverride_Lookup((game::act::Actor*)&actor->dyna, (u16)scene, gid);
-    game::actors::EnBoxType boxType = (game::actors::EnBoxType)(actor->dyna.params >> 0xC);
     if (override.key.all != 0) {
       ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
       if (itemToBeGiven->chestType == ChestType::WOODEN_SMALL) {
