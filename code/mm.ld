@@ -415,6 +415,10 @@ SECTIONS{
     *(.patch_OverrideProgessiveWalletTwo)
   }
 
+  .patch_CheckMasksOnMoon 0x52293C : {
+    *(.patch_CheckMasksOnMoonOne)
+  }
+
   .patch_CouplesMaskGiveItem 0x46E228 : {
     *(.patch_CouplesMaskGiveItem)
   }
