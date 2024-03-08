@@ -415,7 +415,7 @@ SECTIONS{
     *(.patch_OverrideProgessiveWalletTwo)
   }
 
-  .patch_CheckMasksOnMoon 0x52293C : {
+  .patch_CheckMasksOnMoon 0x46AA48 : {
     *(.patch_CheckMasksOnMoonOne)
   }
 

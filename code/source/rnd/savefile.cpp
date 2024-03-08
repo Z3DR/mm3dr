@@ -1043,11 +1043,6 @@ namespace rnd {
       count += 1;
     if (game::HasMask(game::ItemId::GiantMask))
       count += 1;
-    // Function call to check what masks have been given on the moon.
-    u32 masksFromMoon = util::GetPointer<u32(u32)>(0x2F217C)(0);
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: masksFromMoon is %u\n", __func__, masksFromMoon);
-#endif
-    return count - masksFromMoon;
+    return count;
   }
 }  // namespace rnd

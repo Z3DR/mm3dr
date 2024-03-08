@@ -170,10 +170,10 @@ hook_EnteringLocation:
 
 .global hook_CheckMasksOnMoon
 hook_CheckMasksOnMoon:
-    push {r0-r12,lr}
+    push {r5-r12,lr}
     bl CurrentMasksInInventory
     cpy r4,r0
-    pop {r0-r3, r5-r12, lr}
+    pop {r5-r12, lr}
     mov r0,#0x0
     bx lr
 
