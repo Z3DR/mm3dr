@@ -417,7 +417,7 @@ namespace rnd {
     } else if (actorId == game::act::Id::EnGinkoMan) {
       // Check to see if we're not getting a repeat reward.
       u16 bankRupeeCount = game::GetCommonData().save.bank_rupee_count;
-      if (gExtSaveData.givenItemChecks.enGinkoManGivenItem == 1 && bankRupeeCount != 200) {
+      if (gExtSaveData.givenItemChecks.enGinkoManGivenItem == 1 && bankRupeeCount >= 1000) {
         getItemId = incomingNegative ? -0x03 : 0x03;
       }
     }
