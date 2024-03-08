@@ -123,7 +123,7 @@ namespace rnd {
     saveData.activate_dungeon_skip_portal_0xF0_for_all = 0xF0;
     SaveFile_FillOverWorldMapData();
     saveData.inventory.collect_register.oath_to_order = 1;
-    
+
     // Boss Remains
     saveData.inventory.collect_register.odolwas_remains = 1;
     saveData.inventory.collect_register.gohts_remains = 1;
@@ -997,8 +997,6 @@ namespace rnd {
   // SaveFile_DrawAndShowUIMessage() {
 
   // }
-
-
 
   extern "C" u16 CurrentMasksInInventory() {
     // I can see why the original devs did this, because they did not want to count specific masks (transform + FD)
