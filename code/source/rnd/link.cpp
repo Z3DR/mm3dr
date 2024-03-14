@@ -359,8 +359,7 @@ namespace rnd::link {
   void AssignSwordForHoneyDarling() {
     game::SaveData& saveData = game::GetCommonData().save;
     if (saveData.equipment.sword_shield.sword == game::SwordType::NoSword &&
-        saveData.inventory.inventory_count_register.quiver_upgrade == game::Quiver::NoQuiver &&
-        saveData.day == 2) {
+        saveData.inventory.inventory_count_register.quiver_upgrade == game::Quiver::NoQuiver && saveData.day == 2) {
       hadSword = false;
       saveData.equipment.data[0].item_btn_b = game::ItemId::KokiriSword;
       // saveData.equipment.sword_shield.sword = game::SwordType::KokiriSword;
@@ -373,11 +372,11 @@ namespace rnd::link {
     if (!hadSword) {
       game::SaveData& saveData = game::GetCommonData().save;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("%s: HAD TEMP SWORD, REMOVING.\n", __func__);	
+      rnd::util::Print("%s: HAD TEMP SWORD, REMOVING.\n", __func__);
 #endif
-        saveData.equipment.data[0].item_btn_b = game::ItemId::None;
-        // saveData.equipment.sword_shield.sword = game::SwordType::NoSword;
-        hadSword = true;
+      saveData.equipment.data[0].item_btn_b = game::ItemId::None;
+      // saveData.equipment.sword_shield.sword = game::SwordType::NoSword;
+      hadSword = true;
     }
   }
   }
