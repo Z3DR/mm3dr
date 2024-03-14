@@ -15,6 +15,8 @@ namespace rnd::link {
   void HandleFastOcarina(game::GlobalContext*);
   void HandleFastArrowSwitch(game::act::Player*);
   void FixFreeCameraReset();
+  extern "C" void AssignSwordForHoneyDarling();
+  extern "C" void RemoveSwordFromHoneyDarling();
 
 }  // namespace rnd::link
 

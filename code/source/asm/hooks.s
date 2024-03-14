@@ -43,6 +43,22 @@ hook_Gfx_SleepQueryCallback:
     add r0,r0,#0xC
     b 0x124DF4
 
+.global hook_GiveTempSwordForHandD
+hook_GiveTempSwordForHandD:
+    push {r0-r12, lr}
+    bl AssignSwordForHoneyDarling
+    pop {r0-r12, lr}
+    nop
+    bx lr
+
+.global hook_RemoveTempSwordForHandD
+hook_RemoveTempSwordForHandD:
+    push {r0-r12, lr}
+    bl RemoveSwordFromHoneyDarling
+    pop {r0-r12, lr}
+    cpy r12, r1
+    bx lr
+
 .global hook_OverrideCutsceneNextEntrance
 hook_OverrideCutsceneNextEntrance:
     push {r0-r12, lr}

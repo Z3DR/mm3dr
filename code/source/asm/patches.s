@@ -63,6 +63,16 @@ Gfx_Update_patch:
 patch_OverrideBombersNotebook:
     b hook_OverrideHMSBombers
 
+.section .patch_GiveTempSwordForHandD
+.global patch_GiveTempSwordForHandD
+patch_GiveTempSwordForHandD:
+    bl hook_GiveTempSwordForHandD
+
+.section .patch_RemoveTempSwordForHandD
+.global patch_RemoveTempSwordForHandD
+patch_RemoveTempSwordForHandD:
+    bl hook_RemoveTempSwordForHandD
+
 .section .patch_KeepBowOnEpona
 .global patch_KeepBowOnEpona
 patch_KeepBowOnEpona:
