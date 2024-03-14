@@ -63,6 +63,14 @@ SECTIONS{
     *(.patch_RemoveMeetMaskCutScene)
   } */
 
+  .patch_GiveTempSwordForHandD 0x2B523C : {
+    *(.patch_GiveTempSwordForHandD)
+  }
+
+  .patch_RemoveTempSwordForHandD 0x2DDAF0 : {
+    *(.patch_RemoveTempSwordForHandD)
+  }
+
   .patch_KeepBowOnEpona 0x188794 : {
     *(.patch_KeepBowOnEpona)
   }

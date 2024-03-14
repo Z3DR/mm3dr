@@ -10,6 +10,7 @@
  */
 
 namespace rnd::link {
+  static bool hadSword = true;
   void FixSpeedIssues() {
     // This reverts some of the MM3D changes to form-specific parameters.
 
@@ -353,6 +354,31 @@ namespace rnd::link {
       saveData.equipment.sword_shield.sword = game::SwordType::RazorSword;
     }
     return;
+  }
+
+  void AssignSwordForHoneyDarling() {
+    game::SaveData& saveData = game::GetCommonData().save;
+    if (saveData.equipment.sword_shield.sword == game::SwordType::NoSword &&
+        saveData.inventory.inventory_count_register.quiver_upgrade == game::Quiver::NoQuiver &&
+        saveData.day == 2) {
+      hadSword = false;
+      saveData.equipment.data[0].item_btn_b = game::ItemId::KokiriSword;
+      // saveData.equipment.sword_shield.sword = game::SwordType::KokiriSword;
+    } else {
+      hadSword = true;
+    }
+  }
+
+  void RemoveSwordFromHoneyDarling() {
+    if (!hadSword) {
+      game::SaveData& saveData = game::GetCommonData().save;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+        rnd::util::Print("%s: HAD TEMP SWORD, REMOVING.\n", __func__);	
+#endif
+        saveData.equipment.data[0].item_btn_b = game::ItemId::None;
+        // saveData.equipment.sword_shield.sword = game::SwordType::NoSword;
+        hadSword = true;
+    }
   }
   }
 
