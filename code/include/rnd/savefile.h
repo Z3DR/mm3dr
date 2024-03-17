@@ -91,13 +91,13 @@ namespace rnd {
       BitField<42, 1, u64> bottleChateuGiven;
       BitField<43, 1, u64> bottleRedPotionGiven;
       BitField<44, 1, u64> bottleMysteryGivenToEnGm;
-      BitField<45, 2, u64> progressiveSwordUpgrade;
-      BitField<47, 1, u64> enInMysteryMilkGiven;
-      BitField<48, 1, u64> roomKeyGiven;
-      BitField<49, 1, u64> letterToKafeiGiven;
-      BitField<50, 1, u64> letterToMamaGiven;
-      BitField<51, 1, u64> pendantGiven;
-      BitField<52, 12, u64> unused;
+      BitField<45, 3, u64> progressiveSwordUpgrade;
+      BitField<48, 1, u64> enInMysteryMilkGiven;
+      BitField<49, 1, u64> roomKeyGiven;
+      BitField<50, 1, u64> letterToKafeiGiven;
+      BitField<51, 1, u64> letterToMamaGiven;
+      BitField<52, 1, u64> pendantGiven;
+      BitField<53, 11, u64> unused;
     };
     GivenItemRegister givenItemChecks;
     union FairyCollectRegister {

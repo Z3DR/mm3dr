@@ -327,10 +327,14 @@ namespace rnd::link {
     game::SaveData& saveData = game::GetCommonData().save;
     // Check to see if we received any sword upgrades.
     if (gExtSaveData.givenItemChecks.progressiveSwordUpgrade == 1) {
+      saveData.equipment.data[0].item_btn_b = game::ItemId::KokiriSword;
+      saveData.equipment.sword_shield.sword = game::SwordType::KokiriSword;
+      return;
+    } else if (gExtSaveData.givenItemChecks.progressiveSwordUpgrade == 2) {
       saveData.equipment.data[0].item_btn_b = game::ItemId::RazorSword;
       saveData.equipment.sword_shield.sword = game::SwordType::RazorSword;
       return;
-    } else if (gExtSaveData.givenItemChecks.progressiveSwordUpgrade == 2) {
+    } else if (gExtSaveData.givenItemChecks.progressiveSwordUpgrade == 3) {
       saveData.equipment.data[0].item_btn_b = game::ItemId::GildedSword;
       saveData.equipment.sword_shield.sword = game::SwordType::GildedSword;
       return;
