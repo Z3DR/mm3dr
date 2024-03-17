@@ -45,8 +45,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x26;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0x1D;
-    rItemOverrides[1].value.looksLikeItemId = 0x1D;
+    rItemOverrides[1].value.getItemId = 0x47;
+    rItemOverrides[1].value.looksLikeItemId = 0x47;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -595,6 +595,13 @@ namespace rnd {
         return 0x08;
       else
         return 0x09;
+    } else if (override.value.getItemId == 0x47) {
+      if (saveData.inventory.inventory_count_register.quiver_upgrade == game::Quiver::NoQuiver)
+        return 0x22;
+      else if (saveData.inventory.inventory_count_register.quiver_upgrade == game::Quiver::Quiver30)
+        return 0x23;
+      else
+        return 0x24;
     }
     // No override, use the base item.
     return override.value.looksLikeItemId;
