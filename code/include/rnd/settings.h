@@ -26,7 +26,7 @@ namespace rnd {
   enum class KnowSetting : u8 {
     KNOW_BASIC,
     KNOW_ADVANCED,
-//    KNOW_COMPLETE,
+    //    KNOW_COMPLETE,
   };
 
   enum class AmmoDropsSetting : u8 {
