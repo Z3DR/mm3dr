@@ -23,6 +23,12 @@ namespace rnd {
     LOGIC_GLITCHED,
   };
 
+  enum class KnowSetting : u8 {
+    KNOW_BASIC,
+    KNOW_ADVANCED,
+//    KNOW_COMPLETE,
+  };
+
   enum class AmmoDropsSetting : u8 {
     AMMODROPS_VANILLA,
     AMMODROPS_BOMBCHU,
@@ -252,6 +258,7 @@ namespace rnd {
 
     u8 logic;
     u8 locationsReachable;
+    u8 knowTheGame;
 
     u8 shuffleDungeonEntrances;
     u8 bombchusInLogic;
