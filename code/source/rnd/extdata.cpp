@@ -68,15 +68,14 @@ namespace rnd {
     }
 
     extInfo.mediaType = MEDIATYPE_SD;
-    extInfo.saveId = 0x125500;
+    // extInfo.saveId = 0x125500;
     // TODO: Region specifics not needed?
-    /*
+
     if (gSettingsContext.region == REGION_NA) {
-      extInfo.saveId = 0x33500;
+      extInfo.saveId = 0x125500;
     } else if (gSettingsContext.region == REGION_EUR) {
-      extInfo.saveId = 0x33600;
+      extInfo.saveId = 0x125600;
     }
-    */
 
     // Create the extdata with the icon, one folder max (all the files are in /)
     // and per save file: 1 file, 1MiB max
