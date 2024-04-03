@@ -251,10 +251,16 @@ namespace rnd {
     PLAY_ON_CITRA,
   } PlayOption;
 
+  typedef enum {
+    REGION_NA,
+    REGION_EUR,
+  } Region;
+
   typedef struct {
     u8 hashIndexes[5];
 
     u8 playOption;
+    u8 region;
 
     u8 logic;
     u8 locationsReachable;
