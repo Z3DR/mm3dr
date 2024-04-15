@@ -111,6 +111,10 @@ SECTIONS{
     *(.patch_DoNotRemoveKeys)
   }
 
+  .patch_RemoveMysteryMilkFlagCheck 0x1C987C : {
+    *(.patch_RemoveMysteryMilkFlagCheck)
+  }
+
   .patch_DoNotGiveSwordBackOnReset 0x1C98DC : {
     *(.patch_DoNotGiveSwordBackOnReset)
   }

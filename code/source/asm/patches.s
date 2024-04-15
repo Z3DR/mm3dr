@@ -171,6 +171,12 @@ patch_BlastMaskCooldown:
 patch_RemoveRemainsStateCheck:
     b hook_RemainsCheckValue
 
+@ Remove the check for anonymous_153 in the save statements and ALWAYS remove mystery/spoiled milk from inventory.
+.section .patch_RemoveMysteryMilkFlagCheck
+.global patch_RemoveMysteryMilkFlagCheck
+patch_RemoveMysteryMilkFlagCheck:
+    b 0x1C997C
+
 .section .patch_OverrideBomberTextID
 .global OverrideBomberTextID_patch
 OverrideBomberTextID_patch:
