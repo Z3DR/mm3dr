@@ -45,8 +45,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x26;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0x47;
-    rItemOverrides[1].value.looksLikeItemId = 0x47;
+    rItemOverrides[1].value.getItemId = 0x12;
+    rItemOverrides[1].value.looksLikeItemId = 0x12;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -213,6 +213,7 @@ namespace rnd {
       IceTrap_Push();
       ItemOverride_PopPendingOverride();
       ItemOverride_AfterKeyReceived(key);
+      SpoilerLog_UpdateIngameLog(key.type, key.scene, key.flag);
     }
   }
 
@@ -278,6 +279,9 @@ namespace rnd {
 
   void ItemOverride_AfterItemReceived(void) {
     ItemOverride_Key key = rActiveItemOverride.key;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: KEY IS %u\n", __func__, key);
+#endif
     if (key.all == 0) {
       return;
     }
