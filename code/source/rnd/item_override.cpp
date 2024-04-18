@@ -519,6 +519,8 @@ namespace rnd {
       gExtSaveData.givenItemChecks.letterToKafeiGiven = 1;
     } else if (storedGetItemId == GetItemID::GI_PENDANT_OF_MEMORIES) {
       gExtSaveData.givenItemChecks.pendantGiven = 1;
+    } else if (storedGetItemId == GetItemID::GI_MASK_FIERCE_DEITY) {
+      gExtSaveData.givenItemChecks.enJsGivenItem = 1;
     }
   }
 
@@ -959,6 +961,9 @@ namespace rnd {
       if (gctx->scene == game::SceneId::GoronVillageWinter) {
         auto& saveData = game::GetCommonData().save;
         if (saveData.player.magic_acquired == 0 || !game::HasItem(currentItem)) return 0xFF;
+      } else if (currentItem == game::ItemId::FierceDeityMask) {
+        return givenItems.enJsGivenItem ? (int) currentItem
+          : (int)0xFF;
       }
     }
     // Use the standard pointer to array as this seems to mess with

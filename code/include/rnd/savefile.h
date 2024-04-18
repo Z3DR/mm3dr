@@ -97,7 +97,8 @@ namespace rnd {
       BitField<50, 1, u64> letterToKafeiGiven;
       BitField<51, 1, u64> letterToMamaGiven;
       BitField<52, 1, u64> pendantGiven;
-      BitField<53, 11, u64> unused;
+      BitField<53, 1, u64> enJsGivenItem;
+      BitField<54, 10, u64> unused;
     };
     GivenItemRegister givenItemChecks;
     union FairyCollectRegister {
