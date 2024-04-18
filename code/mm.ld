@@ -57,6 +57,31 @@ SECTIONS{
     *(.patch_OverrideBombersNotebook)
   }
 
+  .patch_FastTransformPatchOne 0x1EB3B8 : {
+    *(.patch_FastTransformPatchOne)
+  }
+
+  .patch_FastTransformPatchTwo 0x1EB488 : {
+    *(.patch_FastTransformPatchTwo)
+  }
+
+  .patch_FastTransformPatchThree 0x1EB510 : {
+    *(.patch_FastTransformPatchThree)
+  }
+
+  .patch_RemoveFastTransformSound 0x1EB588 : {
+    *(.patch_RemoveFastTransformSound)
+  }
+
+  .patch_FastTransformPatchFour 0x1EC420 : {
+    *(.patch_FastTransformPatchFour)
+  }
+
+  .patch_FastTransformPatchFive 0x1EC524 : {
+    *(.patch_FastTransformPatchFive)
+  }
+
+
   /*2bec9c GOOD DREAM */
   /*  
   .patch_RemoveMeetMaskCutScene 0x2bec9c : {
