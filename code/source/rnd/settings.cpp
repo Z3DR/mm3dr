@@ -119,6 +119,10 @@ namespace rnd {
       return gSettingsContext.enableFastMaskTransform;
     }
   }
+
+  u8 SettingsNoAnimationCheck() {
+    return gSettingsContext.enableNoAnimationTransform;
+  }
   }
   // TODO: Change the addr
   /* typedef void (*Health_ChangeBy_proc)(GlobalContext *arg1, u32 arg2);
