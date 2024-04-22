@@ -400,6 +400,10 @@ SECTIONS{
     *(.patch_CheckMoTRequirement)
   }
 
+  .patch_OverrideItem00Init 0x3D018C : {
+    *(.patch_OverrideItem00Init)
+  }
+
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
     *(.patch_TingleCheckClocktownMapTwo)
   }
@@ -474,6 +478,10 @@ SECTIONS{
 
   .patch_GibdoMaskGiveItem 0x41DC48 : {
     *(.patch_GibdoMaskGiveItem)
+  }
+
+  .patch_OverrideItem00Draw 0x42886C : {
+    *(.patch_OverrideItem00Draw)
   }
 
   .patch_OverrideBankerWalletReward 0x459044 : {

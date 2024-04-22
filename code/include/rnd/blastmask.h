@@ -1,5 +1,5 @@
-#ifndef _RND_CHEST_H_
-#define _RND_CHEST_H_
+#ifndef _RND_BLASTMASK_H_
+#define _RND_BLASTMASK_H_
 
 #include "common/advanced_context.h"
 #include "rnd/settings.h"
