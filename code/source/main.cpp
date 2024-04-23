@@ -13,6 +13,7 @@
 #include "rnd/input.h"
 #include "rnd/item_override.h"
 #include "rnd/link.h"
+#include "rnd/models.h"
 #include "rnd/rheap.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
@@ -89,6 +90,7 @@ namespace rnd {
       } else {
         context.is_swimming = false;
       }
+      Model_UpdateAll(context.gctx);
     }
 
     return;

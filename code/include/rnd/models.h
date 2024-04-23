@@ -19,7 +19,13 @@ namespace rnd {
   void SkeletonAnimationModel_CopyMtx(void*, void*);
   void Model_SetScale(game::act::Actor*, float);
   void Model_SetMtxAndModel(void*, void*);
-  void Model_Draw(void*, int);
+  void SkeletonAnimationModel_Draw(void*, int);
+
+  void Model_UpdateAll(game::GlobalContext* globalCtx);
+  void Model_SpawnByActor(game::act::Actor* actor, game::GlobalContext* globalCtx, u16 baseItemId);
+  void Model_DestroyByActor(game::act::Actor* actor);
+  void Model_DestroyAll(void);
+  s32 Model_DrawByActor(game::act::Actor* actor);
 
 } // namespace rnd 
 #endif  //_RND_MODELS_H_
