@@ -24,9 +24,15 @@ namespace rnd {
     util::GetPointer<void(void*, int)>(0x20AAA8)(model, unk);
   }
 
-  typedef struct {
-    f32 data[4][4];
-  } nn_math_MTX44;
+  void Model_InvertMatrix(void* mtx) {
+    // Inverse model if model is upside down.
+    util::GetPointer<void(void*, float, int)>(0x22b038)(mtx, 3.14159, 1);
+  }
+
+  void Model_InvertMatrixByScale(void* mtx, float scale) {
+    // Inverse model if model is upside down.
+    util::GetPointer<void(void*, float, int)>(0x22b038)(mtx, scale, 1);
+  }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
     // TODO: add the correct objectModelIdx to each ItemRow and use it here instead of 0x5
@@ -76,7 +82,10 @@ namespace rnd {
     if (model->loaded) {
       float tmpMtx[3][4] = {0};
       SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
-      Model_SetScale(model->actor, 0.01);
+      Model_SetScale(model->actor, model->scale);
+      if (model->isFlipped) {
+        Model_InvertMatrix(&tmpMtx);
+      }
       Model_SetMtxAndModel(model->saModel, &tmpMtx);
       SkeletonAnimationModel_Draw(model->saModel, 0);
     }
@@ -84,6 +93,7 @@ namespace rnd {
 
   void Model_LookupByOverride(Model* model, ItemOverride override) {
     if (override.key.all != 0) {
+      // TODO: Edit item table for the graphic IDs.
       u16 itemId = override.value.looksLikeItemId ? override.value.looksLikeItemId : override.value.getItemId;
       u16 resolvedItemId = ItemTable_ResolveUpgrades(itemId);
       model->itemRow = ItemTable_GetItemRow(resolvedItemId);

@@ -2,6 +2,7 @@
 #define _RND_MODELS_H_
 #include "game/actor.h"
 #include "rnd/item_table.h"
+#include "z3d/z3DVec.h"
 namespace rnd {
 
   typedef struct {
@@ -10,6 +11,7 @@ namespace rnd {
     s16 objectId;
     s32 objectModelIndex;
     u8 loaded;
+    u8 isFlipped;
     void* saModel;
     void* saModel2;
     f32 scale;
@@ -26,6 +28,10 @@ namespace rnd {
   void Model_DestroyByActor(game::act::Actor* actor);
   void Model_DestroyAll(void);
   s32 Model_DrawByActor(game::act::Actor* actor);
+
+  void Model_InvertMatrix(void* mtx);
+
+  void Model_InvertMatrixByScale(void* mtx, float scale);
 
 } // namespace rnd 
 #endif  //_RND_MODELS_H_
