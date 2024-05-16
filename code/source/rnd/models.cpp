@@ -13,6 +13,13 @@ namespace rnd {
     util::GetPointer<void(void*, void*)>(0x1feab0)(fromMtx, toMtx);
   }
 
+  /** Used to set the mesh for rupees and stray fairies.
+   * @param drawItemId Value from DrawGraphicItemID enum, but decreased by one for some reason.
+   */
+  void SkeletonAnimationModel_SetMeshByDrawItemID(void* model, s32 drawItemId) {
+    return util::GetPointer<void(void*, s32)>(0x12A3DC)(model, drawItemId);
+  }
+
   void Model_SetScale(game::act::Actor* actor, float scale) {
     util::GetPointer<void(game::act::Actor*, float)>(0x21e30c)(actor, scale);
   }
@@ -39,6 +46,7 @@ namespace rnd {
     // TODO: add the correct objectModelIdx to each ItemRow and use it here instead of 0x5
     // If objects other than 0x1 are needed, they will first need to be loaded.
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, 0x1, model->itemRow->objectModelIdx);
+    SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, model->itemRow->graphicId - 1);
     //    model->itemRow->objectId, model->itemRow->objectModelIdx
     model->loaded = 1;
   }
