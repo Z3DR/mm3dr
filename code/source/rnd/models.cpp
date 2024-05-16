@@ -1,4 +1,5 @@
 #include "rnd/models.h"
+#include "rnd/actors/item00.h"
 #define LOADEDMODELS_MAX 16
 
 namespace rnd {
@@ -45,6 +46,8 @@ namespace rnd {
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
     // TODO: add the correct objectModelIdx to each ItemRow and use it here instead of 0x5
     // If objects other than 0x1 are needed, they will first need to be loaded.
+    // model->actor->object_id = 0x02;
+    // util::GetPointer<void(game::act::Actor*, void*, int)>(0x1f51fc)(model->actor, static_cast<En_Item00*>(model->actor)->skel_anime_model, 0.0);
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, 0x1, model->itemRow->objectModelIdx);
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, model->itemRow->graphicId - 1);
     //    model->itemRow->objectId, model->itemRow->objectModelIdx

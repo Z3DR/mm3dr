@@ -15,6 +15,21 @@ namespace rnd {
   u8 DrawItem00Model(game::act::Actor*);
   }
 
+  struct En_Item00 : public game::act::Actor {
+    void * collectible_calc;
+    u16 field_1FC;
+    u16 field_1FE;
+    u16 field_200;
+    u16 field_202;
+    u16 field_204;
+    u16 field_206;
+    u16 field_208;
+    game::CollisionInfoCylinder collider;
+    u8 collected;
+    u8 gap_265[11];
+    void * skel_anime_model;
+  };
+
   enum class Zelda2Keep : u16 {
     CMB_A_FIREBALL_MODEL = 0X00,             // actor_bomb/model/a_fireball_model.cmb
     CMB_ARROW_MODEL = 0X01,                  // arrow/model/arrow_model.cmb
