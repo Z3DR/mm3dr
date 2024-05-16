@@ -3,7 +3,8 @@
 
 namespace rnd {
   Model ModelContext[LOADEDMODELS_MAX] = {0};
-  void* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx, s16 objectId, s32 objectModelIndex) {
+  void* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx, s16 objectId,
+                                     s32 objectModelIndex) {
     return util::GetPointer<void*(game::act::Actor * actor, game::GlobalContext * globalCtx, s16 objId,
                                   s32 objModelIdx)>(0x203c40)(actor, gctx, objectId, objectModelIndex);
   }
@@ -37,7 +38,7 @@ namespace rnd {
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
     // TODO: add the correct objectModelIdx to each ItemRow and use it here instead of 0x5
     // If objects other than 0x1 are needed, they will first need to be loaded.
-    model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, 0x1, 0x5);
+    model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, 0x1, model->itemRow->objectModelIdx);
     //    model->itemRow->objectId, model->itemRow->objectModelIdx
     model->loaded = 1;
   }
@@ -124,7 +125,9 @@ namespace rnd {
       newModel->loaded = 0;
       newModel->saModel = NULL;
       newModel->saModel2 = NULL;
-      newModel->scale = 0.3f;
+      // TODO: Change scale to what is in model.
+      newModel->scale = model->itemRow->scale;
+      newModel->isFlipped = model->itemRow->flipObj;
     }
   }
 
@@ -163,4 +166,4 @@ namespace rnd {
     }
     return actorDrawn;
   }
-} // namespace rnd
+}  // namespace rnd

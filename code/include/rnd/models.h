@@ -33,5 +33,5 @@ namespace rnd {
 
   void Model_InvertMatrixByScale(void* mtx, float scale);
 
-} // namespace rnd 
+}  // namespace rnd
 #endif  //_RND_MODELS_H_

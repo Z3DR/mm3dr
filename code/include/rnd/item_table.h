@@ -32,6 +32,8 @@ namespace rnd {
     effectFunc effect;
     s16 effectArg1;
     s16 effectArg2;
+    u8 flipObj;
+    f32 scale;
   } ItemRow;
 
   extern "C" ItemRow rItemTable[];
