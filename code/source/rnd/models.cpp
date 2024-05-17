@@ -56,11 +56,15 @@ namespace rnd {
     // TODO: add extendedObjectContext to avoid messing up the base objectContext.
 
     // actors_spawn_stuff should be "objectCtx". (((u32)globalCtx) + 0x9438);
-    void* objectCtx = (void*)&globalCtx->actors_spawn_stuff;
+    void* objectCtx = (void*)&globalCtx->object_context;
     s16 objectId = model->itemRow->objectId;
     if (Object_GetSlot(objectCtx, objectId) <= -1) {
       Object_SpawnPersistent(objectCtx, objectId);
     }
+
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: model->itemRow->objectModelIdx is %u\n", __func__, model->itemRow->objectModelIdx);
+#endif
 
     // model->actor->object_id = 0x02;
     // util::GetPointer<void(game::act::Actor*, void*, int)>(0x1f51fc)(model->actor, static_cast<En_Item00*>(model->actor)->skel_anime_model, 0.0);
@@ -123,6 +127,9 @@ namespace rnd {
       // TODO: Edit item table for the graphic IDs.
       u16 itemId = override.value.looksLikeItemId ? override.value.looksLikeItemId : override.value.getItemId;
       u16 resolvedItemId = ItemTable_ResolveUpgrades(itemId);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: Resolved item ID is %u\n", __func__, resolvedItemId);
+#endif
       model->itemRow = ItemTable_GetItemRow(resolvedItemId);
     }
   }

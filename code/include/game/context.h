@@ -312,10 +312,10 @@ namespace game {
     u8 field_883A;
     __attribute__((aligned(2))) u8 gap_883C[2];
     u8 field_883E;
-    __attribute__((aligned(2))) u8 gap_8840[3064];
+    __attribute__((aligned(2))) u8 gap_8840[3060];
     game::ActorResource::ActorResources* actors_spawn_stuff;
     game::ActorResource::ObjectContext object_context;
-    u8 gap_AC74[5004];
+    u8 gap_AC74[5008];
     u32 field_C000;
     u8 gap_C004[604];
     u8 room_number;
@@ -466,6 +466,7 @@ namespace game {
   static_assert(offsetof(GlobalContext, field_C4C8) == 0xC4C8);
   static_assert(offsetof(GlobalContext, field_83CE) == 0x83CE);
   static_assert(offsetof(GlobalContext, gap_8384) == 0x8384);
+  static_assert(offsetof(GlobalContext, object_context) == 0x9438);
   static_assert(sizeof(GlobalContext) == 0x11030);
 
   struct PersistentSceneCycleFlags {

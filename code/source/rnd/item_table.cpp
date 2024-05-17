@@ -4,6 +4,7 @@
 #include "rnd/item_override.h"
 #include "rnd/item_upgrade.h"
 #include "rnd/rheap.h"
+#include "rnd/actors/item00.h"
 
 #include "z3d/z3DVec.h"
 
@@ -25,13 +26,13 @@ namespace rnd {
                         (s16)-1, false, 0.015f),  // None Item - So we don't have to do GetItemId-1 everywhere.
 
       [0x01] =
-          ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::OneRupee, 0x00C4, 0x013F,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GREEN_RUPEE,
+          ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::OneRupee, 0x00C4, 0x0001,
+                   (s8)Zelda2Keep::CMB_RUPEE_MODEL, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GREEN_RUPEE,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                    (s16)-1, false, 0.015f),  // Green Rupee
 
       [0x02] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::FiveRupees, 0x0002,
-                        0x013F, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_BLUE_RUPEE,
+                        0x0001, (s8)0x05, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_BLUE_RUPEE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1,
                         (s16)-1, false, 0.015f),  // Blue Rupee
       // BREAKS
@@ -65,12 +66,12 @@ namespace rnd {
 
       [0x08] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::AdultWallet, 0x0008, 0x000A8,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_ADULT_WALLET,
+                   (s8)0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_ADULT_WALLET,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_FillWalletUpgrade, (s16)1, (s16)-1, false, 0.015f),  // Adult Wallet
 
       [0x09] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GiantWallet, 0x0009, 0x000A8,
-                   (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GIANT_WALLET,
+                   (s8)0x01, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s32)DrawGraphicItemID::DI_GIANT_WALLET,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_FillWalletUpgrade, (s16)2, (s16)-1, false, 0.015f),  // Giant Wallet
 
       [0x0A] =
@@ -387,12 +388,12 @@ namespace rnd {
                         (s8)0xFF, 0xFF, (rnd::upgradeFunc)ItemUpgrade_Quiver, ItemEffect_None, (s16)-1,
                         (s16)-1, false, 0.015f),  // Progressive Quiver
 
-      [0x48] = ITEM_ROW(0xFF, ChestType::WOODEN_BIG, 0xFF, 0xFF, 0x000A8, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
+      [0x48] = ITEM_ROW(0xFF, ChestType::WOODEN_BIG, 0xFF, 0xFF, 0x000A8, (s8)0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF,
                         (s8)0xFF, 0xFF, (rnd::upgradeFunc)ItemUpgrade_Wallet, ItemEffect_None, (s16)-1,
                         (s16)-1, false, 0.015f),  // Progressive Wallet
 
       [0x49] =
-          ITEM_ROW(0xFF, ChestType::WOODEN_BIG, 0xFF, 0xFF, 0x000A4, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
+          ITEM_ROW(0xFF, ChestType::WOODEN_BIG, 0xFF, 0xFF, 0x000A4, (s8)0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
                    0x000A4, (rnd::upgradeFunc)ItemUpgrade_Magic, ItemEffect_GiveProgressiveMagic, (s16)-1,
                    (s16)-1, false, 0.015f),  // Progressive Magic
 
