@@ -43,14 +43,29 @@ namespace rnd {
     util::GetPointer<void(void*, float, int)>(0x22b038)(mtx, scale, 1);
   }
 
+  s32 Object_SpawnPersistent(void* objectCtx, s16 objectId) {
+    return util::GetPointer<s32(void*, s16)>(0x4C01CC)(objectCtx, objectId);
+  }
+
+  s32 Object_GetSlot(void* objectCtx, s16 objectId) {
+    return util::GetPointer<s32(void*, s16)>(0x1F57DC)(objectCtx, objectId);
+  }
+
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
-    // TODO: add the correct objectModelIdx to each ItemRow and use it here instead of 0x5
-    // If objects other than 0x1 are needed, they will first need to be loaded.
+    // TODO: add the correct objectId and objectModelIdx to each ItemRow.
+    // TODO: add extendedObjectContext to avoid messing up the base objectContext.
+
+    // actors_spawn_stuff should be "objectCtx". (((u32)globalCtx) + 0x9438);
+    void* objectCtx = (void*)&globalCtx->actors_spawn_stuff;
+    s16 objectId = model->itemRow->objectId;
+    if (Object_GetSlot(objectCtx, objectId) <= -1) {
+      Object_SpawnPersistent(objectCtx, objectId);
+    }
+
     // model->actor->object_id = 0x02;
     // util::GetPointer<void(game::act::Actor*, void*, int)>(0x1f51fc)(model->actor, static_cast<En_Item00*>(model->actor)->skel_anime_model, 0.0);
-    model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, 0x1, model->itemRow->objectModelIdx);
+    model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, model->itemRow->graphicId - 1);
-    //    model->itemRow->objectId, model->itemRow->objectModelIdx
     model->loaded = 1;
   }
 
