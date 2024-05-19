@@ -67,9 +67,10 @@ namespace rnd {
 #endif
 
     // model->actor->object_id = 0x02;
-    // util::GetPointer<void(game::act::Actor*, void*, int)>(0x1f51fc)(model->actor, static_cast<En_Item00*>(model->actor)->skel_anime_model, 0.0);
+    // util::GetPointer<void(game::act::Actor*, void*, int)>(0x1f51fc)(model->actor,
+    // static_cast<En_Item00*>(model->actor)->skel_anime_model, 0.0);
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
-    SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, model->itemRow->graphicId - 1);
+    SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
     model->loaded = 1;
   }
 

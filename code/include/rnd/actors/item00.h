@@ -16,7 +16,7 @@ namespace rnd {
   }
 
   struct En_Item00 : public game::act::Actor {
-    void * collectible_calc;
+    void* collectible_calc;
     u16 field_1FC;
     u16 field_1FE;
     u16 field_200;
@@ -27,7 +27,7 @@ namespace rnd {
     game::CollisionInfoCylinder collider;
     u8 collected;
     u8 gap_265[11];
-    void * skel_anime_model;
+    void* skel_anime_model;
   };
 
   enum class Zelda2Keep : u16 {

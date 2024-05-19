@@ -16,7 +16,7 @@ namespace rnd {
     u16 textId;
 
     u16 objectId;
-    s8 objectModelIdx;
+    u16 objectModelIdx;
     s8 cmabIndex;        // 0xFF if none
     s8 objectModelIdx2;  // 0xFF if none
     s8 cmabIndex2;       // 0xFF if none
@@ -25,7 +25,7 @@ namespace rnd {
                                  TexAnim frame for songs
                                  key ID for small keys */
 
-    s32 graphicId;
+    DrawGraphicItemID graphicId;
 
     upgradeFunc upgrade;
 

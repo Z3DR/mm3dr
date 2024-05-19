@@ -45,8 +45,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x26;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0x01;
-    rItemOverrides[1].value.looksLikeItemId = 0x01;
+    rItemOverrides[1].value.getItemId = 0x48;
+    rItemOverrides[1].value.looksLikeItemId = 0x48;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -148,7 +148,8 @@ namespace rnd {
     rActiveItemActionId = itemRow->itemId;
     rActiveItemTextId = itemRow->textId;
     rActiveItemObjectId = itemRow->objectId;
-    rActiveItemGraphicId = looksLikeItemId ? ItemTable_GetItemRow(looksLikeItemId)->graphicId : itemRow->graphicId;
+    rActiveItemGraphicId =
+        looksLikeItemId ? (u32)ItemTable_GetItemRow(looksLikeItemId)->graphicId : (u32)itemRow->graphicId;
     rActiveItemFastChest = (u32)itemRow->chestType & 0x01;
   }
 
