@@ -132,13 +132,21 @@ namespace rnd {
     if ((scene == 0x5E) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)) {
       SpoilerData_UpdateMultiLocations(type, 0x22, flag);
     }
-    // Ranch Tingle Ranch Map > Snowhead Tingle Snowhead Map (Winter)
-    if ((scene == 0x22) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)) {
+    // Snowhead Tingle Ranch Map (Winter) > Snowhead Tingle Ranch Map (Spring)
+    if ((scene == 0x5D) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)) {
       SpoilerData_UpdateMultiLocations(type, 0x5E, flag);
     }
-    // Ranch Tingle Ranch Map > Snowhead Tingle Snowhead Map (Spring)
+    // Snowhead Tingle Ranch Map (Spring) > Snowhead Tingle Ranch Map (Winter)
+    if ((scene == 0x5E) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)) {
+      SpoilerData_UpdateMultiLocations(type, 0x5D, flag);
+    }
+    // Ranch Tingle Ranch Map > Snowhead Tingle Ranch Map (Winter)
     if ((scene == 0x22) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)) {
       SpoilerData_UpdateMultiLocations(type, 0x5D, flag);
+    }
+    // Ranch Tingle Ranch Map > Snowhead Tingle Ranch Map (Spring)
+    if ((scene == 0x22) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)) {
+      SpoilerData_UpdateMultiLocations(type, 0x5E, flag);
     }
     // Ranch Tingle Great Bay Map  > Great Bay Tingle Great Bay Map
     if ((scene == 0x22) && (flag == 0xB8) && (type == ItemOverride_Type::OVR_BASE_ITEM)) {

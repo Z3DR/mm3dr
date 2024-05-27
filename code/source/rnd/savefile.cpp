@@ -121,7 +121,7 @@ namespace rnd {
     gSettingsContext.skipBombersMinigame = 1;
     gSettingsContext.freeScarecrow = 1;
     saveData.activate_dungeon_skip_portal_0xF0_for_all = 0xF0;
-    // SaveFile_FillOverWorldMapData();
+    SaveFile_FillOverWorldMapData();
     saveData.inventory.collect_register.oath_to_order = 1;
 
     // Boss Remains
@@ -366,7 +366,7 @@ namespace rnd {
     // game::SaveData& saveBackupData = game::GetCommonData().save_backup;
     game::SaveData& saveData = game::GetCommonData().save;
     // give maps and compasses
-    if (gSettingsContext.mapsAndCompasses == (u8)MapsAndCompassesSetting::MAPSANDCOMPASSES_START_WITH) {
+    if (gSettingsContext.mapsAndCompasses == (u8)MapsAndCompassesSetting::MAPSANDCOMPASSES_ANY_DUNGEON) {
       saveData.inventory.woodfall_dungeon_items.map = 1;
       saveData.inventory.woodfall_dungeon_items.compass = 1;
       saveData.inventory.snowhead_dungeon_items.map = 1;
@@ -375,6 +375,9 @@ namespace rnd {
       saveData.inventory.great_bay_dungeon_items.compass = 1;
       saveData.inventory.stone_tower_dungeon_items.map = 1;
       saveData.inventory.stone_tower_dungeon_items.compass = 1;
+    }
+    if (gSettingsContext.mapsAndCompasses == (u8)MapsAndCompassesSetting::MAPSANDCOMPASSES_OVERWORLD) {
+      SaveFile_FillOverWorldMapData();
     }
 
     // give small keys
@@ -465,7 +468,7 @@ namespace rnd {
     } else {
       saveData.inventory.inventory_count_register.quiver_upgrade = game::Quiver::NoQuiver;
 #ifdef ENABLE_DEBUG
-      // saveData.inventory.inventory_count_register.quiver_upgrade = game::Quiver::Quiver50;
+      saveData.inventory.inventory_count_register.quiver_upgrade = game::Quiver::Quiver50;
       // rnd::util::GetPointer<void(game::ItemId, int)>(0x21d440)(game::ItemId::Arrow, 0x1e);
 #endif
     }
@@ -533,15 +536,12 @@ namespace rnd {
       equipmentData.sword_shield.sword = game::SwordType::NoSword;
       saveData.equipment.data[0].item_btn_b = game::ItemId::None;
     } else if (gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_KOKIRI) {
-      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 1;
       equipmentData.sword_shield.sword = game::SwordType::KokiriSword;
       saveData.equipment.data[0].item_btn_b = game::ItemId::KokiriSword;
     } else if (gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_RAZOR) {
-      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 2;
       equipmentData.sword_shield.sword = game::SwordType::RazorSword;
       saveData.equipment.data[0].item_btn_b = game::ItemId::RazorSword;
     } else if (gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_GILDED) {
-      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 3;
       equipmentData.sword_shield.sword = game::SwordType::GildedSword;
       saveData.equipment.data[0].item_btn_b = game::ItemId::GildedSword;
     }
@@ -775,6 +775,11 @@ namespace rnd {
     // TODO: Starting stray fairies - need to update flags for which ones are acquired or not.
     if (gSettingsContext.startingSpinSettting == (u8)StartingSpinSetting::STARTINGSPIN_GREAT) {
       saveData.has_great_spin_0x02 = 2;
+    }
+
+    //Notebook
+    if(gSettingsContext.startingNotebook > 0) {
+      saveData.inventory.collect_register.bombers_notebook = 1;
     }
   }
 
