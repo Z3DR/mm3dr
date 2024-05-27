@@ -536,12 +536,15 @@ namespace rnd {
       equipmentData.sword_shield.sword = game::SwordType::NoSword;
       saveData.equipment.data[0].item_btn_b = game::ItemId::None;
     } else if (gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_KOKIRI) {
+      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 1;
       equipmentData.sword_shield.sword = game::SwordType::KokiriSword;
       saveData.equipment.data[0].item_btn_b = game::ItemId::KokiriSword;
     } else if (gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_RAZOR) {
+      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 2;
       equipmentData.sword_shield.sword = game::SwordType::RazorSword;
       saveData.equipment.data[0].item_btn_b = game::ItemId::RazorSword;
     } else if (gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_GILDED) {
+      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 3;
       equipmentData.sword_shield.sword = game::SwordType::GildedSword;
       saveData.equipment.data[0].item_btn_b = game::ItemId::GildedSword;
     }
