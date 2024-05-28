@@ -326,6 +326,7 @@ namespace rnd {
 
     u8 startingConsumables;
     u8 startingMaxRupees;
+    u8 startingNotebook;
     u8 startingOcarina;
     u8 startingHerosBow;
     u8 startingFireArrows;
