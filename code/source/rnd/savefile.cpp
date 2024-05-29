@@ -776,9 +776,9 @@ namespace rnd {
     if (gSettingsContext.startingSpinSettting == (u8)StartingSpinSetting::STARTINGSPIN_GREAT) {
       saveData.has_great_spin_0x02 = 2;
     }
-	
-    //Starting Notebook
-    if(gSettingsContext.startingNotebook > 0) {
+
+    // Starting Notebook
+    if (gSettingsContext.startingNotebook > 0) {
       saveData.inventory.collect_register.bombers_notebook = 1;
     }
   }

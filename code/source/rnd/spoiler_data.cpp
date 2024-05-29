@@ -136,7 +136,7 @@ namespace rnd {
     if ((scene == 0x5D) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)) {
       SpoilerData_UpdateMultiLocations(type, 0x5E, flag);
     }
-     // Snowhead Tingle Ranch Map (Spring) > Snowhead Tingle Ranch Map (Winter)
+    // Snowhead Tingle Ranch Map (Spring) > Snowhead Tingle Ranch Map (Winter)
     if ((scene == 0x5E) && (flag == 0xB7) && (type == ItemOverride_Type::OVR_BASE_ITEM)) {
       SpoilerData_UpdateMultiLocations(type, 0x5D, flag);
     }
