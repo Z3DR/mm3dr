@@ -157,6 +157,7 @@ namespace rnd {
 #ifdef ENABLE_DEBUG
       gSettingsContext.startingKokiriSword = 3;
       gSettingsContext.startingShield = 0;
+      saveData.inventory.collect_register.bombers_notebook = 1;
 #endif
       SaveFile_SetStartingInventory();
 

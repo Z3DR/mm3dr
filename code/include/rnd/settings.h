@@ -418,6 +418,7 @@ namespace rnd {
     u8 enableFastArrowSwap;
     u8 twinmoldRestoration;
     u8 enableNoAnimationTransform;
+    u8 enableBomberAnimationSkipping;
 
     // Cutscene Skips
     u8 skipHMSCutscenes;
