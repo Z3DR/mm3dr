@@ -123,6 +123,9 @@ namespace rnd {
   u8 SettingsNoAnimationCheck() {
     return gSettingsContext.enableNoAnimationTransform;
   }
+  u8 SettingsBomberAnimationCheck() {
+    return gSettingsContext.enableBomberAnimationSkipping;
+  }
   }
   // TODO: Change the addr
   /* typedef void (*Health_ChangeBy_proc)(GlobalContext *arg1, u32 arg2);

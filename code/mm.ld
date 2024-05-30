@@ -148,6 +148,10 @@ SECTIONS{
     *(.patch_OverrideBomberTextID)
   }
 
+  .patch_DisableBomberNotebookAnimations 0x1D2860 : {
+    *(.patch_DisableBomberNotebookAnimations)
+  }
+
   .patch_ISGCrouchStabOne 0x1D32E0 : {
     *(.patch_ISGCrouchStabOne)
   }

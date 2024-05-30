@@ -176,6 +176,19 @@ noBomberOverride:
     cmp r1,r0
     b 0x1D2768
 
+.global hook_DisableBomberNotebookAnimations
+hook_DisableBomberNotebookAnimations:
+    push {r0-r12, lr} @Push all registers so we don't interfere with base game.
+    bl SettingsBomberAnimationCheck @Check our custom setting defined in settings.cpp
+    cmp r0, #0x1 @make the compare for the setting, persists over pushes and pops.
+    pop {r0-r12, lr} @pop game registers as we're done making any possible changes.
+    bne noBomberAnimationOverride @ If disabled, go to noBomberAnimationOverride
+    tst r1,r3 @Original cmp instruction in case it's needed later.
+    b 0x1D29CC @thanks Crispy_Baldy :)
+noBomberAnimationOverride:
+    tst r1,r3 @Restore original compare
+    bx lr @Branch out of custom game code back to regular game code. Note that the patches.s files calls a BL so we can bx lr.
+
 .global hook_EnteringLocation
 hook_EnteringLocation:
     push {r0-r12, lr}

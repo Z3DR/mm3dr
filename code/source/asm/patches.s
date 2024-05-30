@@ -182,6 +182,11 @@ patch_RemoveMysteryMilkFlagCheck:
 OverrideBomberTextID_patch:
     b hook_OverrideBomberTextID
 
+.section .patch_DisableBomberNotebookAnimations
+.global patch_DisableBomberNotebookAnimations
+patch_DisableBomberNotebookAnimations:
+    bl hook_DisableBomberNotebookAnimations
+
 .section .patch_EnteringLocation
 .global patch_EnteringLocation
 patch_EnteringLocation:
