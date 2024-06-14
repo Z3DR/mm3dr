@@ -1,5 +1,10 @@
 .arm
 
+.section .patch_ModelSpawnGetObjectStatus
+.global patch_ModelSpawnGetObjectStatus
+patch_ModelSpawnGetObjectStatus:
+  bl hook_ModelSpawnGetObjectStatus
+
 .section .patch_OverrideItem00Init
 .global patch_OverrideItem00Init
 patch_OverrideItem00Init:

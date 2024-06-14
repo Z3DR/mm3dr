@@ -2,7 +2,8 @@
 
 namespace rnd {
   ExtendedObjectContext rExtendedObjectCtx = {0};
-
+  s32 storedObjId = -1;
+  
   s32 Object_SpawnPersistent(void* objectCtx, s16 objectId) {
     return util::GetPointer<s32(void*, s16)>(0x4C01CC)(objectCtx, objectId);
   }
@@ -43,8 +44,10 @@ namespace rnd {
       for (i = 0; i < OBJECT_EXCHANGE_BANK_MAX; ++i) {
         s32 id = rExtendedObjectCtx.status[i].object_id;
         id = (id < 0 ? -id : id);
-        if (id == objectId)
+        if (id == objectId) {
           return i + OBJECT_EXCHANGE_BANK_MAX;
+        }
+          
       }
     }
     return index;
@@ -57,13 +60,20 @@ namespace rnd {
       return (rExtendedObjectCtx.status[bankIndex - OBJECT_EXCHANGE_BANK_MAX].object_id >= 0);
   }
 
-  game::ActorResource::ActorResource* ExtendedObject_GetStatus(s16 objectId) {
+  extern "C" game::ActorResource::ActorResource* ExtendedObject_GetStatus() {
+    if (storedObjId <= -1) return NULL;
     s32 i;
     for (i = 0; i < rExtendedObjectCtx.num; ++i) {
       s32 id = rExtendedObjectCtx.status[i].object_id;
       id = (id < 0 ? -id : id);
-      if (id == objectId)
+      #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+        rnd::util::Print("%s: STORED ID IS %#08x\n", __func__, id);	
+      #endif
+      if (id == storedObjId) {
+        util::GetPointer<void(void*, s16)>(0x1F15B4)(&rExtendedObjectCtx, 0xe0);
+        storedObjId = -1;
         return &rExtendedObjectCtx.status[i];
+      }
     }
     return NULL;
   }

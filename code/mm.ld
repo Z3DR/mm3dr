@@ -236,6 +236,10 @@ SECTIONS{
     *(.patch_CheckMagicForZoraFastSwim)
   }
 
+  .patch_ModelSpawnGetObjectStatus 0x203CF8 : {
+    *(.patch_ModelSpawnGetObjectStatus)
+  }
+
   .patch_BlastMaskCooldown 0x2047FC : {
     *(.patch_BlastMaskCooldown)
   }

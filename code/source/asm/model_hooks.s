@@ -1,6 +1,12 @@
 .arm
 .text
 
+.global hook_ModelSpawnGetObjectStatus
+hook_ModelSpawnGetObjectStatus:
+    push {r1-r12, lr}
+    bl ExtendedObject_GetStatus
+    pop {r1-r12, lr}
+    bx lr
 
 .global hook_OverrideItem00Init
 hook_OverrideItem00Init:
