@@ -4,26 +4,6 @@
 
 namespace rnd {
   Model ModelContext[LOADEDMODELS_MAX] = {0};
-  
-  s32 Object_SpawnPersistent(void* objectCtx, s16 objectId) {
-    return util::GetPointer<s32(void*, s16)>(0x4C01CC)(objectCtx, objectId);
-  }
-
-  s32 Object_GetSlot(void* objectCtx, s16 objectId) {
-    return util::GetPointer<s32(void*, s16)>(0x1F57DC)(objectCtx, objectId);
-  }
-
-  void Object_Clear(void* objectCtx) {
-    return util::GetPointer<void(void*)>(0x14E8F4)(objectCtx);
-  }
-
-  bool Object_IsLoaded(game::ActorResource::ObjectContext* objectCtx, s16 bankIdx) {
-    return (0 < objectCtx->status[bankIdx].object_id);
-  }
-
-  void Object_UpdateBank(game::ActorResource::ObjectContext* objectCtx) {
-    return util::GetPointer<void(void*)>(0x175A00)(objectCtx);
-  }
 
   void* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx, s16 objectId,
                                      s32 objectModelIndex) {
