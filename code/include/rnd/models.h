@@ -17,10 +17,12 @@ namespace rnd {
     void* saModel2;
     f32 scale;
   } Model;
-
+  // TODO: Keep Models in Models.h and move Objects to objects.h
   s32 Object_SpawnPersistent(void* objectCtx, s16 objectId);
   s32 Object_GetSlot(void* objectCtx, s16 objectId);
-  // TODO: IsLoaded, UpdateBank, and Clear
+  void Object_Clear(void * objectCtx);
+  bool Object_IsLoaded(game::ActorResource::ObjectContext* objectCtx, s16 bankIdx);
+  void Object_UpdateBank(game::ActorResource::ObjectContext* objectCtx);
 
   void* SkeletonAnimationModel_Spawn(game::act::Actor*, game::GlobalContext*, s16, s32);
   void SkeletonAnimationModel_CopyMtx(void*, void*);

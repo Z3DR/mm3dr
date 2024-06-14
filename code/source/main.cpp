@@ -104,7 +104,7 @@ namespace rnd {
     const u32 pressedButtons = gctx->pad_state.input.buttons.flags;
 // const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    game::SaveData& saveData = game::GetCommonData().save;
+    // game::SaveData& saveData = game::GetCommonData().save;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR)
       for (int i = 0; i < 0xBB; i++) {
