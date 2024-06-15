@@ -37,10 +37,10 @@ namespace game::ActorResource {
 
   struct ObjectContext {
     u8 num;
-    char gap_01[7];
+    char gap_01[3];
     ActorResource status[OBJECT_EXCHANGE_BANK_MAX];
   };
-  static_assert(sizeof(ObjectContext) == 0x1838);
+  static_assert(sizeof(ObjectContext) == 0x1834);
 
   u32 find(ActorResources*, int);
   u32 loadActorResource(ActorResources*, u32);

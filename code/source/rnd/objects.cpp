@@ -66,9 +66,6 @@ namespace rnd {
     for (i = 0; i < rExtendedObjectCtx.num; ++i) {
       s32 id = rExtendedObjectCtx.status[i].object_id;
       id = (id < 0 ? -id : id);
-      #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("%s: STORED ID IS %#08x\n", __func__, id);	
-      #endif
       if (id == storedObjId) {
         util::GetPointer<void(void*, s16)>(0x1F15B4)(&rExtendedObjectCtx, 0xe0);
         storedObjId = -1;

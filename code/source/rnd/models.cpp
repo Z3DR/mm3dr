@@ -51,17 +51,9 @@ namespace rnd {
     s16 objectId = model->itemRow->objectId;
     if (ExtendedObject_GetIndex(objectCtx, objectId) <= -1) {
         storedObjId = objectId;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("%s: STORED OBJECT ID SET IS NOW %#04x\n", __func__, storedObjId);
-#endif
         ExtendedObject_Spawn(objectCtx, objectId);
     }
 
-
-    // model->actor->object_id = 0x02;
-    // util::GetPointer<void(game::act::Actor*, void*, int)>(0x1f51fc)(model->actor,
-    // static_cast<En_Item00*>(model->actor)->skel_anime_model, 0.0);
-    // TODO: Need to override AnimationResources::find in code to ALSO search extended context
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
     model->loaded = 1;

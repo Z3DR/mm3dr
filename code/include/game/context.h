@@ -315,7 +315,7 @@ namespace game {
     __attribute__((aligned(2))) u8 gap_8840[3060];
     game::ActorResource::ActorResources* actors_spawn_stuff;
     game::ActorResource::ObjectContext object_context;
-    u8 gap_AC74[5008];
+    u8 gap_AC74[5012];
     u32 field_C000;
     u8 gap_C004[604];
     u8 room_number;
