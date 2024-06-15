@@ -1,5 +1,10 @@
 .arm
 
+.section .patch_ExtendedObjectClear
+.global patch_ExtendedObjectClear
+patch_ExtendedObjectClear:
+  bl ExtendedObject_Clear
+
 .section .patch_ModelSpawnGetObjectStatus
 .global patch_ModelSpawnGetObjectStatus
 patch_ModelSpawnGetObjectStatus:

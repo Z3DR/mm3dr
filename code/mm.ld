@@ -41,6 +41,10 @@ SECTIONS{
     *(.patch_FixSurroundSound)
   }
 
+  .patch_ExtendedObjectClear 0x14CB14 : {
+    *(.patch_ExtendedObjectClear)
+  }
+
   .patch_PostActorCalc 0x174E08 : {
     *(.patch_PostActorCalc)
   }

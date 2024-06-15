@@ -32,7 +32,7 @@ namespace rnd {
     return Object_SpawnPersistent(&rExtendedObjectCtx, objectId) + OBJECT_EXCHANGE_BANK_MAX;
   }
 
-  void ExtendedObject_Clear(game::ActorResource::ObjectContext* objectCtx) {
+  extern "C" void ExtendedObject_Clear(game::ActorResource::ObjectContext* objectCtx) {
     Object_Clear(objectCtx);
     Object_Clear(&rExtendedObjectCtx);
   }

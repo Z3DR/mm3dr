@@ -21,7 +21,7 @@ namespace rnd {
   s32 ExtendedObject_GetIndex(game::ActorResource::ObjectContext* objectCtx, s16 objectId);
   extern "C" game::ActorResource::ActorResource* ExtendedObject_GetStatus();
   s32 ExtendedObject_IsLoaded(game::ActorResource::ObjectContext* objectCtx, s16 bankIndex);
-  void ExtendedObject_Clear(game::ActorResource::ObjectContext* objectCtx);
+  extern "C" void ExtendedObject_Clear(game::ActorResource::ObjectContext* objectCtx);
   // void* ExtendedObject_GetCMABByIndex(s16 objectId, u32 objectAnimIdx); // TODO: Implement for shopsanity.
 }  // namespace rnd
 #endif  //_RND_OBJECTS_H_
