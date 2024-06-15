@@ -9,7 +9,7 @@ namespace rnd {
     game::act::Actor* actor;
     ItemRow* itemRow;
     s16 objectId;
-    s32 objectModelIndex;
+    s32 objectBankIdx;
     u8 loaded;
     u8 isFlipped;
     void* saModel;
@@ -27,6 +27,7 @@ namespace rnd {
   void Model_SpawnByActor(game::act::Actor* actor, game::GlobalContext* globalCtx, u16 baseItemId);
   void Model_DestroyByActor(game::act::Actor* actor);
   void Model_DestroyAll(void);
+  void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx);
   s32 Model_DrawByActor(game::act::Actor* actor);
 
   void Model_InvertMatrix(void* mtx);

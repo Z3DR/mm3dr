@@ -23,7 +23,7 @@ namespace rnd {
     u16 field_202;
     u16 field_204;
     u16 field_206;
-    u16 field_208;
+    float scale;
     game::CollisionInfoCylinder collider;
     u8 collected;
     u8 gap_265[11];

@@ -44,16 +44,17 @@ namespace rnd {
     util::GetPointer<void(void*, float, int)>(0x22b038)(mtx, scale, 1);
   }
 
-  void Model_Init(Model* model, game::GlobalContext* globalCtx) {
-
-    // actors_spawn_stuff should be "objectCtx". (((u32)globalCtx) + 0x9438);
-    game::ActorResource::ObjectContext* objectCtx = &globalCtx->object_context;
-    s16 objectId = model->itemRow->objectId;
-    if (ExtendedObject_GetIndex(objectCtx, objectId) <= -1) {
-        storedObjId = objectId;
-        ExtendedObject_Spawn(objectCtx, objectId);
+  void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx) {
+    s32 objectBankIdx = ExtendedObject_GetIndex(&globalCtx->object_context, model->itemRow->objectId);
+    if (objectBankIdx < 0) {
+        storedObjId = model->itemRow->objectId;
+        objectBankIdx = ExtendedObject_Spawn(&globalCtx->object_context, model->itemRow->objectId);
     }
+    model->objectBankIdx = objectBankIdx;
+  }
 
+  void Model_Init(Model* model, game::GlobalContext* globalCtx) {
+    s16 objectId = model->itemRow->objectId;
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
     model->loaded = 1;
@@ -90,7 +91,8 @@ namespace rnd {
 
       // Actor is alive, model has not been loaded yet
       if ((model->actor != NULL) && (!model->loaded)) {
-        Model_Init(model, globalCtx);
+        if (ExtendedObject_IsLoaded(&globalCtx->object_context, model->objectBankIdx))
+          Model_Init(model, globalCtx);
       }
     }
   }
@@ -99,7 +101,11 @@ namespace rnd {
     if (model->loaded) {
       float tmpMtx[3][4] = {0};
       SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
-      Model_SetScale(model->actor, model->scale);
+      // Model_SetScale(model->actor, model->scale);
+      tmpMtx[0][0] = model->scale;
+      tmpMtx[1][1] = model->scale;
+      tmpMtx[2][2] = model->scale;
+      tmpMtx[3][3] = 1.0f;
       if (model->isFlipped) {
         Model_InvertMatrix(&tmpMtx);
       }
@@ -110,9 +116,11 @@ namespace rnd {
 
   void Model_LookupByOverride(Model* model, ItemOverride override) {
     if (override.key.all != 0) {
-      // TODO: Edit item table for the graphic IDs.
       u16 itemId = override.value.looksLikeItemId ? override.value.looksLikeItemId : override.value.getItemId;
       u16 resolvedItemId = ItemTable_ResolveUpgrades(itemId);
+      #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: Resolved item id is %#04x\n", __func__, override.value.looksLikeItemId);
+#endif
       model->itemRow = ItemTable_GetItemRow(resolvedItemId);
     }
   }
@@ -122,6 +130,7 @@ namespace rnd {
 
     if (override.key.all != 0) {
       Model_LookupByOverride(model, override);
+      Model_GetObjectBankIndex(model, actor, globalCtx);
     }
   }
 

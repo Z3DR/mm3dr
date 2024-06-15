@@ -634,7 +634,7 @@ namespace rnd {
       [0x7A] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::ZoraMask, 0x007A, 0x011A, 0x00,
                    (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_ZORA_MASK,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, false, 0.015f),  // Zora Mask
+                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, false, 0.3f),  // Zora Mask
 
       [0x7B] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::FierceDeityMask, 0x007B,
                         0x0242, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_FIERCE_DEITY_MASK,
@@ -1215,7 +1215,7 @@ namespace rnd {
       }
     }
     // Should not reach.
-    return 0;
+    return getItemId;
   }
 
   void ItemTable_CallEffect(ItemRow* itemRow) {
