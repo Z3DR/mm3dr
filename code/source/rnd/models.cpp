@@ -128,9 +128,9 @@ namespace rnd {
       if (model->itemRow->objectId == 0x00) {
         Model_SetScale(model->actor, model->scale);
       } else {
-        scaleMtx[0][0] = 10.0f;
-        scaleMtx[1][1] = 10.0f;
-        scaleMtx[2][2] = 10.0f;
+        scaleMtx[0][0] = model->scale;
+        scaleMtx[1][1] = model->scale;
+        scaleMtx[2][2] = model->scale;
         scaleMtx[3][3] = 1.0f;
         Model_MultiplyMatrix(&tmpMtx, &tmpMtx, &scaleMtx);
       }
