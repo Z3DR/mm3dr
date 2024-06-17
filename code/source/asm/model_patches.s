@@ -10,6 +10,11 @@ patch_ExtendedObjectClear:
 patch_ModelSpawnGetObjectStatus:
   bl hook_ModelSpawnGetObjectStatus
 
+@ .section .patch_DestroyItem00
+@ .global patch_DestroyItem00
+@ patch_DestroyItem00:
+@   bl hook_DestroyItem00
+
 .section .patch_OverrideItem00Init
 .global patch_OverrideItem00Init
 patch_OverrideItem00Init:

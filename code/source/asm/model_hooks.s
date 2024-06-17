@@ -8,6 +8,14 @@ hook_ModelSpawnGetObjectStatus:
     pop {r1-r12, lr}
     bx lr
 
+@ .global hook_DestroyItem00
+@ hook_DestroyItem00:
+@     push {r0-r12, lr}
+@     bl EnItem00_rDestroy
+@     pop {r0-r12, lr}
+@     cpy r4, r0
+@     bx lr
+
 .global hook_OverrideItem00Init
 hook_OverrideItem00Init:
     cpy r4,r0

@@ -13,6 +13,7 @@ namespace rnd {
   extern "C" {
   void SpawnItem00Model(game::act::Actor*);
   u8 DrawItem00Model(game::act::Actor*);
+  void EnItem00_rDestroy(game::act::Actor*, game::GlobalContext*);
   }
 
   struct En_Item00 : public game::act::Actor {

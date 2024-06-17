@@ -7,7 +7,7 @@ namespace rnd {
   void TexAnim_Spawn(void* model, void* cmabMan) {
     return util::GetPointer<void(void*, void*)>(0x609c3c)(model, cmabMan);
   }
-  
+
   s32 Object_SpawnPersistent(void* objectCtx, s16 objectId) {
     return util::GetPointer<s32(void*, s16)>(0x4C01CC)(objectCtx, objectId);
   }
@@ -51,7 +51,6 @@ namespace rnd {
         if (id == objectId) {
           return i + OBJECT_EXCHANGE_BANK_MAX;
         }
-          
       }
     }
     return index;
@@ -65,13 +64,14 @@ namespace rnd {
   }
 
   extern "C" game::ActorResource::ActorResource* ExtendedObject_GetStatus() {
-    if (storedObjId <= -1) return NULL;
+    if (storedObjId <= -1)
+      return NULL;
     s32 i;
     for (i = 0; i < rExtendedObjectCtx.num; ++i) {
       s32 id = rExtendedObjectCtx.status[i].object_id;
       id = (id < 0 ? -id : id);
       if (id == storedObjId) {
-        util::GetPointer<void(void*, s16)>(0x1F15B4)(&rExtendedObjectCtx, 0xe0);
+        util::GetPointer<void(void*, s16)>(0x1F15B4)(&rExtendedObjectCtx, id);
         storedObjId = -1;
         return &rExtendedObjectCtx.status[i];
       }

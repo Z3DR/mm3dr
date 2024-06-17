@@ -8,11 +8,11 @@ namespace rnd {
   void* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx, s16 objectId,
                                      s32 objectModelIndex) {
     return util::GetPointer<void*(game::act::Actor * actor, game::GlobalContext * globalCtx, s16 objId,
-                                  s32 objModelIdx)>(0x203c40)(actor, gctx, objectId, objectModelIndex);
+                                  s32 objModelIdx)>(0x203C40)(actor, gctx, objectId, objectModelIndex);
   }
 
   void SkeletonAnimationModel_CopyMtx(void* fromMtx, void* toMtx) {
-    util::GetPointer<void(void*, void*)>(0x1feab0)(fromMtx, toMtx);
+    util::GetPointer<void(void*, void*)>(0x1FEAB0)(fromMtx, toMtx);
   }
 
   /** Used to set the mesh for rupees and stray fairies.
@@ -27,21 +27,21 @@ namespace rnd {
   }
 
   void Model_SetScale(game::act::Actor* actor, float scale) {
-    util::GetPointer<void(game::act::Actor*, float)>(0x21e30c)(actor, scale);
+    util::GetPointer<void(game::act::Actor*, float)>(0x21E30C)(actor, scale);
   }
 
   void Model_SetMtxAndModel(void* model, void* mtx) {
-    util::GetPointer<void(void*, void*)>(0x1feaa8)(model, mtx);
+    util::GetPointer<void(void*, void*)>(0x1FEAA8)(model, mtx);
   }
 
   void Model_InvertMatrix(void* mtx) {
     // Inverse model if model is upside down.
-    util::GetPointer<void(void*, float, int)>(0x22b038)(mtx, 3.14159, 1);
+    util::GetPointer<void(void*, float, int)>(0x22B038)(mtx, 3.14159, 1);
   }
 
   void Model_InvertMatrixByScale(void* mtx, float scale) {
     // Inverse model if model is upside down.
-    util::GetPointer<void(void*, float, int)>(0x22b038)(mtx, scale, 1);
+    util::GetPointer<void(void*, float, int)>(0x22B038)(mtx, scale, 1);
   }
 
   void Model_UpdateMatrixPosition(void* mtx, void* mtxTwo, void* vec3) {
@@ -49,23 +49,21 @@ namespace rnd {
   }
 
   void Model_MultiplyMatrix(void* mtx, void* mtxTwo, void* scaleMtx) {
-    // 21b850
-    util::GetPointer<void(void*, void*, void*)>(0x21b850)(mtx, mtxTwo, scaleMtx);
+    util::GetPointer<void(void*, void*, void*)>(0x21B850)(mtx, mtxTwo, scaleMtx);
   }
-  
 
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx) {
     s32 objectBankIdx = ExtendedObject_GetIndex(&globalCtx->object_context, model->itemRow->objectId);
     if (objectBankIdx < 0) {
-        storedObjId = model->itemRow->objectId;
-        objectBankIdx = ExtendedObject_Spawn(&globalCtx->object_context, model->itemRow->objectId);
+      storedObjId = model->itemRow->objectId;
+      objectBankIdx = ExtendedObject_Spawn(&globalCtx->object_context, model->itemRow->objectId);
     }
     model->objectBankIdx = objectBankIdx;
   }
 
   void Model_SetAnim(game::act::SkeletonAnimationModel* model, s16 objectId, u32 objectAnimIdx) {
-    void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
-    TexAnim_Spawn(model->unk_0C, cmabMan);
+    // void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
+    // TexAnim_Spawn(model->unk_0C, cmabMan);
   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
@@ -87,14 +85,16 @@ namespace rnd {
       // model->saModel->vtbl->destroy_function(model->saModel);
       model->saModel = NULL;
     }
-
     model->actor = NULL;
     model->itemRow = NULL;
     model->loaded = 0;
+    model->objectBankIdx = -1;
   }
 
   void Model_UpdateAll(game::GlobalContext* globalCtx) {
     Model* model;
+
+    Object_UpdateBank(&rExtendedObjectCtx);
 
     for (s32 i = 0; i < LOADEDMODELS_MAX; ++i) {
       model = &ModelContext[i];
@@ -112,8 +112,9 @@ namespace rnd {
 
       // Actor is alive, model has not been loaded yet
       if ((model->actor != NULL) && (!model->loaded)) {
-        if (ExtendedObject_IsLoaded(&globalCtx->object_context, model->objectBankIdx))
+        if (ExtendedObject_IsLoaded(&globalCtx->object_context, model->objectBankIdx)) {
           Model_Init(model, globalCtx);
+        }
       }
     }
   }
@@ -133,10 +134,7 @@ namespace rnd {
         scaleMtx[3][3] = 1.0f;
         Model_MultiplyMatrix(&tmpMtx, &tmpMtx, &scaleMtx);
       }
-      
-      if (model->isFlipped) {
-        Model_InvertMatrix(&tmpMtx);
-      }
+
       // Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
       Model_SetMtxAndModel(model->saModel, &tmpMtx);
       SkeletonAnimationModel_Draw(model->saModel, 0);
@@ -176,9 +174,8 @@ namespace rnd {
       newModel->loaded = 0;
       newModel->saModel = NULL;
       newModel->saModel2 = NULL;
-      // TODO: Change scale to what is in model.
       newModel->scale = model->itemRow->scale;
-      newModel->isFlipped = model->itemRow->flipObj;
+      newModel->objectBankIdx = model->objectBankIdx;
     }
   }
 
@@ -216,5 +213,11 @@ namespace rnd {
       }
     }
     return actorDrawn;
+  }
+
+  void Actor_Init() {
+    game::act::ActorOverlayInfo* overlayTable = game::act::GetActorOverlayInfoTable();
+    // Setup destroy and init functions at this point instead of creating a ton of ASM patches.
+    overlayTable[0x0E].info->deinit_fn = EnItem00_rDestroy;
   }
 }  // namespace rnd

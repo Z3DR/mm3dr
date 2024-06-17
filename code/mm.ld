@@ -412,6 +412,10 @@ SECTIONS{
     *(.patch_OverrideItem00Init)
   }
 
+  /* .patch_DestroyItem00 0x3D0938 : {
+    *(.patch_DestroyItem00)
+  } */
+
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
     *(.patch_TingleCheckClocktownMapTwo)
   }

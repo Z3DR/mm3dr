@@ -9,5 +9,10 @@ namespace rnd {
   u8 DrawItem00Model(game::act::Actor* actor) {
     return Model_DrawByActor(actor);
   }
+  void EnItem00_rDestroy(game::act::Actor* self, game::GlobalContext*) {
+    Model_DestroyByActor(self);
+    util::GetPointer<void(game::act::Actor*)>(0x3d0930)(self);
   }
+  }
+
 }  // namespace rnd

@@ -32,6 +32,7 @@ namespace rnd {
 
     rHeap_Init();
     ItemOverride_Init();
+    Actor_Init();
     // SaveFile_LoadExtSaveData(1);
     //  TODO: Maybe make this an option?
     link::FixSpeedIssues();

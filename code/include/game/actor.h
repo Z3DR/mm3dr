@@ -346,8 +346,9 @@ namespace game::act {
 
   typedef void (*SkeletonAnimationModelFunc)(struct SkeletonAnimationModel*);
   struct SkeletonAnimationModel_VTable {
-    u8 gap_00[4];
+    // u8 gap_00[4];
     SkeletonAnimationModelFunc destroy_function;
+    u8 gap_4[4];
   };
 
   struct SkeletonAnimationModel_unk_10 {

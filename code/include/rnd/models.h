@@ -12,7 +12,6 @@ namespace rnd {
     s16 objectId;
     s32 objectBankIdx;
     u8 loaded;
-    u8 isFlipped;
     void* saModel;
     void* saModel2;
     f32 scale;
@@ -44,6 +43,6 @@ namespace rnd {
   void Model_DestroyByActor(game::act::Actor* actor);
   void Model_DestroyAll(void);
   s32 Model_DrawByActor(game::act::Actor* actor);
-
+  void Actor_Init();
 }  // namespace rnd
 #endif  //_RND_MODELS_H_
