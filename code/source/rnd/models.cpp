@@ -22,16 +22,16 @@ namespace rnd {
     return util::GetPointer<void(void*, s32)>(0x12A3DC)(model, drawItemId);
   }
 
+  void SkeletonAnimationModel_Draw(void* model, int unk) {
+    util::GetPointer<void(void*, int)>(0x20AAA8)(model, unk);
+  }
+
   void Model_SetScale(game::act::Actor* actor, float scale) {
     util::GetPointer<void(game::act::Actor*, float)>(0x21e30c)(actor, scale);
   }
 
   void Model_SetMtxAndModel(void* model, void* mtx) {
     util::GetPointer<void(void*, void*)>(0x1feaa8)(model, mtx);
-  }
-
-  void SkeletonAnimationModel_Draw(void* model, int unk) {
-    util::GetPointer<void(void*, int)>(0x20AAA8)(model, unk);
   }
 
   void Model_InvertMatrix(void* mtx) {
@@ -44,6 +44,16 @@ namespace rnd {
     util::GetPointer<void(void*, float, int)>(0x22b038)(mtx, scale, 1);
   }
 
+  void Model_UpdateMatrixPosition(void* mtx, void* mtxTwo, void* vec3) {
+    util::GetPointer<void(void*, void*, void*)>(0x20BDB4)(mtx, mtxTwo, vec3);
+  }
+
+  void Model_MultiplyMatrix(void* mtx, void* mtxTwo, void* scaleMtx) {
+    // 21b850
+    util::GetPointer<void(void*, void*, void*)>(0x21b850)(mtx, mtxTwo, scaleMtx);
+  }
+  
+
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx) {
     s32 objectBankIdx = ExtendedObject_GetIndex(&globalCtx->object_context, model->itemRow->objectId);
     if (objectBankIdx < 0) {
@@ -53,17 +63,28 @@ namespace rnd {
     model->objectBankIdx = objectBankIdx;
   }
 
+  void Model_SetAnim(game::act::SkeletonAnimationModel* model, s16 objectId, u32 objectAnimIdx) {
+    void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
+    TexAnim_Spawn(model->unk_0C, cmabMan);
+  }
+
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
     s16 objectId = model->itemRow->objectId;
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
+    if (model->itemRow->objectModelIdx >= 0) {
+      // Model_SetAnim(model->saModel, model->itemRow->objectId, model->itemRow->cmabIndex);
+      // model->saModel->unk_0C->animSpeed = 2.0f;
+      // model->saModel->unk_0C->animMode = 1;
+    }
+
     model->loaded = 1;
   }
 
   void Model_Destroy(Model* model) {
     if (model->saModel != NULL) {
       // TODO: figure out how to properly destroy the model, if it's needed
-      // model->saModel->vtbl->destroy(model->saModel);
+      // model->saModel->vtbl->destroy_function(model->saModel);
       model->saModel = NULL;
     }
 
@@ -100,15 +121,23 @@ namespace rnd {
   void Model_Draw(Model* model) {
     if (model->loaded) {
       float tmpMtx[3][4] = {0};
+      float scaleMtx[4][4] = {0};
+      // z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
       SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
-      // Model_SetScale(model->actor, model->scale);
-      tmpMtx[0][0] = model->scale;
-      tmpMtx[1][1] = model->scale;
-      tmpMtx[2][2] = model->scale;
-      tmpMtx[3][3] = 1.0f;
+      if (model->itemRow->objectId == 0x00) {
+        Model_SetScale(model->actor, model->scale);
+      } else {
+        scaleMtx[0][0] = 10.0f;
+        scaleMtx[1][1] = 10.0f;
+        scaleMtx[2][2] = 10.0f;
+        scaleMtx[3][3] = 1.0f;
+        Model_MultiplyMatrix(&tmpMtx, &tmpMtx, &scaleMtx);
+      }
+      
       if (model->isFlipped) {
         Model_InvertMatrix(&tmpMtx);
       }
+      // Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
       Model_SetMtxAndModel(model->saModel, &tmpMtx);
       SkeletonAnimationModel_Draw(model->saModel, 0);
     }
@@ -118,9 +147,6 @@ namespace rnd {
     if (override.key.all != 0) {
       u16 itemId = override.value.looksLikeItemId ? override.value.looksLikeItemId : override.value.getItemId;
       u16 resolvedItemId = ItemTable_ResolveUpgrades(itemId);
-      #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: Resolved item id is %#04x\n", __func__, override.value.looksLikeItemId);
-#endif
       model->itemRow = ItemTable_GetItemRow(resolvedItemId);
     }
   }

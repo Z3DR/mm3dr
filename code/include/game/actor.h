@@ -344,6 +344,45 @@ namespace game::act {
   };
   static_assert(sizeof(DayTimerActor) == 0x20C);
 
+  typedef void (*SkeletonAnimationModelFunc)(struct SkeletonAnimationModel*);
+  struct SkeletonAnimationModel_VTable {
+    u8 gap_00[4];
+    SkeletonAnimationModelFunc destroy_function;
+  };
+
+  struct SkeletonAnimationModel_unk_10 {
+    void* unk_00;
+    void* unk_04;
+    s32 unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+  };
+  static_assert(sizeof(SkeletonAnimationModel_unk_10) == 0x14);
+
+  struct SkeletonAnimationModel_unk_0C {
+    SkeletonAnimationModel_unk_10* unk_00;
+    void* cmabManager;
+    f32 curFrame;
+    f32 animSpeed;
+    s8 animMode;
+    u8 unk_11[0x87];
+  };
+  static_assert(sizeof(SkeletonAnimationModel_unk_0C) == 0x98);
+
+  struct SkeletonAnimationModel {
+    SkeletonAnimationModel_VTable* vtbl;
+    u8 unk_04[8];
+    SkeletonAnimationModel_unk_0C* unk_0C;
+    SkeletonAnimationModel_unk_10* unk_10;
+    void* unk_draw_struct_14;
+    u8 gap_18[100];
+    float mtx[3][4];
+    s8 field_AC;
+    u8 gap_AD[3];
+  };
+  static_assert(offsetof(SkeletonAnimationModel, field_AC) == 0xAC);
+  static_assert(sizeof(SkeletonAnimationModel) == 0xB0);
+
   ActorOverlayInfo* GetActorOverlayInfoTable();
 
 }  // namespace game::act

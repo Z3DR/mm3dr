@@ -3,6 +3,10 @@
 namespace rnd {
   ExtendedObjectContext rExtendedObjectCtx = {0};
   s32 storedObjId = -1;
+
+  void TexAnim_Spawn(void* model, void* cmabMan) {
+    return util::GetPointer<void(void*, void*)>(0x609c3c)(model, cmabMan);
+  }
   
   s32 Object_SpawnPersistent(void* objectCtx, s16 objectId) {
     return util::GetPointer<s32(void*, s16)>(0x4C01CC)(objectCtx, objectId);
@@ -24,8 +28,8 @@ namespace rnd {
     return util::GetPointer<void(void*)>(0x175A00)(objectCtx);
   }
 
-  void* GAR_GetCMBByIndex(game::ObjectBank::ObjectBankArchive* objBankArchive) {
-    return util::GetPointer<void*(void*)>(0x1F28AC)(objBankArchive);
+  void* GAR_GetCMBByIndex(game::ObjectBank::ObjectBankArchive* objBankArchive, u32 objectAnimIdx) {
+    return util::GetPointer<void*(void*, u32)>(0x1F28AC)(objBankArchive, objectAnimIdx);
   }
 
   s32 ExtendedObject_Spawn(game::ActorResource::ObjectContext* objectCtx, s16 objectId) {
@@ -75,20 +79,18 @@ namespace rnd {
     return NULL;
   }
 
-  // TODO: Implmenet for shopsanity and decompile ActorResources further?
-  /*void* ExtendedObject_GetCMABByIndex(s16 objectId, u32 objectAnimIdx) {
+  void* ExtendedObject_GetCMABByIndex(s16 objectId, u32 objectAnimIdx) {
     game::GlobalContext* gctx = GetContext().gctx;
     s16 objectBankIdx = ExtendedObject_GetIndex(&gctx->object_context, objectId);
     void* cmabMan;
 
     if (objectBankIdx < OBJECT_EXCHANGE_BANK_MAX) {
-      cmabMan = GAR_GetCMBByIndex(&gctx->object_context.status[objectBankIdx].zarInfo, objectAnimIdx);
+      cmabMan = GAR_GetCMBByIndex(&gctx->object_context.status[objectBankIdx].archive, objectAnimIdx);
     } else {
-      cmabMan = GAR_GetCMBByIndex(&rExtendedObjectCtx.status[objectBankIdx - OBJECT_EXCHANGE_BANK_MAX].zarInfo,
+      cmabMan = GAR_GetCMBByIndex(&rExtendedObjectCtx.status[objectBankIdx - OBJECT_EXCHANGE_BANK_MAX].archive,
                                   objectAnimIdx);
     }
-
     return cmabMan;
-  }*/
+  }
 
 }  // namespace rnd
