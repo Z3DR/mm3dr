@@ -11,7 +11,7 @@ namespace rnd {
   }
   void EnItem00_rDestroy(game::act::Actor* self, game::GlobalContext*) {
     Model_DestroyByActor(self);
-    util::GetPointer<void(game::act::Actor*)>(0x3d0930)(self);
+    util::GetPointer<void(game::act::Actor*)>(0x3D0930)(self);
   }
   }
 

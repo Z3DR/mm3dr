@@ -125,7 +125,7 @@ namespace rnd {
       float scaleMtx[4][4] = {0};
       // z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
       SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
-      if (model->itemRow->objectId == 0x00) {
+      if (model->itemRow->objectId == 0x01) {
         Model_SetScale(model->actor, model->scale);
       } else {
         scaleMtx[0][0] = model->scale;

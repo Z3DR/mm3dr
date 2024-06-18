@@ -408,13 +408,13 @@ SECTIONS{
     *(.patch_CheckMoTRequirement)
   }
 
+  /* .patch_OverrideDmChar05Init 0x3C6CDC : {
+    *(.patch_OverrideDmChar05Init)
+  } */
+
   .patch_OverrideItem00Init 0x3D018C : {
     *(.patch_OverrideItem00Init)
   }
-
-  /* .patch_DestroyItem00 0x3D0938 : {
-    *(.patch_DestroyItem00)
-  } */
 
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
     *(.patch_TingleCheckClocktownMapTwo)
@@ -471,6 +471,10 @@ SECTIONS{
   .patch_OverrideGreatFairySpawn 0x3BEC84 : {
     *(.patch_OverrideGreatFairySpawn)
   }
+
+  /* .patch_OverrideDmChar05Draw 0x404BA0 : {
+    *(.patch_OverrideDmChar05Draw)
+  } */
 
   .patch_HMSGiveItem 0x41D018 : {
     *(.patch_HMSGiveItem)
