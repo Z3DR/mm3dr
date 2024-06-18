@@ -260,22 +260,22 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveMask, (s16)3, (s16)-1,
                         10.00f),  // Twinmold's Remains
 
-      [0x32] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::HeroShield, 0x0032,
-                        0x000B3, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_HERO_SHIELD,
+      [0x32] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::HeroShield, 0x0032, 0x00B3,
+                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_HERO_SHIELD,
                         (rnd::upgradeFunc)ItemUpgrade_CheckShield, ItemEffect_None, (s16)-1, (s16)-1,
                         10.00f),  // Hero Sheild
 
       [0x33] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MirrorShield, 0x0033,
-                        0x000C3, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MIRROR_SHIELD,
+                        0x00C3, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MIRROR_SHIELD,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         10.00f),  // Mirror Sheild
 
-      [0x34] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::PowderKeg, 0x0034, 0x001CA,
+      [0x34] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::PowderKeg, 0x0034, 0x01CA,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_POWDER_KEG,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         10.00f),  // Powder Keg
 
-      [0x35] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MagicBean, 0x0035, 0x000C6,
+      [0x35] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MagicBean, 0x0035, 0x00C6,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MAGIC_BEAN,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         10.00f),  // Magic Beans
@@ -286,48 +286,48 @@ namespace rnd {
                         10.00f),  // Bombchu (1)
 
       [0x37] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::KokiriSword, 0x0037,
-                        0x00148, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_KOKIRI_SWORD,
+                        0x0148, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_KOKIRI_SWORD,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveKokiriSword, (s16)-1, (s16)-1,
                         10.00f),  // Kokiri Sword
 
-      [0x38] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::RazorSword, 0x0038,
-                        0x001F9, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_RAZOR_SWORD,
+      [0x38] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::RazorSword, 0x0038, 0x01F9,
+                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_RAZOR_SWORD,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveRazorSword, (s16)-1, (s16)-1,
                         10.00f),  // Razor Sword
 
       [0x39] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GildedSword, 0x0039,
-                        0x001FA, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GILDED_SWORD,
+                        0x01FA, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GILDED_SWORD,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveGildedSword, (s16)-1, (s16)-1,
                         10.00f),  // Gilded Sword
 
       [0x3A] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::FiveBombchu, 0x003A,
-                        0x000B0, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOMBCHU,
+                        0x00B0, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOMBCHU,
                         (rnd::upgradeFunc)ItemUpgrade_BombsToRupee, ItemEffect_None, (s16)-1, (s16)-1,
                         10.00f),  // Bombchus (5)
 
       [0x3B] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GreatFairySword, 0x003B,
-                        0x001FB, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GREAT_FAIRY_SWORD,
+                        0x01FB, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GREAT_FAIRY_SWORD,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         10.00f),  // Great Fairy Sword
 
       [0x3C] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::DECORATED_SMALL, (u8)game::ItemId::SmallKey, 0x003C,
-                        0x00086, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_SMALL_KEY,
+                        0x0086, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_SMALL_KEY,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 10.00f),  // Small Key
 
-      [0x3D] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::BossKey, 0x003D,
-                        0x00092, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOSS_KEY,
+      [0x3D] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::BossKey, 0x003D, 0x0092,
+                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOSS_KEY,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 10.00f),  // Boss Key
 
-      [0x3E] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Map, 0x003E, 0x000A0,
+      [0x3E] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Map, 0x003E, 0x00A0,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 10.00f),  // Map
 
-      [0x3F] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Compass, 0x003F,
-                        0x00091, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_COMPASS,
+      [0x3F] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Compass, 0x003F, 0x0139,
+                        0x00, (s8)0xFF, (s8)0x01, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_COMPASS,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 10.00f),  // Compass
 
       [0x40] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::KokiriSword, 0x009C,
-                        0x00148, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x0148, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveKokiriSword, (s16)-1, (s16)-1,
                         10.00f),  // Kokiri Sword
 
@@ -563,8 +563,6 @@ namespace rnd {
                         DrawGraphicItemID::DI_BOTTLE_CHATEAU_ROMANI, (rnd::upgradeFunc)ItemUpgrade_RefillBottle,
                         ItemEffect_None, (s16)-1, (s16)-1, 10.00f),  // Bottle With Chateau Romani
 
-      // XXX: Trade Item, may have to change values? Seems rather individual and leads to fishing
-      // pass.
       [0x70] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MysteryMilk, 0x00CE,
                         0x00B6, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_MYSTERY_MILK,
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
@@ -576,17 +574,17 @@ namespace rnd {
                         10.00f),  // Bottle With Spoiled Mystery Milk
 
       [0x72] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfSoaring, 0x1BA7,
-                        0x00000, 0x8E, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x0001, 0x8E, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)9, (s16)-1,
                         10.00f),  // Song Of Soaring
 
       [0x73] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfStorms, 0x1BA8,
-                        0x00000, 0x8E, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x0001, 0x8E, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)10, (s16)-1,
                         10.00f),  // Song Of Storms
 
       [0x74] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GoronLullaby, 0x1BAC,
-                        0x00000, 0x8E, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x0001, 0x8E, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)11, (s16)-1,
                         10.00f),  // Goron Lullaby Intro
 
@@ -613,7 +611,7 @@ namespace rnd {
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GORON_MASK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 10.00f),  // Goron Mask
 
-      [0x7A] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::ZoraMask, 0x007A, 0x0287,
+      [0x7A] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::ZoraMask, 0x007A, 0x011A,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_ZORA_MASK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 10.00f),  // Zora Mask
 

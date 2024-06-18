@@ -69,6 +69,10 @@ namespace rnd {
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
     s16 objectId = model->itemRow->objectId;
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
+    // if (model->itemRow->objectModelIdx2 != 0xFF) {
+    //   model->saModel2 = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx2);
+    // }
+
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
     if (model->itemRow->objectModelIdx >= 0) {
       // Model_SetAnim(model->saModel, model->itemRow->objectId, model->itemRow->cmabIndex);
@@ -84,6 +88,9 @@ namespace rnd {
       // TODO: figure out how to properly destroy the model, if it's needed
       // model->saModel->vtbl->destroy_function(model->saModel);
       model->saModel = NULL;
+    }
+    if (model->saModel2 != NULL) {
+      model->saModel2 = NULL;
     }
     model->actor = NULL;
     model->itemRow = NULL;
@@ -125,7 +132,7 @@ namespace rnd {
       float scaleMtx[4][4] = {0};
       // z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
       SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
-      if (model->itemRow->objectId == 0x01) {
+      if (model->itemRow->objectId == 0x01 && model->itemRow->objectModelIdx != 0x8E) {
         Model_SetScale(model->actor, model->scale);
       } else {
         scaleMtx[0][0] = model->scale;
@@ -137,7 +144,13 @@ namespace rnd {
 
       // Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
       Model_SetMtxAndModel(model->saModel, &tmpMtx);
+      
       SkeletonAnimationModel_Draw(model->saModel, 0);
+
+      if (model->saModel2 != NULL) {
+        Model_SetMtxAndModel(model->saModel2, &tmpMtx);
+        SkeletonAnimationModel_Draw(model->saModel2, 0);
+      }
     }
   }
 
