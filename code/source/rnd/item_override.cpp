@@ -45,8 +45,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x26;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0x7A;
-    rItemOverrides[1].value.looksLikeItemId = 0x3F;
+    rItemOverrides[1].value.getItemId = 0x50;
+    rItemOverrides[1].value.looksLikeItemId = 0x50;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -609,10 +609,17 @@ namespace rnd {
         return 0x23;
       else
         return 0x24;
+    } else if (override.value.getItemId == 0x46) {
+      if (saveData.inventory.inventory_count_register.bomb_bag_upgrade == game::BombBag::NoBag)
+        return 0x1B;
+      else if (saveData.inventory.inventory_count_register.bomb_bag_upgrade == game::BombBag::BombBag20)
+        return 0x1C;
+      else
+        return 0x1D;
     }
-    // No override, use the base item.
-    return override.value.looksLikeItemId;
-  }
+      // No override, use the base item.
+      return override.value.looksLikeItemId;
+    }
 
   bool ItemOverride_IsItemObtained(ItemOverride override) {
     ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
