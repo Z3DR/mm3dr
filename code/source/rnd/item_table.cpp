@@ -414,7 +414,7 @@ namespace rnd {
                         10.00f),  // Oath To Order
 
       [0x52] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::GoldSkulltula, 0x0052,
-                        0x00125, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GOLD_SKULLTULA,
+                        0x00020, 0x02, (s8)0xFF, (s8)0x03, (s8)0x00, (s8)0xFF, DrawGraphicItemID::DI_GOLD_SKULLTULA,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         10.00f),  // Gold Skulltula - Messed Up Item TODO: FIND MODEL
 

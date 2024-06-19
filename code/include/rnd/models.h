@@ -29,7 +29,7 @@ namespace rnd {
   void Model_UpdateMatrixPosition(void* mtx, void* mtxTwo, void* scaleMtx);
 
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx);
-  void Model_SetAnim(game::act::SkeletonAnimationModel* model, s16 objectId, u32 objectAnimIndex);
+  void Model_SetAnim(void* model, s16 objectId, u32 objectAnimIndex);
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx);
   void Model_Destroy(Model* model);
