@@ -57,25 +57,28 @@ namespace rnd {
     if (objectBankIdx < 0) {
       storedObjId = model->itemRow->objectId;
       objectBankIdx = ExtendedObject_Spawn(&globalCtx->object_context, model->itemRow->objectId);
+    } else {
+      storedObjId = -1;
     }
     model->objectBankIdx = objectBankIdx;
   }
 
   void Model_SetAnim(void* model, s16 objectId, u32 objectAnimIdx) {
     void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
-    TexAnim_Spawn((static_cast<char*>(model+0C), cmabMan);
+    TexAnim_Spawn((model+0x0C), cmabMan);
   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
     s16 objectId = model->itemRow->objectId;
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
-    if (model->itemRow->objectModelIdx2 != 0xFF) {
-      // model->saModel2 = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx2);
+    if (model->itemRow->objectModelIdx2 >= 0) {
+      model->saModel2 =
+          SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx2);
       // Model_SetAnim(model->saModel2, model->itemRow->objectId, model->itemRow->cmabIndex2);
     }
 
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
-    if (model->itemRow->objectModelIdx >= 0) {
+    if (model->itemRow->objectModelIdx != 0xFF) {
       // Model_SetAnim(model->saModel, model->itemRow->objectId, model->itemRow->cmabIndex);
       // model->saModel->unk_0C->animSpeed = 2.0f;
       // model->saModel->unk_0C->animMode = 1;
@@ -144,10 +147,11 @@ namespace rnd {
       }
 
       // Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
-      Model_SetMtxAndModel(model->saModel, &tmpMtx);
+      if (model->saModel != NULL) {
+        Model_SetMtxAndModel(model->saModel, &tmpMtx);
+        SkeletonAnimationModel_Draw(model->saModel, 0);
+      }
       
-      SkeletonAnimationModel_Draw(model->saModel, 0);
-
       if (model->saModel2 != NULL) {
         Model_SetMtxAndModel(model->saModel2, &tmpMtx);
         SkeletonAnimationModel_Draw(model->saModel2, 0);

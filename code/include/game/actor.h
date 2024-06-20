@@ -18,6 +18,9 @@
 
 namespace game {
   struct GlobalContext;
+  namespace ActorResource {
+    struct ActorResource;
+  }
 }
 
 namespace game::act {
@@ -301,7 +304,7 @@ namespace game::act {
     MainFunc* draw_fn;
     ActorOverlayInfo* overlay_info;
     float mtx[3][4];
-    void* field_17C;
+    game::ActorResource::ActorResource* field_17C;
     char field_180[80];
     int field_1D0;
     u8 field_1D4;

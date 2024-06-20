@@ -416,7 +416,7 @@ namespace rnd {
       [0x52] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::GoldSkulltula, 0x0052,
                         0x00020, 0x02, (s8)0xFF, (s8)0x03, (s8)0x00, (s8)0xFF, DrawGraphicItemID::DI_GOLD_SKULLTULA,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
-                        10.00f),  // Gold Skulltula - Messed Up Item TODO: FIND MODEL
+                        10.00f),  // Gold Skulltula
 
       [0x53] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfTime, 0x1BA4, 0x00B5,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,

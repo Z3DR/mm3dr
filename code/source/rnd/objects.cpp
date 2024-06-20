@@ -72,7 +72,6 @@ namespace rnd {
       id = (id < 0 ? -id : id);
       if (id == storedObjId) {
         util::GetPointer<void(void*, s16)>(0x1F15B4)(&rExtendedObjectCtx, id);
-        storedObjId = -1;
         return &rExtendedObjectCtx.status[i];
       }
     }
