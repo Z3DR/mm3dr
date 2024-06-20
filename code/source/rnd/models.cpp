@@ -64,8 +64,8 @@ namespace rnd {
   }
 
   void Model_SetAnim(void* model, s16 objectId, u32 objectAnimIdx) {
-    void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
-    TexAnim_Spawn((model+0x0C), cmabMan);
+    // void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
+    // TexAnim_Spawn((model+0x0C), cmabMan);
   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
