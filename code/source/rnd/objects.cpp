@@ -42,6 +42,10 @@ namespace rnd {
   }
 
   s32 ExtendedObject_GetIndex(game::ActorResource::ObjectContext* objectCtx, s16 objectId) {
+    // XXX: There seems to be a race condition issue. If we include one or two more function
+    // calls, it appears that gold dust and it's bottle will willingly spawn in.
+    if (objectId == 0x01E9 || objectId == 0x01E8)
+      rnd::util::Print("%s: %#06x\n", __func__, objectId);
     s32 index = Object_GetSlot(objectCtx, objectId);
     if (index < 0) {
       s32 i;

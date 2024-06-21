@@ -14,6 +14,13 @@ namespace rnd {
   void SpawnDmChar05Model(game::act::Actor*);
   u8 DrawDmChar05Model(game::act::Actor*);
   void DmChar05_rDestroy(game::act::Actor*, game::GlobalContext*);
-  }
+  void DMChar05_Init(game::act::Actor* actor, game::GlobalContext* gctx);
+
+  void DMChar05_Init(game::act::Actor* actor, game::GlobalContext* gctx);
+
+  void DMChar05_Draw(game::act::Actor* actor, game::GlobalContext* gctx);
+
+  void DMChar05_Destroy(game::act::Actor* self, game::GlobalContext* gctx);
+}
 } // namespace rnd
 #endif

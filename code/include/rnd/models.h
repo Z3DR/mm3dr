@@ -9,8 +9,10 @@ namespace rnd {
   typedef struct {
     game::act::Actor* actor;
     ItemRow* itemRow;
+    u16 baseItemId;
     s16 objectId;
     s32 objectBankIdx;
+    s32 objectBankIdx2;
     u8 loaded;
     void* saModel;
     void* saModel2;

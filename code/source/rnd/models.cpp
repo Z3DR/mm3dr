@@ -1,5 +1,7 @@
 #include "rnd/models.h"
+#include "rnd/actors/dmchar05.h"
 #include "rnd/actors/item00.h"
+#include "rnd/actors/item_b_heart.h"
 #define LOADEDMODELS_MAX 16
 
 namespace rnd {
@@ -136,9 +138,12 @@ namespace rnd {
       float scaleMtx[4][4] = {0};
       // z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
       SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
-      if (model->itemRow->objectId == 0x01 && model->itemRow->objectModelIdx != 0x8E) {
+      // If we're not a freestanding item, default to regular scaling.
+      if (model->baseItemId != 0x00) model->scale = 0.10f;
+      if (model->baseItemId == 0x00 && (model->itemRow->objectId == 0x01 && model->itemRow->objectModelIdx != 0x8E)) {
         Model_SetScale(model->actor, model->scale);
       } else {
+        if (model->baseItemId == 0x00) model->scale = 10.00f;
         scaleMtx[0][0] = model->scale;
         scaleMtx[1][1] = model->scale;
         scaleMtx[2][2] = model->scale;
@@ -194,6 +199,7 @@ namespace rnd {
       newModel->saModel2 = NULL;
       newModel->scale = model->itemRow->scale;
       newModel->objectBankIdx = model->objectBankIdx;
+      newModel->baseItemId = model->baseItemId;
     }
   }
 
@@ -203,6 +209,7 @@ namespace rnd {
     Model_InfoLookup(&model, actor, globalCtx, baseItemId);
     if (model.itemRow != NULL) {
       model.actor = actor;
+      model.baseItemId = baseItemId;
       Model_Create(&model, globalCtx);
     }
   }
@@ -237,5 +244,13 @@ namespace rnd {
     game::act::ActorOverlayInfo* overlayTable = game::act::GetActorOverlayInfoTable();
     // Setup destroy and init functions at this point instead of creating a ton of ASM patches.
     overlayTable[0x0E].info->deinit_fn = EnItem00_rDestroy;
+
+    overlayTable[0x2F].info->deinit_fn = ItemBHeart_Destroy;
+    overlayTable[0x2F].info->draw_fn = ItemBHeart_Draw;
+    overlayTable[0x2F].info->init_fn = ItemBHeart_Init;
+
+    // overlayTable[0x12D].info->init_fn = DMChar05_Init;
+    // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
+    // overlayTable[0x12D].info->init_fn = DMChar05_Init;
   }
 }  // namespace rnd

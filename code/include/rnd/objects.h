@@ -1,10 +1,12 @@
 #ifndef _RND_OBJECTS_H_
 #define _RND_OBJECTS_H_
+#define noop (void)0
 #include "common/advanced_context.h"
 #include "game/actor.h"
 #include "game/actorresource.h"
 #include "game/common_data.h"
 #include "z3d/z3DVec.h"
+
 namespace rnd {
   // Extended Object to deal with spawning multiple actors without running out of standard game space.
   typedef game::ActorResource::ObjectContext ExtendedObjectContext;
