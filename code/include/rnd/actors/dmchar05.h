@@ -21,6 +21,6 @@ namespace rnd {
   void DMChar05_Draw(game::act::Actor* actor, game::GlobalContext* gctx);
 
   void DMChar05_Destroy(game::act::Actor* self, game::GlobalContext* gctx);
-}
-} // namespace rnd
+  }
+}  // namespace rnd
 #endif

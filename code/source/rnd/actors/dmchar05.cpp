@@ -20,7 +20,8 @@ namespace rnd {
   }
 
   void DMChar05_Destroy(game::act::Actor* self, game::GlobalContext* gctx) {
-    if(self->params != 0x03) Model_DestroyByActor(self);
+    if (self->params != 0x03)
+      Model_DestroyByActor(self);
     util::GetPointer<void(game::act::Actor*)>(0x3C6F90)(self);
   }
   }

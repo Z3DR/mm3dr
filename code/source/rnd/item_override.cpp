@@ -617,9 +617,9 @@ namespace rnd {
       else
         return 0x1D;
     }
-      // No override, use the base item.
-      return override.value.looksLikeItemId;
-    }
+    // No override, use the base item.
+    return override.value.looksLikeItemId;
+  }
 
   bool ItemOverride_IsItemObtained(ItemOverride override) {
     ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);

@@ -12,7 +12,8 @@ namespace rnd {
     // 0x00 = collected.
     if (static_cast<En_Item00*>(actor)->field_1FC != 0x00)
       return Model_DrawByActor(actor);
-    else return 0;
+    else
+      return 0;
   }
   void EnItem00_rDestroy(game::act::Actor* self, game::GlobalContext*) {
     Model_DestroyByActor(self);

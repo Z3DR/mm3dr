@@ -110,7 +110,7 @@ namespace rnd {
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_IceTrap, (s16)-1, (s16)-1,
                         0.1f),  // Ice Trap
-                                  // Overriding Errornous text + Recovery Heart
+                                // Overriding Errornous text + Recovery Heart
       [0x13] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::RecoveryHeart, 0x0013,
                         0x0090, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_RECOVERY_HEART,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,

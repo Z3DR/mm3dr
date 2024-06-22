@@ -81,8 +81,9 @@ namespace rnd {
       if (model->itemRow->objectModelIdx == 0x05) {
         model->scale = 0.010f;
       }
-        
-      else model->scale = 0.015f;
+
+      else
+        model->scale = 0.015f;
       Model_SetScale(model->actor, model->scale);
     } else {
       if (model->baseItemId == 0x00) {
@@ -91,8 +92,7 @@ namespace rnd {
         else
           model->scale = 10.00f;
       }
-        
-      
+
       scaleMtx[0][0] = model->scale;
       scaleMtx[1][1] = model->scale;
       scaleMtx[2][2] = model->scale;
@@ -179,7 +179,7 @@ namespace rnd {
       if (model->saModel != NULL) {
         SkeletonAnimationModel_Draw(model->saModel, 0);
       }
-      
+
       if (model->saModel2 != NULL) {
         SkeletonAnimationModel_Draw(model->saModel2, 0);
       }
@@ -275,7 +275,7 @@ namespace rnd {
     overlayTable[0x2F].info->deinit_fn = ItemBHeart_Destroy;
     overlayTable[0x2F].info->draw_fn = ItemBHeart_Draw;
     overlayTable[0x2F].info->init_fn = ItemBHeart_Init;
-    
+
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;
     // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;

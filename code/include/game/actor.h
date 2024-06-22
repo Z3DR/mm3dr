@@ -21,7 +21,7 @@ namespace game {
   namespace ActorResource {
     struct ActorResource;
   }
-}
+}  // namespace game
 
 namespace game::act {
 
