@@ -68,8 +68,6 @@ namespace rnd {
   }
 
   extern "C" game::ActorResource::ActorResource* ExtendedObject_GetStatus() {
-    if (storedObjId <= -1)
-      return NULL;
     s32 i;
     for (i = 0; i < rExtendedObjectCtx.num; ++i) {
       s32 id = rExtendedObjectCtx.status[i].object_id;

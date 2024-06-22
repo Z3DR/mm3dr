@@ -60,8 +60,6 @@ namespace rnd {
     if (objectBankIdx < 0) {
       storedObjId = model->itemRow->objectId;
       objectBankIdx = ExtendedObject_Spawn(&globalCtx->object_context, model->itemRow->objectId);
-    } else {
-      storedObjId = -1;
     }
     model->objectBankIdx = objectBankIdx;
   }
@@ -78,10 +76,8 @@ namespace rnd {
     SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
     // Base case - if we're a free-standing heart piece then set scale and use built-in scaling call.
     if (model->baseItemId == 0x00 && model->itemRow->objectId == 0x01) {
-      if (model->itemRow->objectModelIdx == 0x05) {
+      if (model->itemRow->objectModelIdx == 0x05)
         model->scale = 0.010f;
-      }
-
       else
         model->scale = 0.015f;
       Model_SetScale(model->actor, model->scale);
@@ -253,7 +249,6 @@ namespace rnd {
 
   s32 Model_DrawByActor(game::act::Actor* actor) {
     s32 actorDrawn = 0;
-
     for (s32 i = 0; i < LOADEDMODELS_MAX; ++i) {
       if (ModelContext[i].actor == actor) {
         actorDrawn = 1;
