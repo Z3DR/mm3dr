@@ -70,6 +70,44 @@ namespace rnd {
     // TexAnim_Spawn((model+0x0C), cmabMan);
   }
 
+  void Model_SetMatrix(Model* model) {
+    float tmpMtx[3][4] = {0};
+    float scaleMtx[4][4] = {0};
+    // z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
+    SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
+    // Base case - if we're a free-standing heart piece then set scale and use built-in scaling call.
+    if (model->baseItemId == 0x00 && model->itemRow->objectId == 0x01) {
+      if (model->itemRow->objectModelIdx == 0x05) {
+        model->scale = 0.010f;
+      }
+        
+      else model->scale = 0.015f;
+      Model_SetScale(model->actor, model->scale);
+    } else {
+      if (model->baseItemId == 0x00) {
+        if (model->itemRow->objectId == 0x0157)
+          model->scale = 1.00f;
+        else
+          model->scale = 10.00f;
+      }
+        
+      
+      scaleMtx[0][0] = model->scale;
+      scaleMtx[1][1] = model->scale;
+      scaleMtx[2][2] = model->scale;
+      scaleMtx[3][3] = 1.0f;
+      Model_MultiplyMatrix(&tmpMtx, &tmpMtx, &scaleMtx);
+    }
+
+    // Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
+
+    if (model->saModel != NULL)
+      Model_SetMtxAndModel(model->saModel, &tmpMtx);
+
+    if (model->saModel2 != NULL)
+      Model_SetMtxAndModel(model->saModel2, &tmpMtx);
+  }
+
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
     s16 objectId = model->itemRow->objectId;
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
@@ -102,6 +140,7 @@ namespace rnd {
     model->itemRow = NULL;
     model->loaded = 0;
     model->objectBankIdx = -1;
+    model->objectId = -1;
   }
 
   void Model_UpdateAll(game::GlobalContext* globalCtx) {
@@ -134,31 +173,13 @@ namespace rnd {
 
   void Model_Draw(Model* model) {
     if (model->loaded) {
-      float tmpMtx[3][4] = {0};
-      float scaleMtx[4][4] = {0};
-      // z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
-      SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
-      // If we're not a freestanding item, default to regular scaling.
-      if (model->baseItemId != 0x00) model->scale = 0.10f;
-      if (model->baseItemId == 0x00 && (model->itemRow->objectId == 0x01 && model->itemRow->objectModelIdx != 0x8E)) {
-        Model_SetScale(model->actor, model->scale);
-      } else {
-        if (model->baseItemId == 0x00) model->scale = 10.00f;
-        scaleMtx[0][0] = model->scale;
-        scaleMtx[1][1] = model->scale;
-        scaleMtx[2][2] = model->scale;
-        scaleMtx[3][3] = 1.0f;
-        Model_MultiplyMatrix(&tmpMtx, &tmpMtx, &scaleMtx);
-      }
+      Model_SetMatrix(model);
 
-      // Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
       if (model->saModel != NULL) {
-        Model_SetMtxAndModel(model->saModel, &tmpMtx);
         SkeletonAnimationModel_Draw(model->saModel, 0);
       }
       
       if (model->saModel2 != NULL) {
-        Model_SetMtxAndModel(model->saModel2, &tmpMtx);
         SkeletonAnimationModel_Draw(model->saModel2, 0);
       }
     }
@@ -200,6 +221,7 @@ namespace rnd {
       newModel->scale = model->itemRow->scale;
       newModel->objectBankIdx = model->objectBankIdx;
       newModel->baseItemId = model->baseItemId;
+      newModel->objectId = model->itemRow->objectId;
     }
   }
 
