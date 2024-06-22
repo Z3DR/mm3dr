@@ -10,10 +10,8 @@ extern "C" {
 }
 #endif
 namespace rnd {
-  extern "C" {
   void ItemBHeart_Init(game::act::Actor*, game::GlobalContext*);
   void ItemBHeart_Draw(game::act::Actor*, game::GlobalContext*);
   void ItemBHeart_Destroy(game::act::Actor*, game::GlobalContext*);
-  }
 }  // namespace rnd
 #endif

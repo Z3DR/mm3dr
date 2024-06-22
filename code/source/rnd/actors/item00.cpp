@@ -7,7 +7,12 @@ namespace rnd {
   }
 
   u8 DrawItem00Model(game::act::Actor* actor) {
-    return Model_DrawByActor(actor);
+    // XXX: Be cautious about this, since we're only rendering over heart pieces for now.
+    // This field 1FC is a check to see if a heart container was collected. 0xA = not collected.
+    // 0x00 = collected.
+    if (static_cast<En_Item00*>(actor)->field_1FC != 0x00)
+      return Model_DrawByActor(actor);
+    else return 0;
   }
   void EnItem00_rDestroy(game::act::Actor* self, game::GlobalContext*) {
     Model_DestroyByActor(self);

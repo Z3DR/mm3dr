@@ -1,4 +1,5 @@
 #include "rnd/models.h"
+#include "rnd/actors/dm_hina.h"
 #include "rnd/actors/dmchar05.h"
 #include "rnd/actors/item00.h"
 #include "rnd/actors/item_b_heart.h"
@@ -267,10 +268,14 @@ namespace rnd {
     // Setup destroy and init functions at this point instead of creating a ton of ASM patches.
     overlayTable[0x0E].info->deinit_fn = EnItem00_rDestroy;
 
+    overlayTable[0xDC].info->init_fn = Dm_Hina_Init;
+    overlayTable[0xDC].info->draw_fn = Dm_Hina_Draw;
+    overlayTable[0xDC].info->deinit_fn = Dm_Hina_Destroy;
+
     overlayTable[0x2F].info->deinit_fn = ItemBHeart_Destroy;
     overlayTable[0x2F].info->draw_fn = ItemBHeart_Draw;
     overlayTable[0x2F].info->init_fn = ItemBHeart_Init;
-
+    
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;
     // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;

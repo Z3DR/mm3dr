@@ -125,7 +125,7 @@ namespace rnd {
     saveData.inventory.collect_register.oath_to_order = 1;
 
     // Boss Remains
-    saveData.inventory.collect_register.odolwas_remains = 1;
+    // saveData.inventory.collect_register.odolwas_remains = 1;
     saveData.inventory.collect_register.gohts_remains = 1;
     saveData.inventory.collect_register.gyorgs_remains = 1;
     saveData.inventory.collect_register.twinmolds_remains = 1;
