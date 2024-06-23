@@ -111,7 +111,7 @@ namespace rnd {
     if (pressedButtons == (u32)game::pad::Button::ZR) {
       yPos += 10.00f;
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
-      yPos -=10.00f;
+      yPos -= 10.00f;
     } else if (pressedButtons == (u32)game::pad::Button::Right) {
       xPos += 10.00f;
     } else if (pressedButtons == (u32)game::pad::Button::Left) {

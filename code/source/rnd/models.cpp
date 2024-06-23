@@ -75,7 +75,7 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
 #endif
-    
+
     SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
     // Base case - if we're a free-standing heart piece then set scale and use built-in scaling call.
     if (model->baseItemId == 0x00 && model->itemRow->objectId == 0x01) {
@@ -91,7 +91,7 @@ namespace rnd {
         else
           model->scale = 10.00f;
       }
-      
+
       scaleMtx[0][0] = model->scale;
       scaleMtx[1][1] = model->scale;
       scaleMtx[2][2] = model->scale;
@@ -105,7 +105,6 @@ namespace rnd {
 
     Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
 #endif
-    
 
     if (model->saModel != NULL)
       Model_SetMtxAndModel(model->saModel, &tmpMtx);
