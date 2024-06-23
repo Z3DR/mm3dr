@@ -14,6 +14,7 @@
 #include "rnd/item_override.h"
 #include "rnd/link.h"
 #include "rnd/models.h"
+#include "rnd/objects.h"
 #include "rnd/rheap.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
@@ -107,12 +108,19 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     // game::SaveData& saveData = game::GetCommonData().save;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    if (pressedButtons == (u32)game::pad::Button::ZR)
-      for (int i = 0; i < 0xBB; i++) {
-        if (rItemTable[i].scale != 0.015f) {
-          rnd::util::Print("%s: Index %u is not correct.\n");
-        }
-      }
+    if (pressedButtons == (u32)game::pad::Button::ZR) {
+      yPos += 10.00f;
+    } else if (pressedButtons == (u32)game::pad::Button::ZL) {
+      yPos -=10.00f;
+    } else if (pressedButtons == (u32)game::pad::Button::Right) {
+      xPos += 10.00f;
+    } else if (pressedButtons == (u32)game::pad::Button::Left) {
+      xPos -= 10.00f;
+    } else if (pressedButtons == (u32)game::pad::Button::Up) {
+      zPos += 10.00f;
+    } else if (pressedButtons == (u32)game::pad::Button::Down) {
+      zPos -= 10.00f;
+    }
 #endif
 #endif
     if (gSettingsContext.customMaskButton != 0 && pressedButtons == gSettingsContext.customMaskButton) {

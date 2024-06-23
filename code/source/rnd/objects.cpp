@@ -3,6 +3,9 @@
 namespace rnd {
   ExtendedObjectContext rExtendedObjectCtx = {0};
   s32 storedObjId = -1;
+  s32 yPos = 0;
+  s32 xPos = 0;
+  s32 zPos = 0;
 
   void TexAnim_Spawn(void* model, void* cmabMan) {
     return util::GetPointer<void(void*, void*)>(0x609c3c)(model, cmabMan);

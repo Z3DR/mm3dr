@@ -12,6 +12,9 @@ namespace rnd {
   typedef game::ActorResource::ObjectContext ExtendedObjectContext;
   extern "C" ExtendedObjectContext rExtendedObjectCtx;
   extern "C" s32 storedObjId;
+  extern "C" s32 yPos;
+  extern "C" s32 xPos;
+  extern "C" s32 zPos;
 
   void TexAnim_Spawn(void*, void*);
 

@@ -72,7 +72,10 @@ namespace rnd {
   void Model_SetMatrix(Model* model) {
     float tmpMtx[3][4] = {0};
     float scaleMtx[4][4] = {0};
-    // z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
+#endif
+    
     SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
     // Base case - if we're a free-standing heart piece then set scale and use built-in scaling call.
     if (model->baseItemId == 0x00 && model->itemRow->objectId == 0x01) {
@@ -88,15 +91,21 @@ namespace rnd {
         else
           model->scale = 10.00f;
       }
-
+      
       scaleMtx[0][0] = model->scale;
       scaleMtx[1][1] = model->scale;
       scaleMtx[2][2] = model->scale;
       scaleMtx[3][3] = 1.0f;
       Model_MultiplyMatrix(&tmpMtx, &tmpMtx, &scaleMtx);
     }
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    tmpPos.y = yPos;
+    tmpPos.x = xPos;
+    tmpPos.z = zPos;
 
-    // Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
+    Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
+#endif
+    
 
     if (model->saModel != NULL)
       Model_SetMtxAndModel(model->saModel, &tmpMtx);
@@ -263,9 +272,9 @@ namespace rnd {
     // Setup destroy and init functions at this point instead of creating a ton of ASM patches.
     overlayTable[0x0E].info->deinit_fn = EnItem00_rDestroy;
 
-    overlayTable[0xDC].info->init_fn = Dm_Hina_Init;
-    overlayTable[0xDC].info->draw_fn = Dm_Hina_Draw;
-    overlayTable[0xDC].info->deinit_fn = Dm_Hina_Destroy;
+    // overlayTable[0xDC].info->init_fn = Dm_Hina_Init;
+    // overlayTable[0xDC].info->draw_fn = Dm_Hina_Draw;
+    // overlayTable[0xDC].info->deinit_fn = Dm_Hina_Destroy;
 
     overlayTable[0x2F].info->deinit_fn = ItemBHeart_Destroy;
     overlayTable[0x2F].info->draw_fn = ItemBHeart_Draw;
