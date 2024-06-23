@@ -100,9 +100,6 @@ namespace rnd {
 
     // Try mounting the extdata archive
     if (R_SUCCEEDED(res = FSUSER_OpenArchive(out, ARCHIVE_EXTDATA, extDataPath))) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: ext data mount was successful.\n", __func__);
-#endif
       return res;
     }
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT

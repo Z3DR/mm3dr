@@ -33,7 +33,7 @@ include $(DEVKITARM)/3ds_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source source/asm source/lib source/common source/game source/rnd source/game/ui/screens
+SOURCES		:=	source source/asm source/lib source/common source/game source/rnd source/game/ui/screens source/rnd/actors
 DATA		:=	data
 INCLUDES	:=	include
 GRAPHICS	:=	gfx

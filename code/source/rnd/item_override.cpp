@@ -41,12 +41,12 @@ namespace rnd {
     // Manual overide example code
     rItemOverrides[0].key.scene = 0x6F;
     rItemOverrides[0].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[0].value.getItemId = 0x26;
-    rItemOverrides[0].value.looksLikeItemId = 0x26;
+    rItemOverrides[0].value.getItemId = 0x56;
+    rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0x12;
-    rItemOverrides[1].value.looksLikeItemId = 0x12;
+    rItemOverrides[1].value.getItemId = 0x54;
+    rItemOverrides[1].value.looksLikeItemId = 0x54;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -148,7 +148,8 @@ namespace rnd {
     rActiveItemActionId = itemRow->itemId;
     rActiveItemTextId = itemRow->textId;
     rActiveItemObjectId = itemRow->objectId;
-    rActiveItemGraphicId = looksLikeItemId ? ItemTable_GetItemRow(looksLikeItemId)->graphicId : itemRow->graphicId;
+    rActiveItemGraphicId =
+        looksLikeItemId ? (u32)ItemTable_GetItemRow(looksLikeItemId)->graphicId : (u32)itemRow->graphicId;
     rActiveItemFastChest = (u32)itemRow->chestType & 0x01;
   }
 
@@ -608,6 +609,13 @@ namespace rnd {
         return 0x23;
       else
         return 0x24;
+    } else if (override.value.getItemId == 0x46) {
+      if (saveData.inventory.inventory_count_register.bomb_bag_upgrade == game::BombBag::NoBag)
+        return 0x1B;
+      else if (saveData.inventory.inventory_count_register.bomb_bag_upgrade == game::BombBag::BombBag20)
+        return 0x1C;
+      else
+        return 0x1D;
     }
     // No override, use the base item.
     return override.value.looksLikeItemId;

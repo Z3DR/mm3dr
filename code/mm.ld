@@ -41,6 +41,10 @@ SECTIONS{
     *(.patch_FixSurroundSound)
   }
 
+  .patch_ExtendedObjectClear 0x14CB14 : {
+    *(.patch_ExtendedObjectClear)
+  }
+
   .patch_PostActorCalc 0x174E08 : {
     *(.patch_PostActorCalc)
   }
@@ -236,6 +240,10 @@ SECTIONS{
     *(.patch_CheckMagicForZoraFastSwim)
   }
 
+  .patch_ModelSpawnGetObjectStatus 0x203CF8 : {
+    *(.patch_ModelSpawnGetObjectStatus)
+  }
+
   .patch_BlastMaskCooldown 0x2047FC : {
     *(.patch_BlastMaskCooldown)
   }
@@ -400,6 +408,11 @@ SECTIONS{
     *(.patch_CheckMoTRequirement)
   }
 
+
+  .patch_OverrideItem00Init 0x3D018C : {
+    *(.patch_OverrideItem00Init)
+  }
+
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
     *(.patch_TingleCheckClocktownMapTwo)
   }
@@ -474,6 +487,10 @@ SECTIONS{
 
   .patch_GibdoMaskGiveItem 0x41DC48 : {
     *(.patch_GibdoMaskGiveItem)
+  }
+
+  .patch_OverrideItem00Draw 0x42886C : {
+    *(.patch_OverrideItem00Draw)
   }
 
   .patch_OverrideBankerWalletReward 0x459044 : {
