@@ -282,6 +282,21 @@ patch_CheckMasksOnMoon:
 RemoveJimWhenExitingHideout_patch:
     cmp r0,r0
 
+@ This patch performs the same event check to see if Koume was saved,
+@ overriding the check to see if woodfall was cleared. This is due
+@ to the fact you could beat the temple out of logic from saving koume
+@ so this removes the temple check, and checks to see if she was saved twice.
+@ For more information on the message system, see the following links in MM decomp
+@ https://github.com/zeldaret/mm/blob/6541532abb5c03088ad67748bbb23965c654127e/src/overlays/actors/ovl_En_Dnh/z_en_dnh.c#L21
+@ https://github.com/zeldaret/mm/blob/main/include/z64msgevent.h#L354
+.section .patch_RemoveWoodfallClearConditionFromBoatHouse
+.global patch_RemoveWoodfallClearConditionFromBoatHouse
+patch_RemoveWoodfallClearConditionFromBoatHouse:
+    .byte 0x0C
+    .byte 0x08
+    .byte 0x00
+    .byte 0x08
+
 .section .patch_loader
 .global loader_patch
 loader_patch:
