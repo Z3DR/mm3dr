@@ -53,6 +53,22 @@ noOverrideItemIdIndex:
     ldrsh r0, [r0, #-6]
     bx lr
 
+.global hook_OverrideRemainGetItem
+hook_OverrideRemainGetItem:
+    push {r0-r12,lr}
+    bl ResetPlayerForm
+    pop {r0-r12,lr}
+    push {r2}
+    ldr r2,.rActiveItemRow_addr
+    ldr r2,[r2]
+    cmp r2,#0x0
+    pop {r2}
+    bne 0x23406C
+    cmp r2,#0x3
+    bhi 0x234878
+    bx lr
+    
+
 .global hook_OverrideDrawIndex
 hook_OverrideDrawIndex:
     ldr r0,.rActiveItemGraphicId_addr

@@ -292,6 +292,10 @@ SECTIONS{
     *(.patch_CheckDungeonSmallKeys)
   }
 
+  .patch_OverrideRemainGetItem 0x2347F8 : {
+    *(.patch_OverrideRemainGetItem)
+  }
+
 	.patch_DisableMilkTimer 0x234BFC : {
 		*(.patch_DisableMilkTimer)
 	}
@@ -320,13 +324,14 @@ SECTIONS{
     *(.patch_OverrideItemID)
   }
 
+  .patch_TwinmoldConsistentDamage 0x28E544 : {
+    *(.patch_TwinmoldConsistentDamage)
+  }
+
   .patch_EnteringLocation 0x23AA54 : {
     *(.patch_EnteringLocation)
   }
 
-  .patch_TwinmoldConsistentDamage 0x28E544 : {
-    *(.patch_TwinmoldConsistentDamage)
-  }
 
   .patch_FasterBlockMovement 0x2AC634 : {
     *(.patch_FasterBlockMovement)

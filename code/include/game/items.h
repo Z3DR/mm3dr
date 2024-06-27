@@ -277,6 +277,7 @@ namespace game {
 
   // Mask IDs are action IDs - 0x3b
   enum class MaskId : u8 {
+    None = 0x00,
     MaskOfTruth = 0x01,
     BunnyHood = 0x04,
     BlastMask = 0x12,

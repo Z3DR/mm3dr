@@ -17,6 +17,7 @@ namespace rnd::link {
   void FixFreeCameraReset();
   extern "C" void AssignSwordForHoneyDarling();
   extern "C" void RemoveSwordFromHoneyDarling();
+  extern "C" void ResetPlayerForm();
 
 }  // namespace rnd::link
 

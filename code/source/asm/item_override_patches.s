@@ -17,6 +17,11 @@ patch_OverrideItemIdIndex:
 @TODO: Branch off to hook and load addr that is needed from text ID.
     bl hook_OverrideItemIdIndex
 
+.section .patch_OverrideRemainGetItem
+.global patch_OverrideRemainGetItem
+patch_OverrideRemainGetItem:
+    bl hook_OverrideRemainGetItem
+
 .section .patch_ChangeDrawItemIndex
 .global OverrideDrawIndex_patch
 OverrideDrawIndex_patch:
