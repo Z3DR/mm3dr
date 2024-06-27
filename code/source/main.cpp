@@ -106,8 +106,6 @@ namespace rnd {
     const u32 pressedButtons = gctx->pad_state.input.buttons.flags;
 // const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    // game::SaveData& saveData = game::GetCommonData().save;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
       yPos += 10.00f;
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
@@ -121,7 +119,6 @@ namespace rnd {
     } else if (pressedButtons == (u32)game::pad::Button::Down) {
       zPos -= 10.00f;
     }
-#endif
 #endif
     if (gSettingsContext.customMaskButton != 0 && pressedButtons == gSettingsContext.customMaskButton) {
       game::ui::OpenScreen(game::ui::ScreenType::Masks);
