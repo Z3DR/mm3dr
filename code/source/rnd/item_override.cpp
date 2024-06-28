@@ -663,7 +663,7 @@ namespace rnd {
       if (rStoredTextId == 0) {
         gctx->ShowMessage(textId, actor);
       }
-        
+
       // Get_Item_Handler. Don't give ice traps, since it may cause UB.
       if (itemId != (u8)game::ItemId::None) {
         util::GetPointer<int(game::GlobalContext*, game::ItemId)>(0x233BEC)(gctx, (game::ItemId)itemId);
