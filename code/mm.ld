@@ -280,6 +280,18 @@ SECTIONS{
     *(.patch_SecondZoraSwimCheck)
   }
 
+  .patch_RemoveRemainsStateCheck 0x22B7BC : {
+    *(.patch_RemoveRemainsStateCheck)
+  }
+
+  .patch_ChangeDrawItemIndex 0x22F24C : {
+    *(.patch_ChangeDrawItemIndex)
+  }
+
+  .patch_ChangeDrawItemIndexSecond 0x22F474 : {
+    *(.patch_ChangeDrawItemIndexSecond)
+  }
+
   .patch_ForceSwordUpgradeOnHuman 0x233D88 : {
     *(.patch_ForceSwordUpgradeOnHuman)
   }
@@ -302,18 +314,6 @@ SECTIONS{
 
   .patch_RemoveRSHealthThree 0x235800 : {
     *(.patch_RemoveRazordSwordHealthThree)
-  }
-
-  .patch_RemoveRemainsStateCheck 0x22B7BC : {
-    *(.patch_RemoveRemainsStateCheck)
-  }
-
-  .patch_ChangeDrawItemIndex 0x22F24C : {
-    *(.patch_ChangeDrawItemIndex)
-  }
-
-  .patch_ChangeDrawItemIndexSecond 0x22F474 : {
-    *(.patch_ChangeDrawItemIndexSecond)
   }
 
   .patch_OverrideTextID 0x2310FC : {
@@ -536,6 +536,14 @@ SECTIONS{
 
   .patch_RemoveJimWhenExitingHideout 0x4B6964 : {
     *(.patch_RemoveJimWhenExitingHideout)
+  }
+
+  .patch_SkulltulaOverrideOne 0x529F94 : {
+    *(.patch_SkulltulaOverrideOne)
+  }
+
+  .patch_SkulltulaOverrideTwo 0x52A044 : {
+    *(.patch_SkulltulaOverrideTwo)
   }
 
   .patch_ReadGamePad 0x59BA10 : {

@@ -452,6 +452,7 @@ namespace rnd {
   extern "C" bool ItemOverride_CheckTingleMaps(u16, game::GlobalContext*);
   extern "C" u32 ItemOverride_GetGaboraExtData();
   extern "C" u32 ItemOverride_GetOshExtData();
+  extern "C" u8 ItemOverride_OverrideSkullToken(game::GlobalContext*, game::act::Actor*);
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];
   extern "C" u16 rStoredTextId;

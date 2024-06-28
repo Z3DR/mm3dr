@@ -1,6 +1,7 @@
 #include "rnd/models.h"
 #include "rnd/actors/dm_hina.h"
 #include "rnd/actors/dmchar05.h"
+#include "rnd/actors/en_si.h"
 #include "rnd/actors/item00.h"
 #include "rnd/actors/item_b_heart.h"
 #define LOADEDMODELS_MAX 16
@@ -275,9 +276,13 @@ namespace rnd {
     // overlayTable[0xDC].info->draw_fn = Dm_Hina_Draw;
     // overlayTable[0xDC].info->deinit_fn = Dm_Hina_Destroy;
 
-    overlayTable[0x2F].info->deinit_fn = ItemBHeart_Destroy;
-    overlayTable[0x2F].info->draw_fn = ItemBHeart_Draw;
     overlayTable[0x2F].info->init_fn = ItemBHeart_Init;
+    overlayTable[0x2F].info->draw_fn = ItemBHeart_Draw;
+    overlayTable[0x2F].info->deinit_fn = ItemBHeart_Destroy;
+
+    overlayTable[0x99].info->init_fn = En_Si_Init;
+    overlayTable[0x99].info->draw_fn = En_Si_Draw;
+    overlayTable[0x99].info->deinit_fn = En_Si_Destroy;
 
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;
     // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;

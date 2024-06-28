@@ -648,12 +648,8 @@ namespace rnd {
 
   void ItemOverride_GetItemTextAndItemID(game::act::Player* actor) {
     if (rActiveItemRow != NULL) {
+      // Check and see if we have trade items or repeatable bottles and add to the array.
       if (rActiveItemOverride.key.type == ItemOverride_Type::OVR_CHEST) {
-// Check and see if we have trade items or repeatable bottles and add to the array.
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("%s: Active item row item ID is %#04x and key flag is %#04x\n", __func__,
-                         rActiveItemRow->itemId, rActiveItemOverride.key.flag);
-#endif
         // Only set if we're not a trade item.
         if ((rActiveItemRow->itemId < 0x28 || rActiveItemRow->itemId > 0x30) && (rActiveItemRow->itemId < 0x9F)) {
           gExtSaveData.chestRewarded[rActiveItemOverride.key.scene][rActiveItemOverride.key.flag] = 1;
@@ -664,8 +660,10 @@ namespace rnd {
       u8 itemId = rActiveItemRow->itemId;
       ItemTable_CallEffect(rActiveItemRow);
       // Only check if we have the ID set, that means text is displayed elsewhere.
-      if (rStoredTextId == 0)
+      if (rStoredTextId == 0) {
         gctx->ShowMessage(textId, actor);
+      }
+        
       // Get_Item_Handler. Don't give ice traps, since it may cause UB.
       if (itemId != (u8)game::ItemId::None) {
         util::GetPointer<int(game::GlobalContext*, game::ItemId)>(0x233BEC)(gctx, (game::ItemId)itemId);
@@ -1045,6 +1043,16 @@ namespace rnd {
 
   u32 ItemOverride_GetOshExtData() {
     return (u32)gExtSaveData.givenItemChecks.enOshGivenItem;
+  }
+
+  u8 ItemOverride_OverrideSkullToken(game::GlobalContext* gctx, game::act::Actor* actor) {
+    s16 getItemId = gctx->scene == game::SceneId::SwampSpiderHouse ? 0x52 : 0x6D;
+    ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
+    if (rActiveItemRow != NULL) {
+      ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
+      return true;
+    }
+    return false;
   }
   }
 }  // namespace rnd

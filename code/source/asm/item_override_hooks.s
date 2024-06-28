@@ -261,3 +261,29 @@ hook_ChangeSOHToCustomText:
     bl ItemOverride_SwapSoHGetItemText
     pop {r0-r2, lr}
     b 0x186814
+
+.global hook_SkulltulaOverrideOne
+hook_SkulltulaOverrideOne:
+    push {r0-r12,lr}
+    cpy r1,r5
+    bl ItemOverride_OverrideSkullToken
+    cmp r0,#0x0
+    pop {r0-r12,lr}
+    bne skulltulaOverridden
+    bl 0x233BEC
+    b 0x529F98
+skulltulaOverridden:
+    b 0x529FBC
+
+.global hook_SkulltulaOverrideTwo
+hook_SkulltulaOverrideTwo:
+    push {r0-r12,lr}
+    cpy r1,r5
+    bl ItemOverride_OverrideSkullToken
+    cmp r0,#0x0
+    pop {r0-r12,lr}
+    bne skulltulaOverriddenTwo
+    bl 0x233BEC
+    b 0x52A048
+skulltulaOverriddenTwo:
+    b 0x52A06C
