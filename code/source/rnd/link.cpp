@@ -385,11 +385,9 @@ namespace rnd::link {
   }
 
   void ResetPlayerForm() {
-    game::GlobalContext* gctx = GetContext().gctx;
     game::SaveData& saveData = game::GetCommonData().save;
     saveData.mask = game::MaskId::None;
     saveData.player_form = game::act::Player::Form::Human;
-    // 0x3E0ADC
   }
   }
 

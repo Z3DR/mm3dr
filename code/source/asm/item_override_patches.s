@@ -108,8 +108,17 @@ patch_RemoveCouplesMaskMessage:
 
 @ This should remove the overwriting message for when the
 @ user receives the Zora Mask.
-@ Largely untested, need to check for any UB.
 .section .patch_RemoveSOHCutesceneAfterMessage
 .global patch_RemoveSOHCutesceneAfterMessage
 patch_RemoveSOHCutesceneAfterMessage:
     b hook_ChangeSOHToCustomText
+
+.section .patch_SkulltulaOverrideOne
+.global patch_SkulltulaOverrideOne
+patch_SkulltulaOverrideOne:
+    bl hook_SkulltulaOverrideOne
+
+.section .patch_SkulltulaOverrideTwo
+.global patch_SkulltulaOverrideTwo
+patch_SkulltulaOverrideTwo:
+    bl hook_SkulltulaOverrideTwo
