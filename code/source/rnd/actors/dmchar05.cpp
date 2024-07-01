@@ -13,7 +13,7 @@ namespace rnd {
     void* saModel = Model_GetOverrideSaModel(actor);
     if (saModel != NULL) {
       static_cast<Dm_Char05*>(actor)->skelAnimeModel = saModel;
-      // static_cast<Dm_Char05*>(actor)->actor_util->field_34 = saModel;
+      // static_cast<Dm_Char05*>(actor)->actor_util.field_34 = saModel;
       return true;
     } else
       return false;

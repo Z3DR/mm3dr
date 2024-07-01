@@ -11,8 +11,7 @@ extern "C" {
 #endif
 namespace rnd {
   struct Dm_Char05 : public game::act::Actor {
-    game::as::ActorUtil* actor_util;
-    u8 gap_1fc[136];
+    game::as::ActorUtil actor_util;
     void * skelAnimeModel;
     void* calc_fn;
     u16 field_28c;
