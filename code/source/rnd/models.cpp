@@ -92,7 +92,7 @@ namespace rnd {
         else
           model->scale = 10.00f;
       }
-
+      model->scale = 10.00f;
       scaleMtx[0][0] = model->scale;
       scaleMtx[1][1] = model->scale;
       scaleMtx[2][2] = model->scale;
@@ -262,6 +262,17 @@ namespace rnd {
       if (ModelContext[i].actor == actor) {
         actorDrawn = 1;
         Model_Draw(&ModelContext[i]);
+      }
+    }
+    return actorDrawn;
+  }
+
+  void* Model_GetOverrideSaModel(game::act::Actor* actor) {
+    void* actorDrawn = NULL;
+    for (s32 i = 0; i < LOADEDMODELS_MAX; ++i) {
+      if (ModelContext[i].actor == actor) {
+        actorDrawn = ModelContext[i].saModel;
+        break;
       }
     }
     return actorDrawn;
