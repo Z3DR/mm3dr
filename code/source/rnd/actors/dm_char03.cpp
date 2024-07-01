@@ -20,13 +20,12 @@ namespace rnd {
     }
   }
 
-  extern "C" bool Dm_Char03_Draw_Asm(game::act::Actor* actor, game::GlobalContext* gctx) {
+  extern "C" void Dm_Char03_Draw_Asm(game::act::Actor* actor, game::GlobalContext* gctx) {
     void* saModel = Model_GetOverrideSaModel(actor);
-    if (saModel != NULL) {
+    if (saModel != NULL)
       static_cast<Dm_Char03*>(actor)->skelAnimeModel = saModel;
-      return true;
-    } else
-      return false;
+  
+
   }
 
 }  // namespace rnd

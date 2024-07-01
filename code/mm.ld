@@ -453,9 +453,9 @@ SECTIONS{
     *(.patch_TradeItemDeleteMoonsTear)
   }
 
-  /* .patch_DmChar03ReplaceOverheadSaModel 0x3B9250 : {
+  .patch_DmChar03ReplaceOverheadSaModel 0x3B9248 : {
     *(.patch_DmChar03ReplaceOverheadSaModel)
-  } */
+  }
 
   .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {
     *(.patch_OverrideWalletSpiderHouseTwo)

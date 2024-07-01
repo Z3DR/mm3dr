@@ -44,11 +44,7 @@ hook_DmChar03ReplaceOverheadSaModel:
     cpy r0,r4
     cpy r1,r5
     bl Dm_Char03_Draw_Asm
-    cmp r0,#0x0
     pop {r0-r12,lr}
-    beq drawOrigDmChar03Model
-    bx lr
-drawOrigDmChar03Model:
     ldr r0,[r4, #0x298]
     bx lr
 
