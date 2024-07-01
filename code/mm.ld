@@ -280,6 +280,10 @@ SECTIONS{
     *(.patch_SecondZoraSwimCheck)
   }
 
+  .patch_GetExtendedObjectStatus 0x222330 : {
+    *(.patch_GetExtendedObjectStatus)
+  }
+
   .patch_RemoveRemainsStateCheck 0x22B7BC : {
     *(.patch_RemoveRemainsStateCheck)
   }
@@ -448,6 +452,10 @@ SECTIONS{
   .patch_TradeItemDeleteMoonsTear 0x3B5214 : {
     *(.patch_TradeItemDeleteMoonsTear)
   }
+
+  /* .patch_DmChar03ReplaceOverheadSaModel 0x3B9250 : {
+    *(.patch_DmChar03ReplaceOverheadSaModel)
+  } */
 
   .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {
     *(.patch_OverrideWalletSpiderHouseTwo)

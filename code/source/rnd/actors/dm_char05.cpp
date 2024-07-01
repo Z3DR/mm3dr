@@ -1,4 +1,4 @@
-#include "rnd/actors/dmchar05.h"
+#include "rnd/actors/dm_char05.h"
 
 namespace rnd {
   extern "C" {

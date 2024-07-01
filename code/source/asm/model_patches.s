@@ -10,9 +10,9 @@ patch_ExtendedObjectClear:
 patch_ModelSpawnGetObjectStatus:
   bl hook_ModelSpawnGetObjectStatus
 
-.section .patch_ModelSpawnGetObjectStatusTwo
-.global patch_ModelSpawnGetObjectStatusTwo
-patch_ModelSpawnGetObjectStatusTwo:
+.section .patch_GetExtendedObjectStatus
+.global patch_GetExtendedObjectStatus
+patch_GetExtendedObjectStatus:
   bl hook_ModelSpawnGetObjectStatus
 
 .section .patch_DmChar05GoronInit
@@ -25,11 +25,10 @@ patch_DmChar05GoronInit:
 patch_OverrideItem00Init:
   bl hook_OverrideItem00Init
 
-.section .patch_tmp
-.global patch_tmp
-patch_tmp:
-  bl hook_tmp
-@mov r2,#0x45
+.section .patch_DmChar03ReplaceOverheadSaModel
+.global patch_DmChar03ReplaceOverheadSaModel
+patch_DmChar03ReplaceOverheadSaModel:
+  bl hook_DmChar03ReplaceOverheadSaModel
 
 .section .patch_DmChar05GoronDraw
 .global patch_DmChar05GoronDraw

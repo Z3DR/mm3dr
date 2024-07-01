@@ -1,6 +1,7 @@
 #include "rnd/models.h"
 #include "rnd/actors/dm_hina.h"
-#include "rnd/actors/dmchar05.h"
+#include "rnd/actors/dm_char03.h"
+#include "rnd/actors/dm_char05.h"
 #include "rnd/actors/en_si.h"
 #include "rnd/actors/item00.h"
 #include "rnd/actors/item_b_heart.h"
@@ -295,6 +296,8 @@ namespace rnd {
     overlayTable[0x99].info->draw_fn = En_Si_Draw;
     overlayTable[0x99].info->deinit_fn = En_Si_Destroy;
 
+    overlayTable[0x12B].info->init_fn = Dm_Char03_Init;
+    // overlayTable[0x12B].info->draw_fn = Dm_Char03_Draw;
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;
     // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;

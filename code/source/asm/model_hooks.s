@@ -38,14 +38,18 @@ drawOriginalModel:
     str r0,[r4, #0x284]
     bx lr
     
-.global hook_tmp
-hook_tmp:
+.global hook_DmChar03ReplaceOverheadSaModel
+hook_DmChar03ReplaceOverheadSaModel:
     push {r0-r12,lr}
     cpy r0,r4
     cpy r1,r5
-    bl DmChar05_Draw
-    pop {r0-r12, lr}
-    cmp r0,#0x1
+    bl Dm_Char03_Draw_Asm
+    cmp r0,#0x0
+    pop {r0-r12,lr}
+    beq drawOrigDmChar03Model
+    bx lr
+drawOrigDmChar03Model:
+    ldr r0,[r4, #0x298]
     bx lr
 
 .global hook_OverrideItem00Draw

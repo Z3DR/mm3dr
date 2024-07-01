@@ -1,5 +1,5 @@
-#ifndef _RND_ACTORS_DMCHAR05_H_
-#define _RND_ACTORS_DMCHAR05_H_
+#ifndef _RND_ACTORS_DM_CHAR05_H_
+#define _RND_ACTORS_DM_CHAR05_H_
 
 #include "game/actor.h"
 #include "rnd/models.h"
