@@ -21,11 +21,14 @@ namespace rnd {
   }
 
   extern "C" void Dm_Char03_Draw_Asm(game::act::Actor* actor, game::GlobalContext* gctx) {
-    void* saModel = Model_GetOverrideSaModel(actor);
-    if (saModel != NULL)
-      static_cast<Dm_Char03*>(actor)->skelAnimeModel = saModel;
-  
-
-  }
+    Model* model = Model_GetOverrideSaModel(actor);
+    if (model->saModel != NULL) {
+      if (model->objectId == 0x00) {
+        Model_SetScale(actor, model->scale);
+      }
+      static_cast<Dm_Char03*>(actor)->skelAnimeModel = model->saModel;
+    }
+    
+    }
 
 }  // namespace rnd

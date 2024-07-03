@@ -10,9 +10,9 @@ namespace rnd {
   }
 
   u8 DmChar05_Draw(game::act::Actor* actor, game::GlobalContext* gctx) {
-    void* saModel = Model_GetOverrideSaModel(actor);
-    if (saModel != NULL) {
-      static_cast<Dm_Char05*>(actor)->skelAnimeModel = saModel;
+    Model* model = Model_GetOverrideSaModel(actor);
+    if (model->saModel != NULL) {
+      static_cast<Dm_Char05*>(actor)->skelAnimeModel = model->saModel;
       // static_cast<Dm_Char05*>(actor)->actor_util.field_34 = saModel;
       return true;
     } else

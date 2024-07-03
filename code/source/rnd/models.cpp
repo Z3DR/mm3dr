@@ -268,11 +268,11 @@ namespace rnd {
     return actorDrawn;
   }
 
-  void* Model_GetOverrideSaModel(game::act::Actor* actor) {
-    void* actorDrawn = NULL;
+  Model* Model_GetOverrideSaModel(game::act::Actor* actor) {
+    Model* actorDrawn = NULL;
     for (s32 i = 0; i < LOADEDMODELS_MAX; ++i) {
       if (ModelContext[i].actor == actor) {
-        actorDrawn = ModelContext[i].saModel;
+        actorDrawn = &ModelContext[i];
         break;
       }
     }

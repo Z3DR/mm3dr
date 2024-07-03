@@ -45,7 +45,7 @@ namespace rnd {
   void Model_DestroyByActor(game::act::Actor* actor);
   void Model_DestroyAll(void);
   s32 Model_DrawByActor(game::act::Actor* actor);
-  void* Model_GetOverrideSaModel(game::act::Actor* actor);
+  Model* Model_GetOverrideSaModel(game::act::Actor* actor);
   void Actor_Init();
 }  // namespace rnd
 #endif  //_RND_MODELS_H_
