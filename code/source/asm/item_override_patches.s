@@ -32,6 +32,11 @@ OverrideDrawIndex_patch:
 patch_ChangeDrawItemIndexSecond:
     b hook_OverrideDrawIndexSecond
 
+.section .patch_RemoveSkulltulaTokenGetItem
+.global patch_RemoveSkulltulaTokenGetItem
+patch_RemoveSkulltulaTokenGetItem:
+    bl hook_RemoveSkulltulaTokenGetItem
+
 .section .patch_OverrideTextID
 .global OverrideTextID_patch
 OverrideTextID_patch:

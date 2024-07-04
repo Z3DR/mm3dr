@@ -25,11 +25,6 @@ patch_DmChar05GoronInit:
 patch_OverrideItem00Init:
   bl hook_OverrideItem00Init
 
-.section .patch_DmChar03ReplaceOverheadSaModel
-.global patch_DmChar03ReplaceOverheadSaModel
-patch_DmChar03ReplaceOverheadSaModel:
-  bl hook_DmChar03ReplaceOverheadSaModel
-
 .section .patch_DmChar05GoronDraw
 .global patch_DmChar05GoronDraw
 patch_DmChar05GoronDraw:

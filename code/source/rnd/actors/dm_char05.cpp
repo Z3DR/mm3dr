@@ -1,6 +1,18 @@
 #include "rnd/actors/dm_char05.h"
 
 namespace rnd {
+  void DmChar05_SetScale(game::act::Actor* actor) {
+    Model* model = Model_GetOverrideSaModel(actor);
+
+    // static_cast<Dm_Char03*>(actor)->skelAnimeModel = model->saModel;
+    if (model != NULL) {
+      static_cast<Dm_Char05*>(actor)->actor_util.field_34 = model->saModel;
+      if (model->objectId == 0x01) {
+        auto* scale = util::GetPointer<f32>(0x41D5B0);
+        util::Write(scale, 0x00, 0.005f);
+      }
+    }
+  }
   extern "C" {
   void DMChar05_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x3C6CD8)(actor, gctx);
@@ -27,6 +39,7 @@ namespace rnd {
 
   void DmChar05_Goron_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
     Model_SpawnByActor(actor, rnd::GetContext().gctx, 0x79);
+    DmChar05_SetScale(actor);
   }
   
   }

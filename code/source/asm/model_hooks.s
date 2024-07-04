@@ -1,6 +1,7 @@
 .arm
 .text
 
+
 .global hook_ModelSpawnGetObjectStatus
 hook_ModelSpawnGetObjectStatus:
     push {r1-r12, lr}
@@ -36,16 +37,6 @@ hook_DmChar05Draw:
     bx lr
 drawOriginalModel:
     str r0,[r4, #0x284]
-    bx lr
-    
-.global hook_DmChar03ReplaceOverheadSaModel
-hook_DmChar03ReplaceOverheadSaModel:
-    push {r0-r12,lr}
-    cpy r0,r4
-    cpy r1,r5
-    bl Dm_Char03_Draw_Asm
-    pop {r0-r12,lr}
-    ldr r0,[r4, #0x298]
     bx lr
 
 .global hook_OverrideItem00Draw

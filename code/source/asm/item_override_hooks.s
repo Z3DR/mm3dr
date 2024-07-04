@@ -91,6 +91,20 @@ noOverrideGraphicIdSecond:
     ldrsh r0, [r8,#2]
     b 0x22F478
 
+.global hook_RemoveSkulltulaTokenGetItem
+hook_RemoveSkulltulaTokenGetItem:
+    push {r0-r12,lr}
+    ldr r0,.rActiveItemRow_addr
+    ldr r0,[r0]
+    cmp r0,#0x0
+    pop {r0-r12,lr}
+    beq skulltulaNotOverridden
+    bx lr
+skulltulaNotOverridden:
+    cmp r4, #0x6E
+    beq 0x233CB8
+    bx lr
+
 .global hook_OverrideTextID
 hook_OverrideTextID:
     push {r3}

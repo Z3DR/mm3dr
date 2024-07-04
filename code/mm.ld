@@ -296,6 +296,10 @@ SECTIONS{
     *(.patch_ChangeDrawItemIndexSecond)
   }
 
+  .patch_RemoveSkulltulaTokenGetItem 0x233C60 : {
+    *(.patch_RemoveSkulltulaTokenGetItem)
+  }
+
   .patch_ForceSwordUpgradeOnHuman 0x233D88 : {
     *(.patch_ForceSwordUpgradeOnHuman)
   }
@@ -451,10 +455,6 @@ SECTIONS{
 
   .patch_TradeItemDeleteMoonsTear 0x3B5214 : {
     *(.patch_TradeItemDeleteMoonsTear)
-  }
-
-  .patch_DmChar03ReplaceOverheadSaModel 0x3B9248 : {
-    *(.patch_DmChar03ReplaceOverheadSaModel)
   }
 
   .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {

@@ -21,7 +21,7 @@ namespace rnd {
     void* skelAnimeModel;
   };
   static_assert(sizeof(Dm_Char03) == 0x29C);
-
+  extern "C" float rDmChar03Scale;
   void Dm_Char03_Init(game::act::Actor* actor, game::GlobalContext* gctx);
   void Dm_Char03_Draw(game::act::Actor* actor, game::GlobalContext* gctx);
 

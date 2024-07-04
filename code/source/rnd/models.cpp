@@ -93,7 +93,6 @@ namespace rnd {
         else
           model->scale = 10.00f;
       }
-      model->scale = 10.00f;
       scaleMtx[0][0] = model->scale;
       scaleMtx[1][1] = model->scale;
       scaleMtx[2][2] = model->scale;
@@ -297,7 +296,7 @@ namespace rnd {
     overlayTable[0x99].info->deinit_fn = En_Si_Destroy;
 
     overlayTable[0x12B].info->init_fn = Dm_Char03_Init;
-    // overlayTable[0x12B].info->draw_fn = Dm_Char03_Draw;
+    overlayTable[0x12B].info->draw_fn = Dm_Char03_Draw;
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;
     // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;
