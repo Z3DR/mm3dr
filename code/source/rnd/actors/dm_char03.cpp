@@ -24,16 +24,4 @@ namespace rnd {
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x41CE70)(actor, gctx);
   }
 
-  extern "C" void Dm_Char03_Draw_Asm(game::act::Actor* actor, game::GlobalContext* gctx) {
-    Model* model = Model_GetOverrideSaModel(actor);
-    if (model->saModel != NULL) {
-      if (model->objectId == 0x00) {
-        Model_SetScale(actor, model->scale);
-      }
-      static_cast<Dm_Char03*>(actor)->skelAnimeModel = model->saModel;
-      static_cast<Dm_Char03*>(actor)->actor_util->field_34 = model->saModel;
-    }
-    
-    }
-
 }  // namespace rnd
