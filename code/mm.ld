@@ -421,9 +421,9 @@ SECTIONS{
     *(.patch_CheckMoTRequirement)
   }
 
-  .patch_DmChar05GoronInit 0x3C6D70 : {
+  /* .patch_DmChar05GoronInit 0x3C6D70 : {
     *(.patch_DmChar05GoronInit)
-  }
+  } */
 
   .patch_OverrideItem00Init 0x3D018C : {
     *(.patch_OverrideItem00Init)
@@ -501,9 +501,9 @@ SECTIONS{
     *(.patch_RemoveSoHMaskAppearing)
   } */
 
-   .patch_DmChar05GoronDraw 0x41D31C : {
+  /* .patch_DmChar05GoronDraw 0x41D31C : {
     *(.patch_DmChar05GoronDraw)
-  }
+  } */
 
   /* .patch_tmp 0x41d224 : {
     *(.patch_tmp)

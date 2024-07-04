@@ -297,8 +297,9 @@ namespace rnd {
 
     overlayTable[0x12B].info->init_fn = Dm_Char03_Init;
     overlayTable[0x12B].info->draw_fn = Dm_Char03_Draw;
-    // overlayTable[0x12D].info->init_fn = DMChar05_Init;
-    // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
-    // overlayTable[0x12D].info->init_fn = DMChar05_Init;
+
+    overlayTable[0x12D].info->init_fn = DMChar05_Init;
+    overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
+    overlayTable[0x12D].info->deinit_fn = DMChar05_Destroy;
   }
 }  // namespace rnd
