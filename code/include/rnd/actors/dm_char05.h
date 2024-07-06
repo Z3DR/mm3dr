@@ -12,7 +12,7 @@ extern "C" {
 namespace rnd {
   struct Dm_Char05 : public game::act::Actor {
     game::as::ActorUtil actor_util;
-    void * skelAnimeModel;
+    void* skelAnimeModel;
     void* calc_fn;
     u16 field_28c;
     u8 field_28e;

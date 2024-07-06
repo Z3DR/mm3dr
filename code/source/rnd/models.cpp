@@ -1,7 +1,7 @@
 #include "rnd/models.h"
-#include "rnd/actors/dm_hina.h"
 #include "rnd/actors/dm_char03.h"
 #include "rnd/actors/dm_char05.h"
+#include "rnd/actors/dm_hina.h"
 #include "rnd/actors/en_si.h"
 #include "rnd/actors/item00.h"
 #include "rnd/actors/item_b_heart.h"

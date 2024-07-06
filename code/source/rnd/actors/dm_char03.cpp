@@ -6,7 +6,7 @@ namespace rnd {
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x3C6A38)(actor, gctx);
     Model_SpawnByActor(actor, GetContext().gctx, 0x78);
     Model* model = Model_GetOverrideSaModel(actor);
-    
+
     // static_cast<Dm_Char03*>(actor)->skelAnimeModel = model->saModel;
     if (model != NULL) {
       static_cast<Dm_Char03*>(actor)->actor_util->field_34 = model->saModel;

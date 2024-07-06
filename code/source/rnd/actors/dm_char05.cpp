@@ -16,9 +16,9 @@ namespace rnd {
 
   void DMChar05_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x3C6CD8)(actor, gctx);
-    if (actor->params == 0x00) // Goron
+    if (actor->params == 0x00)  // Goron
       Model_SpawnByActor(actor, GetContext().gctx, 0x79);
-    else if (actor->params == 0x01) // Zora
+    else if (actor->params == 0x01)  // Zora
       Model_SpawnByActor(actor, GetContext().gctx, 0x7A);
     else if (actor->params == 0x02)  // Gibdo
       Model_SpawnByActor(actor, GetContext().gctx, 0x87);
@@ -48,6 +48,5 @@ namespace rnd {
     Model_SpawnByActor(actor, rnd::GetContext().gctx, 0x79);
     DmChar05_SetScale(actor);
   }
-
 
 }  // namespace rnd

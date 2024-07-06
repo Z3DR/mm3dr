@@ -18,6 +18,4 @@ namespace rnd {
     util::GetPointer<void(game::act::Actor*)>(0x34F864)(self);
   }
 
-  
-
 }  // namespace rnd
