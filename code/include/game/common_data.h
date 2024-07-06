@@ -306,8 +306,8 @@ namespace game {
     union SkulltulaRegister {
       u32 raw;
 
-      BitField<0, 16, int> swamp_count;
-      BitField<16, 16, int> ocean_count;
+      BitField<0, 16, int> ocean_count;
+      BitField<16, 16, int> swamp_count;
     };
     SkulltulaRegister skulltulas_collected;
     int anonymous_60;
