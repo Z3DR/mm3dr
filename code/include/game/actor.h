@@ -347,45 +347,17 @@ namespace game::act {
   };
   static_assert(sizeof(DayTimerActor) == 0x20C);
 
-  typedef void (*SkeletonAnimationModelFunc)(struct SkeletonAnimationModel*);
-  struct SkeletonAnimationModel_VTable {
-    // u8 gap_00[4];
-    SkeletonAnimationModelFunc destroy_function;
-    u8 gap_4[4];
+  struct sa_unk_d4 {
+    void* field_00;
+    void* field_04;
+    float field_08;
+    int field_0c;
+    float field_10;
+    float field_14;
+    z3d_nn_math_MTX34 * mtx;
+    u8 gap_1C[184];
   };
-
-  struct SkeletonAnimationModel_unk_10 {
-    void* unk_00;
-    void* unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-  };
-  static_assert(sizeof(SkeletonAnimationModel_unk_10) == 0x14);
-
-  struct SkeletonAnimationModel_unk_0C {
-    SkeletonAnimationModel_unk_10* unk_00;
-    void* cmabManager;
-    f32 curFrame;
-    f32 animSpeed;
-    s8 animMode;
-    u8 unk_11[0x87];
-  };
-  static_assert(sizeof(SkeletonAnimationModel_unk_0C) == 0x98);
-
-  struct SkeletonAnimationModel {
-    SkeletonAnimationModel_VTable* vtbl;
-    u8 unk_04[8];
-    SkeletonAnimationModel_unk_0C* unk_0C;
-    SkeletonAnimationModel_unk_10* unk_10;
-    void* unk_draw_struct_14;
-    u8 gap_18[100];
-    float mtx[3][4];
-    s8 field_AC;
-    u8 gap_AD[3];
-  };
-  static_assert(offsetof(SkeletonAnimationModel, field_AC) == 0xAC);
-  static_assert(sizeof(SkeletonAnimationModel) == 0xB0);
+  static_assert(sizeof(sa_unk_d4) == 0xD4);
 
   ActorOverlayInfo* GetActorOverlayInfoTable();
 

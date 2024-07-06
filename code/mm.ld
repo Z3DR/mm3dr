@@ -280,6 +280,10 @@ SECTIONS{
     *(.patch_SecondZoraSwimCheck)
   }
 
+  .patch_GetExtendedObjectStatus 0x222330 : {
+    *(.patch_GetExtendedObjectStatus)
+  }
+
   .patch_RemoveRemainsStateCheck 0x22B7BC : {
     *(.patch_RemoveRemainsStateCheck)
   }
@@ -290,6 +294,10 @@ SECTIONS{
 
   .patch_ChangeDrawItemIndexSecond 0x22F474 : {
     *(.patch_ChangeDrawItemIndexSecond)
+  }
+
+  .patch_RemoveSkulltulaTokenGetItem 0x233C60 : {
+    *(.patch_RemoveSkulltulaTokenGetItem)
   }
 
   .patch_ForceSwordUpgradeOnHuman 0x233D88 : {
@@ -413,6 +421,9 @@ SECTIONS{
     *(.patch_CheckMoTRequirement)
   }
 
+  /* .patch_DmChar05GoronInit 0x3C6D70 : {
+    *(.patch_DmChar05GoronInit)
+  } */
 
   .patch_OverrideItem00Init 0x3D018C : {
     *(.patch_OverrideItem00Init)
@@ -490,6 +501,14 @@ SECTIONS{
     *(.patch_RemoveSoHMaskAppearing)
   } */
 
+  /* .patch_DmChar05GoronDraw 0x41D31C : {
+    *(.patch_DmChar05GoronDraw)
+  } */
+
+  /* .patch_tmp 0x41d224 : {
+    *(.patch_tmp)
+  } */
+
   .patch_GibdoMaskGiveItem 0x41DC48 : {
     *(.patch_GibdoMaskGiveItem)
   }
@@ -537,6 +556,15 @@ SECTIONS{
   .patch_RemoveJimWhenExitingHideout 0x4B6964 : {
     *(.patch_RemoveJimWhenExitingHideout)
   }
+
+  .patch_DmChar05GetObjectStatus 0x50F3DC : {
+    *(.patch_DmChar05GetObjectStatus)
+  }
+
+  /* XXX: May need this in the future, but will have to steal object ID from table in function call. */
+  /* .patch_DmChar05GetObjectStatusTwo 0x504CA8 : {
+    *(.patch_DmChar05GetObjectStatusTwo)
+  } */
 
   .patch_SkulltulaOverrideOne 0x529F94 : {
     *(.patch_SkulltulaOverrideOne)

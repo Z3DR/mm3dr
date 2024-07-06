@@ -1,6 +1,7 @@
 #include "rnd/models.h"
 #include "rnd/actors/dm_hina.h"
-#include "rnd/actors/dmchar05.h"
+#include "rnd/actors/dm_char03.h"
+#include "rnd/actors/dm_char05.h"
 #include "rnd/actors/en_si.h"
 #include "rnd/actors/item00.h"
 #include "rnd/actors/item_b_heart.h"
@@ -92,7 +93,6 @@ namespace rnd {
         else
           model->scale = 10.00f;
       }
-
       scaleMtx[0][0] = model->scale;
       scaleMtx[1][1] = model->scale;
       scaleMtx[2][2] = model->scale;
@@ -267,6 +267,17 @@ namespace rnd {
     return actorDrawn;
   }
 
+  Model* Model_GetOverrideSaModel(game::act::Actor* actor) {
+    Model* actorDrawn = NULL;
+    for (s32 i = 0; i < LOADEDMODELS_MAX; ++i) {
+      if (ModelContext[i].actor == actor) {
+        actorDrawn = &ModelContext[i];
+        break;
+      }
+    }
+    return actorDrawn;
+  }
+
   void Actor_Init() {
     game::act::ActorOverlayInfo* overlayTable = game::act::GetActorOverlayInfoTable();
     // Setup destroy and init functions at this point instead of creating a ton of ASM patches.
@@ -284,8 +295,11 @@ namespace rnd {
     overlayTable[0x99].info->draw_fn = En_Si_Draw;
     overlayTable[0x99].info->deinit_fn = En_Si_Destroy;
 
-    // overlayTable[0x12D].info->init_fn = DMChar05_Init;
-    // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
-    // overlayTable[0x12D].info->init_fn = DMChar05_Init;
+    overlayTable[0x12B].info->init_fn = Dm_Char03_Init;
+    overlayTable[0x12B].info->draw_fn = Dm_Char03_Draw;
+
+    overlayTable[0x12D].info->init_fn = DMChar05_Init;
+    overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
+    overlayTable[0x12D].info->deinit_fn = DMChar05_Destroy;
   }
 }  // namespace rnd

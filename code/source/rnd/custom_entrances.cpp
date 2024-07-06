@@ -6,9 +6,6 @@ namespace rnd {
     game::CommonData& cdata = game::GetCommonData();
     game::GlobalContext* gctx = GetContext().gctx;
     bool didWarp = false;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Our next entrance is %#08x\n", __func__, gctx->next_entrance);
-#endif
     if (gctx->next_entrance == 0x1C04 && gSettingsContext.skipMikauCutscene) {
       gctx->next_entrance = 0x6890;
       cdata.sub13s[0].entrance_index = 0x6890;
