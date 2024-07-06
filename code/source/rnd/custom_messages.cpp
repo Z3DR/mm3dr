@@ -92,8 +92,8 @@ typedef enum {
 typedef struct {
   VarType type;
   union {
-    u32       num;
-    char*     text;
+    u32 num;
+    char* text;
     char16_t* text16;
   } value;
 } VarVal;
@@ -102,23 +102,25 @@ typedef struct {
 VarVal getVarVal(char* text) {
   // Ensure prefixed with '='
   if (text[0] != '=')
-    return (VarVal){ VT_UNK, 0 };
+    return (VarVal){VT_UNK, 0};
 
-  // Macro to help make checking the three letter acronym easier to read
-  #define is(TLA) text[1] == TLA[0] && text[2] == TLA[1] && text[3] == TLA[2]
+// Macro to help make checking the three letter acronym easier to read
+#define is(TLA) text[1] == TLA[0] && text[2] == TLA[1] && text[3] == TLA[2]
   // Oceanside spider house token count
-  if (is("OSH")) return (VarVal){ VT_INT, (u32)game::GetCommonData().save.skulltulas_collected.ocean_count };
+  if (is("OSH"))
+    return (VarVal){VT_INT, (u32)game::GetCommonData().save.skulltulas_collected.ocean_count};
 
   // Swamp spider house token count
-  if (is("SSH")) return (VarVal){ VT_INT, (u32)game::GetCommonData().save.skulltulas_collected.swamp_count };
+  if (is("SSH"))
+    return (VarVal){VT_INT, (u32)game::GetCommonData().save.skulltulas_collected.swamp_count};
 
-  // Examples for adding a string or wstring value
-  // if (is("TXT")) return (VarVal){ VT_STR, { .text = someCharStar } };
-  // if (is("PLN")) return (VarVal){ VT_WSTR, { .text16 = game::GetCommonData().save.player.playerName } };
-  #undef is
+// Examples for adding a string or wstring value
+// if (is("TXT")) return (VarVal){ VT_STR, { .text = someCharStar } };
+// if (is("PLN")) return (VarVal){ VT_WSTR, { .text16 = game::GetCommonData().save.player.playerName } };
+#undef is
 
   // No matches
-  return (VarVal){ VT_UNK, 0 };
+  return (VarVal){VT_UNK, 0};
 }
 
 class MsgBuilder {
@@ -169,7 +171,8 @@ public:
       if (txt[idx] > 0x7F) {
         resolved = ((txt[idx] & 0x1F) << 6) | (txt[idx + 1] & 0x3F);
         addChr(txt[idx++]);
-      } else resolved = txt[idx];
+      } else
+        resolved = txt[idx];
       addChr(txt[idx]);
       len += (resolved < MAX_CHAR) ? width[resolved] : DEFAULT_WIDTH;
     }
@@ -416,22 +419,22 @@ public:
           sizeAtLastSpace = *size;
         resolvedVar = getVarVal(&msg.text[idx]);
         switch (resolvedVar.type) {
-          case VT_INT:
-            idx += 3;
-            lineLen += addNum(resolvedVar.value.num);
-            break;
-          case VT_STR:
-            idx += 3;
-            lineLen += addText(resolvedVar.value.text);
-            break;
-          case VT_WSTR:
-            idx += 3;
-            lineLen += addText16(resolvedVar.value.text16);
-            break;
-          default:
-            // 3LA didn't match any variables, treat '=' as normal text
-            addChr(msg.text[idx]);
-            lineLen += width[resolvedChar];
+        case VT_INT:
+          idx += 3;
+          lineLen += addNum(resolvedVar.value.num);
+          break;
+        case VT_STR:
+          idx += 3;
+          lineLen += addText(resolvedVar.value.text);
+          break;
+        case VT_WSTR:
+          idx += 3;
+          lineLen += addText16(resolvedVar.value.text16);
+          break;
+        default:
+          // 3LA didn't match any variables, treat '=' as normal text
+          addChr(msg.text[idx]);
+          lineLen += width[resolvedChar];
         }
         break;
 
