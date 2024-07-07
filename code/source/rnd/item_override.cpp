@@ -88,8 +88,8 @@ namespace rnd {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_COLLECTABLE;
       retKey.flag = actor->overlay_info->info->flags;
-    } else if (actor->id == (game::act::Id)game::ItemId::GoldSkulltula) {  // Gold Skulltula Token
-      retKey.scene = (actor->params >> 8) & 0x1F;
+    } else if (actor->id == game::act::Id::EnSi) {  // Gold Skulltula Token
+      retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_SKULL;
       retKey.flag = actor->params & 0xFF;
     } else if (scene == 0x14C0 && actor->id == (game::act::Id)0x0075) {  // Grotto Salesman
@@ -679,13 +679,13 @@ namespace rnd {
                             s16 incomingGetItemId) {
     ItemOverride override = {0};
     s32 incomingNegative = incomingGetItemId < 0;
-    // #if defined ENABLE_DEBUG || DEBUG_PRINT
-    //     util::Print("%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\n", __func__,
-    //     fromActor->id,
-    //                 gctx->scene, incomingGetItemId);
-    // #endif
     if (fromActor != NULL && incomingGetItemId != 0) {
       s16 getItemId = ItemOverride_CheckNpc(fromActor->id, incomingGetItemId, incomingNegative);
+      // #if defined ENABLE_DEBUG || DEBUG_PRINT
+      //       util::Print("%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId
+      //       %#04x\nParams %#04x\n", __func__, fromActor->id,
+      //                   gctx->scene, incomingGetItemId, getItemId, fromActor->params);
+      // #endif
       storedActorId = fromActor->id;
       storedGetItemId = incomingNegative ? (GetItemID)-incomingGetItemId : (GetItemID)incomingGetItemId;
       override = ItemOverride_Lookup(fromActor, (u16)gctx->scene, getItemId);
@@ -1046,7 +1046,7 @@ namespace rnd {
   }
 
   u8 ItemOverride_OverrideSkullToken(game::GlobalContext* gctx, game::act::Actor* actor) {
-    s16 getItemId = gctx->scene == game::SceneId::SwampSpiderHouse ? 0x52 : 0x6D;
+    s16 getItemId = gctx->scene == game::SceneId::SwampSpiderHouse ? 0x44 : 0x6D;
     ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
     if (rActiveItemRow != NULL) {
       ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());

@@ -48,6 +48,8 @@ namespace game::act {
     EnJs = 0x0085,
     // Cursed Man Spider House
     EnSsh = 0x0090,
+    // Gold Skullutla
+    EnSi = 0x0099,
     // Powder Keg Trial Goron
     EnGo = 0x00D5,
     // [1] Deku Palace / Woodfall Temple moving platforms (after player lands on them)
