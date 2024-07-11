@@ -24,6 +24,7 @@ namespace rnd {
   extern "C" float rDmChar03Scale;
   void Dm_Char03_Init(game::act::Actor* actor, game::GlobalContext* gctx);
   void Dm_Char03_Draw(game::act::Actor* actor, game::GlobalContext* gctx);
+  void Dm_Char03_Destroy(game::act::Actor* actor, game::GlobalContext* gctx);
 
 }  // namespace rnd
 #endif
