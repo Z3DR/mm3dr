@@ -64,8 +64,7 @@ hook_OverrideRemainGetItem:
     cmp r2,#0x0
     pop {r2}
     bne 0x23406C
-    cmp r2,#0x3
-    bhi 0x234878
+    ldr r0,[r0,#-0x174]
     bx lr
     
 
@@ -99,10 +98,9 @@ hook_RemoveSkulltulaTokenGetItem:
     cmp r0,#0x0
     pop {r0-r12,lr}
     beq skulltulaNotOverridden
-    bx lr
+    b 0x233C64 @branch back up to other checks.
 skulltulaNotOverridden:
-    cmp r4, #0x6E
-    beq 0x233CB8
+    ldr r1,[r7,#0x1F8]
     bx lr
 
 .global hook_OverrideTextID
