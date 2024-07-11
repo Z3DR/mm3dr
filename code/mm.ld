@@ -296,9 +296,9 @@ SECTIONS{
     *(.patch_ChangeDrawItemIndexSecond)
   }
 
-  .patch_RemoveSkulltulaTokenGetItem 0x233C60 : {
+  /* .patch_RemoveSkulltulaTokenGetItem 0x233C60 : {
     *(.patch_RemoveSkulltulaTokenGetItem)
-  }
+  } */
 
   .patch_ForceSwordUpgradeOnHuman 0x233D88 : {
     *(.patch_ForceSwordUpgradeOnHuman)
