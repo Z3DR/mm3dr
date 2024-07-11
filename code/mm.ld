@@ -312,7 +312,7 @@ SECTIONS{
     *(.patch_CheckDungeonSmallKeys)
   }
 
-  .patch_OverrideRemainGetItem 0x2347F8 : {
+  .patch_OverrideRemainGetItem 0x2347FC : {
     *(.patch_OverrideRemainGetItem)
   }
 
