@@ -24,4 +24,9 @@ namespace rnd {
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x41CE70)(actor, gctx);
   }
 
+  void Dm_Char03_Destroy(game::act::Actor* actor, game::GlobalContext* gctx) {
+    Model_DestroyByActor(actor);
+    util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x2043cc)(actor, gctx);
+  }
+
 }  // namespace rnd
