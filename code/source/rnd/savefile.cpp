@@ -430,15 +430,15 @@ namespace rnd {
       saveData.inventory.item_counts[14] = (gSettingsContext.startingNutCapacity + 1) * 10;
     }
 
-    if (gSettingsContext.startingBombBag > 0) {
+    if (gSettingsContext.startingBombBag == 1) {
       saveData.inventory.inventory_count_register.bomb_bag_upgrade = game::BombBag::BombBag20;
       saveData.inventory.items[6] = game::ItemId::Bomb;
       saveData.inventory.item_counts[11] = (gSettingsContext.startingBombBag + 1) * 10;
-    } else if (gSettingsContext.startingBombBag > 1) {
+    } else if (gSettingsContext.startingBombBag == 2) {
       saveData.inventory.inventory_count_register.bomb_bag_upgrade = game::BombBag::BombBag30;
       saveData.inventory.items[6] = game::ItemId::Bomb;
       saveData.inventory.item_counts[11] = (gSettingsContext.startingBombBag + 1) * 10;
-    } else if (gSettingsContext.startingBombBag > 2) {
+    } else if (gSettingsContext.startingBombBag == 3) {
       saveData.inventory.inventory_count_register.bomb_bag_upgrade = game::BombBag::BombBag40;
       saveData.inventory.items[6] = game::ItemId::Bomb;
       saveData.inventory.item_counts[11] = (gSettingsContext.startingBombBag + 1) * 10;
@@ -451,15 +451,15 @@ namespace rnd {
       saveData.inventory.item_counts[12] = 20;
     }
 
-    if (gSettingsContext.startingHerosBow > 0) {
+    if (gSettingsContext.startingHerosBow == 1) {
       saveData.inventory.items[1] = game::ItemId::Arrow;
       saveData.inventory.inventory_count_register.quiver_upgrade = game::Quiver::Quiver30;
       saveData.inventory.item_counts[6] = (gSettingsContext.startingHerosBow + 2) * 10;
-    } else if (gSettingsContext.startingHerosBow > 1) {
+    } else if (gSettingsContext.startingHerosBow == 2) {
       saveData.inventory.items[1] = game::ItemId::Arrow;
       saveData.inventory.inventory_count_register.quiver_upgrade = game::Quiver::Quiver40;
       saveData.inventory.item_counts[6] = (gSettingsContext.startingHerosBow + 2) * 10;
-    } else if (gSettingsContext.startingHerosBow > 2) {
+    } else if (gSettingsContext.startingHerosBow == 3) {
       saveData.inventory.items[1] = game::ItemId::Arrow;
       saveData.inventory.inventory_count_register.quiver_upgrade = game::Quiver::Quiver50;
       saveData.inventory.item_counts[6] = (gSettingsContext.startingHerosBow + 2) * 10;
