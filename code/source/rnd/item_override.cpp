@@ -1054,5 +1054,20 @@ namespace rnd {
     }
     return false;
   }
+
+  u8 ItemOverride_CheckBossStatus(u32 scene) {
+    switch(scene) {
+      case (u32)game::SceneId::OdolwaLair:
+        return gExtSaveData.givenItemChecks.odolowaDefeated == 0 ? 1 : 0;
+      case (u32)game::SceneId::GohtLair:
+        return gExtSaveData.givenItemChecks.gohtDefeated == 0 ? 1 : 0;
+      case (u32)game::SceneId::GyorgLair:
+        return gExtSaveData.givenItemChecks.gyorgDefeated == 0 ? 1 : 0;
+      case (u32)game::SceneId::TwinmoldLair:
+        return gExtSaveData.givenItemChecks.twinmoldDefeated == 0 ? 1 : 0;
+      default:
+        return 0;
+    }
+  }
   }
 }  // namespace rnd

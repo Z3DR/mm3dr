@@ -862,7 +862,8 @@ namespace rnd {
     }
   }
 
-  extern "C" void SaveFile_LoadExtSaveData() {
+  extern "C" {
+  void SaveFile_LoadExtSaveData() {
     char path[] = "/0.bin";
     u32 version;
     u64 fileSize;
@@ -927,8 +928,7 @@ namespace rnd {
     extDataWriteFileDirectly(fsa, path, &gExtSaveData, 0, sizeof(gExtSaveData));
     extDataUnmount(fsa);
   }
-
-  extern "C" void SaveFile_RemoveStoredTradeItem(u16 item, u8 slot) {
+  void SaveFile_RemoveStoredTradeItem(u16 item, u8 slot) {
 #if defined ENABLE_DEBUG
     return;
 #endif
@@ -955,7 +955,8 @@ namespace rnd {
     game::SaveData& saveData = game::GetCommonData().save;
     saveData.inventory.items[slot] = firstItem;
   }
-  extern "C" void SaveFile_RemoveTradeItemFromSlot(u16 item, u8 slot) {
+
+  void SaveFile_RemoveTradeItemFromSlot(u16 item, u8 slot) {
 #if defined ENABLE_DEBUG
     return;
 #endif
@@ -971,14 +972,14 @@ namespace rnd {
     }
   }
 
-  extern "C" u8 SaveFile_GetItemCurrentlyInSlot(u8 slot) {
+  u8 SaveFile_GetItemCurrentlyInSlot(u8 slot) {
     if (game::GetCommonData().save.inventory.items[slot] == game::ItemId::MysteryMilk) {
       gExtSaveData.givenItemChecks.bottleMysteryGivenToEnGm = 1;
     }
     return (u8)game::GetCommonData().save.inventory.items[slot];
   }
 
-  extern "C" void SaveFile_SetNextTradeSlotItem(u8 slot) {
+  void SaveFile_SetNextTradeSlotItem(u8 slot) {
     if (slot != 5 && slot != 17)
       return;
     game::ItemId firstItem = game::ItemId::None;
@@ -997,11 +998,8 @@ namespace rnd {
     game::SaveData& saveData = game::GetCommonData().save;
     saveData.inventory.items[slot] = firstItem;
   }
-  // SaveFile_DrawAndShowUIMessage() {
 
-  // }
-
-  extern "C" u16 CurrentMasksInInventory() {
+  u16 CurrentMasksInInventory() {
     // I can see why the original devs did this, because they did not want to count specific masks (transform + FD)
     u16 count = 0;
     if (game::HasMask(game::ItemId::MaskOfTruth))
@@ -1046,4 +1044,25 @@ namespace rnd {
       count += 1;
     return count;
   }
+
+  void SaveFile_UpdateBossExtData(game::SceneId scene) {
+    switch (scene) {
+    case game::SceneId::OdolwaLair:
+      gExtSaveData.givenItemChecks.odolowaDefeated = 1;
+      break;
+    case game::SceneId::GohtLair:
+      gExtSaveData.givenItemChecks.gohtDefeated = 1;
+      break;
+    case game::SceneId::GyorgLair:
+      gExtSaveData.givenItemChecks.gyorgDefeated = 1;
+      break;
+    case game::SceneId::TwinmoldLair:
+      gExtSaveData.givenItemChecks.twinmoldDefeated = 1;
+      break;
+    default:
+      return;
+    }
+  }
+  }
+
 }  // namespace rnd

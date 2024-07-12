@@ -1,5 +1,10 @@
 .arm
 
+.section .patch_UpdateBossLairExtData
+.global patch_UpdateBossLairExtData
+patch_UpdateBossLairExtData:
+    bl hook_UpdateBossLairExtData
+
 .section .patch_LoadExtData
 .global patch_LoadExtData
 patch_LoadExtData:

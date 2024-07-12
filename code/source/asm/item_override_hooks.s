@@ -156,6 +156,14 @@ hook_CheckOshExtData:
     cmp r0,#0x0
     bx lr
 
+.global hook_OverrideRemainSpawn
+hook_OverrideRemainSpawn:
+    push {r0-r12,lr}
+    bl ItemOverride_CheckBossStatus
+    cmp r0,#0x0
+    pop {r0-r12,lr}
+    bx lr
+
 .global hook_GoronMaskGiveItem
 hook_GoronMaskGiveItem:
     push {r0-r12, lr}

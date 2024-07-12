@@ -67,6 +67,11 @@ patch_OverrideQuiverArchery:
 patch_OverrideQuiverArcheryTwo:
     mov r2,#0x47
 
+.section .patch_OverrideRemainSpawn
+.global patch_OverrideRemainSpawn
+patch_OverrideRemainSpawn:
+    bl hook_OverrideRemainSpawn
+
 .section .patch_OverrideWalletSpiderHouseTwo
 .global patch_OverrideWalletSpiderHouseTwo
 patch_OverrideWalletSpiderHouseTwo:

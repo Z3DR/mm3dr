@@ -85,6 +85,9 @@ SECTIONS{
     *(.patch_FastTransformPatchFive)
   }
 
+  .patch_UpdateBossLairExtData 0x29CF30 : {
+    *(.patch_UpdateBossLairExtData)
+  }
 
   /*2bec9c GOOD DREAM */
   /*  
@@ -427,6 +430,10 @@ SECTIONS{
 
   .patch_OverrideItem00Init 0x3D018C : {
     *(.patch_OverrideItem00Init)
+  }
+
+  .patch_OverrideRemainSpawn 0x3DE1A0 : {
+    *(.patch_OverrideRemainSpawn)
   }
 
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
