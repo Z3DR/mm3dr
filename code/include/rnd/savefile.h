@@ -32,12 +32,16 @@ namespace rnd {
   void SaveFile_SetSceneDiscovered(u16 sceneNum);
   void SaveFile_LoadExtSaveData(u32 saveNumber);
   u8 SaveFile_GetIsSceneDiscovered(u8 sceneNum);
-  extern "C" void SaveFile_SaveExtSaveData();
-  extern "C" void SaveFile_RemoveStoredTradeItem(u16, u8);
-  extern "C" void SaveFile_RemoveTradeItemFromSlot(u16, u8);
-  extern "C" u8 SaveFile_GetItemCurrentlyInSlot(u8);
-  extern "C" void SaveFile_SetNextTradeSlotItem(u8);
-  extern "C" u16 CurrentMasksInInventory();
+  extern "C" {
+  void SaveFile_Init(game::GlobalContext*, game::SaveFile*);
+  void SaveFile_SaveExtSaveData();
+  void SaveFile_RemoveStoredTradeItem(u16, u8);
+  void SaveFile_RemoveTradeItemFromSlot(u16, u8);
+  u8 SaveFile_GetItemCurrentlyInSlot(u8);
+  void SaveFile_SetNextTradeSlotItem(u8);
+  u16 CurrentMasksInInventory();
+  void SaveFile_UpdateBossExtData();
+  }
 
   typedef struct {
     u32 version;  // Needs to always be the first field of the structure
@@ -98,7 +102,11 @@ namespace rnd {
       BitField<51, 1, u64> letterToMamaGiven;
       BitField<52, 1, u64> pendantGiven;
       BitField<53, 1, u64> enJsGivenItem;
-      BitField<54, 10, u64> unused;
+      BitField<54, 1, u64> odolwaDefeated;
+      BitField<55, 1, u64> gohtDefeated;
+      BitField<56, 1, u64> gyorgDefeated;
+      BitField<57, 1, u64> twinmoldDefeated;
+      BitField<58, 6, u64> unused;
     };
     GivenItemRegister givenItemChecks;
     union FairyCollectRegister {

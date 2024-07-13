@@ -85,6 +85,9 @@ SECTIONS{
     *(.patch_FastTransformPatchFive)
   }
 
+  .patch_UpdateBossLairExtData 0x29CF30 : {
+    *(.patch_UpdateBossLairExtData)
+  }
 
   /*2bec9c GOOD DREAM */
   /*  
@@ -429,6 +432,10 @@ SECTIONS{
     *(.patch_OverrideItem00Init)
   }
 
+  .patch_OverrideRemainSpawn 0x3DE1A0 : {
+    *(.patch_OverrideRemainSpawn)
+  }
+
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
     *(.patch_TingleCheckClocktownMapTwo)
   }
@@ -543,6 +550,10 @@ SECTIONS{
 
   .patch_LoadExtData 0x48C760 : {
     *(.patch_LoadExtData)
+  }
+
+  .patch_OverrideRemainSpawnTwo 0x4ABF10 : {
+    *(.patch_OverrideRemainSpawnTwo)
   }
 
   .patch_RemoveKafeiItemFromExtSlot 0x4AD1B8 : {

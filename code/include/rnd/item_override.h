@@ -440,22 +440,27 @@ namespace rnd {
   void ItemOverride_RevealMapBasedOnId(u8);
   void SetExtData(void);
   u8 ItemOverride_SetProgressiveItemDraw(ItemOverride);
-  extern "C" bool ItemOverride_CheckAromaGivenItem();
-  extern "C" bool ItemOverride_CheckMikauGivenItem();
-  extern "C" bool ItemOverride_CheckDarmaniGivenItem();
-  extern "C" void ItemOverride_GetItemTextAndItemID(game::act::Player*);
-  extern "C" void ItemOverride_GetItem(game::GlobalContext*, game::act::Actor*, game::act::Player*, s16);
-  extern "C" void ItemOverride_GetFairyRewardItem(game::GlobalContext*, game::act::GreatFairy*, s16);
-  extern "C" void ItemOverride_GetSoHItem(game::GlobalContext*, game::act::Actor*, s16);
-  extern "C" int ItemOverride_CheckInventoryItemOverride(game::ItemId);
-  extern "C" void ItemOverride_SwapSoHGetItemText(game::GlobalContext*, u16, game::act::Actor*);
-  extern "C" bool ItemOverride_CheckTingleMaps(u16, game::GlobalContext*);
-  extern "C" u32 ItemOverride_GetGaboraExtData();
-  extern "C" u32 ItemOverride_GetOshExtData();
-  extern "C" u8 ItemOverride_OverrideSkullToken(game::GlobalContext*, game::act::Actor*);
+  extern "C" {
+  bool ItemOverride_CheckAromaGivenItem();
+  bool ItemOverride_CheckMikauGivenItem();
+  bool ItemOverride_CheckDarmaniGivenItem();
+  void ItemOverride_GetItemTextAndItemID(game::act::Player*);
+  void ItemOverride_GetItem(game::GlobalContext*, game::act::Actor*, game::act::Player*, s16);
+  void ItemOverride_GetFairyRewardItem(game::GlobalContext*, game::act::GreatFairy*, s16);
+  void ItemOverride_GetSoHItem(game::GlobalContext*, game::act::Actor*, s16);
+  int ItemOverride_CheckInventoryItemOverride(game::ItemId);
+  void ItemOverride_SwapSoHGetItemText(game::GlobalContext*, u16, game::act::Actor*);
+  bool ItemOverride_CheckTingleMaps(u16, game::GlobalContext*);
+  u32 ItemOverride_GetGaboraExtData();
+  u32 ItemOverride_GetOshExtData();
+  u8 ItemOverride_OverrideSkullToken(game::GlobalContext*, game::act::Actor*);
+  u8 ItemOverride_CheckBossStatus();
+  
+  }
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];
   extern "C" u16 rStoredTextId;
+
 }  // namespace rnd
 
 #endif

@@ -1,6 +1,13 @@
 .arm
 .text
 
+.global hook_UpdateBossLairExtData
+hook_UpdateBossLairExtData:
+    ldrsh r2,[r1,r5]
+    push {r0-r12,lr}
+    bl SaveFile_UpdateBossExtData
+    pop {r0-r12,lr}
+    bx lr
 
 .global hook_SaveFile_Load
 hook_SaveFile_Load:
