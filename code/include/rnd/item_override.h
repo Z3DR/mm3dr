@@ -455,7 +455,6 @@ namespace rnd {
   u32 ItemOverride_GetOshExtData();
   u8 ItemOverride_OverrideSkullToken(game::GlobalContext*, game::act::Actor*);
   u8 ItemOverride_CheckBossStatus();
-  
   }
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];
