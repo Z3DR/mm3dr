@@ -1045,10 +1045,11 @@ namespace rnd {
     return count;
   }
 
-  void SaveFile_UpdateBossExtData(game::SceneId scene) {
+  void SaveFile_UpdateBossExtData() {
+    game::SceneId scene = GetContext().gctx->scene;
     switch (scene) {
     case game::SceneId::OdolwaLair:
-      gExtSaveData.givenItemChecks.odolowaDefeated = 1;
+      gExtSaveData.givenItemChecks.odolwaDefeated = 1;
       break;
     case game::SceneId::GohtLair:
       gExtSaveData.givenItemChecks.gohtDefeated = 1;

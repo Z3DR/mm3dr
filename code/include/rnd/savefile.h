@@ -40,7 +40,7 @@ namespace rnd {
   u8 SaveFile_GetItemCurrentlyInSlot(u8);
   void SaveFile_SetNextTradeSlotItem(u8);
   u16 CurrentMasksInInventory();
-  void SaveFile_UpdateBossExtData(game::SceneId);
+  void SaveFile_UpdateBossExtData();
   }
 
   typedef struct {
@@ -102,7 +102,7 @@ namespace rnd {
       BitField<51, 1, u64> letterToMamaGiven;
       BitField<52, 1, u64> pendantGiven;
       BitField<53, 1, u64> enJsGivenItem;
-      BitField<54, 1, u64> odolowaDefeated;
+      BitField<54, 1, u64> odolwaDefeated;
       BitField<55, 1, u64> gohtDefeated;
       BitField<56, 1, u64> gyorgDefeated;
       BitField<57, 1, u64> twinmoldDefeated;

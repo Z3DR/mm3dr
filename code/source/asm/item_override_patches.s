@@ -72,6 +72,11 @@ patch_OverrideQuiverArcheryTwo:
 patch_OverrideRemainSpawn:
     bl hook_OverrideRemainSpawn
 
+.section .patch_OverrideRemainSpawnTwo
+.global patch_OverrideRemainSpawnTwo
+patch_OverrideRemainSpawnTwo:
+    bl hook_OverrideRemainSpawn
+
 .section .patch_OverrideWalletSpiderHouseTwo
 .global patch_OverrideWalletSpiderHouseTwo
 patch_OverrideWalletSpiderHouseTwo:

@@ -552,6 +552,10 @@ SECTIONS{
     *(.patch_LoadExtData)
   }
 
+  .patch_OverrideRemainSpawnTwo 0x4ABF10 : {
+    *(.patch_OverrideRemainSpawnTwo)
+  }
+
   .patch_RemoveKafeiItemFromExtSlot 0x4AD1B8 : {
     *(.patch_RemoveKafeiItemFromExtSlot)
   }

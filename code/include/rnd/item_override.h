@@ -454,7 +454,7 @@ namespace rnd {
   u32 ItemOverride_GetGaboraExtData();
   u32 ItemOverride_GetOshExtData();
   u8 ItemOverride_OverrideSkullToken(game::GlobalContext*, game::act::Actor*);
-  u8 ItemOverride_CheckBossStatus(u32);
+  u8 ItemOverride_CheckBossStatus();
   
   }
   extern "C" u32 rActiveItemGraphicId;
