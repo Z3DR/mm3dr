@@ -231,7 +231,7 @@ namespace rnd {
                         1.00f),  // Double Magic
 
       [0x2C] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::BigMagicAccumulator,
-                        0x000CA, 0x0001, 0x18, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x000CA, 0x0001, 0x18, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE_TWO,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveGreatSpin, (s16)-1, (s16)-1,
                         0.05f),  // Great Spin Attack
 
@@ -889,7 +889,7 @@ namespace rnd {
                         1.00f),  // Map (Stone Tower)
 
       [0xB2] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::None, 0x000CB, 0x0090,
-                        0x00, (s8)0xFF, (s8)0x00, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x00, (s8)0xFF, (s8)0x00, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE_TWO,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveDoubleDefense, (s16)3, (s16)3,
                         1.00f),  // Double Defense.
 

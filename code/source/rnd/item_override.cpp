@@ -1061,11 +1061,11 @@ namespace rnd {
     case game::SceneId::OdolwaLair:
       return gExtSaveData.givenItemChecks.odolwaDefeated == 0 ? 1 : 0;
     case game::SceneId::GohtLair:
-      return gExtSaveData.givenItemChecks.gohtDefeated == 0 ? 1 : 0;
+      return gExtSaveData.givenItemChecks.gohtDefeated == 0 ? 2 : 0;
     case game::SceneId::GyorgLair:
-      return gExtSaveData.givenItemChecks.gyorgDefeated == 0 ? 1 : 0;
+      return gExtSaveData.givenItemChecks.gyorgDefeated == 0 ? 3 : 0;
     case game::SceneId::TwinmoldLair:
-      return gExtSaveData.givenItemChecks.twinmoldDefeated == 0 ? 1 : 0;
+      return gExtSaveData.givenItemChecks.twinmoldDefeated == 0 ? 4 : 0;
     default:
       return 0;
     }
