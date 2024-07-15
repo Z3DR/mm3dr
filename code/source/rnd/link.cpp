@@ -385,9 +385,13 @@ namespace rnd::link {
   }
 
   void ResetPlayerForm() {
-    game::SaveData& saveData = game::GetCommonData().save;
-    saveData.mask = game::MaskId::None;
-    saveData.player_form = game::act::Player::Form::Human;
+    game::SceneId scene = GetContext().gctx->scene;
+    if (scene == game::SceneId::OdolwaLair || scene == game::SceneId::GohtLair || scene == game::SceneId::GyorgLair ||
+        scene == game::SceneId::TwinmoldLair) {
+      game::SaveData& saveData = game::GetCommonData().save;
+      saveData.mask = game::MaskId::None;
+      saveData.player_form = game::act::Player::Form::Human;
+    }
   }
   }
 
