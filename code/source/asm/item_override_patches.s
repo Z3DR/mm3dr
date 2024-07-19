@@ -77,6 +77,11 @@ patch_OverrideRemainSpawn:
 patch_OverrideRemainSpawnTwo:
     bl hook_OverrideRemainSpawn
 
+.section .patch_OverrideRemainSpawnThree
+.global patch_OverrideRemainSpawnThree
+patch_OverrideRemainSpawnThree:
+    bl hook_OverrideRemainSpawn
+
 .section .patch_OverrideWalletSpiderHouseTwo
 .global patch_OverrideWalletSpiderHouseTwo
 patch_OverrideWalletSpiderHouseTwo:
