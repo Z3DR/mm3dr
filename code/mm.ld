@@ -556,6 +556,11 @@ SECTIONS{
     *(.patch_OverrideRemainSpawnTwo)
   }
 
+  .patch_OverrideRemainSpawnThree 0x4ABF20 : {
+    *(.patch_OverrideRemainSpawnThree)
+  }
+
+
   .patch_RemoveKafeiItemFromExtSlot 0x4AD1B8 : {
     *(.patch_RemoveKafeiItemFromExtSlot)
   }
