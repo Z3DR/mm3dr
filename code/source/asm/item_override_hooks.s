@@ -160,7 +160,6 @@ hook_CheckOshExtData:
 hook_OverrideRemainSpawn:
     push {r1-r12,lr}
     bl ItemOverride_CheckBossStatus
-    cmp r0,#0x0
     pop {r1-r12,lr}
     bx lr
 
