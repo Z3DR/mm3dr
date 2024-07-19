@@ -432,7 +432,7 @@ SECTIONS{
     *(.patch_OverrideItem00Init)
   }
 
-  .patch_OverrideRemainSpawn 0x3DE1A0 : {
+  .patch_OverrideRemainSpawn 0x389E7C : {
     *(.patch_OverrideRemainSpawn)
   }
 
@@ -551,15 +551,6 @@ SECTIONS{
   .patch_LoadExtData 0x48C760 : {
     *(.patch_LoadExtData)
   }
-
-  .patch_OverrideRemainSpawnTwo 0x4ABF10 : {
-    *(.patch_OverrideRemainSpawnTwo)
-  }
-
-  .patch_OverrideRemainSpawnThree 0x4ABF20 : {
-    *(.patch_OverrideRemainSpawnThree)
-  }
-
 
   .patch_RemoveKafeiItemFromExtSlot 0x4AD1B8 : {
     *(.patch_RemoveKafeiItemFromExtSlot)
