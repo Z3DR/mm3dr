@@ -134,7 +134,18 @@ noOverrideItemID:
     cpy r0,r7
     b 0x23110C
 
-
+.global hook_RemoveAddingSkulltulaTokenIfOverridden
+hook_RemoveAddingSkulltulaTokenIfOverridden:
+    push {r1}
+    ldr r1,.rActiveItemRow_addr
+    ldr r1,[r1]
+    cmp r1,#0x0
+    pop {r1}
+    bne doNotIncreaseSkulltulaCount
+    cmp r0, #0x27
+    b 0x239760
+doNotIncreaseSkulltulaCount:
+    bx lr
 
 .global hook_DarmaniRewardCheck
 hook_DarmaniRewardCheck:
@@ -284,7 +295,7 @@ hook_ChangeSOHToCustomText:
 .global hook_SkulltulaOverrideOne
 hook_SkulltulaOverrideOne:
     push {r0-r12,lr}
-    cpy r1,r5
+    cpy r0,r5
     bl ItemOverride_OverrideSkullToken
     cmp r0,#0x0
     pop {r0-r12,lr}
@@ -297,7 +308,7 @@ skulltulaOverridden:
 .global hook_SkulltulaOverrideTwo
 hook_SkulltulaOverrideTwo:
     push {r0-r12,lr}
-    cpy r1,r5
+    cpy r0,r4
     bl ItemOverride_OverrideSkullToken
     cmp r0,#0x0
     pop {r0-r12,lr}

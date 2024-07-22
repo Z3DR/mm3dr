@@ -47,6 +47,11 @@ OverrideTextID_patch:
 OverrideItemID_patch:
     b hook_OverrideItemID
 
+.section .patch_RemoveAddingSkulltulaTokenIfOverridden
+.global patch_RemoveAddingSkulltulaTokenIfOverridden
+patch_RemoveAddingSkulltulaTokenIfOverridden:
+    b hook_RemoveAddingSkulltulaTokenIfOverridden
+
 .section .patch_RemoveGoronMaskCheckDarmani
 .global patch_RemoveGoronMaskCheckDarmani
 patch_RemoveGoronMaskCheckDarmani:

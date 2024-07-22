@@ -748,7 +748,8 @@ namespace rnd {
            gExtSaveData.givenItemChecks.letterToKafeiGiven == 1) ||
           (incomingGetItemId == (s16)GetItemID::GI_PENDANT_OF_MEMORIES &&
            gExtSaveData.givenItemChecks.pendantGiven == 1)) {
-        player->get_item_id = (s16)GetItemID::GI_FISHING_HOLE_PASS;
+        if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52)
+          player->get_item_id = (s16)GetItemID::GI_FISHING_HOLE_PASS;
         ItemOverride_Clear();
         return;
       }
@@ -812,8 +813,8 @@ namespace rnd {
       rActiveItemRow->effectArg1 = override.key.all >> 16;
       rActiveItemRow->effectArg2 = override.key.all & 0xFFFF;
     }
-
-    player->get_item_id = incomingNegative ? -baseItemId : baseItemId;
+    if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52)
+      player->get_item_id = incomingNegative ? -baseItemId : baseItemId;
     // Weird edge case with the way text and masks are handled with Couples' Mask.
     // Set the text and apply it later in a different patch.
     if (incomingGetItemId == 0x85) {
@@ -1045,7 +1046,8 @@ namespace rnd {
     return (u32)gExtSaveData.givenItemChecks.enOshGivenItem;
   }
 
-  u8 ItemOverride_OverrideSkullToken(game::GlobalContext* gctx, game::act::Actor* actor) {
+  u8 ItemOverride_OverrideSkullToken(game::act::Actor* actor) {
+    game::GlobalContext* gctx = GetContext().gctx;
     s16 getItemId = gctx->scene == game::SceneId::SwampSpiderHouse ? 0x44 : 0x6D;
     ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
     if (rActiveItemRow != NULL) {
