@@ -335,14 +335,17 @@ SECTIONS{
     *(.patch_OverrideItemID)
   }
 
-  .patch_TwinmoldConsistentDamage 0x28E544 : {
-    *(.patch_TwinmoldConsistentDamage)
+  .patch_RemoveAddingSkulltulaTokenIfOverridden 0x23975C : {
+    *(.patch_RemoveAddingSkulltulaTokenIfOverridden)
   }
 
   .patch_EnteringLocation 0x23AA54 : {
     *(.patch_EnteringLocation)
   }
 
+  .patch_TwinmoldConsistentDamage 0x28E544 : {
+    *(.patch_TwinmoldConsistentDamage)
+  }
 
   .patch_FasterBlockMovement 0x2AC634 : {
     *(.patch_FasterBlockMovement)
