@@ -621,10 +621,10 @@ namespace rnd {
     return override.value.looksLikeItemId;
   }
 
-  bool ItemOverride_IsItemObtained(ItemOverride override) {
+  bool ItemOverride_IsItemObtainedOrEmptyBottle(ItemOverride override) {
     ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
     return (game::HasMask((game::ItemId)itemToBeGiven->itemId) || game::HasItem((game::ItemId)itemToBeGiven->itemId) ||
-            (itemToBeGiven->itemId > 0x49 && itemToBeGiven->itemId < 0x81));
+            (itemToBeGiven->itemId > 0x49 && itemToBeGiven->itemId < 0x81) || override.value.getItemId == 0x5A);
   }
 
   extern "C" {
@@ -714,7 +714,7 @@ namespace rnd {
       // Override was already given, check to see if the item exists in inventory, if it does
       // then we give a blue rupee. Only check for inventory items. If an item is a heart piece
       // do not give multiples.
-      if (ItemOverride_IsItemObtained(override)) {
+      if (ItemOverride_IsItemObtainedOrEmptyBottle(override)) {
         // Do a secondary check as well for bottled items, and check to see if we have an empty bottle in our inventory.
         // If we don't, then do not give the item as we don't want to override items in users inventories.
         override.value.getItemId = 0x02;
@@ -725,7 +725,8 @@ namespace rnd {
     // This check is mainly to ensure we do not have repeatable progressive items within these base items.
     // This is to ensure fairness and allows us to place these items without second guessing in logic.
     // Let's be a bit rude and give them fishing passes.
-    if ((override.value.getItemId > 0x45 && override.value.getItemId < 0x4A) || ItemOverride_IsItemObtained(override)) {
+    if ((override.value.getItemId > 0x45 && override.value.getItemId < 0x4A) ||
+        ItemOverride_IsItemObtainedOrEmptyBottle(override)) {
       // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
       //       rnd::util::Print("%s: GID #%04x IS ALREADY OBTAINED, INCOMING ID IS %#04x\n", __func__,
       //       override.value.getItemId,
@@ -757,7 +758,8 @@ namespace rnd {
     if (incomingGetItemId == 0x70 || incomingGetItemId == 0x94) {
       // If we've completed the milk quest, make sure we're not a heart piece
       // or any way to cheese the game.
-      if (gExtSaveData.givenItemChecks.enInMysteryMilkGiven == 1 && ItemOverride_IsItemObtained(override)) {
+      if (gExtSaveData.givenItemChecks.enInMysteryMilkGiven == 1 &&
+          ItemOverride_IsItemObtainedOrEmptyBottle(override)) {
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
       }
