@@ -548,7 +548,7 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)8, (s16)-1,
                         1.00f),  // Epona's Song
 
-      [0x6D] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::GoldSkulltula, 0x0052,
+      [0x6D] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::GoldSkulltula, 0x6143,
                         0x0020, 0x02, (s8)0xFF, (s8)0x03, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GOLD_SKULLTULA,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSkulltula, (s16)1, (s16)-1,
                         1.00f),  // Gold Skulltula - Ocean
