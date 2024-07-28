@@ -1,4 +1,5 @@
 #include "rnd/custom_messages.h"
+#include "game/common_data.h"
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
 #include "common/debug.h"
@@ -81,6 +82,47 @@ void packData(u8 size, u8 idx, char* data, u8 unpacked) {
   }
 }
 
+typedef enum {
+  VT_UNK,
+  VT_INT,
+  VT_STR,
+  VT_WSTR,
+} VarType;
+
+typedef struct {
+  VarType type;
+  union {
+    u32 num;
+    char* text;
+    char16_t* text16;
+  } value;
+} VarVal;
+
+// Retrieve data to match a three letter acronym
+VarVal getVarVal(char* text) {
+  // Ensure prefixed with '='
+  if (text[0] != '=')
+    return (VarVal){VT_UNK, 0};
+
+// Macro to help make checking the three letter acronym easier to read
+#define is(TLA) text[1] == TLA[0] && text[2] == TLA[1] && text[3] == TLA[2]
+  // Oceanside spider house token count
+  if (is("OSH"))
+    return (VarVal){VT_INT, (u32)game::GetCommonData().save.skulltulas_collected.ocean_count};
+
+  // Swamp spider house token count
+  if (is("SSH"))
+    return (VarVal){VT_INT, (u32)game::GetCommonData().save.skulltulas_collected.swamp_count};
+
+// Examples for adding a string or wstring value
+// if (is("TXT")) return (VarVal){ VT_STR, { .text = someCharStar } };
+// if (is("PLN")) return (VarVal){ VT_WSTR, { .text16 = game::GetCommonData().save.player.playerName } };
+#undef is
+
+  // No matches
+  return (VarVal){VT_UNK, 0};
+}
+
 class MsgBuilder {
 public:
   char* data;
@@ -100,6 +142,59 @@ public:
       rnd::util::Print("Error building message: MAX_MSG_SIZE exceeded\n");
 #endif
     return this;
+  }
+
+  u16 addNum(u32 num) {
+    u16 len = 0, chars = 1;
+    char txtNum[10] = "0";
+    for (u32 i = 0x80000000, j; i; i >>= 1) {
+      if (txtNum[chars - 1] > '4')
+        txtNum[chars++] = '0';
+      for (j = chars; --j;) {
+        txtNum[j] = (((txtNum[j] - '0') << 1) % 10) + ((txtNum[j - 1] > '4') ? '1' : '0');
+      }
+      txtNum[0] = (((txtNum[0] - '0') << 1) % 10) + ((num & i) ? '1' : '0');
+    }
+    for (u32 j = chars; j--;) {
+      addChr(txtNum[j]);
+      len += width[(u16)txtNum[j]];
+    }
+    return len;
+  }
+
+  u16 addText(char* txt) {
+    u16 len = 0, resolved;
+    for (u16 idx = 0; txt[idx]; idx++) {
+      // Abort if unsupported character
+      if (txt[idx] > 0xDF)
+        return len;
+      if (txt[idx] > 0x7F) {
+        resolved = ((txt[idx] & 0x1F) << 6) | (txt[idx + 1] & 0x3F);
+        addChr(txt[idx++]);
+      } else
+        resolved = txt[idx];
+      addChr(txt[idx]);
+      len += (resolved < MAX_CHAR) ? width[resolved] : DEFAULT_WIDTH;
+    }
+    return len;
+  }
+
+  u16 addText16(char16_t* txt) {
+    u16 len = 0;
+    for (u16 idx = 0; txt[idx]; idx++) {
+      // Convert UTF16 to UTF8
+      if (txt[idx] < 0x80) {
+        addChr(txt[idx]);
+      } else if (txt[idx] < 0x0800) {
+        addChr(0xC0 | ((txt[idx] >> 6) & 0x1F));
+        addChr(0x80 | (txt[idx] & 0x3F));
+      } else {
+        // Unsupported char, abort
+        return len;
+      }
+      len += (txt[idx] < MAX_CHAR) ? width[txt[idx]] : DEFAULT_WIDTH;
+    }
+    return len;
   }
 
   MsgBuilder* text(const char* txt) {
@@ -179,14 +274,18 @@ public:
     // ^ - new box
     // $ - icon
     // % - delay
+    // = - 3 letter acronym for variable to insert
     u16 idx = 0xFFFF, lastSpaceIdx = 0;
     u16 colIdx = 0, colIdxAtLastSpace = 0;
     u16 iconIdx = 0, iconIdxAtLastSpace = 0;
     u16 delayIdx = 0, delayIdxAtLastSpace = 0;
     u16 sizeAtLastSpace = 0, resolvedChar = 0, lineLen = 0;
     bool inCol = false, inColAtLastSpace = false;
+    bool lineWrap = true;
     u16 sfx = msg.sfxAndFlags & 0x3FFF;
     u8 resolvedCol = 0, resolvedIcon = 0, resolvedDelay = 0;
+    VarVal resolvedVar;
+    u16 playerNameLen = 0;
     *size = 0;
 
     if (sfx)
@@ -195,8 +294,11 @@ public:
       instant();
 
     // Tingle Map Choices. Add 3 choices, 2 for maps and 1 for no thanks.
-    if (msg.id >= 0x1D11 && msg.id <= 0x1D16)
+    if (msg.id >= 0x1D11 && msg.id <= 0x1D16) {
       addCom(0x2F, 3);
+      // Disable line wrap to ensure text lines up with options
+      lineWrap = false;
+    }
 
     while (++idx < MAX_UNFORMATTED_SIZE && msg.text[idx]) {
       resolvedChar = msg.text[idx];
@@ -206,7 +308,17 @@ public:
         if (!lastSpaceIdx)
           sizeAtLastSpace = *size;
         filename();
-        lineLen += 120;  // TODO: dynamically fit to actual filename?
+        if (!playerNameLen) {
+          // Calculate length of player name
+          char16_t* playerName = game::GetCommonData().save.player.playerName;
+          for (u32 i = 0; i < 8 && playerName[i]; i++) {
+            if (playerName[i] < MAX_CHAR)
+              playerNameLen += width[playerName[i]];
+            else
+              playerNameLen += DEFAULT_WIDTH;
+          }
+        }
+        lineLen += playerNameLen;
         break;
 
       case '#':  // Colour marker
@@ -302,6 +414,30 @@ public:
 #endif
         break;
 
+      case '=':  // Numeric variable marker
+        if (!lastSpaceIdx)
+          sizeAtLastSpace = *size;
+        resolvedVar = getVarVal(&msg.text[idx]);
+        switch (resolvedVar.type) {
+        case VT_INT:
+          idx += 3;
+          lineLen += addNum(resolvedVar.value.num);
+          break;
+        case VT_STR:
+          idx += 3;
+          lineLen += addText(resolvedVar.value.text);
+          break;
+        case VT_WSTR:
+          idx += 3;
+          lineLen += addText16(resolvedVar.value.text16);
+          break;
+        default:
+          // 3LA didn't match any variables, treat '=' as normal text
+          addChr(msg.text[idx]);
+          lineLen += width[resolvedChar];
+        }
+        break;
+
       case ' ':
         // Keep track of spaces for inserting line breaks
         lastSpaceIdx = idx;
@@ -337,7 +473,7 @@ public:
 
       // Replace last space with newline if necessary
       // If no space available use start of last item with width
-      if (lineLen > LINE_WIDTH) {
+      if (lineWrap && lineLen > LINE_WIDTH) {
         if (lastSpaceIdx) {
           idx = lastSpaceIdx;
           colIdx = colIdxAtLastSpace;
@@ -375,12 +511,12 @@ volatile const UnformattedMessage rCustomMessages[512] = {0};
 volatile const u32 numCustomMessageEntries = {0};
 
 bool SetCustomMessage(u16 id, game::MessageResEntry* msgResEntry) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-  static u16 lastId;
-  if (id && id != lastId)
-    rnd::util::Print("Message ID is %#06x\n", id);
-  lastId = id;
-#endif
+  // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+  //   static u16 lastId;
+  //   if (id && id != lastId)
+  //     rnd::util::Print("Message ID is %#06x\n", id);
+  //   lastId = id;
+  // #endif
 
   UnformattedMessage customMsgData;
   s32 start = 0, end = numCustomMessageEntries - 1, current;
@@ -394,10 +530,7 @@ bool SetCustomMessage(u16 id, game::MessageResEntry* msgResEntry) {
     else if (customMsgData.id > id)
       end = current - 1;
     else {
-      // Only reformat message if it's different to the current formatted message
-      // Message get function called multiple times per message so this is important
-      if (id != customMsg.id)
-        builder.set(&customMsg)->format(customMsgData);
+      builder.set(&customMsg)->format(customMsgData);
       // Populate message entry with data from app side and the formatted message
       msgResEntry->id = customMsg.id = id;
       msgResEntry->field_2 = customMsgData.field_2;

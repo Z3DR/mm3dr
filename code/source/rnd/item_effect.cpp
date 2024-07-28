@@ -41,10 +41,12 @@ namespace rnd {
     }
     comData->save.player.razor_sword_hp = 100;                                 // Set to 100 hits. Maybe randomize?
     comData->save.equipment.sword_shield.sword = game::SwordType::RazorSword;  // Set sword to razor.
+    comData->save.equipment.data[0].item_btn_b = game::ItemId::RazorSword;
   }
 
   void ItemEffect_GiveGildedSword(game::CommonData* comData, s16 arg1, s16 arg2) {
     comData->save.equipment.sword_shield.sword = game::SwordType::GildedSword;  // Set sword to gilded.
+    comData->save.equipment.data[0].item_btn_b = game::ItemId::GildedSword;
   }
 
   void ItemEffect_GiveBottle(game::CommonData* comData, s16 bottleItemId, s16 arg2) {
@@ -61,17 +63,26 @@ namespace rnd {
   }
 
   void ItemEffect_GiveSmallKey(game::CommonData* comData, s16 dungeonId, s16 arg2) {
+    // Have the checks in here as a safety measure in case save file doesn't write them.
     switch (dungeonId) {
     case 0:
+      if (comData->save.inventory.woodfall_temple_keys == 255)
+        comData->save.inventory.woodfall_temple_keys = 0;
       comData->save.inventory.woodfall_temple_keys = comData->save.inventory.woodfall_temple_keys + 1;
       break;
     case 1:
+      if (comData->save.inventory.snowhead_temple_keys == 255)
+        comData->save.inventory.snowhead_temple_keys = 0;
       comData->save.inventory.snowhead_temple_keys = comData->save.inventory.snowhead_temple_keys + 1;
       break;
     case 2:
+      if (comData->save.inventory.great_bay_temple_keys == 255)
+        comData->save.inventory.great_bay_temple_keys = 0;
       comData->save.inventory.great_bay_temple_keys = comData->save.inventory.great_bay_temple_keys + 1;
       break;
     case 3:
+      if (comData->save.inventory.stone_tower_temple_keys == 255)
+        comData->save.inventory.stone_tower_temple_keys = 0;
       comData->save.inventory.stone_tower_temple_keys = comData->save.inventory.stone_tower_temple_keys + 1;
       break;
     default:
@@ -335,6 +346,38 @@ namespace rnd {
     }
     // Make this call as we need to update field_11 in Sub1 CommonData.
     rnd::util::GetPointer<void(game::GlobalContext*, int)>(0x222BCC)(rnd::GetContext().gctx, 0);
+  }
+
+  void ItemEffect_GiveTradeItem(game::CommonData* comData, s16 mask, s16 arg2) {
+    switch (mask) {
+    case 0:  // Moon's Tear
+      gExtSaveData.collectedTradeItems[0] = game::ItemId::MoonTear;
+      break;
+    case 1:  // Town Title Deed
+      gExtSaveData.collectedTradeItems[1] = game::ItemId::LandTitleDeed;
+      break;
+    case 2:  // Swamp Title Deed
+      gExtSaveData.collectedTradeItems[2] = game::ItemId::SwampTitleDeed;
+      break;
+    case 3:  // Mtn Title Deed
+      gExtSaveData.collectedTradeItems[3] = game::ItemId::MountainTitleDeed;
+      break;
+    case 4:  // Ocean Title Deed
+      gExtSaveData.collectedTradeItems[4] = game::ItemId::OceanTitleDeed;
+      break;
+    case 5:  // Room Key
+      gExtSaveData.collectedTradeItems[5] = game::ItemId::RoomKey;
+      break;
+    case 6:  // Letter To Kafei
+      gExtSaveData.collectedTradeItems[6] = game::ItemId::LetterToKafei;
+      break;
+    case 7:  // Pendant
+      gExtSaveData.collectedTradeItems[7] = game::ItemId::PendantOfMemories;
+      break;
+    case 8:  // Letter To Mama
+      gExtSaveData.collectedTradeItems[8] = game::ItemId::LetterToMama;
+      break;
+    }
   }
 
 }  // namespace rnd

@@ -7,6 +7,7 @@
 #include "game/common_data.h"
 #include "game/context.h"
 #include "game/items.h"
+#include "rnd/savefile.h"
 #include "z3d/z3DVec.h"
 
 namespace rnd {
@@ -182,14 +183,17 @@ namespace rnd {
     /* 0x8F */ GI_MASK_KAFEIS,
     /* 0x90 */  // GI_ERROR_NOTHING_90, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
-    /* 0x91 */ GI_BOTTLE_CHATEAU_ROMANI_TWO = 0x91,  // Sets it in a different slot if no bottle present. Second bottle?
-    /* 0x92 */ GI_BOTTLE_MILK_TWO,                   // Sets it in a different slot if no bottle present. Second
-                                                     // bottle?
-    /* 0x93 */ GI_BOTTLE_GOLD_DUST_TWO,              // Sets it in a different slot if no bottle present. Second
-                                                     // bottle?
-    /* 0x94 */ GI_BOTTLE_MYSTERY_MILK_TWO,           // Timer set to 0.
-    /* 0x95 */ GI_BOTTLE_SEAHORSE_TWO,               // Proper sea horse actor!
-    /* 0x96 */ GI_MOONS_TEAR,                        // Provides a black screen after collecting in citra.
+                // clang-format off
+    /* 0x91 */ GI_BOTTLE_CHATEAU_ROMANI_REFILL = 0x91,
+                                               // Sets it in a different slot if no bottle present. Second bottle?
+                // clang-format on
+    /* 0x92 */ GI_BOTTLE_MILK_REFILL,          // Sets it in a different slot if no bottle present. Second
+                                               // bottle?
+    /* 0x93 */ GI_BOTTLE_GOLD_DUST_REFILL,     // Sets it in a different slot if no bottle present. Second
+                                               // bottle?
+    /* 0x94 */ GI_BOTTLE_MYSTERY_MILK_REFILL,  // Timer set to 0.
+    /* 0x95 */ GI_BOTTLE_SEAHORSE_REFILL,      // Proper sea horse actor!
+    /* 0x96 */ GI_MOONS_TEAR,                  // Provides a black screen after collecting in citra.
     /* 0x97 */ GI_TOWN_TITLE_DEED,
     /* 0x98 */ GI_SWAMP_TITLE_DEED,
     /* 0x99 */ GI_MOUNTAIN_TITLE_DEED,
@@ -249,10 +253,10 @@ namespace rnd {
     /* 0x0002 */ DI_SMALL_KEY,
     /* 0x0003 */ DI_KAMARO_MASK,
     /* 0x0004 */ DI_COUPLES_MASK,
-    /* 0x0005 */ DI_GOLD_RUPEE,
-    /* 0x0006 */ DI_GOLD_RUPEE_TWO,
-    /* 0x0007 */ DI_GOLD_RUPEE_THREE,
-    /* 0x0008 */ DI_GOLD_RUPEE_FOUR,
+    /* 0x0005 */ DI_BROKEN_RUPEE_ONE,
+    /* 0x0006 */ DI_BROKEN_RUPEE_TWO,
+    /* 0x0007 */ DI_BROKEN_RUPEE_THREE,
+    /* 0x0008 */ DI_BROKEN_RUPEE_FOUR,
     /* 0x0009 */ DI_RECOVERY_HEART,
     /* 0x000A */ DI_BOSS_KEY,
     /* 0x000B */ DI_COMPASS,
@@ -276,7 +280,7 @@ namespace rnd {
     /* 0x001D */ DI_SMALL_MAGIC_JAR,
     /* 0x001E */ DI_BIG_MAGIC_JAR,
     /* 0x001F */ DI_BOMB,
-    /* 0x0020 */ DI_GOLD_RUPEE_FIVE,
+    /* 0x0020 */ DI_BROKEN_RUPEE_FIVE,
     /* 0x0021 */ DI_ADULT_WALLET,
     /* 0x0022 */ DI_GIANT_WALLET,
     /* 0x0023 */ DI_DON_GERO_MASK,
@@ -300,8 +304,8 @@ namespace rnd {
     /* 0x0035 */ DI_MAGIC_BEAN,
     /* 0x0036 */ DI_BOTTLE_FISH,
     /* 0x0037 */ DI_MAMAS_LETTER,
-    /* 0x0038 */ DI_GOLD_RUPEE_SIX,
-    /* 0x0039 */ DI_GOLD_RUPEE_SEVEN,
+    /* 0x0038 */ DI_BROKEN_RUPEE_SIX,
+    /* 0x0039 */ DI_BROKEN_RUPEE_SEVEN,
     /* 0x003A */ DI_SUN_MASK,
     /* 0x003B */ DI_BLAST_MASK,
     /* 0x003C */ DI_BOTTLE_FAIRY,
@@ -311,17 +315,17 @@ namespace rnd {
     /* 0x0040 */ DI_MASK_OF_TRUTH,
     /* 0x0041 */ DI_SWAMP_TITLE_DEED,
     /* 0x0042 */ DI_MOUNTAIN_TITLE_DEED,
-    /* 0x0043 */ DI_GOLD_RUPEE_HOLLOW,
+    /* 0x0043 */ DI_GOLD_RUPEE,
     /* 0x0044 */ DI_OCEAN_TITLE_DEED,
     /* 0x0045 */ DI_GORON_MASK,
     /* 0x0046 */ DI_ZORA_MASK,
-    /* 0x0047 */ DI_GOLD_RUPEE_EIGHT,
+    /* 0x0047 */ DI_BROKEN_RUPEE_EIGHT,
     /* 0x0048 */ DI_FIRE_ARROW,
     /* 0x0049 */ DI_ICE_ARROW,
     /* 0x004A */ DI_LIGHT_ARROW,
     /* 0x004B */ DI_GOLD_SKULLTULA_BROKEN,
     /* 0x004C */ DI_BOTTLE_BUG,
-    /* 0x004D */ DI_GOLD_RUPEE_NINE,
+    /* 0x004D */ DI_BROKEN_RUPEE_NINE,
     /* 0x004E */ DI_BOTTLE_POE,
     /* 0x004F */ DI_BOTTLE_BIG_POE_PURPLE,
     /* 0x0050 */ DI_GREEN_RUPEE,
@@ -341,8 +345,8 @@ namespace rnd {
     /* 0x005E */ DI_POWDER_KEG,
     /* 0x005F */ DI_GOLD_DUST,
     /* 0x0060 */ DI_BOTTLE_GOLD_DUST,
-    /* 0x0061 */ DI_GOLD_RUPEE_TEN,
-    /* 0x0062 */ DI_GOLD_RUPEE_ELEVEN,
+    /* 0x0061 */ DI_BROKEN_RUPEE_TEN,
+    /* 0x0062 */ DI_BROKEN_RUPEE_ELEVEN,
     /* 0x0063 */ DI_BOTTLE_SEAHORSE,
     /* 0x0064 */ DI_GOHTS_REMAINS,
     /* 0x0065 */ DI_GYORGS_REMAINS,
@@ -435,20 +439,27 @@ namespace rnd {
   void ItemOverride_Update();
   void ItemOverride_RevealMapBasedOnId(u8);
   void SetExtData(void);
-  extern "C" bool ItemOverride_CheckAromaGivenItem();
-  extern "C" bool ItemOverride_CheckMikauGivenItem();
-  extern "C" bool ItemOverride_CheckDarmaniGivenItem();
-  extern "C" void ItemOverride_GetItemTextAndItemID(game::act::Player*);
-  extern "C" void ItemOverride_GetItem(game::GlobalContext*, game::act::Actor*, game::act::Player*, s16);
-  extern "C" void ItemOverride_GetFairyRewardItem(game::GlobalContext*, game::act::GreatFairy*, s16);
-  extern "C" void ItemOverride_GetSoHItem(game::GlobalContext*, game::act::Actor*, s16);
-  extern "C" int ItemOverride_CheckInventoryItemOverride(game::ItemId);
-  extern "C" void ItemOverride_SwapSoHGetItemText(game::GlobalContext*, u16, game::act::Actor*);
-  extern "C" bool ItemOverride_CheckTingleMaps(u16, game::GlobalContext*);
-  extern "C" void ItemOverride_SetGrogExtData();
+  u8 ItemOverride_SetProgressiveItemDraw(ItemOverride);
+  extern "C" {
+  bool ItemOverride_CheckAromaGivenItem();
+  bool ItemOverride_CheckMikauGivenItem();
+  bool ItemOverride_CheckDarmaniGivenItem();
+  void ItemOverride_GetItemTextAndItemID(game::act::Player*);
+  void ItemOverride_GetItem(game::GlobalContext*, game::act::Actor*, game::act::Player*, s16);
+  void ItemOverride_GetFairyRewardItem(game::GlobalContext*, game::act::GreatFairy*, s16);
+  void ItemOverride_GetSoHItem(game::GlobalContext*, game::act::Actor*, s16);
+  int ItemOverride_CheckInventoryItemOverride(game::ItemId);
+  void ItemOverride_SwapSoHGetItemText(game::GlobalContext*, u16, game::act::Actor*);
+  bool ItemOverride_CheckTingleMaps(u16, game::GlobalContext*);
+  u32 ItemOverride_GetGaboraExtData();
+  u32 ItemOverride_GetOshExtData();
+  u8 ItemOverride_OverrideSkullToken(game::act::Actor*);
+  u8 ItemOverride_CheckBossStatus();
+  }
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];
   extern "C" u16 rStoredTextId;
+
 }  // namespace rnd
 
 #endif

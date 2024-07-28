@@ -6,11 +6,15 @@
 #include "game/sound.h"
 #include "game/states/state.h"
 #include "game/ui.h"
+#include "game/ui/screens/gearscreen.h"
+#include "rnd/boss.h"
 #include "rnd/extdata.h"
 #include "rnd/icetrap.h"
 #include "rnd/input.h"
 #include "rnd/item_override.h"
 #include "rnd/link.h"
+#include "rnd/models.h"
+#include "rnd/objects.h"
 #include "rnd/rheap.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
@@ -29,6 +33,7 @@ namespace rnd {
 
     rHeap_Init();
     ItemOverride_Init();
+    Actor_Init();
     // SaveFile_LoadExtSaveData(1);
     //  TODO: Maybe make this an option?
     link::FixSpeedIssues();
@@ -79,6 +84,7 @@ namespace rnd {
       ItemOverride_Update();
       link::HandleFastOcarina(context.gctx);
       link::HandleFastArrowSwitch(context.gctx->GetPlayerActor());
+      link::FixFreeCameraReset();
       // May need this for further button presses and checks if we're swimming or not.
       if (context.gctx->GetPlayerActor()->flags1.IsSet(game::act::Player::Flag1::InWater) &&
           !context.gctx->GetPlayerActor()->flags_94.IsSet(game::act::Actor::Flag94::Grounded)) {
@@ -86,6 +92,7 @@ namespace rnd {
       } else {
         context.is_swimming = false;
       }
+      Model_UpdateAll(context.gctx);
     }
 
     return;
@@ -97,7 +104,23 @@ namespace rnd {
       return;
 
     const u32 pressedButtons = gctx->pad_state.input.buttons.flags;
-    const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
+// const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    if (pressedButtons == (u32)game::pad::Button::ZR) {
+      gExtSaveData.givenItemChecks.odolwaDefeated = 1;
+      yPos += 10.00f;
+    } else if (pressedButtons == (u32)game::pad::Button::ZL) {
+      yPos -= 10.00f;
+    } else if (pressedButtons == (u32)game::pad::Button::Right) {
+      xPos += 10.00f;
+    } else if (pressedButtons == (u32)game::pad::Button::Left) {
+      xPos -= 10.00f;
+    } else if (pressedButtons == (u32)game::pad::Button::Up) {
+      zPos += 10.00f;
+    } else if (pressedButtons == (u32)game::pad::Button::Down) {
+      zPos -= 10.00f;
+    }
+#endif
     if (gSettingsContext.customMaskButton != 0 && pressedButtons == gSettingsContext.customMaskButton) {
       game::ui::OpenScreen(game::ui::ScreenType::Masks);
     } else if (gSettingsContext.customItemButton != 0 && pressedButtons == gSettingsContext.customItemButton) {
@@ -113,8 +136,8 @@ namespace rnd {
       game::ui::OpenScreen(game::ui::ScreenType::Map);
       gctx->pad_state.input.buttons.Clear(game::pad::Button::Select);
       gctx->pad_state.input.new_buttons.Clear(game::pad::Button::Select);
-    } else if ((gSettingsContext.customIngameSpoilerButton != 4 && newButtons == (u32)game::pad::Button::Select) ||
-               (gSettingsContext.customIngameSpoilerButton != 8 && newButtons == (u32)game::pad::Button::Start)) {
+    } else if ((gSettingsContext.customIngameSpoilerButton != 4 && pressedButtons == (u32)game::pad::Button::Select) ||
+               (gSettingsContext.customIngameSpoilerButton != 8 && pressedButtons == (u32)game::pad::Button::Start)) {
       if (game::GetCommonData().save.inventory.collect_register.bombers_notebook != 0)
         game::ui::OpenScreen(game::ui::ScreenType::Schedule);
       else
@@ -131,6 +154,10 @@ namespace rnd {
     for (size_t i = 0; i < size_t(__init_array_end - __init_array_start); i++) {
       __init_array_start[i]();
     }
+  }
+
+  void PostActorCalc() {
+    FixBosses();
   }
   }
 

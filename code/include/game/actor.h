@@ -18,7 +18,10 @@
 
 namespace game {
   struct GlobalContext;
-}
+  namespace ActorResource {
+    struct ActorResource;
+  }
+}  // namespace game
 
 namespace game::act {
 
@@ -33,14 +36,22 @@ namespace game::act {
     DayTimer = 0x00F5,
     // Elegy of Emptiness statue
     ObjElegyStatue = 0x001F,
-    // En_Gm - Gorman Bros Race
+    // En_Im - Gorman Bros Race - Ingo
     EnIn = 0x004D,
     // Clear Tag (?)
     ClearTag = 0x0073,
+    // Gorman
+    EnGm = 0x0074,
     // En_Hs - Grog The Chicken Man
     EnHs = 0x0076,
+    // En_Js - Moon Children
+    EnJs = 0x0085,
     // Cursed Man Spider House
     EnSsh = 0x0090,
+    // Gold Skullutla
+    EnSi = 0x0099,
+    // Powder Keg Trial Goron
+    EnGo = 0x00D5,
     // [1] Deku Palace / Woodfall Temple moving platforms (after player lands on them)
     ObjRailLift = 0x00D8,
     // Shooting Gallery - Man
@@ -66,7 +77,7 @@ namespace game::act {
     // Npc For Curiosity Shop Owner
     NpcEnFsn = 0x0157,
     // Npc For Boat Photography
-    NpcSwampPhotographer = 0x0158,
+    EnShn = 0x0158,
     // NPC Postman
     NpcEnPm = 0x0166,
     // Goht
@@ -79,6 +90,8 @@ namespace game::act {
     EnMaYto = 0x01AF,
     // [7] Owl statue
     ObjOwlStatue = 0x01B2,
+    // Gabora
+    EnKgy = 0x018F,
     // [4] Old Lady from Bomb Shop
     NpcEnBaba = 0x01C5,
     // Granny
@@ -103,6 +116,8 @@ namespace game::act {
     NpcEnBjt = 0x020C,
     // [4] Bombers
     NpcBombers = 0x020F,
+    // Keaton
+    EnKitan = 0x021B,
     // [6] Sheikah Hint Stone (MM3D)
     NpcHintStone = 0x0241,
     // [6] New in MM3D. Shows up as sparkles and spawns an ice platform (actor 0x13E) when hit.
@@ -186,6 +201,21 @@ namespace game::act {
   };
   static_assert(sizeof(PosRot) == 0x14);
 
+  using ActorShadowFunc = void(Actor* self, void* lightMapper, GlobalContext* gctx);
+  struct ActorShape {
+    z3dVec3s rot;
+    s16 face;
+    float y_offset;
+    ActorShadowFunc* shadow_draw;
+    float shadow_scale;
+    u8 shadow_alpha;
+    u8 feet_floor_flags;
+    u8 field_16;
+    u8 field_17;
+    z3dVec3f feet_pos[2];
+  };
+  static_assert(sizeof(ActorShape) == 0x30);
+
   struct Actor {
     enum class Flag : u32 {
       Targetable = 0x1,
@@ -251,16 +281,7 @@ namespace game::act {
     DamageType damage_type;
     u8 field_BE;
     u8 field_BF;
-    // u16 field_C0;
-    // u16 angle;
-    z3dVec3s angle;
-    // u16 field_C4;
-    u8 gap_C6[2];
-    float field_C8;
-    u32 field_CC;
-    float field_D0;
-    u8 field_D4;
-    u8 gap_D5[27];
+    ActorShape actor_shape;
     z3dVec3f field_F0;
     u32 field_FC;
     z3dVec3f field_100;
@@ -284,19 +305,8 @@ namespace game::act {
     MainFunc* calc_fn;
     MainFunc* draw_fn;
     ActorOverlayInfo* overlay_info;
-    float field_14C;
-    float field_150;
-    float field_154;
-    int field_158;
-    float field_15C;
-    float field_160;
-    float field_164;
-    int field_168;
-    float field_16C;
-    float field_170;
-    float field_174;
-    int field_178;
-    void* field_17C;
+    float mtx[3][4];
+    game::ActorResource::ActorResource* field_17C;
     char field_180[80];
     int field_1D0;
     u8 field_1D4;
@@ -317,14 +327,14 @@ namespace game::act {
 
   // Name courtesy of the OoT decomp project.
   struct DynaPolyActor : Actor {
-    u32 dyna_poly_id;
-    float field_1FC;
+    u32 bg_id;
+    float push_force;
     float field_200;
-    u16 field_204;
-    u8 field_206;
-    u32 dyna_poly_flags;
+    s16 y_rotation;
+    u32 transform_flags;
+    u8 interact_flags;
   };
-  static_assert(sizeof(DynaPolyActor) == 0x20C);
+  static_assert(sizeof(DynaPolyActor) == 0x210);
 
   struct DayTimerActor {
     Actor common_actor;
@@ -338,6 +348,18 @@ namespace game::act {
     u32 field_208;
   };
   static_assert(sizeof(DayTimerActor) == 0x20C);
+
+  struct sa_unk_d4 {
+    void* field_00;
+    void* field_04;
+    float field_08;
+    int field_0c;
+    float field_10;
+    float field_14;
+    z3d_nn_math_MTX34* mtx;
+    u8 gap_1C[184];
+  };
+  static_assert(sizeof(sa_unk_d4) == 0xD4);
 
   ActorOverlayInfo* GetActorOverlayInfoTable();
 

@@ -7,12 +7,17 @@
 #include "game/pad.h"
 #include "game/ui.h"
 #include "game/ui/layouts/play_hud.h"
+#include "rnd/savefile.h"
 #include "rnd/settings.h"
 
 namespace rnd::link {
   void FixSpeedIssues();
   void HandleFastOcarina(game::GlobalContext*);
   void HandleFastArrowSwitch(game::act::Player*);
+  void FixFreeCameraReset();
+  extern "C" void AssignSwordForHoneyDarling();
+  extern "C" void RemoveSwordFromHoneyDarling();
+  extern "C" void ResetPlayerForm();
 
 }  // namespace rnd::link
 

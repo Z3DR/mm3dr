@@ -113,17 +113,24 @@ namespace rnd {
       return gSettingsContext.enableFastMaskTransform;
     } else if (gSettingsContext.enableFastMaskTransform &&
                player->flags1.IsSet(game::act::Player::Flag1::FirstPersonMode) &&
-               (player->held_item >= game::ItemId::Arrow && player->held_item <= game::ItemId::LightArrow)) {
+               (player->held_item >= game::ItemId::Arrow && player->held_item <= game::ItemId::LightArrow))
       return 0x00;
-    } else {
+    else {
       return gSettingsContext.enableFastMaskTransform;
     }
+  }
+
+  u8 SettingsNoAnimationCheck() {
+    return gSettingsContext.enableNoAnimationTransform;
+  }
+  u8 SettingsBomberAnimationCheck() {
+    return gSettingsContext.enableBomberAnimationSkipping;
   }
   }
   // TODO: Change the addr
   /* typedef void (*Health_ChangeBy_proc)(GlobalContext *arg1, u32 arg2);
- #define Health_ChangeBy_addr 0x352dbc
- #define Health_ChangeBy ((Health_ChangeBy_proc)Health_ChangeBy_addr)
+  #define Health_ChangeBy_addr 0x352dbc
+  #define Health_ChangeBy ((Health_ChangeBy_proc)Health_ChangeBy_addr)
    void FairyPickupHealAmount(void) {
      if (gSettingsContext.heartDropRefill == HeartDropRefillSetting::HEARTDROPREFILL_NOREFILL \
      || gSettingsContext.heartDropRefill == HeartDropRefillSetting::HEARTDROPREFILL_NODROPREFILL) {
@@ -213,7 +220,7 @@ namespace rnd {
       "Bunny Hood",
       "Keaton Mask",
       "Garo Mask",
-      "ROmani Mask",
+      "Romani Mask",
       "Circus Leader's Mask",
       "Postman Hat",
       "Couple's Mask",

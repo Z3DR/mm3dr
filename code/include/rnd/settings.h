@@ -23,6 +23,12 @@ namespace rnd {
     LOGIC_GLITCHED,
   };
 
+  enum class KnowSetting : u8 {
+    KNOW_BASIC,
+    KNOW_ADVANCED,
+    //    KNOW_COMPLETE,
+  };
+
   enum class AmmoDropsSetting : u8 {
     AMMODROPS_VANILLA,
     AMMODROPS_BOMBCHU,
@@ -245,13 +251,20 @@ namespace rnd {
     PLAY_ON_CITRA,
   } PlayOption;
 
+  typedef enum {
+    REGION_NA,
+    REGION_EUR,
+  } Region;
+
   typedef struct {
     u8 hashIndexes[5];
 
     u8 playOption;
+    u8 region;
 
     u8 logic;
     u8 locationsReachable;
+    u8 knowTheGame;
 
     u8 shuffleDungeonEntrances;
     u8 bombchusInLogic;
@@ -313,6 +326,7 @@ namespace rnd {
 
     u8 startingConsumables;
     u8 startingMaxRupees;
+    u8 startingNotebook;
     u8 startingOcarina;
     u8 startingHerosBow;
     u8 startingFireArrows;
@@ -384,7 +398,7 @@ namespace rnd {
     u8 startingGaroMask;
     u8 startingCaptainsHat;
     u8 startingGiantsMask;
-    u8 startingFierceDietyMask;
+    u8 startingFierceDeityMask;
     u8 startingMaskOfTruth;
 
     // TODO: Break out into individual bitfield values.
@@ -402,6 +416,9 @@ namespace rnd {
     u8 enableFastMaskTransform;
     u8 enableFastOcarina;
     u8 enableFastArrowSwap;
+    u8 twinmoldRestoration;
+    u8 enableNoAnimationTransform;
+    u8 enableBomberAnimationSkipping;
 
     // Cutscene Skips
     u8 skipHMSCutscenes;
@@ -414,6 +431,9 @@ namespace rnd {
     u32 customMaskButton = 0;
     u32 customNotebookButton = 0;
     u32 customIngameSpoilerButton = 0;
+
+    // Extra MM Settings
+    u8 blastMaskCooldown;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;

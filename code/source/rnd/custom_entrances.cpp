@@ -1,13 +1,11 @@
 #include "rnd/custom_entrances.h"
 
 namespace rnd {
-  extern "C" bool SceneEntranceOverride() {
+  extern "C" {
+  bool SceneEntranceOverride() {
     game::CommonData& cdata = game::GetCommonData();
     game::GlobalContext* gctx = GetContext().gctx;
     bool didWarp = false;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Our next entrance is %#08x\n", __func__, gctx->next_entrance);
-#endif
     if (gctx->next_entrance == 0x1C04 && gSettingsContext.skipMikauCutscene) {
       gctx->next_entrance = 0x6890;
       cdata.sub13s[0].entrance_index = 0x6890;
@@ -36,4 +34,15 @@ namespace rnd {
       gctx->field_C529_one_to_clear_input = 0x14;
     return didWarp;
   }
+
+  void ForceTempleFlags() {
+    game::PersistentSceneCycleFlags* cycleFlags = game::GetPersistentCycleStruct();
+    cycleFlags[(u32)game::SceneId::WoodfallTemple].switch1 = 0xFFFFFFFF;
+    cycleFlags[(u32)game::SceneId::SnowheadTemple].switch1 = 0xFFFFFFFF;
+    cycleFlags[(u32)game::SceneId::GreatBayTemple].switch1 = 0xFFFFFFFF;
+    cycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1 = 0xFFFFFFFF;
+    cycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1 = 0xFFFFFFFF;
+  }
+  }
+
 }  // namespace rnd
