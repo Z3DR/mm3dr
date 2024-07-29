@@ -193,8 +193,7 @@ namespace rnd {
 
   void Model_LookupByOverride(Model* model, ItemOverride override) {
     if (override.key.all != 0) {
-      u16 itemId = override.value.looksLikeItemId ? override.value.looksLikeItemId : override.value.getItemId;
-      u16 resolvedItemId = ItemTable_ResolveUpgrades(itemId);
+      u16 resolvedItemId = ItemOverride_SetProgressiveItemDraw(override);
       model->itemRow = ItemTable_GetItemRow(resolvedItemId);
     }
   }
