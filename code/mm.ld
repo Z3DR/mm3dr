@@ -139,6 +139,10 @@ SECTIONS{
     *(.patch_DoNotRemoveTradeItems)
   }
 
+  .patch_DoNotRemoveSkulltulaTokens 0x1C9B60 : {
+    *(.patch_DoNotRemoveSkulltulaTokens)
+  }
+
   .patch_DoNotRemoveKeys 0x1C9B94 : {
     *(.patch_DoNotRemoveKeys)
   }

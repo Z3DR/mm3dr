@@ -1,5 +1,10 @@
 .arm
 
+.section .patch_DoNotRemoveSkulltulaTokens
+.global patch_DoNotRemoveSkulltulaTokens
+patch_DoNotRemoveSkulltulaTokens:
+    str r4,[r5,#0x1F0]
+
 .section .patch_UpdateBossLairExtData
 .global patch_UpdateBossLairExtData
 patch_UpdateBossLairExtData:
