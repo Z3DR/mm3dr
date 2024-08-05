@@ -60,9 +60,12 @@ namespace rnd {
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx) {
     s32 objectBankIdx = ExtendedObject_GetIndex(&globalCtx->object_context, model->itemRow->objectId);
     if (objectBankIdx < 0) {
-      storedObjId = model->itemRow->objectId;
       objectBankIdx = ExtendedObject_Spawn(&globalCtx->object_context, model->itemRow->objectId);
     }
+    storedObjId = model->itemRow->objectId;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: storedObjId is %#04x\n", __func__, storedObjId);
+#endif
     model->objectBankIdx = objectBankIdx;
   }
 
