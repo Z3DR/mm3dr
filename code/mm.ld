@@ -483,8 +483,16 @@ SECTIONS{
     *(.patch_OverrideWalletSpiderHouse)
   }
 
+  .patch_OverrideArcheryTownQuiverLimit 0x3E50B8 : {
+    *(.patch_OverrideArcheryTownQuiverLimit)
+  }
+
   .patch_OverrideQuiverArcheryTown 0x3E50E4 : {
     *(.patch_OverrideQuiverArchery)
+  }
+
+  .patch_OverrideArcheryTownQuiverLimitTwo 0x3EA278 : {
+    *(.patch_OverrideArcheryTownQuiverLimitTwo)
   }
 
   .patch_OverrideQuiverArcherySwamp 0x3EA2B0 : {

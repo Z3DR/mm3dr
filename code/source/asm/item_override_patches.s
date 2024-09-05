@@ -62,10 +62,20 @@ patch_RemoveGoronMaskCheckDarmani:
 patch_CheckOshExtData:
     bl hook_CheckOshExtData
 
+.section .patch_OverrideArcheryTownQuiverLimit
+.global patch_OverrideArcheryTownQuiverLimit
+patch_OverrideArcheryTownQuiverLimit:
+    nop
+
 .section .patch_OverrideQuiverArchery
 .global patch_OverrideQuiverArchery
 patch_OverrideQuiverArchery:
     mov r2,#0x47
+
+.section .patch_OverrideArcheryTownQuiverLimitTwo
+.global patch_OverrideArcheryTownQuiverLimitTwo
+patch_OverrideArcheryTownQuiverLimitTwo:
+    nop
 
 .section .patch_OverrideQuiverArcheryTwo
 .global patch_OverrideQuiverArcheryTwo
