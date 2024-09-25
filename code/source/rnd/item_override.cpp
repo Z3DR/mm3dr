@@ -451,7 +451,7 @@ namespace rnd {
         gExtSaveData.givenItemChecks.enFsnANMGivenItem = 1;
       } else if (storedGetItemId == GetItemID::GI_LETTER_TO_MAMA) {
         gExtSaveData.givenItemChecks.letterToMamaGiven = 1;
-      } else {
+      } else if (storedGetItemId == GetItemID::GI_MASK_KEATON) {
         gExtSaveData.givenItemChecks.enFsnGivenItem = 1;
       }
     } else if (storedActorId == game::act::Id::NpcEnPm) {
