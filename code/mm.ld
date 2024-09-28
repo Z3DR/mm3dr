@@ -85,24 +85,6 @@ SECTIONS{
     *(.patch_FastTransformPatchFive)
   }
 
-  .patch_UpdateBossLairExtData 0x29CF30 : {
-    *(.patch_UpdateBossLairExtData)
-  }
-
-  /*2bec9c GOOD DREAM */
-  /*  
-  .patch_RemoveMeetMaskCutScene 0x2bec9c : {
-    *(.patch_RemoveMeetMaskCutScene)
-  } */
-
-  .patch_GiveTempSwordForHandD 0x2B523C : {
-    *(.patch_GiveTempSwordForHandD)
-  }
-
-  .patch_RemoveTempSwordForHandD 0x2DDAF0 : {
-    *(.patch_RemoveTempSwordForHandD)
-  }
-
   .patch_KeepBowOnEpona 0x188794 : {
     *(.patch_KeepBowOnEpona)
   }
@@ -135,7 +117,7 @@ SECTIONS{
     *(.patch_DoNotResetPermFlags)
   }
 
-  .patch_DoNotRemoveTradeItems 0x1c9AA8 : {
+  .patch_DoNotRemoveTradeItems 0x1C9AA8 : {
     *(.patch_DoNotRemoveTradeItems)
   }
 
@@ -351,8 +333,22 @@ SECTIONS{
     *(.patch_TwinmoldConsistentDamage)
   }
 
+  .patch_UpdateBossLairExtData 0x29CF30 : {
+    *(.patch_UpdateBossLairExtData)
+  }
+
+  /*2bec9c GOOD DREAM */
+  /*  
+  .patch_RemoveMeetMaskCutScene 0x2bec9c : {
+    *(.patch_RemoveMeetMaskCutScene)
+  } */
+
   .patch_FasterBlockMovement 0x2AC634 : {
     *(.patch_FasterBlockMovement)
+  }
+
+  .patch_GiveTempSwordForHandD 0x2B523C : {
+    *(.patch_GiveTempSwordForHandD)
   }
 
   .patch_GaboraCheckExtDataNotSword 0x2CBB14 : {
@@ -395,8 +391,16 @@ SECTIONS{
     *(.patch_TingleCheckStoneTowerMap)
   }
 
+  .patch_RemoveTempSwordForHandD 0x2DDAF0 : {
+    *(.patch_RemoveTempSwordForHandD)
+  }
+
   .patch_RemoveGoronMaskCheckDarmani 0x2DE788 : {
     *(.patch_RemoveGoronMaskCheckDarmani)
+  }
+
+  .patch_RemoveSkulltulaSpawnIfCollectedItem 0x2E8384 : {
+    *(.patch_RemoveSkulltulaSpawnIfCollectedItem)
   }
 
   .patch_SaveExtDataOnOwl 0x317004 : {
