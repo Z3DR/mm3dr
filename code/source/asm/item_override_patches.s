@@ -57,6 +57,11 @@ patch_RemoveAddingSkulltulaTokenIfOverridden:
 patch_RemoveGoronMaskCheckDarmani:
     b hook_DarmaniRewardCheck
 
+.section .patch_RemoveSkulltulaSpawnIfCollectedItem
+.global patch_RemoveSkulltulaSpawnIfCollectedItem
+patch_RemoveSkulltulaSpawnIfCollectedItem:
+    bl hook_RemoveSkulltulaSpawnIfCollectedItem
+
 .section .patch_CheckOshExtData
 .global patch_CheckOshExtData
 patch_CheckOshExtData:

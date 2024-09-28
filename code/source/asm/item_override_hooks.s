@@ -159,6 +159,18 @@ doNotSpawnDarmani:
     nop
     b 0x2DE96C
 
+.global hook_RemoveSkulltulaSpawnIfCollectedItem
+hook_RemoveSkulltulaSpawnIfCollectedItem:
+    push {r0-r12,lr}
+    cpy r0,r4
+    cpy r1,r6
+    mov r1,#0x148
+    ldrsh r1, [r1,r6]
+    bl ItemOverride_IsSkullCollected
+    cmp r0, #0x0
+    pop {r0-r12,lr}
+    bx lr
+
 .global hook_CheckOshExtData
 hook_CheckOshExtData:
     push {lr}
