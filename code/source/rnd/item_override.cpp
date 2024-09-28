@@ -1071,20 +1071,21 @@ namespace rnd {
     }
   }
 
-  u8 ItemOverride_IsSkullCollected(game::act::Actor * actor, game::SceneId scene) {
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: Our scene is %#06x\n", __func__, scene);	
-    #endif
+  u8 ItemOverride_IsSkullCollected(game::act::Actor* actor, game::SceneId scene) {
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Our scene is %#06x\n", __func__, scene);
+#endif
     for (u8 i = 0; i < 30; i++) {
       if (scene == game::SceneId::SwampSpiderHouse) {
         if (skulltulaMapSSH[i] == (actor->params & 0xFF)) {
           return gExtSaveData.chestRewarded[(u8)game::SceneId::SwampSpiderHouse][i];
         }
       } else if (scene == game::SceneId::OceansideSpiderHouse) {
-        // Special case - since OSH has one chest, let's remove 
-        if ((i+1) == 30) break;
-        if (skulltulaMapOSH[i+1] == (actor->params & 0xFF)) {
-          return gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i+1];
+        // Special case - since OSH has one chest, let's remove
+        if ((i + 1) == 30)
+          break;
+        if (skulltulaMapOSH[i + 1] == (actor->params & 0xFF)) {
+          return gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i + 1];
         }
       }
     }
