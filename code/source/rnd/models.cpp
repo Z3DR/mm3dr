@@ -63,9 +63,6 @@ namespace rnd {
       objectBankIdx = ExtendedObject_Spawn(&globalCtx->object_context, model->itemRow->objectId);
     }
     storedObjId = model->itemRow->objectId;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: storedObjId is %#04x\n", __func__, storedObjId);
-#endif
     model->objectBankIdx = objectBankIdx;
   }
 
@@ -205,6 +202,10 @@ namespace rnd {
     ItemOverride override = ItemOverride_Lookup(actor, (u16)globalCtx->scene, baseItemId);
 
     if (override.key.all != 0) {
+      if (override.key.type == ItemOverride_Type::OVR_SKULL && ItemOverride_IsSkullCollected(actor, globalCtx->scene)) {
+        override.value.getItemId = 0x02;
+        override.value.looksLikeItemId = 0x02;
+      }
       Model_LookupByOverride(model, override);
       Model_GetObjectBankIndex(model, actor, globalCtx);
     }

@@ -399,9 +399,9 @@ SECTIONS{
     *(.patch_RemoveGoronMaskCheckDarmani)
   }
 
-  .patch_RemoveSkulltulaSpawnIfCollectedItem 0x2E8384 : {
+  /* .patch_RemoveSkulltulaSpawnIfCollectedItem 0x2E8384 : {
     *(.patch_RemoveSkulltulaSpawnIfCollectedItem)
-  }
+  } */
 
   .patch_SaveExtDataOnOwl 0x317004 : {
     *(.patch_SaveExtDataOnOwl)

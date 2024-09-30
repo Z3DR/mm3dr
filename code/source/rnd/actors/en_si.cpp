@@ -4,7 +4,7 @@ namespace rnd {
   extern "C" {
   void En_Si_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x2E7FCC)(actor, gctx);
-    Model_SpawnByActor(actor, GetContext().gctx, 0x20);
+    Model_SpawnByActor(actor, gctx, 0x20);
   }
 
   void En_Si_Draw(game::act::Actor* actor, game::GlobalContext* gctx) {

@@ -440,6 +440,7 @@ namespace rnd {
   void ItemOverride_RevealMapBasedOnId(u8);
   void SetExtData(void);
   u8 ItemOverride_SetProgressiveItemDraw(ItemOverride);
+  bool ItemOverride_IsItemObtainedOrEmptyBottle(ItemOverride);
   extern "C" {
   bool ItemOverride_CheckAromaGivenItem();
   bool ItemOverride_CheckMikauGivenItem();
