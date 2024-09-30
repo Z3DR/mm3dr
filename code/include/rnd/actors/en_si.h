@@ -3,7 +3,6 @@
 
 #include "game/actor.h"
 #include "rnd/models.h"
-#include "rnd/item_override.h"
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
 #include "common/debug.h"
 extern "C" {

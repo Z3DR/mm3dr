@@ -442,22 +442,22 @@ namespace rnd {
   u8 ItemOverride_SetProgressiveItemDraw(ItemOverride);
   bool ItemOverride_IsItemObtainedOrEmptyBottle(ItemOverride);
   extern "C" {
-    bool ItemOverride_CheckAromaGivenItem();
-    bool ItemOverride_CheckMikauGivenItem();
-    bool ItemOverride_CheckDarmaniGivenItem();
-    void ItemOverride_GetItemTextAndItemID(game::act::Player*);
-    void ItemOverride_GetItem(game::GlobalContext*, game::act::Actor*, game::act::Player*, s16);
-    void ItemOverride_GetFairyRewardItem(game::GlobalContext*, game::act::GreatFairy*, s16);
-    void ItemOverride_GetSoHItem(game::GlobalContext*, game::act::Actor*, s16);
-    int ItemOverride_CheckInventoryItemOverride(game::ItemId);
-    void ItemOverride_SwapSoHGetItemText(game::GlobalContext*, u16, game::act::Actor*);
-    bool ItemOverride_CheckTingleMaps(u16, game::GlobalContext*);
-    u32 ItemOverride_GetGaboraExtData();
-    u32 ItemOverride_GetOshExtData();
-    void ItemOverride_SetSkullCollected(u16, game::SceneId);
-    u8 ItemOverride_IsSkullCollected(game::act::Actor*, game::SceneId);
-    u8 ItemOverride_OverrideSkullToken(game::act::Actor*);
-    u8 ItemOverride_CheckBossStatus();
+  bool ItemOverride_CheckAromaGivenItem();
+  bool ItemOverride_CheckMikauGivenItem();
+  bool ItemOverride_CheckDarmaniGivenItem();
+  void ItemOverride_GetItemTextAndItemID(game::act::Player*);
+  void ItemOverride_GetItem(game::GlobalContext*, game::act::Actor*, game::act::Player*, s16);
+  void ItemOverride_GetFairyRewardItem(game::GlobalContext*, game::act::GreatFairy*, s16);
+  void ItemOverride_GetSoHItem(game::GlobalContext*, game::act::Actor*, s16);
+  int ItemOverride_CheckInventoryItemOverride(game::ItemId);
+  void ItemOverride_SwapSoHGetItemText(game::GlobalContext*, u16, game::act::Actor*);
+  bool ItemOverride_CheckTingleMaps(u16, game::GlobalContext*);
+  u32 ItemOverride_GetGaboraExtData();
+  u32 ItemOverride_GetOshExtData();
+  void ItemOverride_SetSkullCollected(u16, game::SceneId);
+  u8 ItemOverride_IsSkullCollected(game::act::Actor*, game::SceneId);
+  u8 ItemOverride_OverrideSkullToken(game::act::Actor*);
+  u8 ItemOverride_CheckBossStatus();
   }
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];

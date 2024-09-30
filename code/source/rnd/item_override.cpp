@@ -438,9 +438,6 @@ namespace rnd {
   }
 
   void SetExtData() {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: STORED GET ITEM ID IS %#04x\n", __func__, storedGetItemId);
-#endif
     if (storedActorId == game::act::Id::NpcEnNb) {
       gExtSaveData.givenItemChecks.enNbGivenItem = 1;
     } else if (storedActorId == game::act::Id::NpcInvisibleGuard) {
@@ -727,6 +724,11 @@ namespace rnd {
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
       }
+    } else if (override.key.type == ItemOverride_Type::OVR_SKULL &&
+               (gctx->scene == game::SceneId::SwampSpiderHouse || gctx->scene == game::SceneId::OceansideSpiderHouse) &&
+               ItemOverride_IsSkullCollected(fromActor, gctx->scene)) {
+      override.value.getItemId = 0x02;
+      override.value.looksLikeItemId = 0x02;
     }
 
     // This check is mainly to ensure we do not have repeatable progressive items within these base items.
@@ -1063,8 +1065,11 @@ namespace rnd {
           return;
         }
       } else if (scene == game::SceneId::OceansideSpiderHouse) {
-        if (skulltulaMapOSH[i] == (params & 0xFF)) {
-          gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i] = 1;
+        // Special case - since OSH has one chest, let's remove
+        if ((i + 1) == 30)
+          break;
+        if (skulltulaMapOSH[i + 1] == (params & 0xFF)) {
+          gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i + 1] = 1;
           return;
         }
       }
@@ -1072,9 +1077,6 @@ namespace rnd {
   }
 
   u8 ItemOverride_IsSkullCollected(game::act::Actor* actor, game::SceneId scene) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Our scene is %#06x\n", __func__, scene);
-#endif
     for (u8 i = 0; i < 30; i++) {
       if (scene == game::SceneId::SwampSpiderHouse) {
         if (skulltulaMapSSH[i] == (actor->params & 0xFF)) {
@@ -1095,21 +1097,13 @@ namespace rnd {
   u8 ItemOverride_OverrideSkullToken(game::act::Actor* actor) {
     game::GlobalContext* gctx = GetContext().gctx;
     s16 getItemId = gctx->scene == game::SceneId::SwampSpiderHouse ? 0x44 : 0x6D;
-    if (ItemOverride_IsSkullCollected(actor, gctx->scene)) {
-      ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), 0x01);
-      if (rActiveItemRow != NULL) {
-        ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
-        return true;
-      }
-    } else {
+    ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
+    if (rActiveItemRow != NULL) {
+      ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
       ItemOverride_SetSkullCollected(actor->params, gctx->scene);
-      ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
-      if (rActiveItemRow != NULL) {
-        ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
-        return true;
-      }
+      return true;
     }
-    
+
     return false;
   }
 
