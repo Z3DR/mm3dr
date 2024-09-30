@@ -1095,12 +1095,21 @@ namespace rnd {
   u8 ItemOverride_OverrideSkullToken(game::act::Actor* actor) {
     game::GlobalContext* gctx = GetContext().gctx;
     s16 getItemId = gctx->scene == game::SceneId::SwampSpiderHouse ? 0x44 : 0x6D;
-    ItemOverride_SetSkullCollected(actor->params, gctx->scene);
-    ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
-    if (rActiveItemRow != NULL) {
-      ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
-      return true;
+    if (ItemOverride_IsSkullCollected(actor, gctx->scene)) {
+      ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), 0x01);
+      if (rActiveItemRow != NULL) {
+        ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
+        return true;
+      }
+    } else {
+      ItemOverride_SetSkullCollected(actor->params, gctx->scene);
+      ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
+      if (rActiveItemRow != NULL) {
+        ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
+        return true;
+      }
     }
+    
     return false;
   }
 
