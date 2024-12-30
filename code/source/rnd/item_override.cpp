@@ -726,7 +726,8 @@ namespace rnd {
       }
     } else if (override.key.type == ItemOverride_Type::OVR_SKULL &&
                (gctx->scene == game::SceneId::SwampSpiderHouse || gctx->scene == game::SceneId::OceansideSpiderHouse) &&
-               ItemOverride_IsSkullCollected(fromActor, gctx->scene)) {
+               (ItemOverride_IsSkullCollected(fromActor, gctx->scene) &&
+                ItemOverride_IsItemObtainedOrEmptyBottle(override))) {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
     }
