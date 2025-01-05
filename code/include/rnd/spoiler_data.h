@@ -32,6 +32,7 @@ namespace rnd {
   // Location groups for checks, used to group the checks by logical location
   typedef enum {
     GROUP_NO_GROUP,
+    GROUP_INSIDE_CLOCKTOWER,
     GROUP_S_CLOCK_TOWN,
     GROUP_LAUNDRY_POOL,
     GROUP_E_CLOCK_TOWN,
@@ -111,6 +112,7 @@ namespace rnd {
     char StringData[SPOILER_STRING_DATA_SIZE];
     u16 GroupItemCounts[SPOILER_COLLECTION_GROUP_COUNT];
     u16 GroupOffsets[SPOILER_COLLECTION_GROUP_COUNT];
+    const char *Version[25];
   } SpoilerData;
 
   typedef struct {

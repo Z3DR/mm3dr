@@ -20,7 +20,7 @@ namespace rnd {
   u32 pressed;
   bool handledInput;
   const char* spoilerCollectionGroupNames[] = {
-      "All Item Locations", "South Clock Town", "Laundry Pool",       "East Clock Town",       "StockPotInn",
+      "All Item Locations", "Inside Clock Tower", "South Clock Town", "Laundry Pool",       "East Clock Town",       "StockPotInn",
       "West Clock Town",    "North Clock Town", "Termina Field",      "Southern Swamp",        "Deku Palace",
       "Woodfall",           "Snowhead",         "Mountain Village",   "Twin Islands",          "Goron Village",
       "Milk Road",          "Romani Ranch",     "Great Bay Coast",    "Pinnacle Rock",         "Zora Cape",
@@ -30,6 +30,7 @@ namespace rnd {
   };
 
   static s8 spoilerGroupDungeonIds[] = {
+      -1,
       -1,
       -1,
       -1,
@@ -203,6 +204,11 @@ namespace rnd {
 
   static void Gfx_DrawSeedHash(void) {
     u8 offsetY = 0;
+    
+    Draw_DrawString(10, 16 + (SPACING_Y * offsetY++), COLOR_TITLE, "Randomizer Version:");
+    Draw_DrawFormattedString(10 + (SPACING_X * 4), 16 + (SPACING_Y * offsetY++), COLOR_WHITE, "%s", gSpoilerData.Version);
+    offsetY++;
+
     Draw_DrawFormattedString(10, 16 + (SPACING_Y * offsetY++), COLOR_TITLE, "Seed Hash:");
     for (u32 hashIndex = 0; hashIndex < ARR_SIZE(gSettingsContext.hashIndexes); ++hashIndex) {
       Draw_DrawFormattedString(10 + (SPACING_X * 4), 16 + (SPACING_Y * offsetY++), COLOR_WHITE, "%s",
@@ -358,6 +364,7 @@ namespace rnd {
 
       yPos += spacingY;
     }
+
   }
 
   static void Gfx_DrawSpoilerData(void) {
