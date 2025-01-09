@@ -206,7 +206,8 @@ namespace rnd {
     u8 offsetY = 0;
     
     Draw_DrawString(10, 16 + (SPACING_Y * offsetY++), COLOR_TITLE, "Randomizer Version:");
-    Draw_DrawFormattedString(10 + (SPACING_X * 4), 16 + (SPACING_Y * offsetY++), COLOR_WHITE, "%s", gSpoilerData.Version);
+    Draw_DrawFormattedString(10 + (SPACING_X * 4), 16 + (SPACING_Y * offsetY++), COLOR_WHITE, "%s",
+                             gSpoilerData.randoVersion);
     offsetY++;
 
     Draw_DrawFormattedString(10, 16 + (SPACING_Y * offsetY++), COLOR_TITLE, "Seed Hash:");

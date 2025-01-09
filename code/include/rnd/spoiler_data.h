@@ -112,7 +112,7 @@ namespace rnd {
     char StringData[SPOILER_STRING_DATA_SIZE];
     u16 GroupItemCounts[SPOILER_COLLECTION_GROUP_COUNT];
     u16 GroupOffsets[SPOILER_COLLECTION_GROUP_COUNT];
-    const char *Version[25];
+    char randoVersion[14];
   } SpoilerData;
 
   typedef struct {
