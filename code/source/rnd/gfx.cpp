@@ -82,16 +82,44 @@ namespace rnd {
     // A dungeon is considered discovered if we've visited the dungeon, have the map,
     // Or known bc of settings
     bool hasMap = 0;
+    //Check for Woodfall Temple Map
     if (dungeonId == 0) {
       hasMap = saveData.inventory.woodfall_dungeon_items.map.Value();
-    } else if (dungeonId == 1) {
+    } 
+    //Check for Snowhead Temple Map
+    else if (dungeonId == 1) {
       hasMap = saveData.inventory.snowhead_dungeon_items.map.Value();
-    } else if (dungeonId == 2) {
+    } 
+    //Check for Great Bay Temple Map
+    else if (dungeonId == 2) {
       hasMap = saveData.inventory.great_bay_dungeon_items.map.Value();
-    } else if (dungeonId == 3) {
+    } 
+    //Check for Stone Tower Temple Map
+    else if (dungeonId == 3) {
       hasMap = saveData.inventory.stone_tower_dungeon_items.map.Value();
     }
-    return (hasMap = 1);  // to-do: check overworld map for GB & Ikana areas for other dungeons. & scene check.
+    //Check for Woodfall Temple Scene Discovered
+    else if ( (dungeonId == 0) && (SaveFile_GetIsSceneDiscovered(0x1B) >= 1) ) {
+      return true;
+    }
+    //Check for Snowhead Temple Scene Discovered
+    else if ( (dungeonId == 1) && (SaveFile_GetIsSceneDiscovered(0x21) >= 1) ) {
+      return true;
+    }
+    //Check for Great Bay Temple Scene Discovered
+    else if ( (dungeonId == 2) && (SaveFile_GetIsSceneDiscovered(0x49) >= 1) ) {
+      return true;
+    }
+    //Check for Stone Tower Temple Scene Discovered
+    else if ( (dungeonId == 3) && (SaveFile_GetIsSceneDiscovered(0x16) >= 1) ) {
+      return true;
+    }
+    //Check for Inverted Stone Tower Temple Scene Discovered
+    else if ( (dungeonId == 3) && (SaveFile_GetIsSceneDiscovered(0x18) >= 1) ) {
+      return true;
+    }
+
+    //return (hasMap = 1);  // to-do: check overworld map for GB & Ikana areas for other dungeons. & scene check.
   }
 
   static bool CanShowSpoilerGroup(SpoilerCollectionCheckGroup group) {
@@ -365,6 +393,18 @@ namespace rnd {
 
       yPos += spacingY;
     }
+
+    //Skulltulas
+    u8 swampTokensHave = saveData.skulltulas_collected.swamp_count;
+    u8 oceanTokensHave = saveData.skulltulas_collected.ocean_count;
+    yPos += spacingY;
+    Draw_DrawString(24, yPos, COLOR_WHITE, "Swamp Skulltula Tokens");
+    Draw_DrawFormattedString(208, yPos, swampTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%d", swampTokensHave);    
+    Draw_DrawString(214, yPos, COLOR_WHITE, "/30");
+    yPos += spacingY;
+    Draw_DrawString(24, yPos, COLOR_WHITE, "Ocean Skulltula Tokens");
+    Draw_DrawFormattedString(208, yPos, oceanTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%d", oceanTokensHave);    
+    Draw_DrawString(214, yPos, COLOR_WHITE, "/30");
 
   }
 
