@@ -312,7 +312,7 @@ namespace game {
     SkulltulaRegister skulltulas_collected;
     int anonymous_60;
     u8 gap1210[4];
-    u8 defeated_bosses[4];       // like a history log of deafeated bosses or seen giants
+    int defeated_bosses;       // like a history log of deafeated bosses or seen giants
     int previous_defeated_boss;  // or last viewed giant cutscene, values 4 and greater makes
                                  // woodfall giant repeat for all temples.
     // u8 gap1221[3];

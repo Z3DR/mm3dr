@@ -1064,6 +1064,14 @@ namespace rnd {
       return;
     }
   }
+
+  void RemoveBoathouseRestriction() {
+    int* msgDataPtr = (int*)0x6737E8;
+    if (gExtSaveData.givenItemChecks.odolwaDefeated == 1 && gExtSaveData.givenItemChecks.enTruGivenItem == 0)
+        util::Write<u8>(msgDataPtr, 0x0, 0x0C);
+      else
+        util::Write<u8>(msgDataPtr, 0x0, 0x14);
+  }
   }
 
 }  // namespace rnd
