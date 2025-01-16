@@ -20,6 +20,15 @@ namespace rnd {
     util::GetPointer<void(void*, void*)>(0x1FEAB0)(fromMtx, toMtx);
   }
 
+  void TexAnim_Spawn(void* skelModel, int objectId) {
+    util::GetPointer<void(void*, int)>(0x12A3DC)(skelModel, objectId);
+  }
+
+  void SkeletonAnimationModel_Destroy(void* skelModel) {
+    void* expHeap = getExpHeapPtr();
+    util::GetPointer<void(void*, void*)>(0x1EE6C4)(expHeap, skelModel);
+  }
+
   /** Used to set the mesh for rupees and stray fairies.
    * @param drawItemId Value from DrawGraphicItemID enum, but decreased by one for some reason.
    */
@@ -66,9 +75,8 @@ namespace rnd {
     model->objectBankIdx = objectBankIdx;
   }
 
-  void Model_SetAnim(void* model, s16 objectId, u32 objectAnimIdx) {
-    // void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
-    // TexAnim_Spawn((model+0x0C), cmabMan);
+  void Model_SetAnim(void* model, s16 objectId) {
+    TexAnim_Spawn(model, objectId);
   }
 
   void Model_SetMatrix(Model* model) {
@@ -110,8 +118,15 @@ namespace rnd {
     if (model->saModel != NULL)
       Model_SetMtxAndModel(model->saModel, &tmpMtx);
 
-    if (model->saModel2 != NULL)
+    if (model->saModel2 != NULL) {
+      float tmpY = model->actor->actor_shape.rot.y;
+      if (model->objectId != 0x0020) {
+        model->actor->actor_shape.rot.y = GetContext().gctx->main_camera.field_11C.y;
+      }
       Model_SetMtxAndModel(model->saModel2, &tmpMtx);
+      model->actor->actor_shape.rot.y = tmpY;
+    }
+      
   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
@@ -120,12 +135,12 @@ namespace rnd {
     if (model->itemRow->objectModelIdx2 >= 0) {
       model->saModel2 =
           SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx2);
-      // Model_SetAnim(model->saModel2, model->itemRow->objectId, model->itemRow->cmabIndex2);
+      Model_SetAnim(model->saModel2, model->itemRow->objectId);
     }
 
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
     if (model->itemRow->objectModelIdx != 0xFF) {
-      // Model_SetAnim(model->saModel, model->itemRow->objectId, model->itemRow->cmabIndex);
+      Model_SetAnim(model->saModel, model->itemRow->objectId);
       // model->saModel->unk_0C->animSpeed = 2.0f;
       // model->saModel->unk_0C->animMode = 1;
     }
@@ -135,11 +150,11 @@ namespace rnd {
 
   void Model_Destroy(Model* model) {
     if (model->saModel != NULL) {
-      // TODO: figure out how to properly destroy the model, if it's needed
-      // model->saModel->vtbl->destroy_function(model->saModel);
+      SkeletonAnimationModel_Destroy(model->saModel);
       model->saModel = NULL;
     }
     if (model->saModel2 != NULL) {
+      SkeletonAnimationModel_Destroy(model->saModel2);
       model->saModel2 = NULL;
     }
     model->actor = NULL;

@@ -3,6 +3,7 @@
 #include "game/actor.h"
 #include "rnd/item_table.h"
 #include "rnd/objects.h"
+#include "rnd/gfx.h"
 #include "z3d/z3DVec.h"
 namespace rnd {
 

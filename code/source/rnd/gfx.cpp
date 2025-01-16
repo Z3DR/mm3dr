@@ -845,6 +845,11 @@ namespace rnd {
     lastTick = svcGetSystemTick();
     isAsleep = false;
   }
+ 
+  }
+
+  void* getExpHeapPtr() {
+    return util::GetPointer<void*()>(0x1F1BF8)();
   }
 
 }  // namespace rnd
