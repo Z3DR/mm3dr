@@ -239,7 +239,7 @@ namespace rnd {
 
       Draw_DrawString(10, 16 + (spacingY * offsetY++), COLOR_TITLE, "Dungeon Items Legend");
       offsetY++;
-      Draw_DrawIcon(10, 16 + (spacingY * offsetY), COLOR_WHITE, ICON_FAIRY);
+      Draw_DrawIcon(10, 16 + (spacingY * offsetY), COLOR_PINK, ICON_FAIRY);
       Draw_DrawString(24, 16 + (spacingY * offsetY++), COLOR_WHITE, "Stray Fairies: Have / Total");
       Draw_DrawIcon(10, 16 + (spacingY * offsetY), COLOR_WHITE, ICON_SMALL_KEY);
       Draw_DrawString(24, 16 + (spacingY * offsetY++), COLOR_WHITE, "Small Keys: Have / Found");
@@ -257,13 +257,13 @@ namespace rnd {
       Draw_DrawString(10, 16 + (spacingY * offsetY), COLOR_WHITE, "-");
       Draw_DrawString(24, 16 + (spacingY * offsetY++), COLOR_WHITE, "Non-WotH / Non-Barren Location");
       offsetY++;
-      Draw_DrawIcon(10, 16 + (spacingY * offsetY), COLOR_WHITE, ICON_SKULLTULA);
+      Draw_DrawIcon(10, 16 + (spacingY * offsetY), COLOR_YELLOW, ICON_SKULLTULA);
       Draw_DrawString(24, 16 + (spacingY * offsetY++), COLOR_WHITE, "Skulltula Token(s)");
       return;
     }
     Draw_DrawString(10, 16, COLOR_TITLE, "Dungeon Items");
     // Draw header icons
-    Draw_DrawIcon(182, 16, COLOR_WHITE, ICON_FAIRY);
+    Draw_DrawIcon(182, 16, COLOR_PINK, ICON_FAIRY);
     Draw_DrawIcon(214, 16, COLOR_WHITE, ICON_SMALL_KEY);
     Draw_DrawIcon(240, 16, COLOR_WHITE, ICON_BOSS_KEY);
     Draw_DrawIcon(260, 16, COLOR_WHITE, ICON_MAP);
@@ -414,7 +414,7 @@ namespace rnd {
     u8 oceanTokensHave = saveData.skulltulas_collected.ocean_count;
     yPos += spacingY;
     Draw_DrawString(10, yPos, COLOR_TITLE, "Skulltula Tokens");
-    Draw_DrawIcon(182, yPos, COLOR_WHITE, ICON_SKULLTULA);
+    Draw_DrawIcon(182, yPos, COLOR_YELLOW, ICON_SKULLTULA);
     yPos += spacingY;
     Draw_DrawString(24, yPos, COLOR_WHITE, "Swamp Skulltula Tokens");
     Draw_DrawFormattedString(170, yPos, swampTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", swampTokensHave);    
