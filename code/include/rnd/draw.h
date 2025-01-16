@@ -98,7 +98,9 @@ typedef enum {
   ICON_BUTTON_FACEH,
   ICON_BUTTON_FACEV,
   ICON_BUTTON_JOYSTICK,
-  ICONS_COUNT
+  ICON_SKULLTULA,
+  ICON_FAIRY,
+  ICON_COUNT
 } Draw_IconType;
 
 void Draw_Lock(void);
