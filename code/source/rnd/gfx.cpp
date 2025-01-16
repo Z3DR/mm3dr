@@ -331,7 +331,7 @@ namespace rnd {
         if ((dungeonId == DUNGEON_STONE_TOWER)) {
           straysHave = saveData.inventory.stone_tower_fairies == 255 ? 0 : saveData.inventory.stone_tower_fairies;
         }
-        Draw_DrawFormattedString(170, yPos, straysHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02d", straysHave);
+        Draw_DrawFormattedString(170, yPos, straysHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", straysHave);
         Draw_DrawString(182, yPos, COLOR_WHITE, "/");
 
         //u8 fairiesFound = Dungeon_FoundSmallKeys(dungeonId);
@@ -417,11 +417,11 @@ namespace rnd {
     Draw_DrawIcon(182, yPos, COLOR_WHITE, ICON_SKULLTULA);
     yPos += spacingY;
     Draw_DrawString(24, yPos, COLOR_WHITE, "Swamp Skulltula Tokens");
-    Draw_DrawFormattedString(170, yPos, swampTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02d", swampTokensHave);    
+    Draw_DrawFormattedString(170, yPos, swampTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", swampTokensHave);    
     Draw_DrawString(182, yPos, COLOR_WHITE, "/30");
     yPos += spacingY;
     Draw_DrawString(24, yPos, COLOR_WHITE, "Ocean Skulltula Tokens");
-    Draw_DrawFormattedString(170, yPos, oceanTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02d", oceanTokensHave);    
+    Draw_DrawFormattedString(170, yPos, oceanTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", oceanTokensHave);    
     Draw_DrawString(182, yPos, COLOR_WHITE, "/30");
   }
 
