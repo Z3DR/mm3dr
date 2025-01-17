@@ -291,6 +291,14 @@ hook_CheckMoTSetting:
     bl SettingsMaskOfTruthCheck
     b 0x35C42C
 
+.global hook_RemoveWoodfallClearConditionFromBoatHouse
+hook_RemoveWoodfallClearConditionFromBoatHouse:
+    push {r0-r12, lr}
+    bl RemoveBoathouseRestriction
+    pop {r0-r12,lr}
+    cmp r0,#0x2
+    bx lr
+    
 .section .loader
 .global hook_into_loader
 hook_into_loader:

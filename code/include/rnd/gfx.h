@@ -57,10 +57,10 @@ namespace rnd {
   } GfxPage;
 
   void Gfx_Init(void);
-  static u8 openingButton();
   extern "C" void Gfx_Update();
   extern "C" void Gfx_SleepQueryCallback();
   extern "C" void Gfx_AwakeCallback();
+  void* getExpHeapPtr();
 
 }  // namespace rnd
 

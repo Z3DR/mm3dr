@@ -289,10 +289,10 @@ RemoveJimWhenExitingHideout_patch:
 @ and should always evaluate to false.
 @ https://github.com/zeldaret/mm/blob/6541532abb5c03088ad67748bbb23965c654127e/src/overlays/actors/ovl_En_Dnh/z_en_dnh.c#L21
 @ https://github.com/zeldaret/mm/blob/main/include/z64msgevent.h#L354
-@ .section .patch_RemoveWoodfallClearConditionFromBoatHouse
-@ .global patch_RemoveWoodfallClearConditionFromBoatHouse
-@ patch_RemoveWoodfallClearConditionFromBoatHouse:
-@     .byte 0x0C
+.section .patch_RemoveWoodfallClearConditionFromBoatHouse
+.global patch_RemoveWoodfallClearConditionFromBoatHouse
+patch_RemoveWoodfallClearConditionFromBoatHouse:
+    bl hook_RemoveWoodfallClearConditionFromBoatHouse
 
 .section .patch_loader
 .global loader_patch

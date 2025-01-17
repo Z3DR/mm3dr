@@ -653,9 +653,9 @@ SECTIONS{
     *(.patch_HandleOcarinaHooks)
   }
 
-  /* .patch_RemoveWoodfallClearConditionFromBoatHouse 0x6737E8 : {
+  .patch_RemoveWoodfallClearConditionFromBoatHouse 0x39655C : {
       *(.patch_RemoveWoodfallClearConditionFromBoatHouse)
-  } */
+  }
 
   . = 0x61CD8C;
 	/* Addr already 4 byte aligned! */
