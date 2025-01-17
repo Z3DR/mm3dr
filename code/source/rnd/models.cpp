@@ -126,7 +126,6 @@ namespace rnd {
       Model_SetMtxAndModel(model->saModel2, &tmpMtx);
       model->actor->actor_shape.rot.y = tmpY;
     }
-      
   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {

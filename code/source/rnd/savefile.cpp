@@ -843,7 +843,7 @@ namespace rnd {
     u32 numBits = sizeof(u32) * 8;
     u32 idx = sceneNum / numBits;
     if (idx < SAVEFILE_SCENES_DISCOVERED_IDX_COUNT) {
-      u32 bit = 1 << (sceneNum - (idx * numBits));
+      u32 bit = 1 << abs(sceneNum - (idx * numBits));
       return (gExtSaveData.scenesDiscovered[idx] & bit) != 0;
     }
     return 0;
@@ -857,7 +857,7 @@ namespace rnd {
     u16 numBits = sizeof(u32) * 8;
     u32 idx = sceneNum / numBits;
     if (idx < SAVEFILE_SCENES_DISCOVERED_IDX_COUNT) {
-      u32 sceneBit = 1 << (sceneNum - (idx * numBits));
+      u32 sceneBit = 1 << abs(sceneNum - (idx * numBits));
       gExtSaveData.scenesDiscovered[idx] |= sceneBit;
     }
   }
@@ -1068,9 +1068,9 @@ namespace rnd {
   void RemoveBoathouseRestriction() {
     int* msgDataPtr = (int*)0x6737E8;
     if (gExtSaveData.givenItemChecks.odolwaDefeated == 1 && gExtSaveData.givenItemChecks.enTruGivenItem == 0)
-        util::Write<u8>(msgDataPtr, 0x0, 0x0C);
-      else
-        util::Write<u8>(msgDataPtr, 0x0, 0x14);
+      util::Write<u8>(msgDataPtr, 0x0, 0x0C);
+    else
+      util::Write<u8>(msgDataPtr, 0x0, 0x14);
   }
   }
 

@@ -1,9 +1,9 @@
 #ifndef _RND_MODELS_H_
 #define _RND_MODELS_H_
 #include "game/actor.h"
+#include "rnd/gfx.h"
 #include "rnd/item_table.h"
 #include "rnd/objects.h"
-#include "rnd/gfx.h"
 #include "z3d/z3DVec.h"
 namespace rnd {
 

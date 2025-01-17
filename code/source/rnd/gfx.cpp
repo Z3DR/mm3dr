@@ -20,13 +20,15 @@ namespace rnd {
   u32 pressed;
   bool handledInput;
   const char* spoilerCollectionGroupNames[] = {
-      "All Item Locations", "Inside Clock Tower", "South Clock Town", "Laundry Pool",       "East Clock Town",       "StockPotInn",
-      "West Clock Town",    "North Clock Town", "Termina Field",      "Southern Swamp",        "Deku Palace",
-      "Woodfall",           "Snowhead",         "Mountain Village",   "Twin Islands",          "Goron Village",
-      "Milk Road",          "Romani Ranch",     "Great Bay Coast",    "Pinnacle Rock",         "Zora Cape",
-      "Zora Hall",          "Ikana Canyon",     "Ikana Graveyard",    "Stone Tower",           "Woodfall Temple",
-      "Snowhead Temple",    "Great Bay Temple", "Stone Tower Temple", "Pirate Fortress",       "Beneath the Well",
-      "Ikana Castle",       "Secret Shrine",    "The Moon",           "Swamp Skulltula House", "Ocean Skulltula House",
+      "All Item Locations", "Inside Clock Tower", "South Clock Town",      "Laundry Pool",
+      "East Clock Town",    "StockPotInn",        "West Clock Town",       "North Clock Town",
+      "Termina Field",      "Southern Swamp",     "Deku Palace",           "Woodfall",
+      "Snowhead",           "Mountain Village",   "Twin Islands",          "Goron Village",
+      "Milk Road",          "Romani Ranch",       "Great Bay Coast",       "Pinnacle Rock",
+      "Zora Cape",          "Zora Hall",          "Ikana Canyon",          "Ikana Graveyard",
+      "Stone Tower",        "Woodfall Temple",    "Snowhead Temple",       "Great Bay Temple",
+      "Stone Tower Temple", "Pirate Fortress",    "Beneath the Well",      "Ikana Castle",
+      "Secret Shrine",      "The Moon",           "Swamp Skulltula House", "Ocean Skulltula House",
   };
 
   static s8 spoilerGroupDungeonIds[] = {
@@ -55,17 +57,17 @@ namespace rnd {
       -1,
       -1,
       -1,
-      GROUP_DUNGEON_WOODFALL_TEMPLE,
-      GROUP_DUNGEON_SNOWHEAD_TEMPLE,
-      GROUP_DUNGEON_GREAT_BAY,
-      GROUP_DUNGEON_STONE_TOWER,
-      GROUP_DUNGEON_PIRATE_FORTRESS,
-      GROUP_DUNGEON_BENEATH_THE_WELL,
-      GROUP_DUNGEON_IKANA_CASTLE,
-      GROUP_DUNGEON_SECRET_SHRINE,
-      GROUP_DUNGEON_THE_MOON,
-      GROUP_SWAMP_SKULLTULA_HOUSE,
-      GROUP_OCEAN_SKULLTULA_HOUSE,
+      DUNGEON_WOODFALL,
+      DUNGEON_SNOWHEAD,
+      DUNGEON_GREAT_BAY,
+      DUNGEON_STONE_TOWER,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
   };
 
   static bool IsDungeonDiscovered(s8 dungeonId) {
@@ -76,28 +78,28 @@ namespace rnd {
       return false;
     }
     // A dungeon is considered discovered if we've visited the dungeon or have the map,
-    //Check for Woodfall Temple Map
-    if (dungeonId == 0) {
+    // Check for Woodfall Temple Map
+    if (dungeonId == DUNGEON_WOODFALL) {
       hasMap = saveData.inventory.woodfall_dungeon_items.map.Value();
       sceneId = 0x1B;
-    } 
-    //Check for Snowhead Temple Map
-    else if (dungeonId == 1) {
+    }
+    // Check for Snowhead Temple Map
+    else if (dungeonId == DUNGEON_SNOWHEAD) {
       hasMap = saveData.inventory.snowhead_dungeon_items.map.Value();
       sceneId = 0x21;
-    } 
-    //Check for Great Bay Temple Map
-    else if (dungeonId == 2) {
+    }
+    // Check for Great Bay Temple Map
+    else if (dungeonId == DUNGEON_GREAT_BAY) {
       hasMap = saveData.inventory.great_bay_dungeon_items.map.Value();
       sceneId = 0x49;
-    } 
-    //Check for Stone Tower Temple Map
-    else if (dungeonId == 3) {
+    }
+    // Check for Stone Tower Temple Map
+    else if (dungeonId == DUNGEON_STONE_TOWER) {
       hasMap = saveData.inventory.stone_tower_dungeon_items.map.Value();
       sceneId = 0x16;
     }
     return hasMap == 1 || SaveFile_GetIsSceneDiscovered(sceneId);
- } 
+  }
 
   static bool CanShowSpoilerGroup(SpoilerCollectionCheckGroup group) {
     s8 dungeonId = spoilerGroupDungeonIds[group];
@@ -209,7 +211,7 @@ namespace rnd {
 
   static void Gfx_DrawSeedHash(void) {
     u8 offsetY = 0;
-    
+
     Draw_DrawString(10, 16 + (SPACING_Y * offsetY++), COLOR_TITLE, "Randomizer Version:");
     Draw_DrawFormattedString(10 + (SPACING_X * 4), 16 + (SPACING_Y * offsetY++), COLOR_WHITE, "%s",
                              gSpoilerData.randoVersion);
@@ -334,11 +336,11 @@ namespace rnd {
         Draw_DrawFormattedString(170, yPos, straysHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", straysHave);
         Draw_DrawString(182, yPos, COLOR_WHITE, "/");
 
-        //u8 fairiesFound = Dungeon_FoundSmallKeys(dungeonId);
-        //if ((gSettingsContext.keysanity == u8(rnd::KeysanitySetting::KEYSANITY_START_WITH)) &&
-        //    (dungeonId <= DUNGEON_STONE_TOWER)) {
-        //  keysFound += Dungeon_KeyAmount(dungeonId);
-        //} Todo : Stray Fairies - Start With
+        // u8 fairiesFound = Dungeon_FoundSmallKeys(dungeonId);
+        // if ((gSettingsContext.keysanity == u8(rnd::KeysanitySetting::KEYSANITY_START_WITH)) &&
+        //     (dungeonId <= DUNGEON_STONE_TOWER)) {
+        //   keysFound += Dungeon_KeyAmount(dungeonId);
+        // } Todo : Stray Fairies - Start With
         u32 straysTotalColor = COLOR_WHITE;
         if ((straysHave >= 15) && IsDungeonDiscovered(dungeonId)) {
           straysTotalColor = COLOR_GREEN;
@@ -409,7 +411,7 @@ namespace rnd {
       yPos += spacingY;
     }
 
-    //Skulltulas
+    // Skulltulas
     u8 swampTokensHave = saveData.skulltulas_collected.swamp_count;
     u8 oceanTokensHave = saveData.skulltulas_collected.ocean_count;
     yPos += spacingY;
@@ -417,11 +419,11 @@ namespace rnd {
     Draw_DrawIcon(182, yPos, COLOR_YELLOW, ICON_SKULLTULA);
     yPos += spacingY;
     Draw_DrawString(24, yPos, COLOR_WHITE, "Swamp Skulltula Tokens");
-    Draw_DrawFormattedString(170, yPos, swampTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", swampTokensHave);    
+    Draw_DrawFormattedString(170, yPos, swampTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", swampTokensHave);
     Draw_DrawString(182, yPos, COLOR_WHITE, "/30");
     yPos += spacingY;
     Draw_DrawString(24, yPos, COLOR_WHITE, "Ocean Skulltula Tokens");
-    Draw_DrawFormattedString(170, yPos, oceanTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", oceanTokensHave);    
+    Draw_DrawFormattedString(170, yPos, oceanTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", oceanTokensHave);
     Draw_DrawString(182, yPos, COLOR_WHITE, "/30");
   }
 
@@ -845,7 +847,6 @@ namespace rnd {
     lastTick = svcGetSystemTick();
     isAsleep = false;
   }
- 
   }
 
   void* getExpHeapPtr() {
