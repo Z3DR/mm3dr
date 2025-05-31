@@ -253,9 +253,7 @@ namespace game {
     u16 field_148;
     u16 field_14A;
     u16 field_14C;
-    __attribute__((packed)) __attribute__((aligned(1))) int field_14E;
-    u16 field_152;
-    u16 field_154;
+    z3dVec3s cam_dir;
     CameraState state;
     CameraMode mode;
     u16 field_15A;

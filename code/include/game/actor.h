@@ -356,8 +356,8 @@ namespace game::act {
     int field_0c;
     float field_10;
     float field_14;
-    z3d_nn_math_MTX34* mtx;
-    u8 gap_1C[184];
+    z3d_nn_math_MTX34 mtx;
+    u8 gap_48[140];
   };
   static_assert(sizeof(sa_unk_d4) == 0xD4);
 

@@ -15,12 +15,13 @@ namespace rnd {
     s32 objectBankIdx;
     s32 objectBankIdx2;
     u8 loaded;
-    void* saModel;
-    void* saModel2;
+    game::act::sa_unk_d4* saModel;
+    game::act::sa_unk_d4* saModel2;
     f32 scale;
+    z3dVec3f posOffset;
   } Model;
 
-  void* SkeletonAnimationModel_Spawn(game::act::Actor*, game::GlobalContext*, s16, s32);
+  game::act::sa_unk_d4* SkeletonAnimationModel_Spawn(game::act::Actor*, game::GlobalContext*, s16, s32);
   void SkeletonAnimationModel_CopyMtx(void*, void*);
   void SkeletonAnimationModel_SetMeshByDrawItemID(void* model, s32 drawItemId);
   void SkeletonAnimationModel_Draw(void*, int);
