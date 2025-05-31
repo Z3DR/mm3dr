@@ -88,141 +88,30 @@ namespace rnd {
     util::GetPointer<void(void*, void*, void*)>(0x19A360)(dst, src, vec);
   }
 
-  void Actor_SetModelMatrixWrapper(game::act::Actor* actor, z3d_nn_math_MTX34* mtx) {
-    asm volatile("push {r0-r12, lr}\n"
-                 "vldr s1,[r0,#0x28]\n"
-                 "vldr s0,[r0,#0xC8]\n"
-                 "vldr s2,[r0,#0x5C]\n"
-                 "vmla.f32 s1,s0,s2\n"   // y coord calc
-                 "vldr s0,[r0,#0x24]\n"  // x coord
-                 "vldr s2,[r0,#0x2C]\n"  // z coord
-                 "add r2,r0,#0xC0\n"
-                 "mov r0,r1\n"   // mtx
-                 "mov r1,r2\n"   // shape
-                 "cpy r1, sp\n"  // Copy mtx to stack pointer.
-                 "bl 0x1F0948\n"
-                 "pop {r0-r12, lr}\n");
-  }
+    void Model_SetMatrix(Model* model) {
+      float tmpMtx[3][4] = {0};
+      float scaleMtx[4][4] = {0};
 
-  void Model_UpdateMatrix(Model* model) {
-    z3d_nn_math_MTX44 scaleMtx = { 0 };
-    // Actor_SetModelMatrixWrapper(model->actor, &model->saModel->mtx);
-    Matrix_SetModelMatrix(model->actor->pos.pos.x,
-                          ((model->actor->pos.pos.y + model->actor->actor_shape.y_offset) * model->scale),
-                          model->actor->pos.pos.z, &model->saModel->mtx, model->actor);
-    if (model->saModel2 != NULL) {
-      f32 tempRotY = model->actor->actor_shape.rot.y;
-      if (model->itemRow->objectId != 0x0020) {
-        model->actor->actor_shape.rot.y = GetContext().gctx->main_camera.field_11C.y;
-      }
-      // Actor_SetModelMatrixWrapper(model->actor, &model->saModel2->mtx);
-      Matrix_SetModelMatrix(model->actor->pos.pos.x,
-                            ((model->actor->pos.pos.y + model->actor->actor_shape.y_offset) * model->scale),
-                            model->actor->pos.pos.z, &model->saModel2->mtx, model->actor);
-      model->actor->actor_shape.rot.y = tempRotY;
-    }
-    scaleMtx.data[0][0] = model->scale;
-    scaleMtx.data[1][1] = model->scale;
-    scaleMtx.data[2][2] = model->scale;
-    scaleMtx.data[3][3] = 1.0f;
+      SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
 
-    Model_MultiplyMatrix(&model->saModel->mtx, &model->saModel->mtx, &scaleMtx);
-    Model_UpdateMatrixPosition(&model->saModel->mtx, &model->saModel->mtx, &model->posOffset);
-    if (model->saModel2 != NULL) {
-      Model_MultiplyMatrix(&model->saModel2->mtx, &model->saModel2->mtx, &scaleMtx);
-      Model_UpdateMatrixPosition(&model->saModel->mtx, &model->saModel->mtx, &model->posOffset);
-    }
-  }
-
-  void Model_SetMatrix(Model* model) {
-    float tmpMtx[3][4] = {0};
-    float scaleMtx[4][4] = {0};
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
-#endif
-
-    // Base case - if we're a free-standing heart piece then set scale and use built-in scaling call.
-    if (model->baseItemId == 0x00 && model->itemRow->objectId == 0x01) {
-      if (model->itemRow->objectModelIdx == 0x05)
-        model->scale = 0.010f;
-      else
-        model->scale = 0.015f;
-      Model_SetScale(model->actor, model->scale);
-    } else {
-      if (model->baseItemId == 0x00) {
-        if (model->itemRow->objectId == 0x0157)
-          model->scale = 1.00f;
-        else
-          model->scale = 10.00f;
-      }
       scaleMtx[0][0] = model->scale;
       scaleMtx[1][1] = model->scale;
       scaleMtx[2][2] = model->scale;
       scaleMtx[3][3] = 1.0f;
-      Model_MultiplyMatrix(&model->saModel.mtx, &model->saModel.mtx, &scaleMtx);
-    }
+      Model_MultiplyMatrix(&model->actor->mtx, &model->actor->mtx, &scaleMtx);
 
-    if (model->saModel != NULL)
-      Model_SetMtxAndModel(model->saModel, &tmpMtx);
+      if (model->saModel != NULL)
+        Model_SetMtxAndModel(model->saModel, &model->actor->mtx);
 
-    if (model->saModel2 != NULL) {
-      float tmpY = model->actor->actor_shape.rot.y;
-      if (model->objectId != 0x0020) {
-        model->actor->actor_shape.rot.y = GetContext().gctx->main_camera.field_11C.y;
+      if (model->saModel2 != NULL) {
+        float tmpY = model->actor->actor_shape.rot.y;
+        if (model->objectId != 0x0020) {
+          model->actor->actor_shape.rot.y = GetContext().gctx->main_camera.cam_dir.y;
+        }
+        Model_SetMtxAndModel(model->saModel2, &tmpMtx);
+        model->actor->actor_shape.rot.y = tmpY;
       }
-      Model_SetMtxAndModel(model->saModel2, &tmpMtx);
-      model->actor->actor_shape.rot.y = tmpY;
     }
-  }
-
-  //   void Model_SetMatrix(Model* model) {
-  //     float tmpMtx[3][4] = {0};
-  //     float scaleMtx[4][4] = {0};
-  // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-  //     z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
-  // #endif
-
-  //     SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
-  //     // Base case - if we're a free-standing heart piece then set scale and use built-in scaling call.
-  //     if (model->baseItemId == 0x00 && model->itemRow->objectId == 0x01) {
-  //       if (model->itemRow->objectModelIdx == 0x05)
-  //         model->scale = 0.010f;
-  //       else
-  //         model->scale = 0.015f;
-  //       Model_SetScale(model->actor, model->scale);
-  //     } else {
-  //       if (model->baseItemId == 0x00) {
-  //         if (model->itemRow->objectId == 0x0157)
-  //           model->scale = 1.00f;
-  //         else
-  //           model->scale = 10.00f;
-  //       }
-  //       scaleMtx[0][0] = model->scale;
-  //       scaleMtx[1][1] = model->scale;
-  //       scaleMtx[2][2] = model->scale;
-  //       scaleMtx[3][3] = 1.0f;
-  //       Model_MultiplyMatrix(&tmpMtx, &tmpMtx, &scaleMtx);
-  //     }
-  // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-  //     tmpPos.y = yPos;
-  //     tmpPos.x = xPos;
-  //     tmpPos.z = zPos;
-
-  //     Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
-  // #endif
-
-  //     if (model->saModel != NULL)
-  //       Model_SetMtxAndModel(model->saModel, &tmpMtx);
-
-  //     if (model->saModel2 != NULL) {
-  //       float tmpY = model->actor->actor_shape.rot.y;
-  //       if (model->objectId != 0x0020) {
-  //         model->actor->actor_shape.rot.y = GetContext().gctx->main_camera.field_11C.y;
-  //       }
-  //       Model_SetMtxAndModel(model->saModel2, &tmpMtx);
-  //       model->actor->actor_shape.rot.y = tmpY;
-  //     }
-  //   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
     s16 objectId = model->itemRow->objectId;
@@ -292,12 +181,12 @@ namespace rnd {
     if (model->loaded) {
 
       if (model->saModel != NULL) {
-        Model_UpdateMatrix(model);
+        Model_SetMatrix(model);
         SkeletonAnimationModel_Draw(model->saModel, 0);
       }
 
       if (model->saModel2 != NULL) {
-        Model_UpdateMatrix(model);
+        Model_SetMatrix(model);
         SkeletonAnimationModel_Draw(model->saModel2, 0);
       }
     }
@@ -344,8 +233,23 @@ namespace rnd {
       newModel->objectBankIdx = model->objectBankIdx;
       newModel->baseItemId = model->baseItemId;
       newModel->objectId = model->itemRow->objectId;
-      newModel->posOffset = {0};
-    }
+
+      // Base case - if we're a free-standing heart piece then set scale and use built-in scaling call.
+      if (newModel->baseItemId == 0x00 && newModel->itemRow->objectId == 0x01) {
+        if (newModel->itemRow->objectModelIdx == 0x05)
+          newModel->scale = 0.010f;
+        else
+          newModel->scale = 0.015f;
+        Model_SetScale(newModel->actor, newModel->scale);
+      } else {
+        if (newModel->baseItemId == 0x00) {
+          if (newModel->itemRow->objectId == 0x0157)
+            newModel->scale = 1.00f;
+          else
+            newModel->scale = 7.50f;
+        }
+      }
+  }
   }
 
   void Model_SpawnByActor(game::act::Actor* actor, game::GlobalContext* globalCtx, u16 baseItemId) {
