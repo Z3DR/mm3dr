@@ -980,10 +980,10 @@ namespace rnd {
       if (gctx->scene == game::SceneId::GoronVillageWinter) {
         auto& saveData = game::GetCommonData().save;
         if (saveData.player.magic_acquired == 0 || !game::HasItem(currentItem)) return 0xFF;
-      } else if (currentItem == game::ItemId::FierceDeityMask) {
-        return givenItems.enJsGivenItem ? (int) currentItem
-          : (int)0xFF;
       }
+    } else if (currentItem == game::ItemId::FierceDeityMask) {
+      return givenItems.enJsGivenItem ? (int) currentItem
+        : (int)0xFF;
     }
     // Use the standard pointer to array as this seems to mess with
     // some issues in checking items such as trade items, and Giant's Mask.

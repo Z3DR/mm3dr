@@ -667,12 +667,17 @@ SECTIONS{
   . = 0x007D0000;
     .text : {
         __text_start = . ;
-        *(.text)
-        *(.text.*)
-        *(.rodata)
-        *(.data)
-        *(.bss)
+        *(.text*)
+        *(.rodata*)
+        *(.data*)
+        *(.bss*)
+        *(.init*)
+        *(.fini*)
+        *(.eh_frame*)
+        *(.init_array*)
+        *(.fini_array*)
         *(COMMON)
+        rCustomMessages = . ;
         __text_end  = . ;
   }
 }
