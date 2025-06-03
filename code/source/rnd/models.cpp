@@ -25,8 +25,10 @@ namespace rnd {
     util::GetPointer<void(void*, void*)>(0x1FEAB0)(fromMtx, toMtx);
   }
 
-  void TexAnim_Spawn(void* skelModel, int objectId) {
-    util::GetPointer<void(void*, int)>(0x12A3DC)(skelModel, objectId);
+  void TexAnim_Spawn(game::act::SA_TextureAnimation* texAnim, void* cmab) {
+    // This pointer was extracted at runtime from the Skulltula Token init function (En_Si::init),
+    // but it comes from a virtual method, so it might not work in all cases.
+    util::GetPointer<void(void*, void*)>(0x229DA4)(texAnim, cmab);
   }
 
   void SkeletonAnimationModel_Destroy(void* skelModel) {
@@ -80,8 +82,11 @@ namespace rnd {
     model->objectBankIdx = objectBankIdx;
   }
 
-  void Model_SetAnim(void* model, s16 objectId) {
-    TexAnim_Spawn(model, objectId);
+  void Model_SetAnim(game::act::sa_unk_d4* model, s16 objectId, u32 objectAnimIdx) {
+    void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
+    TexAnim_Spawn(model->texAnim, cmabMan);
+    model->texAnim->animSpeed = 1.0f;
+    model->texAnim->animMode = 1;
   }
 
   void Matrix_UpdatePosition(void* dst, void* src, void* vec) {
@@ -116,17 +121,19 @@ namespace rnd {
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
     s16 objectId = model->itemRow->objectId;
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
+
+    SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
+
+    if (model->itemRow->cmabIndex >= 0) {
+      Model_SetAnim(model->saModel, model->itemRow->objectId, model->itemRow->cmabIndex);
+    }
+
     if (model->itemRow->objectModelIdx2 >= 0) {
       model->saModel2 =
           SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx2);
-      Model_SetAnim(model->saModel2, model->itemRow->objectId);
-    }
-
-    SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
-    if (model->itemRow->objectModelIdx != 0xFF) {
-      Model_SetAnim(model->saModel, model->itemRow->objectId);
-      // model->saModel->unk_0C->animSpeed = 2.0f;
-      // model->saModel->unk_0C->animMode = 1;
+      if (model->itemRow->cmabIndex2 >= 0) {
+        Model_SetAnim(model->saModel2, model->itemRow->objectId, model->itemRow->cmabIndex2);
+      }
     }
 
     model->loaded = 1;

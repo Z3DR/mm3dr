@@ -346,7 +346,7 @@ namespace rnd {
                         1.00f),  // Pictograph Box
 
       [0x44] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::GoldSkulltula, 0x0052,
-                        0x0020, 0x02, (s8)0xFF, (s8)0x03, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GOLD_SKULLTULA,
+                        0x0020, 0x02, (s8)0xFF, (s8)0x03, (s8)0x00, (s8)0xFF, DrawGraphicItemID::DI_GOLD_SKULLTULA,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSkulltula, (s16)0, (s16)-1,
                         1.00f),  // Gold Skulltula
 
@@ -507,13 +507,13 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Blue fire - not used
 
-      [0x65] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Poe, 0x0065, 0x0139, 0x00,
-                        (s8)0xFF, 0x02, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_BIG_POE_PURPLE,
+      [0x65] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Poe, 0x0065, 0x0139, 0x02,
+                        (s8)0xFF, 0x00, (s8)0x00, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_POE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Poe - not used?
 
       [0x66] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::BigPoe, 0x0066, 0x0139,
-                        0x01, (s8)0xFF, 0x04, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_BIG_POE,
+                        0x01, (s8)0xFF, 0x04, (s8)0x02, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_BIG_POE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Big Poe
 

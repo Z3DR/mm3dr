@@ -349,6 +349,14 @@ namespace game::act {
   };
   static_assert(sizeof(DayTimerActor) == 0x20C);
 
+  typedef struct SA_TextureAnimation {
+    /* 0x00 */ char gap_00[0x14];
+    /* 0x10 */ f32 animSpeed;
+    /* 0x18 */ s8 animMode;
+    // ... size unknown
+  } SA_TextureAnimation;
+  static_assert(offsetof(SA_TextureAnimation, animMode) == 0x18);
+
   struct sa_unk_d4 {
     void* field_00;
     void* field_04;
@@ -357,7 +365,9 @@ namespace game::act {
     float field_10;
     float field_14;
     z3d_nn_math_MTX34 mtx;
-    u8 gap_48[140];
+    u8 gap_48[0x50];
+    SA_TextureAnimation* texAnim;
+    u8 gap_9C[0x38];
   };
   static_assert(sizeof(sa_unk_d4) == 0xD4);
 

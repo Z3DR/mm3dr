@@ -7,9 +7,9 @@ namespace rnd {
   s32 xPos = 0;
   s32 zPos = 0;
 
-  void TexAnim_Spawn(void* model, void* cmabMan) {
-    return util::GetPointer<void(void*, void*)>(0x609c3c)(model, cmabMan);
-  }
+  // void TexAnim_Spawn(void* model, void* cmabMan) {
+  //   return util::GetPointer<void(void*, void*)>(0x609c3c)(model, cmabMan);
+  // }
 
   s32 Object_SpawnPersistent(void* objectCtx, s16 objectId) {
     return util::GetPointer<s32(void*, s16)>(0x4C01CC)(objectCtx, objectId);
@@ -31,7 +31,7 @@ namespace rnd {
     return util::GetPointer<void(void*)>(0x175A00)(objectCtx);
   }
 
-  void* GAR_GetCMBByIndex(game::ObjectBank::ObjectBankArchive* objBankArchive, u32 objectAnimIdx) {
+  void* GAR_GetCMABByIndex(game::ObjectBank::ObjectBankArchive* objBankArchive, u32 objectAnimIdx) {
     return util::GetPointer<void*(void*, u32)>(0x1F28AC)(objBankArchive, objectAnimIdx);
   }
 
@@ -89,9 +89,9 @@ namespace rnd {
     void* cmabMan;
 
     if (objectBankIdx < OBJECT_EXCHANGE_BANK_MAX) {
-      cmabMan = GAR_GetCMBByIndex(&gctx->object_context.status[objectBankIdx].archive, objectAnimIdx);
+      cmabMan = GAR_GetCMABByIndex(&gctx->object_context.status[objectBankIdx].archive, objectAnimIdx);
     } else {
-      cmabMan = GAR_GetCMBByIndex(&rExtendedObjectCtx.status[objectBankIdx - OBJECT_EXCHANGE_BANK_MAX].archive,
+      cmabMan = GAR_GetCMABByIndex(&rExtendedObjectCtx.status[objectBankIdx - OBJECT_EXCHANGE_BANK_MAX].archive,
                                   objectAnimIdx);
     }
     return cmabMan;
