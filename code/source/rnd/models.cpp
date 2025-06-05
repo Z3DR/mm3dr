@@ -11,7 +11,7 @@ namespace rnd {
   Model ModelContext[LOADEDMODELS_MAX] = {0};
 
   game::act::sa_unk_d4* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx, s16 objectId,
-                                           s32 objectModelIndex) {
+                                                     s32 objectModelIndex) {
     return util::GetPointer<game::act::sa_unk_d4*(game::act::Actor * actor, game::GlobalContext * globalCtx, s16 objId,
                                                   s32 objModelIdx)>(0x203C40)(actor, gctx, objectId, objectModelIndex);
   }
@@ -94,7 +94,7 @@ namespace rnd {
     z3d_nn_math_MTX44 scaleMtx = {0};
     f32 scale = model->scale;
     if (model->actor->id == game::act::Id::DmHina) {
-      scale *= 3; // make models bigger when inside blue warps
+      scale *= 3;  // make models bigger when inside blue warps
     }
     scaleMtx.data[0][0] = scale;
     scaleMtx.data[1][1] = scale;
@@ -125,7 +125,7 @@ namespace rnd {
         f32 tempRotY = model->actor->actor_shape.rot.y;
         // The second model should always face the camera, except for Skull Token
         if (model->itemRow->objectId != 0x0020) {
-            model->actor->actor_shape.rot.y = GetContext().gctx->main_camera.cam_dir.y;
+          model->actor->actor_shape.rot.y = GetContext().gctx->main_camera.cam_dir.y;
         }
         Actor_SetModelMatrix(actorPos.x, modelPosY, actorPos.z, &model->saModel2->mtx, &model->actor->actor_shape);
         Model_MultiplyMatrix(&model->saModel2->mtx, &model->saModel2->mtx, &scaleMtx);
@@ -169,7 +169,7 @@ namespace rnd {
     model->loaded = 0;
     model->objectBankIdx = -1;
     model->objectId = -1;
-    model->posOffset = { 0, -10.00, 0 };
+    model->posOffset = {0, -10.00, 0};
   }
 
   void Model_UpdateAll(game::GlobalContext* globalCtx) {
@@ -255,7 +255,10 @@ namespace rnd {
       newModel->objectBankIdx = model->objectBankIdx;
       newModel->baseItemId = model->baseItemId;
       newModel->objectId = model->itemRow->objectId;
-      newModel->scale = 0.3f * newModel->itemRow->scale;
+      // XXX: Small patch - if we are not the index of a deku nut, then we adjust scale.
+      if (newModel->itemRow->objectModelIdx != 0x8D) {
+        newModel->scale = 0.3f * newModel->itemRow->scale;
+      }
     }
   }
 

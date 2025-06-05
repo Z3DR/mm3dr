@@ -92,7 +92,7 @@ namespace rnd {
       cmabMan = GAR_GetCMABByIndex(&gctx->object_context.status[objectBankIdx].archive, objectAnimIdx);
     } else {
       cmabMan = GAR_GetCMABByIndex(&rExtendedObjectCtx.status[objectBankIdx - OBJECT_EXCHANGE_BANK_MAX].archive,
-                                  objectAnimIdx);
+                                   objectAnimIdx);
     }
     return cmabMan;
   }

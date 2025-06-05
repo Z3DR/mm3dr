@@ -17,7 +17,7 @@ namespace rnd {
     u8 loaded;
     game::act::sa_unk_d4* saModel;
     game::act::sa_unk_d4* saModel2;
-    z3d_nn_math_MTX34* hardcodedMtx; // used for actors that draw their models in unusual ways
+    z3d_nn_math_MTX34* hardcodedMtx;  // used for actors that draw their models in unusual ways
     f32 scale;
     z3dVec3f posOffset;
   } Model;
