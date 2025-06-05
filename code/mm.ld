@@ -447,6 +447,10 @@ SECTIONS{
     *(.patch_OverrideRemainSpawn)
   }
 
+  .patch_RemainsModelDraw 0x3C7D7C : {
+    *(.patch_RemainsModelDraw)
+  }
+
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
     *(.patch_TingleCheckClocktownMapTwo)
   }

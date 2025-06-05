@@ -39,3 +39,8 @@ patch_OverrideItem00Draw:
 .global patch_DmChar05GetObjectStatus
 patch_DmChar05GetObjectStatus:
   bl hook_ModelSpawnGetObjectStatus
+
+.section .patch_RemainsModelDraw
+.global RemainsModelDraw_patch
+RemainsModelDraw_patch:
+    bl hook_RemainsModelDraw

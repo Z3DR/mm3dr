@@ -7,15 +7,13 @@ namespace rnd {
       Model_SpawnByActor(actor, rnd::GetContext().gctx, 0x5C + (actor->params*2));
   }
 
-  void Dm_Hina_Draw(game::act::Actor* actor, game::GlobalContext* gctx) {
-    if (!Model_DrawByActor((game::act::Actor*)actor)) {
-      util::GetPointer<void(Dm_Hina*, game::GlobalContext*)>(0x3C7BA8)((Dm_Hina*)actor, gctx);
-    }
-  }
-
   void Dm_Hina_Destroy(game::act::Actor* self, game::GlobalContext* gctx) {
     Model_DestroyByActor(self);
     util::GetPointer<void(game::act::Actor*)>(0x34F864)(self);
+  }
+
+  extern "C" s32 Remains_OverrideModelDraw(game::act::sa_unk_d4* saModel, game::act::Actor* actor) {
+    return Model_DrawByActor(actor, &saModel->mtx);
   }
 
 }  // namespace rnd

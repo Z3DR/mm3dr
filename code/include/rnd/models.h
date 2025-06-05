@@ -17,6 +17,7 @@ namespace rnd {
     u8 loaded;
     game::act::sa_unk_d4* saModel;
     game::act::sa_unk_d4* saModel2;
+    z3d_nn_math_MTX34* hardcodedMtx; // used for actors that draw their models in unusual ways
     f32 scale;
     z3dVec3f posOffset;
   } Model;
@@ -27,7 +28,6 @@ namespace rnd {
   void SkeletonAnimationModel_Draw(void*, int);
 
   void Model_SetScale(game::act::Actor*, float);
-  void Model_SetMtxAndModel(void*, void*);
   void Model_InvertMatrix(void* mtx);
   void Model_InvertMatrixByScale(void* mtx, float scale);
   void Model_UpdateMatrixPosition(void* mtx, void* mtxTwo, void* scaleMtx);
@@ -46,7 +46,7 @@ namespace rnd {
   void Model_SpawnByActor(game::act::Actor* actor, game::GlobalContext* globalCtx, u16 baseItemId);
   void Model_DestroyByActor(game::act::Actor* actor);
   void Model_DestroyAll(void);
-  s32 Model_DrawByActor(game::act::Actor* actor);
+  s32 Model_DrawByActor(game::act::Actor* actor, z3d_nn_math_MTX34* hardcodedMtx = NULL);
   Model* Model_GetOverrideSaModel(game::act::Actor* actor);
   void Actor_Init();
 }  // namespace rnd

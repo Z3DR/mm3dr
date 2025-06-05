@@ -64,6 +64,8 @@ namespace game::act {
     BossGyorg = 0x00CD,
     // Great Fairy
     NpcGreatFairy = 0x00D2,
+    // Boss Remains
+    DmHina = 0x00DC,
     // [4] Kafei
     NpcKafei = 0x00F4,
     // Koume (Boat Lady)

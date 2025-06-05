@@ -48,3 +48,15 @@ hook_OverrideItem00Draw:
     pop {r0-r12, lr}
     bxeq lr
     pop {r4,r5,pc}
+
+.global hook_RemainsModelDraw
+hook_RemainsModelDraw:
+    mov r1,#0x0
+    push {r0-r12, lr}
+    @ r0 = saModel
+    cpy r1,r4 @ actor
+    bl Remains_OverrideModelDraw
+    cmp r0,#0x0
+    pop {r0-r12, lr}
+    addne lr,lr,#0x4 @ skip drawing vanilla model
+    bx lr
