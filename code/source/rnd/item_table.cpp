@@ -322,8 +322,8 @@ namespace rnd {
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 1.00f),  // Map
 
-      [0x3F] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Compass, 0x003F, 0x0139,
-                        0x00, (s8)0xFF, (s8)0x01, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_COMPASS,
+      [0x3F] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Compass, 0x003F, 0x0091,
+                        0x00, (s8)0xFF, (s8)0x00, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_COMPASS,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 1.00f),  // Compass
 
       [0x40] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::KokiriSword, 0x009C,
@@ -533,7 +533,7 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Zora Egg
 
-      [0x6A] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GoldDust, 0x006A, 0x01E8,
+      [0x6A] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GoldDust, 0x006A, 0x01E9,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_GOLD_DUST,
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Gold Dust
