@@ -5,6 +5,7 @@
 #include "rnd/actors/en_si.h"
 #include "rnd/actors/item00.h"
 #include "rnd/actors/item_b_heart.h"
+#include "rnd/actors/obj_moon_stone.h"
 #define LOADEDMODELS_MAX 16
 
 namespace rnd {
@@ -256,8 +257,11 @@ namespace rnd {
       newModel->baseItemId = model->baseItemId;
       newModel->objectId = model->itemRow->objectId;
       // XXX: Small patch - if we are not the index of a deku nut, then we adjust scale.
-      if (newModel->itemRow->objectModelIdx != 0x8D) {
+      // Also if we're the Moon's Tear we need to adjust scale as well to make it look better.
+      if (newModel->itemRow->objectModelIdx != 0x8D && newModel->baseItemId != 0x96) {
         newModel->scale = 0.3f * newModel->itemRow->scale;
+      } else if (newModel->baseItemId == 0x96 && newModel->itemRow->objectModelIdx != 0x8D) {
+        newModel->scale = 0.3f;
       }
     }
   }
@@ -333,5 +337,8 @@ namespace rnd {
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;
     // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
     // overlayTable[0x12D].info->deinit_fn = DMChar05_Destroy;
+
+    overlayTable[0x212].info->init_fn = Obj_Moon_Stone_Init;
+    overlayTable[0x212].info->deinit_fn = Obj_Moon_Stone_Destroy;
   }
 }  // namespace rnd

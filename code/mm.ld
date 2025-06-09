@@ -587,6 +587,10 @@ SECTIONS{
     *(.patch_RemoveJimWhenExitingHideout)
   }
 
+  .patch_ObjMoonStoneDraw 0x4CEE88 : {
+    *(.patch_ObjMoonStoneDraw)
+  }
+
   .patch_DmChar05GetObjectStatus 0x50F3DC : {
     *(.patch_DmChar05GetObjectStatus)
   }

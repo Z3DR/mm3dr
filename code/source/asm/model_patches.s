@@ -44,3 +44,8 @@ patch_DmChar05GetObjectStatus:
 .global RemainsModelDraw_patch
 RemainsModelDraw_patch:
     bl hook_RemainsModelDraw
+
+.section .patch_ObjMoonStoneDraw
+.global patch_ObjMoonStoneDraw
+patch_ObjMoonStoneDraw:
+    bl hook_ObjMoonStoneDraw
