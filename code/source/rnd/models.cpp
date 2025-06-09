@@ -94,7 +94,7 @@ namespace rnd {
     // Init scale matrix
     z3d_nn_math_MTX44 scaleMtx = {0};
     f32 scale = model->scale;
-    if (model->actor->id == game::act::Id::DmHina) {
+    if (model->actor->id == game::act::Id::DmHina || model->actor->id == game::act::Id::ObjMoonStone) {
       scale *= 3;  // make models bigger when inside blue warps
     }
     scaleMtx.data[0][0] = scale;
@@ -257,11 +257,8 @@ namespace rnd {
       newModel->baseItemId = model->baseItemId;
       newModel->objectId = model->itemRow->objectId;
       // XXX: Small patch - if we are not the index of a deku nut, then we adjust scale.
-      // Also if we're the Moon's Tear we need to adjust scale as well to make it look better.
-      if (newModel->itemRow->objectModelIdx != 0x8D && newModel->baseItemId != 0x96) {
+      if (newModel->itemRow->objectModelIdx != 0x8D) {
         newModel->scale = 0.3f * newModel->itemRow->scale;
-      } else if (newModel->baseItemId == 0x96 && newModel->itemRow->objectModelIdx != 0x8D) {
-        newModel->scale = 0.3f;
       }
     }
   }

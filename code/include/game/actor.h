@@ -118,6 +118,8 @@ namespace game::act {
     NpcEnBjt = 0x020C,
     // [4] Bombers
     NpcBombers = 0x020F,
+    // Moon Stone
+    ObjMoonStone = 0x0212,
     // Keaton
     EnKitan = 0x021B,
     // [6] Sheikah Hint Stone (MM3D)
