@@ -72,3 +72,21 @@ hook_ObjMoonStoneDraw:
     addne lr,lr,#0x4 @ skip drawing vanilla model
     @bne 0x4CEEDC
     bx lr
+
+.global hook_FishHeartDraw
+hook_FishHeartDraw:
+    @ ldr r2,[r0,#0x260]
+    @ cpy r4,r0
+    @ add r1,r0,#0x14c
+    @ cpy r0,r2
+    @ bl 0x1FEAA8
+    @ ldr r0,[r4,#0x260]
+    push {r0-r12, lr}
+    cpy r1,r4 @ actor
+    bl Fish_Heart_OverrideModelDraw
+    cmp r0,#0x0
+    pop {r0-r12, lr}
+    bxne lr
+    b 0x20AAA8 
+    @ bne 0x50C1DC
+    @ bx lr

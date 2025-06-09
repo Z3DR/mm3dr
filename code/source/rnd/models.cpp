@@ -3,6 +3,7 @@
 #include "rnd/actors/dm_char05.h"
 #include "rnd/actors/dm_hina.h"
 #include "rnd/actors/en_si.h"
+#include "rnd/actors/fish_heart.h"
 #include "rnd/actors/item00.h"
 #include "rnd/actors/item_b_heart.h"
 #include "rnd/actors/obj_moon_stone.h"
@@ -334,6 +335,9 @@ namespace rnd {
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;
     // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
     // overlayTable[0x12D].info->deinit_fn = DMChar05_Destroy;
+
+    overlayTable[0x16A].info->init_fn = Fish_Heart_Init;
+    overlayTable[0x16A].info->deinit_fn = Fish_Heart_Destroy;
 
     overlayTable[0x212].info->init_fn = Obj_Moon_Stone_Init;
     overlayTable[0x212].info->deinit_fn = Obj_Moon_Stone_Destroy;

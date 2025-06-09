@@ -591,6 +591,10 @@ SECTIONS{
     *(.patch_ObjMoonStoneDraw)
   }
 
+  .patch_FishHeartDraw 0x50C1E4 : {
+    *(.patch_FishHeartDraw)
+  }
+
   .patch_DmChar05GetObjectStatus 0x50F3DC : {
     *(.patch_DmChar05GetObjectStatus)
   }

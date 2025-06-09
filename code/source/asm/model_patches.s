@@ -49,3 +49,8 @@ RemainsModelDraw_patch:
 .global patch_ObjMoonStoneDraw
 patch_ObjMoonStoneDraw:
     bl hook_ObjMoonStoneDraw
+
+.section .patch_FishHeartDraw
+.global patch_FishHeartDraw
+patch_FishHeartDraw:
+    b hook_FishHeartDraw
