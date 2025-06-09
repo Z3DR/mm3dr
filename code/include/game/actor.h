@@ -82,6 +82,8 @@ namespace game::act {
     EnShn = 0x0158,
     // NPC Postman
     NpcEnPm = 0x0166,
+    // Fish Heart Piece
+    FishHeart = 0x016A,
     // Goht
     BossGoht = 0x016E,
     // Postbox

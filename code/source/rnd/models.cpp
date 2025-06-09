@@ -97,6 +97,8 @@ namespace rnd {
     f32 scale = model->scale;
     if (model->actor->id == game::act::Id::DmHina || model->actor->id == game::act::Id::ObjMoonStone) {
       scale *= 3;  // make models bigger when inside blue warps
+    } else if (model->actor->id == game::act::Id::FishHeart) {
+      scale *= 25;  // make gold skulltula token bigger
     }
     scaleMtx.data[0][0] = scale;
     scaleMtx.data[1][1] = scale;
