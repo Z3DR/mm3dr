@@ -24,6 +24,7 @@ namespace rnd {
 
   game::act::sa_unk_d4* SkeletonAnimationModel_Spawn(game::act::Actor*, game::GlobalContext*, s16, s32);
   void SkeletonAnimationModel_CopyMtx(void*, void*);
+  void TexAnim_Spawn(game::act::SA_TextureAnimation*, void*);
   void SkeletonAnimationModel_SetMeshByDrawItemID(void* model, s32 drawItemId);
   void SkeletonAnimationModel_Draw(void*, int);
 
