@@ -74,6 +74,8 @@ namespace game::act {
     EnGinkoMan = 0x010F,
     // Deku Butler
     EnDno = 0x0117,
+    // Happy Mask Salesman (Cutscenes)
+    DmChar03 = 0x12B,
     // Masks (Cutscenes)
     DmChar05 = 0x012D,
     // Ice platform created using ice arrows.
