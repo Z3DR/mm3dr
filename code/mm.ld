@@ -523,6 +523,26 @@ SECTIONS{
     *(.patch_HMSGiveItem)
   }
 
+  .patch_GoronMaskModelDraw 0x41D380 : {
+    *(.patch_GoronMaskModelDraw)
+  }
+
+  .patch_ZoraMaskModelDraw 0x41D4E8: {
+    *(.patch_ZoraMaskModelDraw)
+  }
+
+  .patch_GibdoMaskModelDraw 0x41D654: {
+    *(.patch_GibdoMaskModelDraw)
+  }
+
+  .patch_CoupleMaskModelDraw 0x41D7F4: {
+    *(.patch_CoupleMaskModelDraw)
+  }
+
+  .patch_BombersNotebookModelDraw 0x41D994: {
+    *(.patch_BombersNotebookModelDraw)
+  }
+
   .patch_GoronMaskGiveItem 0x41DAB0 : {
     *(.patch_GoronMaskGiveItem)
   }

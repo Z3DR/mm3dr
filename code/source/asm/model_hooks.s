@@ -94,3 +94,15 @@ hook_DmChar03ModelDraw:
     pop {r0-r12, lr}
     addne lr,lr,#0x4 @ skip drawing vanilla model
     bx lr
+
+.global hook_DmChar05ModelDraw
+hook_DmChar05ModelDraw:
+    cpy r0,r5
+    push {r0-r12, lr}
+    cpy r0,r4 @ actor
+    cpy r1,r2 @ model matrix
+    bl Dm_Char05_OverrideModelDraw
+    cmp r0,#0x0
+    pop {r0-r12, lr}
+    addne lr,lr,#0x4 @ skip drawing vanilla model
+    bx lr

@@ -96,10 +96,17 @@ namespace rnd {
     // Init scale matrix
     z3d_nn_math_MTX44 scaleMtx = {0};
     f32 scale = model->scale;
-    if (model->actor->id == game::act::Id::DmHina || model->actor->id == game::act::Id::ObjMoonStone) {
-      scale *= 3;  // make models bigger when inside blue warps
-    } else if (model->actor->id == game::act::Id::FishHeart) {
-      scale *= 25;  // make gold skulltula token bigger
+    switch (model->actor->id) {  // Change model scale when overriding special actors
+    case game::act::Id::DmHina:
+    case game::act::Id::ObjMoonStone:
+    case game::act::Id::DmChar05:
+      scale *= 3;
+      break;
+    case game::act::Id::FishHeart:
+      scale *= 25;
+      break;
+    default:
+      break;
     }
     scaleMtx.data[0][0] = scale;
     scaleMtx.data[1][1] = scale;
@@ -337,9 +344,8 @@ namespace rnd {
     overlayTable[0x12B].info->init_fn = Dm_Char03_Init;
     overlayTable[0x12B].info->deinit_fn = Dm_Char03_Destroy;
 
-    // overlayTable[0x12D].info->init_fn = DMChar05_Init;
-    // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
-    // overlayTable[0x12D].info->deinit_fn = DMChar05_Destroy;
+    overlayTable[0x12D].info->init_fn = Dm_Char05_Init;
+    overlayTable[0x12D].info->deinit_fn = Dm_Char05_Destroy;
 
     overlayTable[0x16A].info->init_fn = Fish_Heart_Init;
     overlayTable[0x16A].info->deinit_fn = Fish_Heart_Destroy;

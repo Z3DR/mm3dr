@@ -59,3 +59,28 @@ patch_FishHeartDraw:
 .global DmChar03ModelDraw
 DmChar03ModelDraw:
     bl hook_DmChar03ModelDraw
+
+.section .patch_GoronMaskModelDraw
+.global GoronMaskModelDraw_patch
+GoronMaskModelDraw_patch:
+    bl hook_DmChar05ModelDraw
+
+.section .patch_ZoraMaskModelDraw
+.global ZoraMaskModelDraw_patch
+ZoraMaskModelDraw_patch:
+    bl hook_DmChar05ModelDraw
+
+.section .patch_GibdoMaskModelDraw
+.global GibdoMaskModelDraw_patch
+GibdoMaskModelDraw_patch:
+    bl hook_DmChar05ModelDraw
+
+.section .patch_CoupleMaskModelDraw
+.global CoupleMaskModelDraw_patch
+CoupleMaskModelDraw_patch:
+    bl hook_DmChar05ModelDraw
+
+.section .patch_BombersNotebookModelDraw
+.global BombersNotebookModelDraw_patch
+BombersNotebookModelDraw_patch:
+    bl hook_DmChar05ModelDraw

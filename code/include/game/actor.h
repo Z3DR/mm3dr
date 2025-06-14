@@ -74,6 +74,8 @@ namespace game::act {
     EnGinkoMan = 0x010F,
     // Deku Butler
     EnDno = 0x0117,
+    // Masks (Cutscenes)
+    DmChar05 = 0x012D,
     // Ice platform created using ice arrows.
     BgIcePlatform = 0x013E,
     // Npc For Curiosity Shop Owner

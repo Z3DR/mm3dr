@@ -22,10 +22,16 @@ namespace rnd {
   };
   static_assert(sizeof(Dm_Char05) == 0x2B8);
 
-  void DMChar05_Init(game::act::Actor* actor, game::GlobalContext* gctx);
+  enum DmChar05Param {
+    DMCHAR05_GORON_MASK = 0x0,
+    DMCHAR05_ZORA_MASK = 0x1,
+    DMCHAR05_GIBDO_MASK = 0x2,
+    DMCHAR05_MAJORA_MASK = 0x3,
+    DMCHAR05_COUPLE_MASK = 0x4,
+    DMCHAR05_BOMBERS_NOTEBOOK = 0xD,
+  };
 
-  void DMChar05_Draw(game::act::Actor* actor, game::GlobalContext* gctx);
-
-  void DMChar05_Destroy(game::act::Actor* self, game::GlobalContext* gctx);
+  void Dm_Char05_Init(game::act::Actor* actor, game::GlobalContext* gctx);
+  void Dm_Char05_Destroy(game::act::Actor* self, game::GlobalContext* gctx);
 }  // namespace rnd
 #endif
