@@ -54,3 +54,8 @@ patch_ObjMoonStoneDraw:
 .global patch_FishHeartDraw
 patch_FishHeartDraw:
     b hook_FishHeartDraw
+
+.section .patch_DmChar03ModelDraw
+.global DmChar03ModelDraw
+DmChar03ModelDraw:
+    bl hook_DmChar03ModelDraw

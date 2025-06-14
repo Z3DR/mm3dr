@@ -443,6 +443,10 @@ SECTIONS{
     *(.patch_OverrideItem00Init)
   }
 
+  .patch_DmChar03ModelDraw 0x3B9254 : {
+    *(.patch_DmChar03ModelDraw)
+  }
+
   .patch_OverrideRemainSpawn 0x389E7C : {
     *(.patch_OverrideRemainSpawn)
   }

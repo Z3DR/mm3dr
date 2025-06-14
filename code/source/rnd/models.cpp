@@ -318,6 +318,7 @@ namespace rnd {
   void Actor_Init() {
     game::act::ActorOverlayInfo* overlayTable = game::act::GetActorOverlayInfoTable();
     // Setup destroy and init functions at this point instead of creating a ton of ASM patches.
+    // Use this only if the drwaing for the actor is not complex. Otherwise ASM patches are better.
     overlayTable[0x0E].info->deinit_fn = EnItem00_rDestroy;
 
     overlayTable[0xDC].info->init_fn = Dm_Hina_Init;
@@ -333,9 +334,8 @@ namespace rnd {
     overlayTable[0x99].info->draw_fn = En_Si_Draw;
     overlayTable[0x99].info->deinit_fn = En_Si_Destroy;
 
-    // overlayTable[0x12B].info->init_fn = Dm_Char03_Init;
-    // overlayTable[0x12B].info->draw_fn = Dm_Char03_Draw;
-    // overlayTable[0x12B].info->deinit_fn = Dm_Char03_Destroy;
+    overlayTable[0x12B].info->init_fn = Dm_Char03_Init;
+    overlayTable[0x12B].info->deinit_fn = Dm_Char03_Destroy;
 
     // overlayTable[0x12D].info->init_fn = DMChar05_Init;
     // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;

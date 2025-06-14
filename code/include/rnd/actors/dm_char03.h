@@ -21,9 +21,8 @@ namespace rnd {
     void* skelAnimeModel;
   };
   static_assert(sizeof(Dm_Char03) == 0x29C);
-  extern "C" float rDmChar03Scale;
   void Dm_Char03_Init(game::act::Actor* actor, game::GlobalContext* gctx);
-  void Dm_Char03_Draw(game::act::Actor* actor, game::GlobalContext* gctx);
+  extern "C" s32 Dm_Char03_OverrideModelDraw(game::act::sa_unk_d4*, game::act::Actor*);
   void Dm_Char03_Destroy(game::act::Actor* actor, game::GlobalContext* gctx);
 
 }  // namespace rnd
