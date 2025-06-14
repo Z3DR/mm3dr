@@ -133,9 +133,9 @@ namespace rnd {
           model->actor->actor_shape.rot.y = GetContext().gctx->main_camera.cam_dir.y;
         }
         Actor_SetModelMatrix(actorPos.x, modelPosY, actorPos.z, &model->saModel2->mtx, &model->actor->actor_shape);
-        Model_MultiplyMatrix(&model->saModel2->mtx, &model->saModel2->mtx, &scaleMtx);
         model->actor->actor_shape.rot.y = tempRotY;
       }
+      Model_MultiplyMatrix(&model->saModel2->mtx, &model->saModel2->mtx, &scaleMtx);
     }
   }
 
