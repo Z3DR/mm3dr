@@ -97,6 +97,9 @@ namespace rnd {
     z3d_nn_math_MTX44 scaleMtx = {0};
     f32 scale = model->scale;
     switch (model->actor->id) {  // Change model scale when overriding special actors
+    case game::act::Id::DmChar03:
+      scale *= 2;
+      break;
     case game::act::Id::DmHina:
     case game::act::Id::ObjMoonStone:
     case game::act::Id::DmChar05:
