@@ -79,7 +79,7 @@ namespace rnd {
       s32 id = rExtendedObjectCtx.status[i].object_id;
       id = (id < 0 ? -id : id);
       if (id == rStoredObjId) {
-        util::GetPointer<void(void*, s16)>(0x1F15B4)(&rExtendedObjectCtx, id);
+        // util::GetPointer<void(void*, s16)>(0x1F15B4)(&rExtendedObjectCtx, id);
         return &rExtendedObjectCtx.status[i];
       }
     }
