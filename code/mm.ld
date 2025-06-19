@@ -229,6 +229,10 @@ SECTIONS{
     *(.patch_CheckMagicForZoraFastSwim)
   }
 
+  .patch_storeObjectIdForExtendedObject 0x203C44 : {
+    *(.patch_storeObjectIdForExtendedObject)
+  }
+
   .patch_ModelSpawnGetObjectStatus 0x203CF8 : {
     *(.patch_ModelSpawnGetObjectStatus)
   }
@@ -269,9 +273,9 @@ SECTIONS{
     *(.patch_SecondZoraSwimCheck)
   }
 
-  .patch_GetExtendedObjectStatus 0x222330 : {
+  /* .patch_GetExtendedObjectStatus 0x222330 : {
     *(.patch_GetExtendedObjectStatus)
-  }
+  } */
 
   .patch_RemoveRemainsStateCheck 0x22B7BC : {
     *(.patch_RemoveRemainsStateCheck)
@@ -619,9 +623,9 @@ SECTIONS{
     *(.patch_FishHeartDraw)
   }
 
-  .patch_DmChar05GetObjectStatus 0x50F3DC : {
+  /* .patch_DmChar05GetObjectStatus 0x50F3DC : {
     *(.patch_DmChar05GetObjectStatus)
-  }
+  } */
 
   /* XXX: May need this in the future, but will have to steal object ID from table in function call. */
   /* .patch_DmChar05GetObjectStatusTwo 0x504CA8 : {

@@ -2,7 +2,7 @@
 
 namespace rnd {
   ExtendedObjectContext rExtendedObjectCtx = {0};
-  s32 storedObjId = -1;
+  s32 rStoredObjId = -1;
   s32 yPos = 0;
   s32 xPos = 0;
   s32 zPos = 0;
@@ -72,10 +72,13 @@ namespace rnd {
 
   extern "C" game::ActorResource::ActorResource* ExtendedObject_GetStatus() {
     s32 i;
+    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: rStoredObjId is %#06x\n", __func__, rStoredObjId);
+#endif
     for (i = 0; i < rExtendedObjectCtx.num; ++i) {
       s32 id = rExtendedObjectCtx.status[i].object_id;
       id = (id < 0 ? -id : id);
-      if (id == storedObjId) {
+      if (id == rStoredObjId) {
         util::GetPointer<void(void*, s16)>(0x1F15B4)(&rExtendedObjectCtx, id);
         return &rExtendedObjectCtx.status[i];
       }

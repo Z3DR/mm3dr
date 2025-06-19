@@ -1,6 +1,18 @@
 .arm
 .text
 
+.global rStoredObjId
+.rStoredObjId_addr:
+    .word rStoredObjId
+
+.global hook_storeObjectIdForExtendedObject
+hook_storeObjectIdForExtendedObject:
+    push {r0-r12, lr}
+    ldr r0, .rStoredObjId_addr
+    str r2, [r0] @ store object ID in rStoredObjId
+    pop {r0-r12, lr}
+    cpy r4, r1
+    bx lr
 
 .global hook_ModelSpawnGetObjectStatus
 hook_ModelSpawnGetObjectStatus:

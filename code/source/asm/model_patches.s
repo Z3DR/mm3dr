@@ -10,6 +10,11 @@ patch_ExtendedObjectClear:
 patch_ModelSpawnGetObjectStatus:
   bl hook_ModelSpawnGetObjectStatus
 
+.section .patch_storeObjectIdForExtendedObject
+.global patch_storeObjectIdForExtendedObject
+patch_storeObjectIdForExtendedObject:
+  bl hook_storeObjectIdForExtendedObject
+
 .section .patch_GetExtendedObjectStatus
 .global patch_GetExtendedObjectStatus
 patch_GetExtendedObjectStatus:

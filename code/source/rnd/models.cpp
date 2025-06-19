@@ -77,7 +77,7 @@ namespace rnd {
     if (objectBankIdx < 0) {
       objectBankIdx = ExtendedObject_Spawn(&globalCtx->object_context, model->itemRow->objectId);
     }
-    storedObjId = model->itemRow->objectId;
+    // rStoredObjId = model->itemRow->objectId;
     model->objectBankIdx = objectBankIdx;
   }
 

@@ -11,7 +11,7 @@ namespace rnd {
   // Extended Object to deal with spawning multiple actors without running out of standard game space.
   typedef game::ActorResource::ObjectContext ExtendedObjectContext;
   extern "C" ExtendedObjectContext rExtendedObjectCtx;
-  extern "C" s32 storedObjId;
+  extern "C" s32 rStoredObjId;
   extern "C" s32 yPos;
   extern "C" s32 xPos;
   extern "C" s32 zPos;
