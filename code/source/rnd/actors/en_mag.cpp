@@ -17,7 +17,7 @@ namespace rnd {
     CustomModel_EditTitleScreenLogo(titleScreenZar);
 
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x32433C)(self, gctx);
-    
+
     cmabMan = GAR_GetCMABByIndex(&rExtendedObjectCtx.status[exObjectBankIdx].archive, 2);
     TexAnim_Spawn(enMag->skelAnime->texAnim, cmabMan);
     enMag->skelAnime->texAnim->animSpeed = 0.0f;

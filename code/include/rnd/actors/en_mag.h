@@ -32,8 +32,6 @@ namespace rnd {
   static_assert(sizeof(En_Mag) == 0x294);
 
   void En_Mag_rInit(game::act::Actor*, game::GlobalContext*);
-} // namespace rnd
-
-
+}  // namespace rnd
 
 #endif  //_TITLE_SCREEN_H_
