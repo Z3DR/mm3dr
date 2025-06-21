@@ -322,8 +322,8 @@ namespace rnd {
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_DUNGEON_MAP_MAYBE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 1.00f),  // Map
 
-      [0x3F] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Compass, 0x003F, 0x0139,
-                        0x00, (s8)0xFF, (s8)0x01, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_COMPASS,
+      [0x3F] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::Compass, 0x003F, 0x0091,
+                        0x00, (s8)0xFF, (s8)0x00, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_COMPASS,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 1.00f),  // Compass
 
       [0x40] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::KokiriSword, 0x009C,
@@ -346,7 +346,7 @@ namespace rnd {
                         1.00f),  // Pictograph Box
 
       [0x44] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::GoldSkulltula, 0x0052,
-                        0x0020, 0x02, (s8)0xFF, (s8)0x03, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GOLD_SKULLTULA,
+                        0x0020, 0x02, (s8)0xFF, (s8)0x03, (s8)0x00, (s8)0xFF, DrawGraphicItemID::DI_GOLD_SKULLTULA,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSkulltula, (s16)0, (s16)-1,
                         1.00f),  // Gold Skulltula
 
@@ -507,13 +507,13 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Blue fire - not used
 
-      [0x65] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Poe, 0x0065, 0x0139, 0x00,
-                        (s8)0xFF, 0x02, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_BIG_POE_PURPLE,
+      [0x65] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Poe, 0x0065, 0x0139, 0x02,
+                        (s8)0xFF, 0x00, (s8)0x00, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_POE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Poe - not used?
 
       [0x66] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::BigPoe, 0x0066, 0x0139,
-                        0x01, (s8)0xFF, 0x04, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_BIG_POE,
+                        0x01, (s8)0xFF, 0x04, (s8)0x02, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_BIG_POE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Big Poe
 
@@ -533,7 +533,7 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Zora Egg
 
-      [0x6A] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GoldDust, 0x006A, 0x01E8,
+      [0x6A] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GoldDust, 0x006A, 0x01E9,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_GOLD_DUST,
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Gold Dust

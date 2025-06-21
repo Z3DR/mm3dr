@@ -13,6 +13,7 @@
 
 #include "common/types.h"
 #include "common/utils.h"
+#include "game/actor.h"
 
 namespace game::as {
 
@@ -52,7 +53,7 @@ namespace game::as {
     int field_28;
     int field_2C;
     int field_30;
-    void* field_34;
+    game::act::sa_unk_d4* field_34;
     int field_38;
     State state;
     u8 gap_64[24];

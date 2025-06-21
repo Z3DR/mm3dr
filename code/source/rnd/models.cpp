@@ -2,26 +2,36 @@
 #include "rnd/actors/dm_char03.h"
 #include "rnd/actors/dm_char05.h"
 #include "rnd/actors/dm_hina.h"
+#include "rnd/actors/en_mag.h"
 #include "rnd/actors/en_si.h"
+#include "rnd/actors/fish_heart.h"
 #include "rnd/actors/item00.h"
 #include "rnd/actors/item_b_heart.h"
+#include "rnd/actors/obj_moon_stone.h"
 #define LOADEDMODELS_MAX 16
 
 namespace rnd {
   Model ModelContext[LOADEDMODELS_MAX] = {0};
 
-  void* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx, s16 objectId,
-                                     s32 objectModelIndex) {
-    return util::GetPointer<void*(game::act::Actor * actor, game::GlobalContext * globalCtx, s16 objId,
-                                  s32 objModelIdx)>(0x203C40)(actor, gctx, objectId, objectModelIndex);
+  game::act::sa_unk_d4* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx, s16 objectId,
+                                                     s32 objectModelIndex) {
+    return util::GetPointer<game::act::sa_unk_d4*(game::act::Actor * actor, game::GlobalContext * globalCtx, s16 objId,
+                                                  s32 objModelIdx)>(0x203C40)(actor, gctx, objectId, objectModelIndex);
   }
 
-  void SkeletonAnimationModel_CopyMtx(void* fromMtx, void* toMtx) {
-    util::GetPointer<void(void*, void*)>(0x1FEAB0)(fromMtx, toMtx);
+  void Actor_SetModelMatrix(float x, float y, float z, z3d_nn_math_MTX34* mtx, game::act::ActorShape* shape) {
+    util::GetPointer<void(float x, float y, float z, z3d_nn_math_MTX34* mtx, game::act::ActorShape* shape)>(0x1F0948)(
+        x, y, z, mtx, shape);
   }
 
-  void TexAnim_Spawn(void* skelModel, int objectId) {
-    util::GetPointer<void(void*, int)>(0x12A3DC)(skelModel, objectId);
+  void SkeletonAnimationModel_CopyMtx(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* src) {
+    util::GetPointer<void(z3d_nn_math_MTX34*, z3d_nn_math_MTX34*)>(0x1FEAB0)(dst, src);
+  }
+
+  void TexAnim_Spawn(game::act::SA_TextureAnimation* texAnim, void* cmab) {
+    // This pointer was extracted at runtime from the Skulltula Token init function (En_Si::init),
+    // but it comes from a virtual method, so it might not work in all cases.
+    util::GetPointer<void(void*, void*)>(0x229DA4)(texAnim, cmab);
   }
 
   void SkeletonAnimationModel_Destroy(void* skelModel) {
@@ -44,10 +54,6 @@ namespace rnd {
     util::GetPointer<void(game::act::Actor*, float)>(0x21E30C)(actor, scale);
   }
 
-  void Model_SetMtxAndModel(void* model, void* mtx) {
-    util::GetPointer<void(void*, void*)>(0x1FEAA8)(model, mtx);
-  }
-
   void Model_InvertMatrix(void* mtx) {
     // Inverse model if model is upside down.
     util::GetPointer<void(void*, float, int)>(0x22B038)(mtx, 3.14159, 1);
@@ -62,8 +68,8 @@ namespace rnd {
     util::GetPointer<void(void*, void*, void*)>(0x20BDB4)(mtx, mtxTwo, vec3);
   }
 
-  void Model_MultiplyMatrix(void* mtx, void* mtxTwo, void* scaleMtx) {
-    util::GetPointer<void(void*, void*, void*)>(0x21B850)(mtx, mtxTwo, scaleMtx);
+  void Model_MultiplyMatrix(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* lhs, z3d_nn_math_MTX44* rhs) {
+    util::GetPointer<void(z3d_nn_math_MTX34*, z3d_nn_math_MTX34*, z3d_nn_math_MTX44*)>(0x21B850)(dst, lhs, rhs);
   }
 
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx) {
@@ -71,77 +77,94 @@ namespace rnd {
     if (objectBankIdx < 0) {
       objectBankIdx = ExtendedObject_Spawn(&globalCtx->object_context, model->itemRow->objectId);
     }
-    storedObjId = model->itemRow->objectId;
+    // rStoredObjId = model->itemRow->objectId;
     model->objectBankIdx = objectBankIdx;
   }
 
-  void Model_SetAnim(void* model, s16 objectId) {
-    TexAnim_Spawn(model, objectId);
+  void Model_SetAnim(game::act::sa_unk_d4* model, s16 objectId, u32 objectAnimIdx) {
+    void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
+    TexAnim_Spawn(model->texAnim, cmabMan);
+    model->texAnim->animSpeed = 1.0f;
+    model->texAnim->animMode = 1;
+  }
+
+  void Matrix_UpdatePosition(void* dst, void* src, void* vec) {
+    util::GetPointer<void(void*, void*, void*)>(0x19A360)(dst, src, vec);
   }
 
   void Model_SetMatrix(Model* model) {
-    float tmpMtx[3][4] = {0};
-    float scaleMtx[4][4] = {0};
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    z3dVec3f tmpPos = {0.0f, 0.0f, 0.0f};
-#endif
-
-    SkeletonAnimationModel_CopyMtx(&tmpMtx, &model->actor->mtx);
-    // Base case - if we're a free-standing heart piece then set scale and use built-in scaling call.
-    if (model->baseItemId == 0x00 && model->itemRow->objectId == 0x01) {
-      if (model->itemRow->objectModelIdx == 0x05)
-        model->scale = 0.010f;
-      else
-        model->scale = 0.015f;
-      Model_SetScale(model->actor, model->scale);
-    } else {
-      if (model->baseItemId == 0x00) {
-        if (model->itemRow->objectId == 0x0157)
-          model->scale = 1.00f;
-        else
-          model->scale = 10.00f;
-      }
-      scaleMtx[0][0] = model->scale;
-      scaleMtx[1][1] = model->scale;
-      scaleMtx[2][2] = model->scale;
-      scaleMtx[3][3] = 1.0f;
-      Model_MultiplyMatrix(&tmpMtx, &tmpMtx, &scaleMtx);
+    // Init scale matrix
+    z3d_nn_math_MTX44 scaleMtx = {0};
+    f32 scale = model->scale;
+    switch (model->actor->id) {  // Change model scale when overriding special actors
+    case game::act::Id::DmChar03:
+      scale *= 2;
+      break;
+    case game::act::Id::DmHina:
+    case game::act::Id::ObjMoonStone:
+    case game::act::Id::DmChar05:
+      scale *= 3;
+      break;
+    case game::act::Id::FishHeart:
+      scale *= 25;
+      break;
+    default:
+      break;
     }
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    tmpPos.y = yPos;
-    tmpPos.x = xPos;
-    tmpPos.z = zPos;
+    scaleMtx.data[0][0] = scale;
+    scaleMtx.data[1][1] = scale;
+    scaleMtx.data[2][2] = scale;
+    scaleMtx.data[3][3] = 1.0f;
 
-    Model_UpdateMatrixPosition(&tmpMtx, &tmpMtx, &tmpPos);
-#endif
+    // Get model coordinates
+    z3dVec3f actorPos = model->actor->pos.pos;
+    f32 modelPosY = actorPos.y + (model->actor->model_scale.y * model->actor->actor_shape.y_offset);
 
-    if (model->saModel != NULL)
-      Model_SetMtxAndModel(model->saModel, &tmpMtx);
+    if (model->hardcodedMtx != NULL) {
+      // Use the hardcoded matrix if present
+      SkeletonAnimationModel_CopyMtx(&model->saModel->mtx, model->hardcodedMtx);
+    } else {
+      // Otherwise, compute model matrix from actor shape and given position.
+      Actor_SetModelMatrix(actorPos.x, modelPosY, actorPos.z, &model->saModel->mtx, &model->actor->actor_shape);
+    }
 
+    // Apply scale
+    Model_MultiplyMatrix(&model->saModel->mtx, &model->saModel->mtx, &scaleMtx);
+
+    // Repeat for second model if present
     if (model->saModel2 != NULL) {
-      float tmpY = model->actor->actor_shape.rot.y;
-      if (model->objectId != 0x0020) {
-        model->actor->actor_shape.rot.y = GetContext().gctx->main_camera.field_11C.y;
+      if (model->hardcodedMtx != NULL) {
+        SkeletonAnimationModel_CopyMtx(&model->saModel2->mtx, model->hardcodedMtx);
+        // TODO: how to force facing the camera if the matrix is hardcoded?
+      } else {
+        f32 tempRotY = model->actor->actor_shape.rot.y;
+        // The second model should always face the camera, except for Skull Token
+        if (model->itemRow->objectId != 0x0020) {
+          model->actor->actor_shape.rot.y = GetContext().gctx->main_camera.cam_dir.y;
+        }
+        Actor_SetModelMatrix(actorPos.x, modelPosY, actorPos.z, &model->saModel2->mtx, &model->actor->actor_shape);
+        model->actor->actor_shape.rot.y = tempRotY;
       }
-      Model_SetMtxAndModel(model->saModel2, &tmpMtx);
-      model->actor->actor_shape.rot.y = tmpY;
+      Model_MultiplyMatrix(&model->saModel2->mtx, &model->saModel2->mtx, &scaleMtx);
     }
   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
     s16 objectId = model->itemRow->objectId;
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
+
+    SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
+
+    if (model->itemRow->cmabIndex >= 0) {
+      Model_SetAnim(model->saModel, model->itemRow->objectId, model->itemRow->cmabIndex);
+    }
+
     if (model->itemRow->objectModelIdx2 >= 0) {
       model->saModel2 =
           SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx2);
-      Model_SetAnim(model->saModel2, model->itemRow->objectId);
-    }
-
-    SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
-    if (model->itemRow->objectModelIdx != 0xFF) {
-      Model_SetAnim(model->saModel, model->itemRow->objectId);
-      // model->saModel->unk_0C->animSpeed = 2.0f;
-      // model->saModel->unk_0C->animMode = 1;
+      if (model->itemRow->cmabIndex2 >= 0) {
+        Model_SetAnim(model->saModel2, model->itemRow->objectId, model->itemRow->cmabIndex2);
+      }
     }
 
     model->loaded = 1;
@@ -161,6 +184,7 @@ namespace rnd {
     model->loaded = 0;
     model->objectBankIdx = -1;
     model->objectId = -1;
+    model->posOffset = {0, -10.00, 0};
   }
 
   void Model_UpdateAll(game::GlobalContext* globalCtx) {
@@ -246,6 +270,10 @@ namespace rnd {
       newModel->objectBankIdx = model->objectBankIdx;
       newModel->baseItemId = model->baseItemId;
       newModel->objectId = model->itemRow->objectId;
+      // XXX: Small patch - if we are not the index of a deku nut, then we adjust scale.
+      if (newModel->itemRow->objectModelIdx != 0x8D) {
+        newModel->scale = 0.3f * newModel->itemRow->scale;
+      }
     }
   }
 
@@ -274,11 +302,12 @@ namespace rnd {
     }
   }
 
-  s32 Model_DrawByActor(game::act::Actor* actor) {
+  s32 Model_DrawByActor(game::act::Actor* actor, z3d_nn_math_MTX34* hardcodedMtx /*= NULL*/) {
     s32 actorDrawn = 0;
     for (s32 i = 0; i < LOADEDMODELS_MAX; ++i) {
       if (ModelContext[i].actor == actor) {
         actorDrawn = 1;
+        ModelContext[i].hardcodedMtx = hardcodedMtx;
         Model_Draw(&ModelContext[i]);
       }
     }
@@ -299,26 +328,32 @@ namespace rnd {
   void Actor_Init() {
     game::act::ActorOverlayInfo* overlayTable = game::act::GetActorOverlayInfoTable();
     // Setup destroy and init functions at this point instead of creating a ton of ASM patches.
+    // Use this only if the drwaing for the actor is not complex. Otherwise ASM patches are better.
     overlayTable[0x0E].info->deinit_fn = EnItem00_rDestroy;
 
-    // overlayTable[0xDC].info->init_fn = Dm_Hina_Init;
-    // overlayTable[0xDC].info->draw_fn = Dm_Hina_Draw;
-    // overlayTable[0xDC].info->deinit_fn = Dm_Hina_Destroy;
+    overlayTable[0xDC].info->init_fn = Dm_Hina_Init;
+    overlayTable[0xDC].info->deinit_fn = Dm_Hina_Destroy;
 
     overlayTable[0x2F].info->init_fn = ItemBHeart_Init;
     overlayTable[0x2F].info->draw_fn = ItemBHeart_Draw;
     overlayTable[0x2F].info->deinit_fn = ItemBHeart_Destroy;
 
+    // overlayTable[0x87].info->init_fn = En_Mag_rInit;
+
     overlayTable[0x99].info->init_fn = En_Si_Init;
     overlayTable[0x99].info->draw_fn = En_Si_Draw;
     overlayTable[0x99].info->deinit_fn = En_Si_Destroy;
 
-    // overlayTable[0x12B].info->init_fn = Dm_Char03_Init;
-    // overlayTable[0x12B].info->draw_fn = Dm_Char03_Draw;
-    // overlayTable[0x12B].info->deinit_fn = Dm_Char03_Destroy;
+    overlayTable[0x12B].info->init_fn = Dm_Char03_Init;
+    overlayTable[0x12B].info->deinit_fn = Dm_Char03_Destroy;
 
-    // overlayTable[0x12D].info->init_fn = DMChar05_Init;
-    // overlayTable[0x12D].info->draw_fn = DMChar05_Draw;
-    // overlayTable[0x12D].info->deinit_fn = DMChar05_Destroy;
+    overlayTable[0x12D].info->init_fn = Dm_Char05_Init;
+    overlayTable[0x12D].info->deinit_fn = Dm_Char05_Destroy;
+
+    overlayTable[0x16A].info->init_fn = Fish_Heart_Init;
+    overlayTable[0x16A].info->deinit_fn = Fish_Heart_Destroy;
+
+    overlayTable[0x212].info->init_fn = Obj_Moon_Stone_Init;
+    overlayTable[0x212].info->deinit_fn = Obj_Moon_Stone_Destroy;
   }
 }  // namespace rnd

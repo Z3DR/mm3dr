@@ -229,6 +229,10 @@ SECTIONS{
     *(.patch_CheckMagicForZoraFastSwim)
   }
 
+  .patch_storeObjectIdForExtendedObject 0x203C44 : {
+    *(.patch_storeObjectIdForExtendedObject)
+  }
+
   .patch_ModelSpawnGetObjectStatus 0x203CF8 : {
     *(.patch_ModelSpawnGetObjectStatus)
   }
@@ -269,9 +273,9 @@ SECTIONS{
     *(.patch_SecondZoraSwimCheck)
   }
 
-  .patch_GetExtendedObjectStatus 0x222330 : {
+  /* .patch_GetExtendedObjectStatus 0x222330 : {
     *(.patch_GetExtendedObjectStatus)
-  }
+  } */
 
   .patch_RemoveRemainsStateCheck 0x22B7BC : {
     *(.patch_RemoveRemainsStateCheck)
@@ -443,8 +447,16 @@ SECTIONS{
     *(.patch_OverrideItem00Init)
   }
 
+  .patch_DmChar03ModelDraw 0x3B9254 : {
+    *(.patch_DmChar03ModelDraw)
+  }
+
   .patch_OverrideRemainSpawn 0x389E7C : {
     *(.patch_OverrideRemainSpawn)
+  }
+
+  .patch_RemainsModelDraw 0x3C7D7C : {
+    *(.patch_RemainsModelDraw)
   }
 
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
@@ -515,6 +527,26 @@ SECTIONS{
     *(.patch_HMSGiveItem)
   }
 
+  .patch_GoronMaskModelDraw 0x41D380 : {
+    *(.patch_GoronMaskModelDraw)
+  }
+
+  .patch_ZoraMaskModelDraw 0x41D4E8: {
+    *(.patch_ZoraMaskModelDraw)
+  }
+
+  .patch_GibdoMaskModelDraw 0x41D654: {
+    *(.patch_GibdoMaskModelDraw)
+  }
+
+  .patch_CoupleMaskModelDraw 0x41D7F4: {
+    *(.patch_CoupleMaskModelDraw)
+  }
+
+  .patch_BombersNotebookModelDraw 0x41D994: {
+    *(.patch_BombersNotebookModelDraw)
+  }
+
   .patch_GoronMaskGiveItem 0x41DAB0 : {
     *(.patch_GoronMaskGiveItem)
   }
@@ -583,9 +615,17 @@ SECTIONS{
     *(.patch_RemoveJimWhenExitingHideout)
   }
 
-  .patch_DmChar05GetObjectStatus 0x50F3DC : {
-    *(.patch_DmChar05GetObjectStatus)
+  .patch_ObjMoonStoneDraw 0x4CEE88 : {
+    *(.patch_ObjMoonStoneDraw)
   }
+
+  .patch_FishHeartDraw 0x50C1E4 : {
+    *(.patch_FishHeartDraw)
+  }
+
+  /* .patch_DmChar05GetObjectStatus 0x50F3DC : {
+    *(.patch_DmChar05GetObjectStatus)
+  } */
 
   /* XXX: May need this in the future, but will have to steal object ID from table in function call. */
   /* .patch_DmChar05GetObjectStatusTwo 0x504CA8 : {

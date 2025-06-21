@@ -64,6 +64,8 @@ namespace game::act {
     BossGyorg = 0x00CD,
     // Great Fairy
     NpcGreatFairy = 0x00D2,
+    // Boss Remains
+    DmHina = 0x00DC,
     // [4] Kafei
     NpcKafei = 0x00F4,
     // Koume (Boat Lady)
@@ -72,6 +74,10 @@ namespace game::act {
     EnGinkoMan = 0x010F,
     // Deku Butler
     EnDno = 0x0117,
+    // Happy Mask Salesman (Cutscenes)
+    DmChar03 = 0x12B,
+    // Masks (Cutscenes)
+    DmChar05 = 0x012D,
     // Ice platform created using ice arrows.
     BgIcePlatform = 0x013E,
     // Npc For Curiosity Shop Owner
@@ -80,6 +86,8 @@ namespace game::act {
     EnShn = 0x0158,
     // NPC Postman
     NpcEnPm = 0x0166,
+    // Fish Heart Piece
+    FishHeart = 0x016A,
     // Goht
     BossGoht = 0x016E,
     // Postbox
@@ -116,6 +124,8 @@ namespace game::act {
     NpcEnBjt = 0x020C,
     // [4] Bombers
     NpcBombers = 0x020F,
+    // Moon Stone
+    ObjMoonStone = 0x0212,
     // Keaton
     EnKitan = 0x021B,
     // [6] Sheikah Hint Stone (MM3D)
@@ -349,6 +359,14 @@ namespace game::act {
   };
   static_assert(sizeof(DayTimerActor) == 0x20C);
 
+  typedef struct SA_TextureAnimation {
+    /* 0x00 */ char gap_00[0x14];
+    /* 0x10 */ f32 animSpeed;
+    /* 0x18 */ s8 animMode;
+    // ... size unknown
+  } SA_TextureAnimation;
+  static_assert(offsetof(SA_TextureAnimation, animMode) == 0x18);
+
   struct sa_unk_d4 {
     void* field_00;
     void* field_04;
@@ -356,8 +374,10 @@ namespace game::act {
     int field_0c;
     float field_10;
     float field_14;
-    z3d_nn_math_MTX34* mtx;
-    u8 gap_1C[184];
+    z3d_nn_math_MTX34 mtx;
+    u8 gap_48[0x50];
+    SA_TextureAnimation* texAnim;
+    u8 gap_9C[0x38];
   };
   static_assert(sizeof(sa_unk_d4) == 0xD4);
 
