@@ -393,6 +393,15 @@ namespace rnd::link {
       saveData.player_form = game::act::Player::Form::Human;
     }
   }
+
+  u8 UseFDAnywhere() {
+    // This function is called from the ASM patch.
+    // It checks if the option is enabled to use Fierce Deity outside of boss fights.
+    if (gSettingsContext.useFierceDeityAnywhere == 0) {
+      return 0;  // Not enabled, do nothing.
+    }
+    return 1;  // Enabled, allow Fierce Deity to be used anywhere.
   }
+}
 
 }  // namespace rnd::link

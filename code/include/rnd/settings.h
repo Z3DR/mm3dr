@@ -434,6 +434,8 @@ namespace rnd {
 
     // Extra MM Settings
     u8 blastMaskCooldown;
+
+    u8 useFierceDeityAnywhere = 1;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;

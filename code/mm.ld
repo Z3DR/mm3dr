@@ -61,6 +61,18 @@ SECTIONS{
     *(.patch_OverrideBombersNotebook)
   }
 
+  .patch_UseFDAnywhere 0x1B1248 : {
+    *(.patch_UseFDAnywhere)
+  }
+
+  .patch_FDClimbingAnimationFixOne 0x68DA94 : {
+    *(.patch_FDClimbingAnimationFixOne)
+  }
+
+  .patch_FDClimbingAnimationFixTwo 0x68DAB4 : {
+    *(.patch_FDClimbingAnimationFixTwo)
+  }
+
   .patch_FastTransformPatchOne 0x1EB3B8 : {
     *(.patch_FastTransformPatchOne)
   }
