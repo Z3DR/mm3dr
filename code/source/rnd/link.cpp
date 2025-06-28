@@ -393,6 +393,30 @@ namespace rnd::link {
       saveData.player_form = game::act::Player::Form::Human;
     }
   }
+
+  game::ItemId UseFDAnywhere(game::ItemId itemId) {
+    if (itemId == game::ItemId::FierceDeityMask) {
+      // This function is called from the ASM patch.
+      // It checks if the option is enabled to use Fierce Deity outside of boss fights.
+      if (gSettingsContext.useFierceDeityAnywhere == 0)
+        return game::ItemId::FierceDeityMask;  // Not enabled, do nothing.
+      return game::ItemId::Ocarina;            // Enabled, allow Fierce Deity to be used anywhere.
+    } else
+      return itemId;
+  }
+
+  u8 CheckIfLinkIsFD() {
+    game::SaveData& saveData = game::GetCommonData().save;
+    if (saveData.player_form == game::act::Player::Form::FierceDeity)
+      return 1;
+    return 0;
+  }
+
+  game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form form) {
+    if (form == game::act::Player::Form::FierceDeity || form == game::act::Player::Form::Deku)
+      return game::act::Player::Form::Deku;
+    return form;
+  }
   }
 
 }  // namespace rnd::link

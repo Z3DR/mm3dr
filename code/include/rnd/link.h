@@ -15,9 +15,20 @@ namespace rnd::link {
   void HandleFastOcarina(game::GlobalContext*);
   void HandleFastArrowSwitch(game::act::Player*);
   void FixFreeCameraReset();
-  extern "C" void AssignSwordForHoneyDarling();
-  extern "C" void RemoveSwordFromHoneyDarling();
-  extern "C" void ResetPlayerForm();
+  extern "C" {
+  bool ShouldUseZoraFastSwim();
+  bool SwitchToZoraFastSwim(game::GlobalContext*, game::act::Player*, bool);
+  bool CheckIfMagicAcquired();
+  void HandleFastTransform();
+  u8 ZoraMaskCheck();
+  void SongOfTimeSwordPlacement();
+  void AssignSwordForHoneyDarling();
+  void RemoveSwordFromHoneyDarling();
+  void ResetPlayerForm();
+  game::ItemId UseFDAnywhere(game::ItemId);
+  u8 CheckIfLinkIsFD();
+  game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form);
+  }
 
 }  // namespace rnd::link
 

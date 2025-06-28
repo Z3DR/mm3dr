@@ -61,6 +61,10 @@ SECTIONS{
     *(.patch_OverrideBombersNotebook)
   }
 
+  .patch_UseFDAnywhere 0x1B1244 : {
+    *(.patch_UseFDAnywhere)
+  }
+
   .patch_FastTransformPatchOne 0x1EB3B8 : {
     *(.patch_FastTransformPatchOne)
   }
@@ -355,6 +359,10 @@ SECTIONS{
     *(.patch_GiveTempSwordForHandD)
   }
 
+  .patch_CheckIfLinkIsFD 0x2C91D4 : {
+    *(.patch_CheckIfLinkIsFD)
+  }
+
   .patch_GaboraCheckExtDataNotSword 0x2CBB14 : {
     *(.patch_GaboraCheckExtDataNotSword)
   }
@@ -407,6 +415,14 @@ SECTIONS{
     *(.patch_RemoveSkulltulaSpawnIfCollectedItem)
   } */
 
+  .patch_FixFDObservatoryText 0x30A3B0 : {
+    *(.patch_FixFDObservatoryText)
+  }
+
+  .patch_FixFDObservatoryTextTwo 0x30A4A0 : {
+    *(.patch_FixFDObservatoryTextTwo)
+  }
+
   .patch_SaveExtDataOnOwl 0x317004 : {
     *(.patch_SaveExtDataOnOwl)
   }
@@ -443,16 +459,20 @@ SECTIONS{
     *(.patch_DmChar05GoronInit)
   } */
 
+  .patch_OverrideRemainSpawn 0x389E7C : {
+    *(.patch_OverrideRemainSpawn)
+  }
+
+  .patch_RemoveWoodfallClearConditionFromBoatHouse 0x39655C : {
+      *(.patch_RemoveWoodfallClearConditionFromBoatHouse)
+  }
+
   .patch_OverrideItem00Init 0x3D018C : {
     *(.patch_OverrideItem00Init)
   }
 
   .patch_DmChar03ModelDraw 0x3B9254 : {
     *(.patch_DmChar03ModelDraw)
-  }
-
-  .patch_OverrideRemainSpawn 0x389E7C : {
-    *(.patch_OverrideRemainSpawn)
   }
 
   .patch_RemainsModelDraw 0x3C7D7C : {
@@ -575,6 +595,10 @@ SECTIONS{
     *(.patch_OverrideItem00Draw)
   }
 
+  .patch_FierceDeityArcheryFix 0x4427E8 : {
+    *(.patch_FierceDeityArcheryFix)
+  }
+
   .patch_OverrideBankerWalletReward 0x459044 : {
     *(.patch_OverrideProgessiveWalletTwo)
   }
@@ -693,8 +717,32 @@ SECTIONS{
     *(.patch_HandleOcarinaHooks)
   }
 
-  .patch_RemoveWoodfallClearConditionFromBoatHouse 0x39655C : {
-      *(.patch_RemoveWoodfallClearConditionFromBoatHouse)
+  .patch_FDOpenDungeonDoors 0x68D9C0 : {
+    *(.patch_FDOpenDungeonDoors)
+  }
+
+  .patch_FDClimbingAnimationFixOne 0x68DA90 : {
+    *(.patch_FDClimbingAnimationFixOne)
+  }
+
+  .patch_FDClimbingAnimationFixTwo 0x68DAB4 : {
+    *(.patch_FDClimbingAnimationFixTwo)
+  }
+
+  .patch_FDDoorCrashOne 0x68E0E4 : {
+    *(.patch_FDDoorCrashOne)
+  }
+
+  .patch_FDDoorCrashTwo 0x68E0F0 : {
+    *(.patch_FDDoorCrashTwo)
+  }
+
+  .patch_FDDoorCrashThree 0x68E114 : {
+    *(.patch_FDDoorCrashThree)
+  }
+
+  .patch_FDDoorCrashFour 0x68E120 : {
+    *(.patch_FDDoorCrashFour)
   }
 
   . = 0x61CD8C;
