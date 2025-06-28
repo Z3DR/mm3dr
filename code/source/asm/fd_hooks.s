@@ -9,7 +9,7 @@ hook_UseFDAnywhere:
   pop {r0-r12,lr}
   beq 0x1b1354
   cmp r3, #0x00
-  bx lr
+  b 0x1B124C
 
 .global hook_FierceDeityArcheryFix
 hook_FierceDeityArcheryFix:

@@ -705,6 +705,10 @@ SECTIONS{
     *(.patch_HandleOcarinaHooks)
   }
 
+  .patch_FDOpenDungeonDoors 0x68D9C0 : {
+    *(.patch_FDOpenDungeonDoors)
+  }
+
   .patch_FDClimbingAnimationFixOne 0x68DA90 : {
     *(.patch_FDClimbingAnimationFixOne)
   }

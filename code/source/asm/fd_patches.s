@@ -3,12 +3,17 @@
 .section .patch_UseFDAnywhere
 .global patch_UseFDAnywhere
 patch_UseFDAnywhere:
-  bleq hook_UseFDAnywhere
+  b hook_UseFDAnywhere
 
 .section .patch_FierceDeityArcheryFix
 .global patch_FierceDeityArcheryFix
 patch_FierceDeityArcheryFix:
   bl hook_FierceDeityArcheryFix
+
+.section .patch_FDOpenDungeonDoors
+.global patch_FDOpenDungeonDoors
+patch_FDOpenDungeonDoors:
+  .word 0x416
 
 .section .patch_FDClimbingAnimationFixOne
 .global patch_FDClimbingAnimationFixOne
