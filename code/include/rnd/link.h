@@ -29,7 +29,7 @@ namespace rnd::link {
   u8 CheckIfLinkIsFD();
   game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form);
   }
-  
+
 }  // namespace rnd::link
 
 #endif

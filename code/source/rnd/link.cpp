@@ -405,9 +405,6 @@ namespace rnd::link {
 
   u8 CheckIfLinkIsFD() {
     game::SaveData& saveData = game::GetCommonData().save;
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: Form is %u\n", __func__, static_cast<u8>(saveData.player_form));	
-    #endif
     if (saveData.player_form == game::act::Player::Form::FierceDeity)
       return 1;
     return 0;
@@ -418,7 +415,6 @@ namespace rnd::link {
       return game::act::Player::Form::Deku;
     return form;
   }
-  
-}
+  }
 
 }  // namespace rnd::link
