@@ -583,6 +583,10 @@ SECTIONS{
     *(.patch_OverrideItem00Draw)
   }
 
+  .patch_FierceDeityArcheryFix 0x4427E8 : {
+    *(.patch_FierceDeityArcheryFix)
+  }
+
   .patch_OverrideBankerWalletReward 0x459044 : {
     *(.patch_OverrideProgessiveWalletTwo)
   }

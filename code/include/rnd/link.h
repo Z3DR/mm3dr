@@ -26,6 +26,7 @@ namespace rnd::link {
   void RemoveSwordFromHoneyDarling();
   void ResetPlayerForm();
   u8 UseFDAnywhere();
+  game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form);
   }
   
 }  // namespace rnd::link

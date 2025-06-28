@@ -398,10 +398,17 @@ namespace rnd::link {
     // This function is called from the ASM patch.
     // It checks if the option is enabled to use Fierce Deity outside of boss fights.
     if (gSettingsContext.useFierceDeityAnywhere == 0) {
-      return 0;  // Not enabled, do nothing.
+      return 0x35;  // Not enabled, do nothing.
     }
-    return 1;  // Enabled, allow Fierce Deity to be used anywhere.
+    return 0x32;  // Enabled, allow Fierce Deity to be used anywhere.
   }
+
+  game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form form) {
+    if (form == game::act::Player::Form::FierceDeity || form == game::act::Player::Form::Deku)
+      return game::act::Player::Form::Deku;
+    return form;
+  }
+  
 }
 
 }  // namespace rnd::link
