@@ -5,6 +5,21 @@
 patch_UseFDAnywhere:
   b hook_UseFDAnywhere
 
+.section .patch_CheckIfLinkIsFD
+.global patch_CheckIfLinkIsFD
+patch_CheckIfLinkIsFD:
+  bl hook_CheckIfLinkIsFD
+
+.section .patch_FixFDObservatoryText
+.global patch_FixFDObservatoryText
+patch_FixFDObservatoryText:
+  bl hook_FixFDObservatoryText
+
+.section .patch_FixFDObservatoryTextTwo
+.global patch_FixFDObservatoryTextTwo
+patch_FixFDObservatoryTextTwo:
+  bl hook_FixFDObservatoryTextTwo
+
 .section .patch_FierceDeityArcheryFix
 .global patch_FierceDeityArcheryFix
 patch_FierceDeityArcheryFix:

@@ -359,6 +359,10 @@ SECTIONS{
     *(.patch_GiveTempSwordForHandD)
   }
 
+  .patch_CheckIfLinkIsFD 0x2C91D4 : {
+    *(.patch_CheckIfLinkIsFD)
+  }
+
   .patch_GaboraCheckExtDataNotSword 0x2CBB14 : {
     *(.patch_GaboraCheckExtDataNotSword)
   }
@@ -410,6 +414,14 @@ SECTIONS{
   /* .patch_RemoveSkulltulaSpawnIfCollectedItem 0x2E8384 : {
     *(.patch_RemoveSkulltulaSpawnIfCollectedItem)
   } */
+
+  .patch_FixFDObservatoryText 0x30A3B0 : {
+    *(.patch_FixFDObservatoryText)
+  }
+
+  .patch_FixFDObservatoryTextTwo 0x30A4A0 : {
+    *(.patch_FixFDObservatoryTextTwo)
+  }
 
   .patch_SaveExtDataOnOwl 0x317004 : {
     *(.patch_SaveExtDataOnOwl)

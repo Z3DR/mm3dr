@@ -403,6 +403,16 @@ namespace rnd::link {
     return 0x32;  // Enabled, allow Fierce Deity to be used anywhere.
   }
 
+  u8 CheckIfLinkIsFD() {
+    game::SaveData& saveData = game::GetCommonData().save;
+    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: Form is %u\n", __func__, static_cast<u8>(saveData.player_form));	
+    #endif
+    if (saveData.player_form == game::act::Player::Form::FierceDeity)
+      return 1;
+    return 0;
+  }
+
   game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form form) {
     if (form == game::act::Player::Form::FierceDeity || form == game::act::Player::Form::Deku)
       return game::act::Player::Form::Deku;

@@ -11,6 +11,42 @@ hook_UseFDAnywhere:
   cmp r3, #0x00
   b 0x1B124C
 
+.global hook_CheckIfLinkIsFD
+hook_CheckIfLinkIsFD:
+  push {r0-r12, lr}
+  bl CheckIfLinkIsFD @ found in link.cpp
+  cmp r0, #0x1
+  pop {r0-r12,lr}
+  beq 0x2C921C
+  cmp r0, #0x1
+  cmpne r0, #0x2
+  beq 0x2C921C
+  bx lr
+
+.global hook_FixFDObservatoryText
+hook_FixFDObservatoryText:
+  push {r0-r12, lr}
+  bl CheckIfLinkIsFD @ found in link.cpp
+  cmp r0, #0x1
+  pop {r0-r12,lr}
+  beq 0x30A440
+  cmp r0, #0x2
+  cmpne r0, #0x3
+  beq 0x30A440
+  bx lr
+
+.global hook_FixFDObservatoryTextTwo
+hook_FixFDObservatoryTextTwo:
+  push {r0-r12, lr}
+  bl CheckIfLinkIsFD @ found in link.cpp
+  cmp r0, #0x1
+  pop {r0-r12,lr}
+  beq 0x30A4F4
+  cmp r0, #0x2
+  cmpne r0, #0x3
+  beq 0x30A4F4
+  bx lr
+
 .global hook_FierceDeityArcheryFix
 hook_FierceDeityArcheryFix:
   push {r0-r12, lr}
