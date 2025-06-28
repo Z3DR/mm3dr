@@ -61,7 +61,7 @@ SECTIONS{
     *(.patch_OverrideBombersNotebook)
   }
 
-  .patch_UseFDAnywhere 0x1B1248 : {
+  .patch_UseFDAnywhere 0x1B1244 : {
     *(.patch_UseFDAnywhere)
   }
 

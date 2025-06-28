@@ -394,13 +394,15 @@ namespace rnd::link {
     }
   }
 
-  u8 UseFDAnywhere() {
-    // This function is called from the ASM patch.
-    // It checks if the option is enabled to use Fierce Deity outside of boss fights.
-    if (gSettingsContext.useFierceDeityAnywhere == 0) {
-      return 0x35;  // Not enabled, do nothing.
-    }
-    return 0x32;  // Enabled, allow Fierce Deity to be used anywhere.
+  game::ItemId UseFDAnywhere(game::ItemId itemId) {
+    if (itemId == game::ItemId::FierceDeityMask) {
+      // This function is called from the ASM patch.
+      // It checks if the option is enabled to use Fierce Deity outside of boss fights.
+      if (gSettingsContext.useFierceDeityAnywhere == 0)
+        return game::ItemId::FierceDeityMask;  // Not enabled, do nothing.
+      return game::ItemId::Ocarina;            // Enabled, allow Fierce Deity to be used anywhere.
+    } else
+      return itemId;
   }
 
   u8 CheckIfLinkIsFD() {

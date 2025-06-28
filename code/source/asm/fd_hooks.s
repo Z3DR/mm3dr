@@ -4,12 +4,11 @@
 .global hook_UseFDAnywhere
 hook_UseFDAnywhere:
   push {r0-r12, lr}
+  mov r0, r3
   bl UseFDAnywhere @ found in link.cpp
   cmp r0, #0x35
   pop {r0-r12,lr}
-  beq 0x1b1354
-  cmp r3, #0x00
-  b 0x1B124C
+  b 0x1B1248
 
 .global hook_CheckIfLinkIsFD
 hook_CheckIfLinkIsFD:
