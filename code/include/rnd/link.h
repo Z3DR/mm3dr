@@ -27,6 +27,7 @@ namespace rnd::link {
   void ResetPlayerForm();
   game::ItemId UseFDAnywhere(game::ItemId);
   u8 CheckIfLinkIsFD();
+  u8 CheckIfOcarinaIsInInventory();
   game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form);
   }
 

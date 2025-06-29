@@ -298,7 +298,25 @@ hook_RemoveWoodfallClearConditionFromBoatHouse:
     pop {r0-r12,lr}
     cmp r0,#0x2
     bx lr
+
+.global hook_FixRemovingOcarinaFromInventory
+hook_FixRemovingOcarinaFromInventory:
+    cmp r0,#0x0
+    beq ocarinaAlwaysInInventory
+    add r0,r0,r1 @ original instruction
+    b 0x201068
+ocarinaAlwaysInInventory:
+    mov r0, #0x0 @ Force the ocarina to always be in inventory
+    b 0x20106C
     
+.global hook_UpdateOcarinaVisibility
+hook_UpdateOcarinaVisibility:
+    push {r0-r5, r7-r12,lr}
+    bl CheckIfOcarinaIsInInventory
+    subs r6,r0,#0xFF
+    pop {r0-r5, r7-r12,lr}
+    bx lr
+
 .section .loader
 .global hook_into_loader
 hook_into_loader:

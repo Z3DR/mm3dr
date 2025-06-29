@@ -233,6 +233,10 @@ SECTIONS{
     *(.patch_CheckMagicForZoraFastSwim)
   }
 
+  .patch_FixRemovingOcarinaFromInventory 0x201064 : {
+    *(.patch_FixRemovingOcarinaFromInventory)
+  }
+
   .patch_storeObjectIdForExtendedObject 0x203C44 : {
     *(.patch_storeObjectIdForExtendedObject)
   }
@@ -664,6 +668,10 @@ SECTIONS{
     *(.patch_SkulltulaOverrideTwo)
   }
 
+  .patch_UpdateOcarinaVisibility 0x59AA2C : {
+    *(.patch_UpdateOcarinaVisibility)
+  }
+
   .patch_ReadGamePad 0x59BA10 : {
     *(.patch_ReadGamePad)
   }
@@ -672,7 +680,7 @@ SECTIONS{
     *(.patch_DisableExistingTrigger)
   }
 
-  .patch_SwapStoredTradeItems 0x5a6b44 : {
+  .patch_SwapStoredTradeItems 0x5A6b44 : {
     *(.patch_SwapStoredTradeItems)
   }
 

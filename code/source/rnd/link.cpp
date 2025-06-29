@@ -417,6 +417,16 @@ namespace rnd::link {
       return game::act::Player::Form::Deku;
     return form;
   }
+
+  u8 CheckIfOcarinaIsInInventory() {
+    // XXX: This function replaces vanilla checks in the update buttons as we are blanket converting
+    // to ensure we always have the ocarina in the inventory according to the game.
+    // This is only for visual updates in the lower screen.
+    game::SaveData& saveData = game::GetCommonData().save;
+    if (saveData.inventory.items[0] == game::ItemId::Ocarina)
+      return 0;
+    return 0xFF;
+  }
   }
 
 }  // namespace rnd::link

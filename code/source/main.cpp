@@ -107,10 +107,11 @@ namespace rnd {
 // const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-      gExtSaveData.givenItemChecks.odolwaDefeated = 1;
-      yPos += 10.00f;
+      auto& inventory = game::GetCommonData().save.inventory;
+      inventory.items[0] = game::ItemId::None;
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
-      yPos -= 10.00f;
+      auto& inventory = game::GetCommonData().save.inventory;
+      inventory.items[0] = game::ItemId::Ocarina;
     } else if (pressedButtons == (u32)game::pad::Button::Right) {
       xPos += 10.00f;
     } else if (pressedButtons == (u32)game::pad::Button::Left) {
