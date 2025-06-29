@@ -282,6 +282,16 @@ patch_CheckMasksOnMoon:
 RemoveJimWhenExitingHideout_patch:
     cmp r0,r0
 
+.section .patch_FixRemovingOcarinaFromInventory
+.global patch_FixRemovingOcarinaFromInventory
+patch_FixRemovingOcarinaFromInventory:
+    b hook_FixRemovingOcarinaFromInventory
+
+.section .patch_UpdateOcarinaVisibility
+.global patch_UpdateOcarinaVisibility
+patch_UpdateOcarinaVisibility:
+    bl hook_UpdateOcarinaVisibility
+
 @ This patch performs the same event check to see if Koume was saved,
 @ overriding the check to see if woodfall was cleared. This is due
 @ to the fact you could beat the temple out of logic from saving koume
