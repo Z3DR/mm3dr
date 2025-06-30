@@ -265,6 +265,10 @@ SECTIONS{
     *(.patch_OverrideItemIdIndex)
   }
 
+  .patch_ApplyDamageMultiplier 0x21E528 : {
+    *(.patch_ApplyDamageMultiplier)
+  }
+
   .patch_ChangeTriggerAandRToA 0x220EFC : {
     *(.patch_ChangeTriggerAandRToA)
   }
@@ -301,6 +305,14 @@ SECTIONS{
     *(.patch_RemoveSkulltulaTokenGetItem)
   } */
 
+  .patch_OverrideTextID 0x2310FC : {
+    *(.patch_OverrideTextID)
+  }
+
+  .patch_OverrideItemID 0x231108 : {
+    *(.patch_OverrideItemID)
+  }
+
   .patch_ForceSwordUpgradeOnHuman 0x233D88 : {
     *(.patch_ForceSwordUpgradeOnHuman)
   }
@@ -323,14 +335,6 @@ SECTIONS{
 
   .patch_RemoveRSHealthThree 0x235800 : {
     *(.patch_RemoveRazordSwordHealthThree)
-  }
-
-  .patch_OverrideTextID 0x2310FC : {
-    *(.patch_OverrideTextID)
-  }
-
-  .patch_OverrideItemID 0x231108 : {
-    *(.patch_OverrideItemID)
   }
 
   .patch_RemoveAddingSkulltulaTokenIfOverridden 0x23975C : {
