@@ -107,8 +107,10 @@ namespace rnd {
 // const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-      auto& inventory = game::GetCommonData().save.inventory;
-      inventory.items[0] = game::ItemId::None;
+      auto* player = gctx->GetPlayerActor();
+      if (player) {
+        player->damage = 4;
+      }
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       auto& inventory = game::GetCommonData().save.inventory;
       inventory.items[0] = game::ItemId::Ocarina;

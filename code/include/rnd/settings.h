@@ -441,7 +441,7 @@ namespace rnd {
   extern "C" SettingsContext gSettingsContext;
   extern const char hashIconNames[62][25];
 
-  s32 Settings_ApplyDamageMultiplier(game::GlobalContext*, s32);
+  extern "C" s32 Settings_ApplyDamageMultiplier(game::GlobalContext*, s32);
   u32 Hash(u32);
   u8 Bias(u32);
 }  // namespace rnd
