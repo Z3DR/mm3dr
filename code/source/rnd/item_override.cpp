@@ -1125,5 +1125,9 @@ namespace rnd {
       return 0;
     }
   }
+
+  u8 ItemOverride_ReceivedOcarinaFromSkt() {
+    return gExtSaveData.givenItemChecks.ocarinaOfTimeGiven == 1 ? 1 : 0;
+  }
   }
 }  // namespace rnd

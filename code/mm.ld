@@ -33,6 +33,10 @@ SECTIONS{
 		*(.patch_SleepQueryCallback)
 	}
 
+  .patch_EnsureTerminaIsNotFirstCycle 0x12A954 : {
+    *(.patch_EnsureTerminaIsNotFirstCycle)
+  }
+
   .patch_Gfx_Update 0x1376DC : {
     *(.patch_Gfx_Update)
   }
@@ -383,6 +387,22 @@ SECTIONS{
     *(.patch_DoNotRemoveSwordGaboraTwo)
   }
 
+  .patch_DmSktOcarinaAnimationpatchOne 0x2CC87C : {
+    *(.patch_DmSktOcarinaAnimationpatchOne)
+  }
+
+  .patch_DmSktOcarinaAnimationPatchTwo 0x2CC8B0 : {
+    *(.patch_DmSktOcarinaAnimationPatchTwo)
+  }
+
+  .patch_DmSktOcarinaAnimationPatchThree 0x2CC8E4 : {
+    *(.patch_DmSktOcarinaAnimationPatchThree)
+  }
+
+  .patch_DmSktOcarinaAnimationPatchFour 0x2CC904 : {
+    *(.patch_DmSktOcarinaAnimationPatchFour)
+  }
+
   .patch_FasterBlockMovementBack 0x2D0C0C : {
     *(.patch_FasterBlockMovementBack)
   }
@@ -439,6 +459,10 @@ SECTIONS{
     *(.patch_IceArrowsAnywhere)
   }
 
+  .patch_DmStkInitOcarinaPatch 0x31AEC4 : {
+    *(.patch_DmStkInitOcarinaPatch)
+  }
+
   .patch_changeChestTypeToMatchContents 0x31CE0C : {
     *(.patch_changeChestTypeToMatchContents)
   }
@@ -475,12 +499,12 @@ SECTIONS{
       *(.patch_RemoveWoodfallClearConditionFromBoatHouse)
   }
 
-  .patch_OverrideItem00Init 0x3D018C : {
-    *(.patch_OverrideItem00Init)
-  }
-
   .patch_DmChar03ModelDraw 0x3B9254 : {
     *(.patch_DmChar03ModelDraw)
+  }
+
+  .patch_DmSktOcarinaAnimationPatchFive 0x3C6780 : {
+    *(.patch_DmSktOcarinaAnimationPatchFive)
   }
 
   .patch_RemainsModelDraw 0x3C7D7C : {
@@ -489,6 +513,10 @@ SECTIONS{
 
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
     *(.patch_TingleCheckClocktownMapTwo)
+  }
+
+  .patch_OverrideItem00Init 0x3D018C : {
+    *(.patch_OverrideItem00Init)
   }
 
   .patch_TingleCheckWoodfallMapTwo 0x3F5F10 : {

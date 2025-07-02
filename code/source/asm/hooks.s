@@ -89,16 +89,6 @@ hook_SpawnFastElegyStatues:
     beq 0x1E9FBC
     bx lr
 
-.global hook_CheckOcarinaDive
-hook_CheckOcarinaDive:
-    push {r0-r12, lr}
-    bl SettingsEnableOcarinaDive
-    cmp r0, #0x0
-    pop {r0-r12, lr}
-    bne 0x1e1f10
-    tst r0,#0x1
-    beq 0x1E1FB4
-    b 0x1e1f10
 
 .global hook_CheckDungeonItems
 hook_CheckDungeonItems:
@@ -214,18 +204,6 @@ hook_readGamePad:
     tst r0,r1
     b 0x59ba14
 
-.global hook_HandleOcarina
-hook_HandleOcarina:
-    push {r0-r12, lr}
-    mov r1, r0 @ song
-    mov r0, r4 @ MessageWindow* this
-    bl HandleOcarinaSong
-    cmp r0, #0
-    pop {r0-r12, lr}
-    bne 0x606424
-    cmp r0, #0x16 @ original instruction
-    b 0x604d90
-
 .global hook_checkChestContentSetting
 hook_checkChestContentSetting:
     push {r0-r12, lr}
@@ -297,24 +275,6 @@ hook_RemoveWoodfallClearConditionFromBoatHouse:
     bl RemoveBoathouseRestriction
     pop {r0-r12,lr}
     cmp r0,#0x2
-    bx lr
-
-.global hook_FixRemovingOcarinaFromInventory
-hook_FixRemovingOcarinaFromInventory:
-    cmp r0,#0x0
-    beq ocarinaAlwaysInInventory
-    add r0,r0,r1 @ original instruction
-    b 0x201068
-ocarinaAlwaysInInventory:
-    mov r0, #0x0 @ Force the ocarina to always be in inventory
-    b 0x20106C
-    
-.global hook_UpdateOcarinaVisibility
-hook_UpdateOcarinaVisibility:
-    push {r0-r5, r7-r12,lr}
-    bl CheckIfOcarinaIsInInventory
-    subs r6,r0,#0xFF
-    pop {r0-r5, r7-r12,lr}
     bx lr
 
 .section .loader

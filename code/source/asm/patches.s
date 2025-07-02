@@ -28,11 +28,6 @@ patch_DoNotResetPermFlags:
     nop
     nop
 
-.section .patch_OcarinaDive
-.global patch_OcarinaDive
-patch_OcarinaDive:
-    bl hook_CheckOcarinaDive
-
 .section .patch_MainLoop
 .global patch_MainLoop
 patch_MainLoop:
@@ -207,12 +202,6 @@ patch_DisableExistingTrigger:
 patch_ItemCloseOnSelect:
     tst r1, #14
 
-@ Adjusts ocarina songs to be in-line with restoration
-.section .patch_HandleOcarinaHooks
-.global patch_HandleOcarinaHooks
-patch_HandleOcarinaHooks:
-    b hook_HandleOcarina
-
 .section .patch_FasterBlockMovement
 .global patch_FasterBlockMovement
 patch_FasterBlockMovement:
@@ -282,15 +271,6 @@ patch_CheckMasksOnMoon:
 RemoveJimWhenExitingHideout_patch:
     cmp r0,r0
 
-.section .patch_FixRemovingOcarinaFromInventory
-.global patch_FixRemovingOcarinaFromInventory
-patch_FixRemovingOcarinaFromInventory:
-    b hook_FixRemovingOcarinaFromInventory
-
-.section .patch_UpdateOcarinaVisibility
-.global patch_UpdateOcarinaVisibility
-patch_UpdateOcarinaVisibility:
-    bl hook_UpdateOcarinaVisibility
 
 @ This patch performs the same event check to see if Koume was saved,
 @ overriding the check to see if woodfall was cleared. This is due
