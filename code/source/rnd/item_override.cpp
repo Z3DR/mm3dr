@@ -984,6 +984,8 @@ namespace rnd {
     } else if (currentItem == game::ItemId::FierceDeityMask) {
       return givenItems.enJsGivenItem ? (int) currentItem
         : (int)0xFF;
+    } else if (currentItem == game::ItemId::Ocarina) {
+      return (int) currentItem; // XXX: Use this to fix Termina being in Cycle 1.
     }
     // Use the standard pointer to array as this seems to mess with
     // some issues in checking items such as trade items, and Giant's Mask.
@@ -1122,6 +1124,10 @@ namespace rnd {
     default:
       return 0;
     }
+  }
+
+  u8 ItemOverride_ReceivedOcarinaFromSkt() {
+    return gExtSaveData.givenItemChecks.ocarinaOfTimeGiven == 1 ? 1 : 0;
   }
   }
 }  // namespace rnd

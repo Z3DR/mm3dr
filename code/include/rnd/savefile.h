@@ -106,7 +106,8 @@ namespace rnd {
       BitField<55, 1, u64> gohtDefeated;
       BitField<56, 1, u64> gyorgDefeated;
       BitField<57, 1, u64> twinmoldDefeated;
-      BitField<58, 6, u64> unused;
+      BitField<58, 1, u64> ocarinaOfTimeGiven;
+      BitField<59, 5, u64> unused;
     };
     GivenItemRegister givenItemChecks;
     union FairyCollectRegister {
