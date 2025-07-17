@@ -150,9 +150,9 @@ namespace rnd {
         Currently there is no known way to get termina field to load
         in properly without ocarina in inventory.                                */
       saveData.inventory.collect_register.song_of_time = 1;  // Part of starting quest items options
-      //rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::Ocarina);
-      // gSettingsContext.startingDekuMask = 1;  // start with Deku Mask, Song of Healing & Bomber's notebook always
-      // saveData.inventory.collect_register.song_of_healing = 1;  // until happy mask salesman is overridden
+      // rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::Ocarina);
+      //  gSettingsContext.startingDekuMask = 1;  // start with Deku Mask, Song of Healing & Bomber's notebook always
+      //  saveData.inventory.collect_register.song_of_healing = 1;  // until happy mask salesman is overridden
       saveData.player.owl_statue_flags.clock_town = 1;
 #ifdef ENABLE_DEBUG
       gSettingsContext.startingKokiriSword = 3;
