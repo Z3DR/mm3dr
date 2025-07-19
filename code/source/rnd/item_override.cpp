@@ -526,6 +526,8 @@ namespace rnd {
       gExtSaveData.givenItemChecks.pendantGiven = 1;
     } else if (storedGetItemId == GetItemID::GI_MASK_FIERCE_DEITY) {
       gExtSaveData.givenItemChecks.enJsGivenItem = 1;
+    } else if (storedGetItemId == GetItemID::GI_OCARINA_OF_TIME) {
+      gExtSaveData.givenItemChecks.ocarinaOfTimeGiven = 1;
     }
   }
 
