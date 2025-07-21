@@ -712,7 +712,27 @@ SECTIONS{
     *(.patch_DisableExistingTrigger)
   }
 
-  .patch_SwapStoredTradeItems 0x5A6b44 : {
+  .patch_FixOcarinaGearScreenDefault 0x5A5D74 : {
+    *(.patch_FixOcarinaGearScreenDefault)
+  }
+
+  .patch_FixOcarinaGearScreenDeku 0x5A5DA0 : {
+    *(.patch_FixOcarinaGearScreenDeku)
+  }
+
+  .patch_FixOcarinaGearScreenGoron 0x5A5DF0 : {
+    *(.patch_FixOcarinaGearScreenGoron)
+  }
+
+  .patch_FixOcarinaGearScreenZora 0x5A5E40 : {
+    *(.patch_FixOcarinaGearScreenZora)
+  }
+
+  .patch_FixOcarinaGearScreenZoraTwo 0x5A5E54 : {
+    *(.patch_FixOcarinaGearScreenZoraTwo)
+  }
+
+  .patch_SwapStoredTradeItems 0x5A6B44 : {
     *(.patch_SwapStoredTradeItems)
   }
 
