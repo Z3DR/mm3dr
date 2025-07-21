@@ -50,6 +50,31 @@ patch_UpdateOcarinaVisibility:
 patch_DmSktOcarinaAnimationPatchFive:
   bl hook_DmSktOcarinaAnimationPatchFive
 
+.section .patch_FixOcarinaGearScreenDefault
+.global patch_FixOcarinaGearScreenDefault
+patch_FixOcarinaGearScreenDefault:
+    bl hook_FixOcarinaGearScreenDefault
+
+.section .patch_FixOcarinaGearScreenDeku
+.global patch_FixOcarinaGearScreenDeku
+patch_FixOcarinaGearScreenDeku:
+    bl hook_FixOcarinaGearScreenDeku
+
+.section .patch_FixOcarinaGearScreenGoron
+.global patch_FixOcarinaGearScreenGoron
+patch_FixOcarinaGearScreenGoron:
+    bl hook_FixOcarinaGearScreenGoron
+
+.section .patch_FixOcarinaGearScreenZora
+.global patch_FixOcarinaGearScreenZora
+patch_FixOcarinaGearScreenZora:
+    bl hook_FixOcarinaGearScreenZora
+
+.section .patch_FixOcarinaGearScreenZoraTwo
+.global patch_FixOcarinaGearScreenZoraTwo
+patch_FixOcarinaGearScreenZoraTwo:
+    bl hook_FixOcarinaGearScreenZoraTwo
+
 @ Adjusts ocarina songs to be in-line with restoration
 .section .patch_HandleOcarinaHooks
 .global patch_HandleOcarinaHooks

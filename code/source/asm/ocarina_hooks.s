@@ -109,6 +109,41 @@ ocarinaAnimationPatchFive:
     cmp r0,#0x2
     bx lr
 
+.global hook_FixOcarinaGearScreenDefault
+hook_FixOcarinaGearScreenDefault:
+    push {r1-r12, lr}
+    bl CheckIfOcarinaIsInInventory
+    pop {r1-r12, lr}
+    bx lr
+
+.global hook_FixOcarinaGearScreenDeku
+hook_FixOcarinaGearScreenDeku:
+    push {r1-r12, lr}
+    bl CheckIfOcarinaIsInInventory
+    pop {r1-r12, lr}
+    bx lr
+
+.global hook_FixOcarinaGearScreenGoron
+hook_FixOcarinaGearScreenGoron:
+    push {r1-r12, lr}
+    bl CheckIfOcarinaIsInInventory
+    pop {r1-r12, lr}
+    bx lr
+
+.global hook_FixOcarinaGearScreenZora
+hook_FixOcarinaGearScreenZora:
+    push {r1-r12, lr}
+    bl CheckIfOcarinaIsInInventory
+    pop {r1-r12, lr}
+    bx lr
+
+.global hook_FixOcarinaGearScreenZoraTwo
+hook_FixOcarinaGearScreenZoraTwo:
+    push {r1-r12, lr}
+    bl ZoraMaskCheck
+    pop {r1-r12, lr}
+    bx lr
+
 .global hook_HandleOcarina
 hook_HandleOcarina:
     push {r0-r12, lr}
