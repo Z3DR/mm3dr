@@ -15,6 +15,7 @@ extern "C" {
 #define DEFAULT_WIDTH 8
 #define INSTANT_FLAG 0x8000
 #define REPEAT_FLAG 0x4000
+#define LINE_PADDING(msg) (((msg.flags & 0x00FF0000) == 0x00FF0000) ? 0 : 20)
 
 // Pixel widths of printable characters (many are replaced by * which is 8 pixels)
 char width[MAX_CHAR] = {
@@ -229,8 +230,7 @@ public:
   MsgBuilder* sound(u16 id) {
     // Must have a sufficient delay if used multiple times in one box
     addCom(0x32);
-    // Has 2 extra padding bytes if not the first command in a message
-    pad(*size != 4);
+    pad(true);
     addChr(id & 0xFF);
     addChr(id >> 0x8);
     addChr(0x00);
@@ -266,6 +266,10 @@ public:
     addCom(0x31, 0x00);
     return addCom(0x00);
   }
+  MsgBuilder* pseudoEnd() {
+    addCom(0x31, 0x00);
+    return addCom(0x02);
+  }
 
   void format(UnformattedMessage msg) {
     // @ - filename min: 4px max: 120px
@@ -279,7 +283,7 @@ public:
     u16 colIdx = 0, colIdxAtLastSpace = 0;
     u16 iconIdx = 0, iconIdxAtLastSpace = 0;
     u16 delayIdx = 0, delayIdxAtLastSpace = 0;
-    u16 sizeAtLastSpace = 0, resolvedChar = 0, lineLen = 0;
+    u16 sizeAtLastSpace = 0, resolvedChar = 0, lineLen = LINE_PADDING(msg);
     bool inCol = false, inColAtLastSpace = false;
     bool lineWrap = true;
     u16 sfx = msg.sfxAndFlags & 0x3FFF;
@@ -350,7 +354,7 @@ public:
       case '&':  // Newline
         newline();
         lastSpaceIdx = 0;
-        lineLen = 0;
+        lineLen = LINE_PADDING(msg);
         break;
 
       case '^':  // Newbox
@@ -366,7 +370,7 @@ public:
           instant();
 
         lastSpaceIdx = 0;
-        lineLen = 0;
+        lineLen = LINE_PADDING(msg);
         break;
 
       case '$':  // Icon marker
@@ -488,7 +492,7 @@ public:
         *size = sizeAtLastSpace;
         newline();
         lastSpaceIdx = 0;
-        lineLen = 0;
+        lineLen = LINE_PADDING(msg);
       }
     }
 
@@ -499,8 +503,10 @@ public:
 #endif
     if (msg.id >= 0x1D11 && msg.id <= 0x1D16)
       addCom(0x00);
-    else
+    else if ((msg.flags & 0x01000000) == 0)
       end();
+    else
+      pseudoEnd();
   }
 };
 
@@ -535,7 +541,7 @@ bool SetCustomMessage(u16 id, game::MessageResEntry* msgResEntry) {
       msgResEntry->id = customMsg.id = id;
       msgResEntry->field_2 = customMsgData.field_2;
       msgResEntry->field_4 = customMsgData.field_4;
-      msgResEntry->flags = customMsgData.flags;
+      msgResEntry->flags = customMsgData.flags & 0x00FFFFFF;
       msgResEntry->texts[0].offset = customMsg.data;
       msgResEntry->texts[0].length = customMsg.size;
       return true;
