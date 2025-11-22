@@ -557,27 +557,27 @@ namespace rnd {
     game::SaveData& saveData = game::GetCommonData().save;
     switch (getItemMapId) {
     case 0xB4:
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_CLOCK_TOWN = 1;
       util::GetPointer<void(u8)>(0x548260)(0x0);
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 1;
       break;
     case 0xB5:
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_WOODFALL = 1;
       util::GetPointer<void(u8)>(0x548260)(0x1);
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 2;
       break;
     case 0xB6:
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 4;
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_SNOWHEAD = 1;
       util::GetPointer<void(u8)>(0x548260)(0x2);
       break;
     case 0xB7:
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 8;
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_ROMANI_RANCH = 1;
       util::GetPointer<void(u8)>(0x548260)(0x3);
       break;
     case 0xB8:
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 0x10;
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_GREAT_BAY = 1;
       util::GetPointer<void(u8)>(0x548260)(0x4);
       break;
     case 0xB9:
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 0x20;
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_STONE_TOWER = 1;
       util::GetPointer<void(u8)>(0x548260)(0x5);
       break;
     default:
