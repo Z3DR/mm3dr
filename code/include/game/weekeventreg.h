@@ -145,7 +145,6 @@ namespace game {
     BitField<3, 1, u8> WEEKEVENTREG_09_08;
     BitField<4, 1, u8> WEEKEVENTREG_09_10;
 
-
     BitField<5, 1, u8> WEEKEVENTREG_09_20;
     BitField<6, 1, u8> WEEKEVENTREG_09_40;
     BitField<7, 1, u8> WEEKEVENTREG_09_80;
@@ -174,7 +173,7 @@ namespace game {
     BitField<4, 1, u8> WEEKEVENTREG_11_10;
     BitField<5, 1, u8> WEEKEVENTREG_11_20;
     BitField<6, 1, u8> WEEKEVENTREG_11_40;
-    BitField<7, 1, u8> WEEKEVENTREG_11_80; // XXX: Possible collected fairy from clocktown.
+    BitField<7, 1, u8> WEEKEVENTREG_11_80;  // XXX: Possible collected fairy from clocktown.
   };
 
   union WeekEventReg12 {
@@ -187,7 +186,7 @@ namespace game {
     BitField<2, 1, u8> WEEKEVENTREG_12_04;
     BitField<3, 1, u8> WEEKEVENTREG_SAVED_KOUME;
     BitField<4, 1, u8> WEEKEVENTREG_RECEIVED_KOTAKE_BOTTLE;
-    BitField<5, 1, u8> WEEKEVENTREG_12_20; // CT Guard Allows you through without talking.
+    BitField<5, 1, u8> WEEKEVENTREG_12_20;  // CT Guard Allows you through without talking.
     BitField<6, 1, u8> WEEKEVENTREG_12_40;
     BitField<7, 1, u8> WEEKEVENTREG_12_80;
   };
@@ -470,7 +469,7 @@ namespace game {
     // Woodfall Temple Frog Returned
     BitField<6, 1, u8> WEEKEVENTREG_32_40;
     // Great Bay Temple Frog Returned
-    BitField<7, 1, u8> WEEKEVENTREG_32_80;  
+    BitField<7, 1, u8> WEEKEVENTREG_32_80;
   };
 
   union WeekEventReg33 {
@@ -479,7 +478,7 @@ namespace game {
     // Southern Swamp Frog Returned
     BitField<0, 1, u8> WEEKEVENTREG_33_01;
     // Laundry Pool Frog Returned
-    BitField<1, 1, u8> WEEKEVENTREG_33_02;  
+    BitField<1, 1, u8> WEEKEVENTREG_33_02;
     BitField<2, 1, u8> WEEKEVENTREG_BOUGHT_CURIOSITY_SHOP_SPECIAL_ITEM;
     BitField<3, 1, u8> WEEKEVENTREG_RECOVERED_STOLEN_BOMB_BAG;
     BitField<4, 1, u8> WEEKEVENTREG_33_10;
@@ -676,11 +675,10 @@ namespace game {
     BitField<6, 1, u8> WEEKEVENTREG_48_40;
     BitField<7, 1, u8> WEEKEVENTREG_48_80;
   };
-  
 
   union WeekEventReg49 {
     u8 raw;
-    
+
     BitField<0, 1, u8> WEEKEVENTREG_49_01;
     BitField<1, 1, u8> WEEKEVENTREG_49_02;
     BitField<2, 1, u8> WEEKEVENTREG_49_04;
@@ -1238,7 +1236,6 @@ namespace game {
     BitField<1, 1, u8> WEEKEVENTREG_92_02;
     BitField<2, 1, u8> WEEKEVENTREG_92_04;
 
-
     BitField<3, 1, u8> WEEKEVENTREG_92_08;
     BitField<4, 1, u8> WEEKEVENTREG_92_10;
     BitField<5, 1, u8> WEEKEVENTREG_92_20;
@@ -1693,24 +1690,24 @@ namespace game {
 
   union WeekEventReg130 {
     u8 raw;
-    BitField<0, 1, u8> WEEKEVENTREG_OWL_STATUE_CUTSCENE;
+    BitField<0, 1, u8> WEEKEVENTREG_130_01;
     BitField<1, 1, u8> WEEKEVENTREG_130_02;
     BitField<2, 1, u8> WEEKEVENTREG_130_04;
-    BitField<3, 1, u8> WEEKEVENTREG_SKIP_MAP_TUTORIAL_BY_TINGLE;
-    BitField<4, 1, u8> WEEKEVENTREG_DEKU_THRONE_ROOM_CAMERA_PAN;
-    BitField<5, 1, u8> WEEKEVENTREG_TATL_MOON_TEAR_DIALOGUE;
+    BitField<3, 1, u8> WEEKEVENTREG_130_08;
+    BitField<4, 1, u8> WEEKEVENTREG_130_10;
+    BitField<5, 1, u8> WEEKEVENTREG_130_20;
     BitField<6, 1, u8> WEEKEVENTREG_130_40;
     BitField<7, 1, u8> WEEKEVENTREG_130_80;
   };
 
   union WeekEventReg131 {
     u8 raw;
-    BitField<0, 1, u8> WEEKEVENTREG_131_01;
+    BitField<0, 1, u8> WEEKEVENTREG_OWL_STATUE_CUTSCENE;
     BitField<1, 1, u8> WEEKEVENTREG_131_02;
     BitField<2, 1, u8> WEEKEVENTREG_131_04;
-    BitField<3, 1, u8> WEEKEVENTREG_131_08;
-    BitField<4, 1, u8> WEEKEVENTREG_131_10;
-    BitField<5, 1, u8> WEEKEVENTREG_131_20;
+    BitField<3, 1, u8> WEEKEVENTREG_SKIP_MAP_TUTORIAL_BY_TINGLE;
+    BitField<4, 1, u8> WEEKEVENTREG_DEKU_THRONE_ROOM_CAMERA_PAN;
+    BitField<5, 1, u8> WEEKEVENTREG_TATL_MOON_TEAR_DIALOGUE;
     BitField<6, 1, u8> WEEKEVENTREG_131_40;
     BitField<7, 1, u8> WEEKEVENTREG_131_80;
   };
@@ -1725,7 +1722,6 @@ namespace game {
     BitField<5, 1, u8> WEEKEVENTREG_SKIP_SNOWHEAD_PORTAL_CUTSCENE;
     BitField<6, 1, u8> WEEKEVENTREGSKIP_GREAT_BAY_PORTAL_CUTSCENE;
     BitField<7, 1, u8> WEEKEVENTREG_SKIP_STT_PORTAL_CUTSCENE;
-    
   };
 
   union WeekEventReg133 {
@@ -1811,6 +1807,6 @@ namespace game {
     BitField<6, 1, u8> WEEKEVENTREG_139_40;
     BitField<7, 1, u8> WEEKEVENTREG_139_80;
   };
-}
+}  // namespace game
 
 #endif  // _GAME_WEEK_EVENT_REG_H

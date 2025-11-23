@@ -90,11 +90,11 @@ namespace rnd {
     saveData.player.magic_size_type = 0;  // saveData.player.magic = 10;
     saveData.player.magic_num_upgrades = 0;
     saveData.equipment.data[3].item_btns[0] = game::ItemId::DekuNuts;
-    saveData.inventory.item_counts[6] = 50;   // Arrows
-    saveData.inventory.item_counts[11] = 40;  // Bombs
-    saveData.inventory.item_counts[12] = 40;  // Bombchus
-    saveData.inventory.item_counts[14] = 30;  // Nuts
-    saveData.inventory.item_counts[13] = 20;  // Sticks
+    saveData.inventory.item_counts[6] = 50;                                  // Arrows
+    saveData.inventory.item_counts[11] = 40;                                 // Bombs
+    saveData.inventory.item_counts[12] = 40;                                 // Bombchus
+    saveData.inventory.item_counts[14] = 30;                                 // Nuts
+    saveData.inventory.item_counts[13] = 20;                                 // Sticks
     saveData.week_event_reg_23.WEEKEVENTREG_RECEIVED_GREAT_SPIN_ATTACK = 1;  // Set great spin.
 
     saveData.player.owl_statue_flags.great_bay = 1;
@@ -180,7 +180,8 @@ namespace rnd {
   void SaveFile_SkipMinorCutscenes() {
     game::SaveData& saveData = game::GetCommonData().save;
     saveData.has_completed_intro = 0x2B;
-    saveData.week_event_reg_58.WEEKEVENTREG_TALKED_GORON_SHOPKEEPER_AS_NON_GORON = 1;
+    saveData.week_event_reg_59.WEEKEVENTREG_59_04 = 1;
+    saveData.week_event_reg_31.WEEKEVENTREG_TATL_NOT_FINISHED_MOUNTAIN_TEXT = 1;
 
     // camera panning cutscenes
     saveData.week_event_reg_00.WEEKEVENTREG_ENTERED_TERMINA_FIELD = 1;
@@ -202,14 +203,14 @@ namespace rnd {
     saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_NORTH_CLOCK_TOWN = 1;
     saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_WOODFALL_TEMPLE = 1;
     saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_SNOWHEAD_TEMPLE = 1;
-    saveData.week_event_reg_130.WEEKEVENTREG_DEKU_THRONE_ROOM_CAMERA_PAN = 1;
+    saveData.week_event_reg_131.WEEKEVENTREG_DEKU_THRONE_ROOM_CAMERA_PAN = 1;
     saveData.week_event_reg_136.WEEKEVENTREG_CAMERA_PAN_WOODFALL_ENTER = 1;
     saveData.snowhead_temple_main_room_camera_pan_0x01 = 0x01;
     saveData.pirates_fortress_exterior_camera_pan_0x04 = 0x04;
     saveData.ikana_castle_camera_pan_0x08 = 0x80;
 
     // Tatl constant tatling skip
-    saveData.week_event_reg_130.WEEKEVENTREG_TATL_MOON_TEAR_DIALOGUE = 1;
+    saveData.week_event_reg_131.WEEKEVENTREG_TATL_MOON_TEAR_DIALOGUE = 1;
     saveData.week_event_reg_31.WEEKEVENTREG_TATL_GO_SOUTH_TEXT = 1;
     saveData.week_event_reg_87.WEEKEVENTREG_TATL_GO_NORTH_DIALOGUE_SPOKEN = 1;
     saveData.week_event_reg_87.WEEKEVENTREG_TATL_GO_WEST_DIALOGUE_SPOKEN = 1;
@@ -222,12 +223,12 @@ namespace rnd {
     saveData.talt_dialogue_great_bay_temple.whirlpool_room_tatl_dialogue = 1;
 
     // tutorials
-    // saveData.week_event_reg_130.WEEKEVENTREG_SKIP_MAP_TUTORIAL_BY_TINGLE = 1;
+    // saveData.week_event_reg_131.WEEKEVENTREG_SKIP_MAP_TUTORIAL_BY_TINGLE = 1;
 
     // Misc cutscenes
     saveData.meeting_happy_mask_salesman_0x01 = 0x01;
     saveData.skullkid_backstory_cutscene_0x10 = 0x10;
-    saveData.week_event_reg_130.WEEKEVENTREG_OWL_STATUE_CUTSCENE = 1;
+    saveData.week_event_reg_131.WEEKEVENTREG_OWL_STATUE_CUTSCENE = 1;
     // saveData.dungeon_skip_portal_cutscene_0x3C_to_skip_all = 0x3C;
 
     // Needs to be greater than zero to skip first time song of time cutscene
@@ -247,7 +248,6 @@ namespace rnd {
     saveData.week_event_reg_137.WEEKEVENTREG_GREAT_BAY_TEMPLE_OPENED = 1;
     // Misc
     saveData.week_event_reg_137.WEEKEVENTREG_DEKU_FLOWN_IN = 1;
-
   }
 
   void SaveFile_SetStartingOwlStatues() {

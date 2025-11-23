@@ -328,7 +328,7 @@ namespace game {
     u16 anonymous_67;
     int anonymous_68;
     u8 gap1244[4];
-    // From here (0x1245) to 0x12a9 is the weekEventReg. 
+    // From here (0x1245) to 0x12a9 is the weekEventReg.
     // Conver to bitfields and adopt the weekeventreg name.
     WeekEventReg00 week_event_reg_00;
     WeekEventReg01 week_event_reg_01;
@@ -530,6 +530,9 @@ namespace game {
   };
   static_assert(sizeof(SaveData) == 0x1A88);
   static_assert(offsetof(SaveData, gap1382) == 0x1382);
+  static_assert(offsetof(SaveData, week_event_reg_131) == 0x12CB);
+  static_assert(offsetof(SaveData, week_event_reg_35) == 0x126B);
+  static_assert(offsetof(SaveData, week_event_reg_87) == 0x129F);
 
   struct CommonDataSub1 {
     int entrance;
