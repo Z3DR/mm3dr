@@ -633,6 +633,43 @@ namespace rnd {
             (itemToBeGiven->itemId > 0x49 && itemToBeGiven->itemId < 0x81) || override.value.getItemId == 0x5A);
   }
 
+  GetItemID ItemOverride_MapSongsToGID(game::ItemId incomingItemId) {
+    switch (incomingItemId) {
+    case game::ItemId::SonataOfAwakening:
+      gExtSaveData.givenSongChecks.elegyOfEmptinessGiven = 1;
+      return GetItemID(0x4B);
+    case game::ItemId::GoronLullaby:
+      gExtSaveData.givenSongChecks.goronLullabyGiven = 1;
+      return GetItemID(0x4D);
+    case game::ItemId::NewWaveBossaNova:
+      gExtSaveData.givenSongChecks.newWaveBossaNovaGiven = 1;
+      return GetItemID(0x4E);
+    case game::ItemId::ElegyOfEmptiness:
+      gExtSaveData.givenSongChecks.elegyOfEmptinessGiven = 1;
+      return GetItemID(0x4F);
+    case game::ItemId::OathToOrder:
+      gExtSaveData.givenSongChecks.oathToOrderGiven = 1;
+      return GetItemID(0x51);
+    case game::ItemId::SongOfTime:
+      gExtSaveData.givenSongChecks.songOfTimeGiven = 1;
+      return GetItemID(0x53);
+    case game::ItemId::SongOfHealing:
+      gExtSaveData.givenSongChecks.songOfHealingGiven = 1;
+      return GetItemID(0x54);
+    case game::ItemId::EponaSong:
+      gExtSaveData.givenSongChecks.eponasSongGiven = 1;
+      return GetItemID(0x6C);
+    case game::ItemId::SongOfSoaring:
+      gExtSaveData.givenSongChecks.songOfSoaringGiven = 1;
+      return GetItemID(0x72);
+    case game::ItemId::SongOfStorms:
+      gExtSaveData.givenSongChecks.songOfStormsGiven = 1;
+      return GetItemID(0x73);
+    default:
+      return GetItemID::GI_NONE;
+    }
+  }
+
   extern "C" {
   bool ItemOverride_CheckAromaGivenItem() {
     if (gExtSaveData.givenItemChecks.enAlGivenItem > 0)
@@ -870,12 +907,18 @@ namespace rnd {
     }
   }
 
-  void ItemOverride_GetSoHItem(game::GlobalContext* gctx, game::act::Actor* fromActor, s16 incomingItemId) {
+  void ItemOverride_GetSoHOrSongItem(game::GlobalContext* gctx, game::act::Actor* fromActor, s16 incomingItemId) {
     game::act::Player* link = gctx->GetPlayerActor();
-    // Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
-    // This is mainly prevalent when the item override is in a calc function (Anju & Kafei).
+// Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
+// This is mainly prevalent when the item override is in a calc function (Anju & Kafei).
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Link's getitemid %#04x\n", __func__, link->get_item_id);
+#endif
     if (link->get_item_id != 0x00)
       return;
+    if (incomingItemId >= 0x61 && incomingItemId <= 0x6C) {
+      // Check to see if item was retrieved.
+    }
     if (incomingItemId == 0x7A) {
       gExtSaveData.givenItemChecks.enZogGivenItem = 1;
     } else if (incomingItemId == 0x79) {
@@ -885,12 +928,16 @@ namespace rnd {
     } else if (incomingItemId == 0x78) {
       gExtSaveData.givenItemChecks.enOsnGivenMask = 1;
     } else if (incomingItemId == 0x50) {
-      fromActor = gctx->GetPlayerActor();
+      fromActor = link;
     } else if (incomingItemId == 0x85) {
       gExtSaveData.givenItemChecks.kafeiGivenItem = 1;
+    } else if (incomingItemId >= 0x61 || incomingItemId <= 0x6C) {
+      // Additional logic to map songs to getItemIds.
+      incomingItemId = (s16)ItemOverride_MapSongsToGID(game::ItemId(incomingItemId));
+      fromActor = link;
     }
 
-    ItemOverride_GetItem(gctx, fromActor, gctx->GetPlayerActor(), incomingItemId);
+    ItemOverride_GetItem(gctx, fromActor, link, incomingItemId);
     return;
   }
 

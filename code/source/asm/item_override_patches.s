@@ -152,3 +152,8 @@ patch_SkulltulaOverrideOne:
 .global patch_SkulltulaOverrideTwo
 patch_SkulltulaOverrideTwo:
     bl hook_SkulltulaOverrideTwo
+
+.section .patch_OverrideGetSongItem
+.global patch_OverrideGetSongItem
+patch_OverrideGetSongItem:
+    b hook_OverrideGetSongItem

@@ -192,7 +192,7 @@ hook_GoronMaskGiveItem:
     cpy r0,r5
     cpy r1,r4
     mov r2,#0x79
-    bl ItemOverride_GetSoHItem
+    bl ItemOverride_GetSoHOrSongItem
     ldr r5,.rActiveItemRow_addr
     ldr r5,[r5]
     cmp r5,#0x0
@@ -216,7 +216,7 @@ hook_ZoraMaskGiveItem:
     cpy r0,r5
     cpy r1,r4
     mov r2,#0x7A
-    bl ItemOverride_GetSoHItem
+    bl ItemOverride_GetSoHOrSongItem
     ldr r5,.rActiveItemRow_addr
     ldr r5,[r5]
     cmp r5,#0x0
@@ -240,7 +240,7 @@ hook_GibdoMaskGiveItem:
     cpy r0,r5
     cpy r1,r4
     mov r2,#0x87
-    bl ItemOverride_GetSoHItem
+    bl ItemOverride_GetSoHOrSongItem
     ldr r5,.rActiveItemRow_addr
     ldr r5,[r5]
     cmp r5,#0x0
@@ -264,7 +264,7 @@ hook_CouplesMaskGiveItem:
     cpy r0,r5
     cpy r1,r4
     mov r2,#0x85
-    bl ItemOverride_GetSoHItem
+    bl ItemOverride_GetSoHOrSongItem
     ldr r5,.rActiveItemRow_addr
     ldr r5,[r5]
     cmp r5,#0x0
@@ -329,3 +329,24 @@ hook_SkulltulaOverrideTwo:
     b 0x52A048
 skulltulaOverriddenTwo:
     b 0x52A06C
+
+.global hook_OverrideGetSongItem
+hook_OverrideGetSongItem:
+    push {r0-r12, lr}
+    cpy r2,r1
+    mov r1,#0xFF
+    bl ItemOverride_GetSoHOrSongItem
+    ldr r5,.rActiveItemRow_addr
+    ldr r5,[r5]
+    cmp r5,#0x0
+    pop {r0-r12, lr}
+    beq noOverrideSongItemID
+    push {r0-r12, lr}
+    cpy r0,r5
+    cpy r1,r4
+    bl ItemOverride_GetItemTextAndItemID
+    pop {r0-r12, lr}
+    b 0x605980
+noOverrideSongItemID:
+    bl 0x233BEC
+    b 0x605980

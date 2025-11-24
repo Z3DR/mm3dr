@@ -448,7 +448,7 @@ namespace rnd {
   void ItemOverride_GetItemTextAndItemID(game::act::Player*);
   void ItemOverride_GetItem(game::GlobalContext*, game::act::Actor*, game::act::Player*, s16);
   void ItemOverride_GetFairyRewardItem(game::GlobalContext*, game::act::GreatFairy*, s16);
-  void ItemOverride_GetSoHItem(game::GlobalContext*, game::act::Actor*, s16);
+  void ItemOverride_GetSoHOrSongItem(game::GlobalContext*, game::act::Actor*, s16);
   int ItemOverride_CheckInventoryItemOverride(game::ItemId);
   void ItemOverride_SwapSoHGetItemText(game::GlobalContext*, u16, game::act::Actor*);
   bool ItemOverride_CheckTingleMaps(u16, game::GlobalContext*);

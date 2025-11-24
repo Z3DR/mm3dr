@@ -777,6 +777,10 @@ SECTIONS{
     *(.patch_HandleOcarinaHooks)
   }
 
+  .patch_OverrideGetSongItem 0x60597C : {
+    *(.patch_OverrideGetSongItem)
+  }
+
   .patch_FDOpenDungeonDoors 0x68D9C0 : {
     *(.patch_FDOpenDungeonDoors)
   }

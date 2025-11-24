@@ -33,6 +33,7 @@ namespace rnd {
     saveData.inventory.inventory_count_register.stick_upgrades = 2;
     saveData.inventory.inventory_count_register.nut_upgrade = 2;
     saveData.player.rupee_count = 5000;
+    rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::Ocarina);
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::Arrow);
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::IceArrow);
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::LightArrow);
@@ -108,12 +109,12 @@ namespace rnd {
     saveData.player.owl_statue_flags.ikana_canyon = 1;
     saveData.player.owl_statue_flags.stone_tower = 1;
 
-    saveData.inventory.collect_register.sonata_of_awakening = 1;
+    // saveData.inventory.collect_register.sonata_of_awakening = 1;
     saveData.inventory.collect_register.goron_lullaby = 1;
-    saveData.inventory.collect_register.new_wave_bossa_nova = 1;
+    // saveData.inventory.collect_register.new_wave_bossa_nova = 1;
     saveData.inventory.collect_register.elegy_of_emptiness = 1;
     saveData.inventory.collect_register.eponas_song = 1;
-    saveData.inventory.collect_register.song_of_soaring = 1;
+    // saveData.inventory.collect_register.song_of_soaring = 1;
     saveData.inventory.collect_register.song_of_time = 1;
     // saveData.inventory.collect_register.oath_to_order = 1;
     // saveData.inventory.collect_register.song_of_healing = 1;
