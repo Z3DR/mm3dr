@@ -459,6 +459,7 @@ namespace rnd {
   u8 ItemOverride_OverrideSkullToken(game::act::Actor*);
   u8 ItemOverride_CheckBossStatus();
   u8 ItemOverride_ReceivedOcarinaFromSkt();
+  u8 ItemOverride_ReceivedSongOverride(s16);
   }
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];

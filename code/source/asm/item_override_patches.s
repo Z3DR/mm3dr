@@ -125,6 +125,11 @@ patch_ZoraMaskGiveItem:
 patch_GibdoMaskGiveItem:
     b hook_GibdoMaskGiveItem
 
+.section .patch_OverrideSoSGiveItem
+.global patch_OverrideSoSGiveItem
+patch_OverrideSoSGiveItem:
+    b hook_OverrideSoSGiveItem
+
 .section .patch_CouplesMaskGiveItem
 .global patch_CouplesMaskGiveItem
 patch_CouplesMaskGiveItem:
@@ -152,6 +157,11 @@ patch_SkulltulaOverrideOne:
 .global patch_SkulltulaOverrideTwo
 patch_SkulltulaOverrideTwo:
     bl hook_SkulltulaOverrideTwo
+
+.section .patch_EnMkNWBNOverride
+.global patch_EnMkNWBNOverride
+patch_EnMkNWBNOverride:
+    b hook_EnMkNWBNOverride
 
 .section .patch_OverrideGetSongItem
 .global patch_OverrideGetSongItem

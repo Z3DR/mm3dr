@@ -258,6 +258,33 @@ noOverrideGibdoItemID:
     bl 0x233BEC
     b 0x41DC4C
 
+.global hook_OverrideSoSGiveItem
+hook_OverrideSoSGiveItem:
+    cpy r0,r5
+    push {r0-r12, lr}
+    cpy r2,r1
+    mov r1,#0xFF
+    bl ItemOverride_GetSoHOrSongItem
+    ldr r5,.rActiveItemRow_addr
+    ldr r5,[r5]
+    cmp r5,#0x0
+    pop {r0-r12, lr}
+    beq noOverrideSoSGiveItem
+    push {r0-r12, lr}
+    ldr r0, [r5,#0xDC]
+    bl ItemOverride_GetItemTextAndItemID
+    pop {r0-r12, lr}
+    cpy r0,r5
+    b 0x43FB6C
+noOverrideSoSGiveItem:
+    push {r0-r12, lr}
+    cpy r0,r1
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0,#0x0
+    pop {r0-r12, lr}
+    beq 0x233BEC
+    b 0x43FB6C
+
 .global hook_CouplesMaskGiveItem
 hook_CouplesMaskGiveItem:
     push {r0-r12, lr}
@@ -330,6 +357,30 @@ hook_SkulltulaOverrideTwo:
 skulltulaOverriddenTwo:
     b 0x52A06C
 
+.global hook_EnMkNWBNOverride
+hook_EnMkNWBNOverride:
+    push {r0-r12,lr}
+    cpy r2,r1
+    mov r1,#0xFF
+    bl ItemOverride_GetSoHOrSongItem
+    ldr r5,.rActiveItemRow_addr
+    ldr r5,[r5]
+    cmp r5,#0x0
+    pop {r0-r12, lr}
+    beq noOverrideNWBNItemID
+    push {r0-r12, lr}
+    ldr r0, [r8,#0xDC] @Load player actor.
+    bl ItemOverride_GetItemTextAndItemID
+    pop {r0-r12, lr}
+    cpy r0,r8
+    b 0x587230
+noOverrideNWBNItemID:
+    cpy r0,r8
+    nop
+    nop
+    bl 0x233BEC
+    b 0x587230
+
 .global hook_OverrideGetSongItem
 hook_OverrideGetSongItem:
     push {r0-r12, lr}
@@ -342,8 +393,7 @@ hook_OverrideGetSongItem:
     pop {r0-r12, lr}
     beq noOverrideSongItemID
     push {r0-r12, lr}
-    cpy r0,r5
-    cpy r1,r4
+    ldr r0, [r0,#0xDC]
     bl ItemOverride_GetItemTextAndItemID
     pop {r0-r12, lr}
     b 0x605980

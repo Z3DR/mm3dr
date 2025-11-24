@@ -1178,5 +1178,32 @@ namespace rnd {
   u8 ItemOverride_ReceivedOcarinaFromSkt() {
     return gExtSaveData.givenItemChecks.ocarinaOfTimeGiven == 1 ? 1 : 0;
   }
+
+  u8 ItemOverride_ReceivedSongOverride(s16 incomingItemId) {
+    switch (incomingItemId) {
+    case 0x61:
+      return gExtSaveData.givenSongChecks.sonataGiven == 1 ? 1 : 0;
+    case 0x62:
+      return gExtSaveData.givenSongChecks.goronLullabyGiven == 1 ? 1 : 0;
+    case 0x63:
+      return gExtSaveData.givenSongChecks.newWaveBossaNovaGiven == 1 ? 1 : 0;
+    case 0x64:
+      return gExtSaveData.givenSongChecks.elegyOfEmptinessGiven == 1 ? 1 : 0;
+    case 0x65:
+      return gExtSaveData.givenSongChecks.oathToOrderGiven == 1 ? 1 : 0;
+    case 0x67:
+      return gExtSaveData.givenSongChecks.songOfTimeGiven == 1 ? 1 : 0;
+    case 0x68:
+      return gExtSaveData.givenSongChecks.songOfHealingGiven == 1 ? 1 : 0;
+    case 0x69:
+      return gExtSaveData.givenSongChecks.eponasSongGiven == 1 ? 1 : 0;
+    case 0x6A:
+      return gExtSaveData.givenSongChecks.songOfSoaringGiven == 1 ? 1 : 0;
+    case 0x6B:
+      return gExtSaveData.givenSongChecks.songOfStormsGiven == 1 ? 1 : 0;
+    default:
+      return 0;
+    }
+  }
   }
 }  // namespace rnd

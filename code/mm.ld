@@ -631,6 +631,10 @@ SECTIONS{
     *(.patch_OverrideItem00Draw)
   }
 
+  .patch_OverrideSoSGiveItem 0x43FB64 : {
+    *(.patch_OverrideSoSGiveItem)
+  }
+
   .patch_FierceDeityArcheryFix 0x4427E8 : {
     *(.patch_FierceDeityArcheryFix)
   }
@@ -698,6 +702,10 @@ SECTIONS{
 
   .patch_SkulltulaOverrideTwo 0x52A044 : {
     *(.patch_SkulltulaOverrideTwo)
+  }
+  
+  .patch_EnMkNWBNOverride 0x58722C : {
+    *(.patch_EnMkNWBNOverride)
   }
 
   .patch_UpdateOcarinaVisibility 0x59AA2C : {
