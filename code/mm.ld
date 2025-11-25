@@ -53,6 +53,10 @@ SECTIONS{
     *(.patch_PostActorCalc)
   }
 
+  .patch_ResetCycleFlagOnMoonCrash 0x1851C0 : {
+    *(.patch_ResetCycleFlagOnMoonCrash)
+  }
+
   .patch_RemoveCouplesMaskMessage 0x1867C4 : {
     *(.patch_RemoveCouplesMaskMessage)
   }
