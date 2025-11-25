@@ -353,6 +353,10 @@ SECTIONS{
     *(.patch_EnteringLocation)
   }
 
+  .patch_EnOsnCheckSoHExtData 0x268030 : {
+    *(.patch_EnOsnCheckSoHExtData)
+  }
+
   .patch_TwinmoldConsistentDamage 0x28E544 : {
     *(.patch_TwinmoldConsistentDamage)
   }
