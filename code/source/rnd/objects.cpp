@@ -72,9 +72,9 @@ namespace rnd {
 
   extern "C" game::ActorResource::ActorResource* ExtendedObject_GetStatus() {
     s32 i;
-// #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-//     rnd::util::Print("%s: rStoredObjId is %#06x\n", __func__, rStoredObjId);
-// #endif
+    // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    //     rnd::util::Print("%s: rStoredObjId is %#06x\n", __func__, rStoredObjId);
+    // #endif
     for (i = 0; i < rExtendedObjectCtx.num; ++i) {
       s32 id = rExtendedObjectCtx.status[i].object_id;
       id = (id < 0 ? -id : id);

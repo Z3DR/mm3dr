@@ -169,6 +169,10 @@ SECTIONS{
     *(.patch_RemoveMysteryMilkSoSCheck)
   }
 
+  .patch_CheckExtForSongOfTime 0x1D7FEC : {
+    *(.patch_CheckExtForSongOfTime)
+  }
+
   .patch_DoNotForceMaskChange 0x1DB314 : {
     *(.patch_DoNotForceMaskChange)
   }
@@ -319,6 +323,10 @@ SECTIONS{
 
   .patch_OverrideItemID 0x231108 : {
     *(.patch_OverrideItemID)
+  }
+
+  .patch_SongOfTimeCheckExtData 0x2311A4 : {
+   *(.patch_SongOfTimeCheckExtData) 
   }
 
   .patch_ForceSwordUpgradeOnHuman 0x233D88 : {

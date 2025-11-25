@@ -112,7 +112,7 @@ namespace rnd {
                 // subsequently yellow rupee. No rupee increment.
     /* 0x52 */ GI_GOLD_SKULLTULA_SPIRIT = 0x52,  // Pickup model is whacky since we usually don't have one.
     /* 0x53 */  // GI_ERROR_NOTHING_53, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
+                // Ocarina in Inventory Song of Time
     /* 0x54 */  // GI_ERROR_NOTHING_54, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
     /* 0x55 */ GI_ODOLWAS_REMAINS = 0x55,  // Also softlocks!
@@ -460,6 +460,7 @@ namespace rnd {
   u8 ItemOverride_CheckBossStatus();
   u8 ItemOverride_ReceivedOcarinaFromSkt();
   u8 ItemOverride_ReceivedSongOverride(s16);
+  u8 ItemOverride_CheckIfSongOfTimeAwarded(u8);
   }
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];

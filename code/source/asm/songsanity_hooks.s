@@ -5,6 +5,23 @@
 .rActiveItemRow_addr:
     .word rActiveItemRow
 
+.global hook_CheckExtForSongOfTime
+hook_CheckExtForSongOfTime:
+    push {r0-r12, lr}
+    mov r0,#0x67
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0,#0x0
+    pop {r0-r12,lr}
+    bx lr
+
+.global hook_SongOfTimeCheckExtData
+hook_SongOfTimeCheckExtData:
+    push {r0-r12, lr}
+    bl ItemOverride_CheckIfSongOfTimeAwarded
+    cmp r0,#0x4C
+    pop {r0-r12,lr}
+    bx lr
+
 .global hook_EnOsnCheckSoHExtData
 hook_EnOsnCheckSoHExtData:
     push {r0-r12, lr}

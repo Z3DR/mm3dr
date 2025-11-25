@@ -1,5 +1,15 @@
 .arm
 
+.section .patch_CheckExtForSongOfTime
+.global patch_CheckExtForSongOfTime
+patch_CheckExtForSongOfTime:
+    bl hook_CheckExtForSongOfTime
+
+.section .patch_SongOfTimeCheckExtData
+.global patch_SongOfTimeCheckExtData
+patch_SongOfTimeCheckExtData:
+    bl hook_SongOfTimeCheckExtData
+
 .section .patch_EnOsnCheckSoHExtData
 .global patch_EnOsnCheckSoHExtData
 patch_EnOsnCheckSoHExtData:

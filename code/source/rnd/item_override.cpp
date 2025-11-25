@@ -868,14 +868,15 @@ namespace rnd {
     }
     if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52)
       player->get_item_id = incomingNegative ? -baseItemId : baseItemId;
-    // Edge case with Song of healing items. Override their show text in their own functions
-    // to ensure that we have the same 'feel' as the base game.
-    // This also ensures that if there is no override the default text still works.
+      // Edge case with Song of healing items. Override their show text in their own functions
+      // to ensure that we have the same 'feel' as the base game.
+      // This also ensures that if there is no override the default text still works.
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: %#04x\n", __func__, incomingGetItemId);
 #endif
-    if (incomingGetItemId == 0x4E || incomingGetItemId == 0x72 || (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) ||
-        incomingGetItemId == 0x85 || incomingGetItemId == 0x87) {
+    if (incomingGetItemId == 0x4E || incomingGetItemId == 0x53 || incomingGetItemId == 0x72 ||
+        (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) || incomingGetItemId == 0x85 ||
+        incomingGetItemId == 0x87) {
       rStoredTextId = rActiveItemRow->textId;
     }
     givenItemOverride = true;
@@ -1054,10 +1055,10 @@ namespace rnd {
 
   // clang-format on
   void ItemOverride_SwapSoHGetItemText(game::GlobalContext* gctx, u16 textId, game::act::Actor* fromActor) {
-    // Check which text ID is coming in. If it's any mask from Song of Healing, replace it with active item text.
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: txtId = %#08x\n", __func__, textId);	
-    #endif
+// Check which text ID is coming in. If it's any mask from Song of Healing, replace it with active item text.
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: txtId = %#08x\n", __func__, textId);
+#endif
     if (givenItemOverride) {
       givenItemOverride = false;
       if (rStoredTextId) {
@@ -1068,7 +1069,7 @@ namespace rnd {
     } else {
       gctx->ShowMessage(textId);
     }
-      
+
     return;
   }
 
@@ -1219,6 +1220,13 @@ namespace rnd {
     default:
       return 0;
     }
+  }
+
+  u8 ItemOverride_CheckIfSongOfTimeAwarded(u8 currentItem) {
+    game::SceneId scene = GetContext().gctx->scene;
+    if (scene == game::SceneId::ClockTowerRooftop && gExtSaveData.givenSongChecks.songOfTimeGiven == 0)
+      return 0x4C;
+    return currentItem;
   }
   }
 }  // namespace rnd
