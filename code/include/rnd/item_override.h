@@ -146,7 +146,7 @@ namespace rnd {
     /* 0x70 */ GI_BOTTLE_MYSTERY_MILK,  // Activates Timer
     /* 0x71 */ GI_BOTTLE_MOLDY_MILK,    // Mystery milk text followed by tatl.
     /* 0x72 */  // GI_ERROR_NOTHING_72, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
+                // Ocarina in Inventory. Song of Soaring.
     /* 0x73 */  // GI_ERROR_NOTHING_73, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
     /* 0x74 */  // GI_ERROR_NOTHING_74, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with

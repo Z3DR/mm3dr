@@ -43,6 +43,8 @@ namespace rnd {
                                    0x2D, 0x33, 0x37, 0x3B, 0x3F, 0x42, 0x46, 0x4A, 0x4F, 0x53,
                                    0x57, 0x59, 0x5D, 0x61, 0x65, 0x69, 0x6D, 0x73, 0x77, 0x7B};
 
+  static bool givenItemOverride = false;
+
   void ItemOverride_Init(void) {
 #ifdef ENABLE_DEBUG
     // Manual overide example code
@@ -866,11 +868,17 @@ namespace rnd {
     }
     if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52)
       player->get_item_id = incomingNegative ? -baseItemId : baseItemId;
-    // Weird edge case with the way text and masks are handled with Couples' Mask.
-    // Set the text and apply it later in a different patch.
-    if (incomingGetItemId == 0x85) {
+    // Edge case with Song of healing items. Override their show text in their own functions
+    // to ensure that we have the same 'feel' as the base game.
+    // This also ensures that if there is no override the default text still works.
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: %#04x\n", __func__, incomingGetItemId);
+#endif
+    if (incomingGetItemId == 0x72 || (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) ||
+        incomingGetItemId == 0x85 || incomingGetItemId == 0x87) {
       rStoredTextId = rActiveItemRow->textId;
     }
+    givenItemOverride = true;
     return;
   }
 
@@ -1047,13 +1055,20 @@ namespace rnd {
   // clang-format on
   void ItemOverride_SwapSoHGetItemText(game::GlobalContext* gctx, u16 textId, game::act::Actor* fromActor) {
     // Check which text ID is coming in. If it's any mask from Song of Healing, replace it with active item text.
-    if (textId == 0x79 || textId == 0x7a || textId == 0x87 || textId == 0x78) {
-      return;
-    } else if (textId == 0x85) {
-      gctx->ShowMessage(rStoredTextId);
-      rStoredTextId = 0;
-    } else
+    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: txtId = %#08x\n", __func__, textId);	
+    #endif
+    if (givenItemOverride) {
+      givenItemOverride = false;
+      if (rStoredTextId) {
+        gctx->ShowMessage(rStoredTextId);
+        rStoredTextId = 0;
+      } else
+        gctx->ShowMessage(textId);
+    } else {
       gctx->ShowMessage(textId);
+    }
+      
     return;
   }
 
