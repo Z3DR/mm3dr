@@ -158,10 +158,6 @@ patch_SkulltulaOverrideOne:
 patch_SkulltulaOverrideTwo:
     bl hook_SkulltulaOverrideTwo
 
-.section .patch_EnMkNWBNOverride
-.global patch_EnMkNWBNOverride
-patch_EnMkNWBNOverride:
-    b hook_EnMkNWBNOverride
 
 .section .patch_OverrideGetSongItem
 .global patch_OverrideGetSongItem

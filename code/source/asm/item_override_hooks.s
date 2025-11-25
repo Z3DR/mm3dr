@@ -357,29 +357,6 @@ hook_SkulltulaOverrideTwo:
 skulltulaOverriddenTwo:
     b 0x52A06C
 
-.global hook_EnMkNWBNOverride
-hook_EnMkNWBNOverride:
-    push {r0-r12,lr}
-    cpy r2,r1
-    mov r1,#0xFF
-    bl ItemOverride_GetSoHOrSongItem
-    ldr r5,.rActiveItemRow_addr
-    ldr r5,[r5]
-    cmp r5,#0x0
-    pop {r0-r12, lr}
-    beq noOverrideNWBNItemID
-    push {r0-r12, lr}
-    ldr r0, [r8,#0xDC] @Load player actor.
-    bl ItemOverride_GetItemTextAndItemID
-    pop {r0-r12, lr}
-    cpy r0,r8
-    b 0x587230
-noOverrideNWBNItemID:
-    cpy r0,r8
-    nop
-    nop
-    bl 0x233BEC
-    b 0x587230
 
 .global hook_OverrideGetSongItem
 hook_OverrideGetSongItem:

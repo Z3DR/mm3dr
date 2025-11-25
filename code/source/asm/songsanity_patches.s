@@ -9,3 +9,8 @@ patch_EnOsnCheckSoHExtData:
 .global patch_RemoveSoSCheckKaepora
 patch_RemoveSoSCheckKaepora:
     bl hook_RemoveSoSCheckKaepora
+
+.section .patch_EnMkNWBNOverride
+.global patch_EnMkNWBNOverride
+patch_EnMkNWBNOverride:
+    b hook_EnMkNWBNOverride

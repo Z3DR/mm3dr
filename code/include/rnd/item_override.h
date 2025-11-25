@@ -104,7 +104,7 @@ namespace rnd {
     /* 0x4D */  // GI_ERROR_NOTHING_4D, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
     /* 0x4E */  // GI_ERROR_NOTHING_4E, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
+                // Ocarina in Inventory - New Wave Bossa Nova
     /* 0x4F */  // GI_ERROR_NOTHING_4F, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
     /* 0x50 */ GI_BOMBERS_NOTEBOOK = 0x50,
