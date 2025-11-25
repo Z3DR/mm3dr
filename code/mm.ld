@@ -479,6 +479,10 @@ SECTIONS{
     *(.patch_RemoveSongCheckKaepora)
   }
 
+  .patch_RemoveSoSCheckKaepora 0x326EF8 : {
+    *(.patch_RemoveSoSCheckKaepora)
+  }
+
   .patch_RemoveZoraMaskCheckMikau 0x32BBB8 : {
     *(.patch_RemoveZoraMaskCheckMikau)
   }
