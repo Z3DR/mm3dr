@@ -455,6 +455,18 @@ SECTIONS{
     *(.patch_RemoveGoronMaskCheckDarmani)
   }
 
+  .patch_EnMa4ExtDataCheckOne 0x2E3784 : {
+    *(.patch_EnMa4ExtDataCheckOne)
+  }
+
+  .patch_EnMa4ExtDataCheckThree 0x2E3CD0 : {
+      *(.patch_EnMa4ExtDataCheckThree)
+    }
+
+  .patch_EnMa4ExtDataCheckTwo 0x2E3D94 : {
+    *(.patch_EnMa4ExtDataCheckTwo)
+  }
+
   /* .patch_RemoveSkulltulaSpawnIfCollectedItem 0x2E8384 : {
     *(.patch_RemoveSkulltulaSpawnIfCollectedItem)
   } */

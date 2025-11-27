@@ -875,8 +875,9 @@ namespace rnd {
     rnd::util::Print("%s: %#04x\n", __func__, incomingGetItemId);
 #endif
     if (incomingGetItemId == 0x4B || incomingGetItemId == 0x4E || incomingGetItemId == 0x53 ||
-        incomingGetItemId == 0x72 || (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) ||
-        incomingGetItemId == 0x85 || incomingGetItemId == 0x87) {
+        incomingGetItemId == 0x6C || incomingGetItemId == 0x72 ||
+        (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) || incomingGetItemId == 0x85 ||
+        incomingGetItemId == 0x87) {
       rStoredTextId = rActiveItemRow->textId;
     }
     givenItemOverride = true;

@@ -31,6 +31,33 @@ hook_EnOsnCheckSoHExtData:
     pop {r0-r12,lr}
     bx lr
 
+.global hook_EnMa4ExtDataCheckOne
+hook_EnMa4ExtDataCheckOne:
+    push {r0-r12, lr}
+    mov r0,#0x69
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0,#0x1 @bne check.
+    pop {r0-r12,lr}
+    bx lr
+
+.global hook_EnMa4ExtDataCheckThree
+hook_EnMa4ExtDataCheckThree:
+    push {r0-r12, lr}
+    mov r0,#0x69
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0,#0x0 @bneq check.
+    pop {r0-r12,lr}
+    bx lr
+
+.global hook_EnMa4ExtDataCheckTwo
+hook_EnMa4ExtDataCheckTwo:
+    push {r0-r12, lr}
+    mov r0,#0x69
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0,#0x1 @bne check.
+    pop {r0-r12,lr}
+    bx lr
+
 .global hook_EnMnkSongOverride
 hook_EnMnkSongOverride:
     push {r0-r12,lr}

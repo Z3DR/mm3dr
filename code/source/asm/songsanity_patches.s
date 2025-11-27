@@ -15,6 +15,21 @@ patch_SongOfTimeCheckExtData:
 patch_EnOsnCheckSoHExtData:
     bl hook_EnOsnCheckSoHExtData
 
+.section .patch_EnMa4ExtDataCheckOne
+.global patch_EnMa4ExtDataCheckOne
+patch_EnMa4ExtDataCheckOne:
+    bl hook_EnMa4ExtDataCheckOne
+
+.section .patch_EnMa4ExtDataCheckThree
+.global patch_EnMa4ExtDataCheckThree
+patch_EnMa4ExtDataCheckThree:
+    bl hook_EnMa4ExtDataCheckThree
+
+.section .patch_EnMa4ExtDataCheckTwo
+.global patch_EnMa4ExtDataCheckTwo
+patch_EnMa4ExtDataCheckTwo:
+    bl hook_EnMa4ExtDataCheckTwo
+
 .section .patch_EnMnkSongOverride
 .global patch_EnMnkSongOverride
 patch_EnMnkSongOverride:
