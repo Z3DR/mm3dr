@@ -487,6 +487,10 @@ SECTIONS{
     *(.patch_AdjustMapAndCompassChests)
   }
 
+  .patch_EnMnkSongOverride 0x0325D58 : {
+    *(.patch_EnMnkSongOverride)
+  }
+
   .patch_RemoveSongCheckKaepora 0x326ED0 : {
     *(.patch_RemoveSongCheckKaepora)
   }

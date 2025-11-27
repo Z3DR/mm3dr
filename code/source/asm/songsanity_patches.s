@@ -15,6 +15,11 @@ patch_SongOfTimeCheckExtData:
 patch_EnOsnCheckSoHExtData:
     bl hook_EnOsnCheckSoHExtData
 
+.section .patch_EnMnkSongOverride
+.global patch_EnMnkSongOverride
+patch_EnMnkSongOverride:
+    b hook_EnMnkSongOverride
+
 .section .patch_RemoveSoSCheckKaepora
 .global patch_RemoveSoSCheckKaepora
 patch_RemoveSoSCheckKaepora:

@@ -31,6 +31,20 @@ hook_EnOsnCheckSoHExtData:
     pop {r0-r12,lr}
     bx lr
 
+.global hook_EnMnkSongOverride
+hook_EnMnkSongOverride:
+    push {r0-r12,lr}
+    mov r0,#0x61
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0,#0x0
+    pop {r0-r12, lr}
+    beq noOverrideSonataItemID
+    b 0x325D5C @Item was already given, so basically noop this call.
+noOverrideSonataItemID:
+    cpy r0,r5
+    bl 0x233BEC
+    b 0x325D5C
+
 .global hook_RemoveSoSCheckKaepora
 hook_RemoveSoSCheckKaepora:
     push {r0-r12, lr}

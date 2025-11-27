@@ -638,7 +638,7 @@ namespace rnd {
   GetItemID ItemOverride_MapSongsToGID(game::ItemId incomingItemId) {
     switch (incomingItemId) {
     case game::ItemId::SonataOfAwakening:
-      gExtSaveData.givenSongChecks.elegyOfEmptinessGiven = 1;
+      gExtSaveData.givenSongChecks.sonataGiven = 1;
       return GetItemID(0x4B);
     case game::ItemId::GoronLullaby:
       gExtSaveData.givenSongChecks.goronLullabyGiven = 1;
@@ -874,9 +874,9 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: %#04x\n", __func__, incomingGetItemId);
 #endif
-    if (incomingGetItemId == 0x4E || incomingGetItemId == 0x53 || incomingGetItemId == 0x72 ||
-        (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) || incomingGetItemId == 0x85 ||
-        incomingGetItemId == 0x87) {
+    if (incomingGetItemId == 0x4B || incomingGetItemId == 0x4E || incomingGetItemId == 0x53 ||
+        incomingGetItemId == 0x72 || (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) ||
+        incomingGetItemId == 0x85 || incomingGetItemId == 0x87) {
       rStoredTextId = rActiveItemRow->textId;
     }
     givenItemOverride = true;
@@ -925,9 +925,6 @@ namespace rnd {
 #endif
     if (link->get_item_id != 0x00)
       return;
-    if (incomingItemId >= 0x61 && incomingItemId <= 0x6C) {
-      // Check to see if item was retrieved.
-    }
     if (incomingItemId == 0x7A) {
       gExtSaveData.givenItemChecks.enZogGivenItem = 1;
     } else if (incomingItemId == 0x79) {
