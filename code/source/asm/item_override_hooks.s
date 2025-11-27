@@ -324,10 +324,10 @@ normalText:
     mov r1,#0xA2
     b 0x1867C8
 
-.global hook_ChangeSOHToCustomText
-hook_ChangeSOHToCustomText:
+.global hook_ChangeSoHAndSongToCustomText
+hook_ChangeSoHAndSongToCustomText:
     push {r0-r2, lr}
-    bl ItemOverride_SwapSoHGetItemText
+    bl ItemOverride_SwapSoHAndSongGetItemText
     pop {r0-r2, lr}
     b 0x186814
 

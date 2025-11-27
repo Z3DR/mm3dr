@@ -61,8 +61,8 @@ SECTIONS{
     *(.patch_RemoveCouplesMaskMessage)
   }
 
-  .patch_RemoveSOHCutesceneAfterMessage 0x186810 : {
-    *(.patch_RemoveSOHCutesceneAfterMessage)
+  .patch_OverrideSoHAndSongText 0x186810 : {
+    *(.patch_OverrideSoHAndSongText)
   }
 
   .patch_OverrideBombersNotebook 0x186ACC : {

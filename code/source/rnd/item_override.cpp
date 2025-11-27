@@ -1054,7 +1054,7 @@ namespace rnd {
   }
 
   // clang-format on
-  void ItemOverride_SwapSoHGetItemText(game::GlobalContext* gctx, u16 textId, game::act::Actor* fromActor) {
+  void ItemOverride_SwapSoHAndSongGetItemText(game::GlobalContext* gctx, u16 textId, game::act::Actor* fromActor) {
 // Check which text ID is coming in. If it's any mask from Song of Healing, replace it with active item text.
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: txtId = %#08x\n", __func__, textId);

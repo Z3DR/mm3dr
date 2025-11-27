@@ -24,7 +24,7 @@ namespace rnd {
 
     // Disable BGM fadeout
     util::Write(gctx, 0x8422, 1);
-    gctx->ocarina_state = game::OcarinaState::StoppedPlaying;
+    gctx->msg_context.ocarina_state = game::OcarinaState::StoppedPlaying;
   }
 
   static bool IsElegyOfEmptinessAllowed() {
@@ -70,8 +70,8 @@ namespace rnd {
       EndOcarinaSession(self);
       auto* gctx = GetContext().gctx;
       game::sound::PlayEffect(game::sound::EffectId::NA_SE_SY_TRE_BOX_APPEAR);
-      gctx->ocarina_song = song;
-      gctx->ocarina_state = game::OcarinaState::PlayingAndReplayDone;
+      gctx->msg_context.ocarina_song = song;
+      gctx->msg_context.ocarina_state = game::OcarinaState::PlayingAndReplayDone;
       self->song = u16(song);
       // This flag must always be false; otherwise the Song of Soaring handler will refuse
       // to show the map screen.
@@ -93,11 +93,11 @@ namespace rnd {
       auto* gctx = GetContext().gctx;
       if (IsElegyOfEmptinessAllowed()) {
         game::sound::PlayEffect(game::sound::EffectId::NA_SE_SY_TRE_BOX_APPEAR);
-        gctx->ocarina_song = game::OcarinaSong::ElegyOfEmptiness;
-        gctx->ocarina_state = game::OcarinaState::PlayingAndReplayDone;
+        gctx->msg_context.ocarina_song = game::OcarinaSong::ElegyOfEmptiness;
+        gctx->msg_context.ocarina_state = game::OcarinaState::PlayingAndReplayDone;
       } else {
         gctx->ShowMessage(0x1B95, 0);  // "Your notes echoed far..."
-        gctx->ocarina_state = game::OcarinaState::StoppedPlaying;
+        gctx->msg_context.ocarina_state = game::OcarinaState::StoppedPlaying;
         util::GetPointer<void(int)>(0x1D8C5C)(0);
       }
 
