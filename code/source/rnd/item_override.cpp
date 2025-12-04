@@ -641,7 +641,7 @@ namespace rnd {
       gExtSaveData.givenSongChecks.sonataGiven = 1;
       return GetItemID(0x4B);
     case game::ItemId::GoronLullaby:
-      gExtSaveData.givenSongChecks.goronLullabyGiven = 1;
+      gExtSaveData.givenSongChecks.goronLullabyGiven = 2;
       return GetItemID(0x4D);
     case game::ItemId::NewWaveBossaNova:
       gExtSaveData.givenSongChecks.newWaveBossaNovaGiven = 1;
@@ -667,6 +667,9 @@ namespace rnd {
     case game::ItemId::SongOfStorms:
       gExtSaveData.givenSongChecks.songOfStormsGiven = 1;
       return GetItemID(0x73);
+    case game::ItemId::GoronLullabyIntro:
+      gExtSaveData.givenSongChecks.goronLullabyGiven = 1;
+      return GetItemID(0x74);
     default:
       return GetItemID::GI_NONE;
     }
@@ -874,10 +877,11 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: %#04x\n", __func__, incomingGetItemId);
 #endif
-    if (incomingGetItemId == 0x4B || incomingGetItemId == 0x4E || incomingGetItemId == 0x51 ||
-        incomingGetItemId == 0x53 || incomingGetItemId == 0x6C || incomingGetItemId == 0x72 ||
-        incomingGetItemId == 0x73 || (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) ||
-        incomingGetItemId == 0x85 || incomingGetItemId == 0x87) {
+    if (incomingGetItemId == 0x4B || incomingGetItemId == 0x4D || incomingGetItemId == 0x4E ||
+        incomingGetItemId == 0x51 || incomingGetItemId == 0x53 || incomingGetItemId == 0x6C ||
+        (incomingGetItemId <= 0x72 || incomingGetItemId >= 0x74) ||
+        (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) || incomingGetItemId == 0x85 ||
+        incomingGetItemId == 0x87) {
       rStoredTextId = rActiveItemRow->textId;
     }
     givenItemOverride = true;
@@ -922,7 +926,7 @@ namespace rnd {
 // Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
 // This is mainly prevalent when the item override is in a calc function (Anju & Kafei).
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Link's getitemid %#04x\n", __func__, link->get_item_id);
+    rnd::util::Print("%s: Link's getitemid %#04x incoming GID is %#04x\n", __func__, link->get_item_id, incomingItemId);
 #endif
     if (link->get_item_id != 0x00)
       return;
@@ -938,7 +942,7 @@ namespace rnd {
       fromActor = link;
     } else if (incomingItemId == 0x85) {
       gExtSaveData.givenItemChecks.kafeiGivenItem = 1;
-    } else if (incomingItemId >= 0x61 || incomingItemId <= 0x6C) {
+    } else if ((incomingItemId >= 0x61 || incomingItemId <= 0x6C) || incomingItemId == 0x73) {
       // Additional logic to map songs to getItemIds.
       incomingItemId = (s16)ItemOverride_MapSongsToGID(game::ItemId(incomingItemId));
       fromActor = link;
@@ -1194,11 +1198,19 @@ namespace rnd {
   }
 
   u8 ItemOverride_ReceivedSongOverride(s16 incomingItemId) {
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Incoming item id is %#04x\n", __func__, incomingItemId);
+#endif
+    game::OcarinaSong lastPlayedSong = GetContext().gctx->msg_context.lastPlayedSong;
     switch (incomingItemId) {
     case 0x61:
       return gExtSaveData.givenSongChecks.sonataGiven == 1 ? 1 : 0;
     case 0x62:
-      return gExtSaveData.givenSongChecks.goronLullabyGiven == 1 ? 1 : 0;
+      if (lastPlayedSong != game::OcarinaSong::GoronLullablyIntro || lastPlayedSong != game::OcarinaSong::GoronLullaby)
+        return gExtSaveData.givenSongChecks.goronLullabyGiven == 1 ? 1 : 0;
+      else
+        return 1;
+      break;
     case 0x63:
       return gExtSaveData.givenSongChecks.newWaveBossaNovaGiven == 1 ? 1 : 0;
     case 0x64:
@@ -1215,6 +1227,8 @@ namespace rnd {
       return gExtSaveData.givenSongChecks.songOfSoaringGiven == 1 ? 1 : 0;
     case 0x6B:
       return gExtSaveData.givenSongChecks.songOfStormsGiven == 1 ? 1 : 0;
+    case 0x73:
+      return gExtSaveData.givenSongChecks.goronLullabyIntroGiven == 1 ? 1 : 0;
     default:
       return 0;
     }

@@ -1,9 +1,9 @@
 #include "rnd/input.h"
 #include "common/debug.h"
+#include "game/pad.h"
 #include "hid.h"
 #include "utils.h"
 #include "z3d/z3DVec.h"
-#include "game/pad.h"
 extern "C" {
 #include <3ds/svc.h>
 }
@@ -22,8 +22,7 @@ namespace rnd {
     rInputCtx.pressed.val = (rInputCtx.cur.val) & (~rInputCtx.old.val);
     rInputCtx.up.val = (~rInputCtx.cur.val) & (rInputCtx.old.val);
     rInputCtx.old.val = rInputCtx.cur.val;
-    rInputCtx.cp_curr =
-        real_hid->pad.pads[real_hid->pad.index].cp;
+    rInputCtx.cp_curr = real_hid->pad.pads[real_hid->pad.index].cp;
   }
 
   u32 buttonCheck(u32 key) {

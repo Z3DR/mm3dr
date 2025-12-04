@@ -361,6 +361,14 @@ SECTIONS{
     *(.patch_EnteringLocation)
   }
 
+  .patch_LullabyIntroCheckEnJg 0x244378 : {
+    *(.patch_LullabyIntroCheckEnJg)
+  }
+
+  .patch_LullabyCheckEnJg 0x244380 : {
+    *(.patch_LullabyCheckEnJg)
+  }
+
   .patch_EnOsnCheckSoHExtData 0x268030 : {
     *(.patch_EnOsnCheckSoHExtData)
   }
@@ -739,7 +747,14 @@ SECTIONS{
   .patch_SkulltulaOverrideTwo 0x52A044 : {
     *(.patch_SkulltulaOverrideTwo)
   }
-  
+
+  .patch_EnGkCheckLullabyRewardGivenOne 0x546294 : {
+    *(.patch_EnGkCheckLullabyRewardGivenOne)
+  }
+
+  .patch_EnGkCheckLullabyRewardGivenTwo 0x546374 : {
+    *(.patch_EnGkCheckLullabyRewardGivenTwo)
+  }
   .patch_EnMkNWBNOverride 0x58722C : {
     *(.patch_EnMkNWBNOverride)
   }

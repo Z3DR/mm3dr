@@ -10,6 +10,16 @@ patch_CheckExtForSongOfTime:
 patch_SongOfTimeCheckExtData:
     bl hook_SongOfTimeCheckExtData
 
+.section .patch_LullabyIntroCheckEnJg
+.global patch_LullabyIntroCheckEnJg
+patch_LullabyIntroCheckEnJg:
+    bl hook_LullabyIntroCheckEnJg
+
+.section .patch_LullabyCheckEnJg
+.global patch_LullabyCheckEnJg
+patch_LullabyCheckEnJg:
+    bl hook_LullabyCheckEnJg
+
 .section .patch_EnOsnCheckSoHExtData
 .global patch_EnOsnCheckSoHExtData
 patch_EnOsnCheckSoHExtData:
@@ -39,6 +49,17 @@ patch_EnMnkSongOverride:
 .global patch_RemoveSoSCheckKaepora
 patch_RemoveSoSCheckKaepora:
     bl hook_RemoveSoSCheckKaepora
+
+.section .patch_EnGkCheckLullabyRewardGivenOne
+.global patch_EnGkCheckLullabyRewardGivenOne
+patch_EnGkCheckLullabyRewardGivenOne:
+    bleq hook_EnGkCheckLullabyRewardGiven
+
+.section .patch_EnGkCheckLullabyRewardGivenTwo
+.global patch_EnGkCheckLullabyRewardGivenTwo
+patch_EnGkCheckLullabyRewardGivenTwo:
+    bleq hook_EnGkCheckLullabyRewardGivenTwo
+
 
 .section .patch_EnMkNWBNOverride
 .global patch_EnMkNWBNOverride

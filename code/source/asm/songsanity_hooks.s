@@ -22,6 +22,25 @@ hook_SongOfTimeCheckExtData:
     pop {r0-r12,lr}
     bx lr
 
+.global hook_LullabyIntroCheckEnJg
+hook_LullabyIntroCheckEnJg:
+    push {r0-r12, lr}
+    mov r0, #0x73
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0, #0x0
+    pop {r0-r12, lr}    
+    bx lr
+
+.global hook_LullabyCheckEnJg
+hook_LullabyCheckEnJg:
+    push {r0-r12, lr}
+    mov r0, #0x62
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0, #0x0
+    pop {r0-r12, lr}    
+    bx lr
+
+
 .global hook_EnOsnCheckSoHExtData
 hook_EnOsnCheckSoHExtData:
     push {r0-r12, lr}
@@ -78,6 +97,24 @@ hook_RemoveSoSCheckKaepora:
     mov r0,#0x6A
     bl ItemOverride_ReceivedSongOverride
     cmp r0,#0x0
+    pop {r0-r12,lr}
+    bx lr
+
+.global hook_EnGkCheckLullabyRewardGiven
+hook_EnGkCheckLullabyRewardGiven:
+    push {r0-r12,lr}
+    mov r0, #0x62
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0,#0x0
+    pop {r0-r12,lr}
+    bx lr
+
+.global hook_EnGkCheckLullabyRewardGivenTwo
+hook_EnGkCheckLullabyRewardGivenTwo:
+    push {r0-r12,lr}
+    mov r0, #0x62
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0,#0x1 @We want to check if given, instead of not given at this instruction.
     pop {r0-r12,lr}
     bx lr
 

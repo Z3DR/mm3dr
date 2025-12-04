@@ -330,7 +330,8 @@ namespace game {
     u8 gap_8343[2];
     OcarinaMode ocarinaMode;
     OcarinaSongActionId ocarinaSongActionId;
-    u8 gap_834A[21];
+    OcarinaSong lastPlayedSong;
+    u8 gap_834A[19];
     u8 some_ocarina_timer;
     u16 field_8360;
     u16 field_8362;
