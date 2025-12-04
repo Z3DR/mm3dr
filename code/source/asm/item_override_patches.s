@@ -125,6 +125,11 @@ patch_ZoraMaskGiveItem:
 patch_GibdoMaskGiveItem:
     b hook_GibdoMaskGiveItem
 
+.section .patch_OverrideSoSGiveItem
+.global patch_OverrideSoSGiveItem
+patch_OverrideSoSGiveItem:
+    b hook_OverrideSoSGiveItem
+
 .section .patch_CouplesMaskGiveItem
 .global patch_CouplesMaskGiveItem
 patch_CouplesMaskGiveItem:
@@ -138,10 +143,10 @@ patch_RemoveCouplesMaskMessage:
 
 @ This should remove the overwriting message for when the
 @ user receives the Zora Mask.
-.section .patch_RemoveSOHCutesceneAfterMessage
-.global patch_RemoveSOHCutesceneAfterMessage
-patch_RemoveSOHCutesceneAfterMessage:
-    b hook_ChangeSOHToCustomText
+.section .patch_OverrideSoHAndSongText
+.global patch_OverrideSoHAndSongText
+patch_OverrideSoHAndSongText:
+    b hook_ChangeSoHAndSongToCustomText
 
 .section .patch_SkulltulaOverrideOne
 .global patch_SkulltulaOverrideOne
@@ -152,3 +157,9 @@ patch_SkulltulaOverrideOne:
 .global patch_SkulltulaOverrideTwo
 patch_SkulltulaOverrideTwo:
     bl hook_SkulltulaOverrideTwo
+
+
+.section .patch_OverrideGetSongItem
+.global patch_OverrideGetSongItem
+patch_OverrideGetSongItem:
+    b hook_OverrideGetSongItem

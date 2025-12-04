@@ -19,7 +19,7 @@ hook_FixRemovingOcarinaFromInventory:
     add r0,r0,r1 @ original instruction
     b 0x201068
 ocarinaAlwaysInInventory:
-    mov r0, #0x0 @ Force the ocarina to always be in inventory
+    mov r0, #0x00 @ Force the ocarina to always be in inventory
     b 0x20106C
 
 .global hook_DmSktOcarinaAnimationPatchOne

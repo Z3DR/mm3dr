@@ -15,6 +15,7 @@ namespace rnd {
   static u64 lastTick = 0;
   static u64 ticksElapsed = 0;
   static bool isAsleep = false;
+  static s64 playingOnCitra = 0;
   DungeonInfo rDungeonInfoData[10];
 
   u32 pressed;
@@ -624,9 +625,8 @@ namespace rnd {
   static void Gfx_ShowMenu(void) {
     pressed = 0;
     Draw_ClearFramebuffer();
-    if (gSettingsContext.playOption == PLAY_ON_CONSOLE) {
+    if (!playingOnCitra)
       Draw_FlushFramebuffer();
-    }
     do {
       // End the loop if the system has gone to sleep, so the game can properly respond
       if (isAsleep) {
@@ -717,9 +717,8 @@ namespace rnd {
           showingLegend = false;
           Draw_ClearBackbuffer();
           Draw_CopyBackBuffer();
-          if (gSettingsContext.playOption == PLAY_ON_CONSOLE) {
+          if (!playingOnCitra)
             Draw_FlushFramebuffer();
-          }
           break;
         } else if (pressed & BUTTON_R1) {
           showingLegend = false;
@@ -753,15 +752,15 @@ namespace rnd {
       Gfx_DrawButtonPrompts();
       Gfx_DrawHeader();
       Draw_CopyBackBuffer();
-      if (gSettingsContext.playOption == PLAY_ON_CONSOLE) {
+      if (!playingOnCitra)
         Draw_FlushFramebuffer();
-      }
       pressed = Input_WaitWithTimeout(1000, closingButton);
 
     } while (true);
   }
 
   void Gfx_Init(void) {
+    svcGetSystemInfo(&playingOnCitra, 0x20000, 0);
     Draw_SetupFramebuffer();
     Draw_ClearBackbuffer();
 

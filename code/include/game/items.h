@@ -148,7 +148,7 @@ namespace game {
 
     InvertedSongOfTime = 0x71,
     SongOfDoubleTime = 0x72,
-    X73 = 0x73,
+    GoronLullabyIntro = 0x73,
 
     BossKey = 0x74,
     Compass = 0x75,

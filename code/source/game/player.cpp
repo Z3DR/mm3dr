@@ -92,7 +92,7 @@ namespace game::act {
           !statue || (statue->pos.pos.x == player->pos.pos.x && statue->pos.pos.y == player->pos.pos.y &&
                       statue->pos.pos.z == player->pos.pos.z);
       if (player->timer > 135 || statue_ready) {
-        gctx->ocarina_state = OcarinaState::StoppedPlaying;
+        gctx->msg_context.ocarina_state = OcarinaState::StoppedPlaying;
         PlayerChangeStateToStill(player, gctx);
       } else if (statue && !statue_ready) {
         // Speed up the statue fadeout. (0x18 + 8 = 0x20 per game tick)

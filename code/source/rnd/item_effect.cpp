@@ -149,7 +149,6 @@ namespace rnd {
       comData->save.inventory.collect_register.sonata_of_awakening = 1;
       break;
     case 2:
-      comData->save.inventory.collect_register.lullaby_intro = 1;
       comData->save.inventory.collect_register.goron_lullaby = 1;
       break;
     case 3:
