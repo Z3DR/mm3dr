@@ -10,6 +10,7 @@ namespace rnd {
     btn_t up;
     btn_t pressed;
     btn_t old;
+    cp_t cp_curr;
   } InputContext;
 
   void Input_Update(void);

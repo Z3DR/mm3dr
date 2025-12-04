@@ -881,7 +881,7 @@ namespace rnd {
       rStoredTextId = rActiveItemRow->textId;
     }
     givenItemOverride = true;
-    return;0x73
+    return;
   }
 
   void ItemOverride_GetFairyRewardItem(game::GlobalContext* gctx, game::act::GreatFairy* fromActor,
