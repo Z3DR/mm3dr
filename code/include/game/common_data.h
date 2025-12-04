@@ -15,6 +15,7 @@
 #include "common/utils.h"
 #include "game/items.h"
 #include "game/player.h"
+#include "game/weekeventreg.h"
 #include "z3d/z3DVec.h"
 
 namespace game {
@@ -327,204 +328,149 @@ namespace game {
     u16 anonymous_67;
     int anonymous_68;
     u8 gap1244[4];
-    union CameraPanningEventFlags {
-      u32 raw;
+    // From here (0x1245) to 0x12a9 is the weekEventReg.
+    // Conver to bitfields and adopt the weekeventreg name.
+    WeekEventReg00 week_event_reg_00;
+    WeekEventReg01 week_event_reg_01;
+    WeekEventReg02 week_event_reg_02;
+    WeekEventReg03 week_event_reg_03;
+    WeekEventReg04 week_event_reg_04;
+    WeekEventReg05 week_event_reg_05;
+    WeekEventReg06 week_event_reg_06;
+    WeekEventReg07 week_event_reg_07;
+    WeekEventReg08 week_event_reg_08;
+    WeekEventReg09 week_event_reg_09;
+    WeekEventReg10 week_event_reg_10;
+    WeekEventReg11 week_event_reg_11;
+    WeekEventReg12 week_event_reg_12;
+    WeekEventReg13 week_event_reg_13;
+    WeekEventReg14 week_event_reg_14;
+    WeekEventReg15 week_event_reg_15;
+    WeekEventReg16 week_event_reg_16;
+    WeekEventReg17 week_event_reg_17;
+    WeekEventReg18 week_event_reg_18;
+    WeekEventReg19 week_event_reg_19;
+    WeekEventReg20 week_event_reg_20;
+    WeekEventReg21 week_event_reg_21;
+    WeekEventReg22 week_event_reg_22;
+    WeekEventReg23 week_event_reg_23;
+    WeekEventReg24 week_event_reg_24;
+    WeekEventReg25 week_event_reg_25;
+    WeekEventReg26 week_event_reg_26;
+    WeekEventReg27 week_event_reg_27;
+    WeekEventReg28 week_event_reg_28;
+    WeekEventReg29 week_event_reg_29;
+    WeekEventReg30 week_event_reg_30;
+    WeekEventReg31 week_event_reg_31;
+    WeekEventReg32 week_event_reg_32;
+    WeekEventReg33 week_event_reg_33;
+    WeekEventReg34 week_event_reg_34;
+    WeekEventReg35 week_event_reg_35;
+    WeekEventReg36 week_event_reg_36;
+    WeekEventReg37 week_event_reg_37;
+    WeekEventReg38 week_event_reg_38;
+    WeekEventReg39 week_event_reg_39;
+    WeekEventReg40 week_event_reg_40;
+    WeekEventReg41 week_event_reg_41;
+    WeekEventReg42 week_event_reg_42;
+    WeekEventReg43 week_event_reg_43;
+    WeekEventReg44 week_event_reg_44;
+    WeekEventReg45 week_event_reg_45;
+    WeekEventReg46 week_event_reg_46;
+    WeekEventReg47 week_event_reg_47;
+    WeekEventReg48 week_event_reg_48;
+    WeekEventReg49 week_event_reg_49;
+    WeekEventReg50 week_event_reg_50;
+    WeekEventReg51 week_event_reg_51;
+    WeekEventReg52 week_event_reg_52;
+    WeekEventReg53 week_event_reg_53;
+    WeekEventReg54 week_event_reg_54;
+    WeekEventReg55 week_event_reg_55;
+    WeekEventReg56 week_event_reg_56;
+    WeekEventReg57 week_event_reg_57;
+    WeekEventReg58 week_event_reg_58;
+    WeekEventReg59 week_event_reg_59;
+    WeekEventReg60 week_event_reg_60;
+    WeekEventReg61 week_event_reg_61;
+    WeekEventReg62 week_event_reg_62;
+    WeekEventReg63 week_event_reg_63;
+    WeekEventReg64 week_event_reg_64;
+    WeekEventReg65 week_event_reg_65;
+    WeekEventReg66 week_event_reg_66;
+    WeekEventReg67 week_event_reg_67;
+    WeekEventReg68 week_event_reg_68;
+    WeekEventReg69 week_event_reg_69;
+    WeekEventReg70 week_event_reg_70;
+    WeekEventReg71 week_event_reg_71;
+    WeekEventReg72 week_event_reg_72;
+    WeekEventReg73 week_event_reg_73;
+    WeekEventReg74 week_event_reg_74;
+    WeekEventReg75 week_event_reg_75;
+    WeekEventReg76 week_event_reg_76;
+    WeekEventReg77 week_event_reg_77;
+    WeekEventReg78 week_event_reg_78;
+    WeekEventReg79 week_event_reg_79;
+    WeekEventReg80 week_event_reg_80;
+    WeekEventReg81 week_event_reg_81;
+    WeekEventReg82 week_event_reg_82;
+    WeekEventReg83 week_event_reg_83;
+    WeekEventReg84 week_event_reg_84;
+    WeekEventReg85 week_event_reg_85;
+    WeekEventReg86 week_event_reg_86;
+    WeekEventReg87 week_event_reg_87;
+    WeekEventReg88 week_event_reg_88;
+    WeekEventReg89 week_event_reg_89;
+    WeekEventReg90 week_event_reg_90;
+    WeekEventReg91 week_event_reg_91;
+    WeekEventReg92 week_event_reg_92;
+    WeekEventReg93 week_event_reg_93;
+    WeekEventReg94 week_event_reg_94;
+    WeekEventReg95 week_event_reg_95;
+    WeekEventReg96 week_event_reg_96;
+    WeekEventReg97 week_event_reg_97;
+    WeekEventReg98 week_event_reg_98;
+    WeekEventReg99 week_event_reg_99;
+    WeekEventReg100 week_event_reg_100;
+    WeekEventReg101 week_event_reg_101;
+    WeekEventReg102 week_event_reg_102;
+    WeekEventReg103 week_event_reg_103;
+    WeekEventReg104 week_event_reg_104;
+    WeekEventReg105 week_event_reg_105;
+    WeekEventReg106 week_event_reg_106;
+    WeekEventReg107 week_event_reg_107;
+    WeekEventReg108 week_event_reg_108;
+    WeekEventReg109 week_event_reg_109;
+    WeekEventReg110 week_event_reg_110;
+    WeekEventReg111 week_event_reg_111;
+    WeekEventReg112 week_event_reg_112;
+    WeekEventReg113 week_event_reg_113;
+    WeekEventReg114 week_event_reg_114;
+    WeekEventReg115 week_event_reg_115;
+    WeekEventReg116 week_event_reg_116;
+    WeekEventReg117 week_event_reg_117;
+    WeekEventReg118 week_event_reg_118;
+    WeekEventReg119 week_event_reg_119;
+    WeekEventReg120 week_event_reg_120;
+    WeekEventReg121 week_event_reg_121;
+    WeekEventReg122 week_event_reg_122;
+    WeekEventReg123 week_event_reg_123;
+    WeekEventReg124 week_event_reg_124;
+    WeekEventReg125 week_event_reg_125;
+    WeekEventReg126 week_event_reg_126;
+    WeekEventReg127 week_event_reg_127;
+    WeekEventReg128 week_event_reg_128;
+    WeekEventReg129 week_event_reg_129;
+    WeekEventReg130 week_event_reg_130;
+    WeekEventReg131 week_event_reg_131;
+    WeekEventReg132 week_event_reg_132;
+    WeekEventReg133 week_event_reg_133;
+    WeekEventReg134 week_event_reg_134;
+    WeekEventReg135 week_event_reg_135;
+    WeekEventReg136 week_event_reg_136;
+    WeekEventReg137 week_event_reg_137;
+    WeekEventReg138 week_event_reg_138;
+    WeekEventReg139 week_event_reg_139;
 
-      BitField<0, 1, u32> unknown1;
-      BitField<1, 1, u32> termina_field;
-      BitField<2, 1, u32> graveyard;
-      BitField<3, 1, u32> romani_ranch;
-      BitField<4, 2, u32> gorman_track;
-      BitField<5, 1, u32> mountain_village;
-      BitField<6, 1, u32> goron_city;
-      BitField<7, 1, u32> snowhead;
-
-      BitField<8, 1, u32> southern_swamp;
-      BitField<9, 1, u32> woodfall;
-      BitField<10, 1, u32> deku_palace;
-      BitField<11, 1, u32> great_bay_coast;
-      BitField<12, 1, u32> pirates_fortress_interior;
-      BitField<13, 1, u32> zora_domain;
-      BitField<14, 1, u32> waterfall_rapids;
-      BitField<15, 1, u32> ikana_canyon;
-
-      BitField<16, 1, u32> unknown2;
-      BitField<17, 1, u32> stone_tower;
-      BitField<18, 1, u32> stone_tower_inverted;
-      BitField<19, 1, u32> east_clock_town;
-      BitField<20, 1, u32> west_clock_town;
-      BitField<21, 1, u32> north_clock_town;
-      BitField<22, 1, u32> woodfall_temple;
-      BitField<23, 1, u32> snowhead_temple_entry_room;
-
-      BitField<24, 1, u32> unknown3;
-      BitField<25, 1, u32> stone_tower_temple;
-      BitField<26, 1, u32> stone_tower_temple_inverted;
-      BitField<27, 5, u32> unknown4;
-    };
-    CameraPanningEventFlags camera_panning_event_flag_bundle;
-    u8 gap124C[3];
-    char tatl_apology_dialogue_post_Odolwa_0x80;
-    char anonymous_72;
-    char anonymous_73;
-    u8 skip_tingle_intro_dialogue_0x01;
-    char anonymous_75;  // Possible 0x80 if collected fairy from clock town.
-    u8 ct_guard_allows_through_if_0x20;
-    char anonymous_77;
-    u8 flag_8_for_no_magic_use;
-    char anonymous_78;
-    char anonymous_79;
-    u8 ct_deku_removed_if_c0;
-    char anonymous_81;
-    char anonymous_82;
-    u8 open_woodfall_temple_if_0x01;
-    char anonymous_84;
-    char anonymous_85;
-    u8 has_great_spin_0x02;
-    char anonymous_87;
-    char anonymous_88;
-    char anonymous_89;
-    char anonymous_90;
-    char anonymous_91;
-    char anonymous_92;
-    union HaveWornMasks {
-      u8 raw;
-
-      BitField<0, 1, u8> open_snowhead_temple;
-      BitField<1, 3, u8> unknown;
-      BitField<4, 1, u8> has_worn_deku_mask_once;
-      BitField<5, 1, u8> has_worn_goron_mask_once;
-      BitField<6, 1, u8> has_worn_zora_mask_once;
-      BitField<7, 1, u8> has_worn_deity_mask_once;
-    };
-    HaveWornMasks have_worn_mask_once;
-    union AdditonalTatlDialogueFlags {
-      u8 raw;
-
-      BitField<0, 1, u8> have_not_finished_mountain;
-      BitField<1, 1, u8> have_not_finished_ocean;
-      BitField<2, 1, u8> go_south;
-      BitField<3, 5, u8> unknown;
-    };
-    AdditonalTatlDialogueFlags tatl_dialogue_flags2;
-    char anonymous_95;
-    char anonymous_96;
-    char anonymous_97;
-    u8 overworld_map_get_flags_0x3F_for_all;
-    char anonymous_99;
-    u8 anonymous_100_0x10_if_rock_sirloin_spawned;
-    char anonymous_101;
-    char anonymous_102;
-    char anonymous_103;
-    char anonymous_104;
-    u8 gap1272[8];
-    char anonymous_105;
-    char anonymous_106;
-    char anonymous_107;
-    union GreatBayEventFlags {
-      u8 raw;
-
-      BitField<0, 5, u8> unknown1;
-      BitField<5, 1, u8> open_great_bay_temple;
-      BitField<6, 1, u8> skip_swimming_to_great_bay_temple_cutscene;
-      BitField<7, 1, u8> unknown2;
-    };
-    GreatBayEventFlags turtle_flags;
-    char anonymous_109;
-    char anonymous_110;
-    char anonymous_111;
-    char anonymous_112;
-    char anonymous_113;
-    u8 skip_tatl_talking_0x04;  // also has bank reward flags
-    char anonymous_115;
-    u8 swamp_deku_removed_if_0x10;  // Don Gero Flag Maybe
-    char anonymous_117;
-    char anonymous_118;
-    char anonymous_119;
-    char anonymous_120;
-    u8 gap128A[7];
-    union ClockTownResetFlags {
-      u8 raw;
-
-      BitField<0, 2, u8> unknown1;
-      BitField<2, 1, u8> ct_deku_in_flower_if_present;
-      BitField<2, 4, u8> unknown2;
-      BitField<7, 1, u8> bomber_open_hideout;
-    };
-    ClockTownResetFlags clock_town_temp_flags;
-    char anonymous_122;
-    u8 anju_0x10_if_obtained_small_key;
-    char anonymous_124;
-    char grotto_stones_bitflag;
-    char anonymous_126;
-    u8 removes_scarecrow_from_shop_0x08;
-    char anonymous_128;  // Possibly more Cutscene flags
-    char anonymous_129;
-    char anonymous_130;
-    char anonymous_131;
-    char anonymous_132;
-    char anonymous_133;
-    char anonymous_134;
-    // talt dialogue on where to go next after beating a dungeon
-    union TatlDialogueFlags {
-      u8 raw;
-
-      BitField<0, 4, u8> unknown;
-      BitField<4, 1, u8> go_north;
-      BitField<5, 1, u8> go_west;
-      BitField<6, 1, u8> go_east;
-      BitField<7, 1, u8> go_to_skullkid;
-    };
-    TatlDialogueFlags tatl_dialogue_direction_to_go;
-    u8 mikau_pushed_to_shore_0x10;
-    char anonymous_137;
-    char gossip_stone_give_heartpiece_bitflag;
-    u8 mikau_dialogue_flags_0x03;
-    char anonymous_140;
-    char anonymous_141;
-    u8 SoH_Talked_To_Actor_Bitflag;
-    u8 gap12A7[5];
-    char anonymous_142;
-    char anonymous_143;
-    char anonymous_144;
-    u8 gap12AF[3];
-    char anonymous_145;
-    char anonymous_146;
-    u8 gap12B4[13];
-    char anonymous_147;
-    char anonymous_148[6];
-    char anonymous_149;
-    char anonymous_150;
-    u8 activate_dungeon_skip_portal_0xF0_for_all;
-    union CutSceneFlags {
-      u8 raw;
-
-      BitField<0, 1, u8> owl_statue_cut_scene;
-      BitField<1, 2, u8> unknown1;
-      BitField<3, 1, u8> map_tutorial_by_tingle;
-      BitField<4, 2, u8> deku_palace_throne_room_camera_pan;
-      BitField<5, 1, u8> tatl_moon_tear_dialogue;
-      BitField<6, 2, u8> unknown2;
-    };
-    CutSceneFlags cut_scene_flag_bundle;
-    char anonymous_153;
-    u8 dungeon_skip_portal_cutscene_0x3C_to_skip_all;
-    char anonymous_155;
-    char anonymous_156;
-    char anonymous_157;
-    u8 road_to_woodfall_camera_pan_0x08;
-    union OpenedTempleFlags {
-      u8 raw;
-
-      BitField<0, 3, u8> unknown1;
-      BitField<3, 1, u8> played_song_of_soaring_at_least_once;
-      BitField<4, 1, u8> woodfall_temple_opened_at_least_once;
-      BitField<5, 1, u8> snowhead_temple_opened_at_least_once;
-      BitField<6, 1, u8> greatbay_temple_opened_at_least_once;
-      BitField<7, 1, u8> deku_flown_in_at_least_once;
-    };
-    OpenedTempleFlags opened_temple_once_flags;
-    char anonymous_160;
     u8 gap12D4[20];
     // Possibly flags for locations visted or game progression counter
     // Did not affect cutscenes
@@ -584,6 +530,9 @@ namespace game {
   };
   static_assert(sizeof(SaveData) == 0x1A88);
   static_assert(offsetof(SaveData, gap1382) == 0x1382);
+  static_assert(offsetof(SaveData, week_event_reg_131) == 0x12CB);
+  static_assert(offsetof(SaveData, week_event_reg_35) == 0x126B);
+  static_assert(offsetof(SaveData, week_event_reg_87) == 0x129F);
 
   struct CommonDataSub1 {
     int entrance;

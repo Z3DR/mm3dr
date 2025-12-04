@@ -192,7 +192,7 @@ hook_GoronMaskGiveItem:
     cpy r0,r5
     cpy r1,r4
     mov r2,#0x79
-    bl ItemOverride_GetSoHItem
+    bl ItemOverride_GetSoHOrSongItem
     ldr r5,.rActiveItemRow_addr
     ldr r5,[r5]
     cmp r5,#0x0
@@ -216,7 +216,7 @@ hook_ZoraMaskGiveItem:
     cpy r0,r5
     cpy r1,r4
     mov r2,#0x7A
-    bl ItemOverride_GetSoHItem
+    bl ItemOverride_GetSoHOrSongItem
     ldr r5,.rActiveItemRow_addr
     ldr r5,[r5]
     cmp r5,#0x0
@@ -240,7 +240,7 @@ hook_GibdoMaskGiveItem:
     cpy r0,r5
     cpy r1,r4
     mov r2,#0x87
-    bl ItemOverride_GetSoHItem
+    bl ItemOverride_GetSoHOrSongItem
     ldr r5,.rActiveItemRow_addr
     ldr r5,[r5]
     cmp r5,#0x0
@@ -258,13 +258,40 @@ noOverrideGibdoItemID:
     bl 0x233BEC
     b 0x41DC4C
 
+.global hook_OverrideSoSGiveItem
+hook_OverrideSoSGiveItem:
+    cpy r0,r5
+    push {r0-r12, lr}
+    cpy r2,r1
+    mov r1,#0xFF
+    bl ItemOverride_GetSoHOrSongItem
+    ldr r5,.rActiveItemRow_addr
+    ldr r5,[r5]
+    cmp r5,#0x0
+    pop {r0-r12, lr}
+    beq noOverrideSoSGiveItem
+    push {r0-r12, lr}
+    ldr r0, [r5,#0xDC]
+    bl ItemOverride_GetItemTextAndItemID
+    pop {r0-r12, lr}
+    cpy r0,r5
+    b 0x43FB6C
+noOverrideSoSGiveItem:
+    push {r0-r12, lr}
+    cpy r0,r1
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0,#0x0
+    pop {r0-r12, lr}
+    beq 0x233BEC
+    b 0x43FB6C
+
 .global hook_CouplesMaskGiveItem
 hook_CouplesMaskGiveItem:
     push {r0-r12, lr}
     cpy r0,r5
     cpy r1,r4
     mov r2,#0x85
-    bl ItemOverride_GetSoHItem
+    bl ItemOverride_GetSoHOrSongItem
     ldr r5,.rActiveItemRow_addr
     ldr r5,[r5]
     cmp r5,#0x0
@@ -297,10 +324,10 @@ normalText:
     mov r1,#0xA2
     b 0x1867C8
 
-.global hook_ChangeSOHToCustomText
-hook_ChangeSOHToCustomText:
+.global hook_ChangeSoHAndSongToCustomText
+hook_ChangeSoHAndSongToCustomText:
     push {r0-r2, lr}
-    bl ItemOverride_SwapSoHGetItemText
+    bl ItemOverride_SwapSoHAndSongGetItemText
     pop {r0-r2, lr}
     b 0x186814
 
@@ -329,3 +356,24 @@ hook_SkulltulaOverrideTwo:
     b 0x52A048
 skulltulaOverriddenTwo:
     b 0x52A06C
+
+
+.global hook_OverrideGetSongItem
+hook_OverrideGetSongItem:
+    push {r0-r12, lr}
+    cpy r2,r1
+    mov r1,#0xFF
+    bl ItemOverride_GetSoHOrSongItem
+    ldr r5,.rActiveItemRow_addr
+    ldr r5,[r5]
+    cmp r5,#0x0
+    pop {r0-r12, lr}
+    beq noOverrideSongItemID
+    push {r0-r12, lr}
+    ldr r0, [r0,#0xDC]
+    bl ItemOverride_GetItemTextAndItemID
+    pop {r0-r12, lr}
+    b 0x605980
+noOverrideSongItemID:
+    bl 0x233BEC
+    b 0x605980

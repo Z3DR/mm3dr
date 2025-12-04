@@ -53,12 +53,16 @@ SECTIONS{
     *(.patch_PostActorCalc)
   }
 
+  .patch_ResetCycleFlagOnMoonCrash 0x1851C0 : {
+    *(.patch_ResetCycleFlagOnMoonCrash)
+  }
+
   .patch_RemoveCouplesMaskMessage 0x1867C4 : {
     *(.patch_RemoveCouplesMaskMessage)
   }
 
-  .patch_RemoveSOHCutesceneAfterMessage 0x186810 : {
-    *(.patch_RemoveSOHCutesceneAfterMessage)
+  .patch_OverrideSoHAndSongText 0x186810 : {
+    *(.patch_OverrideSoHAndSongText)
   }
 
   .patch_OverrideBombersNotebook 0x186ACC : {
@@ -163,6 +167,10 @@ SECTIONS{
 
   .patch_RemoveMysteryMilkSoSCheck 0x1D79F8 : {
     *(.patch_RemoveMysteryMilkSoSCheck)
+  }
+
+  .patch_CheckExtForSongOfTime 0x1D7FEC : {
+    *(.patch_CheckExtForSongOfTime)
   }
 
   .patch_DoNotForceMaskChange 0x1DB314 : {
@@ -317,6 +325,10 @@ SECTIONS{
     *(.patch_OverrideItemID)
   }
 
+  .patch_SongOfTimeCheckExtData 0x2311A4 : {
+   *(.patch_SongOfTimeCheckExtData) 
+  }
+
   .patch_ForceSwordUpgradeOnHuman 0x233D88 : {
     *(.patch_ForceSwordUpgradeOnHuman)
   }
@@ -347,6 +359,18 @@ SECTIONS{
 
   .patch_EnteringLocation 0x23AA54 : {
     *(.patch_EnteringLocation)
+  }
+
+  .patch_LullabyIntroCheckEnJg 0x244378 : {
+    *(.patch_LullabyIntroCheckEnJg)
+  }
+
+  .patch_LullabyCheckEnJg 0x244380 : {
+    *(.patch_LullabyCheckEnJg)
+  }
+
+  .patch_EnOsnCheckSoHExtData 0x268030 : {
+    *(.patch_EnOsnCheckSoHExtData)
   }
 
   .patch_TwinmoldConsistentDamage 0x28E544 : {
@@ -439,6 +463,18 @@ SECTIONS{
     *(.patch_RemoveGoronMaskCheckDarmani)
   }
 
+  .patch_EnMa4ExtDataCheckOne 0x2E3784 : {
+    *(.patch_EnMa4ExtDataCheckOne)
+  }
+
+  .patch_EnMa4ExtDataCheckThree 0x2E3CD0 : {
+      *(.patch_EnMa4ExtDataCheckThree)
+    }
+
+  .patch_EnMa4ExtDataCheckTwo 0x2E3D94 : {
+    *(.patch_EnMa4ExtDataCheckTwo)
+  }
+
   /* .patch_RemoveSkulltulaSpawnIfCollectedItem 0x2E8384 : {
     *(.patch_RemoveSkulltulaSpawnIfCollectedItem)
   } */
@@ -471,8 +507,16 @@ SECTIONS{
     *(.patch_AdjustMapAndCompassChests)
   }
 
+  .patch_EnMnkSongOverride 0x0325D58 : {
+    *(.patch_EnMnkSongOverride)
+  }
+
   .patch_RemoveSongCheckKaepora 0x326ED0 : {
     *(.patch_RemoveSongCheckKaepora)
+  }
+
+  .patch_RemoveSoSCheckKaepora 0x326EF8 : {
+    *(.patch_RemoveSoSCheckKaepora)
   }
 
   .patch_RemoveZoraMaskCheckMikau 0x32BBB8 : {
@@ -631,6 +675,10 @@ SECTIONS{
     *(.patch_OverrideItem00Draw)
   }
 
+  .patch_OverrideSoSGiveItem 0x43FB64 : {
+    *(.patch_OverrideSoSGiveItem)
+  }
+
   .patch_FierceDeityArcheryFix 0x4427E8 : {
     *(.patch_FierceDeityArcheryFix)
   }
@@ -698,6 +746,17 @@ SECTIONS{
 
   .patch_SkulltulaOverrideTwo 0x52A044 : {
     *(.patch_SkulltulaOverrideTwo)
+  }
+
+  .patch_EnGkCheckLullabyRewardGivenOne 0x546294 : {
+    *(.patch_EnGkCheckLullabyRewardGivenOne)
+  }
+
+  .patch_EnGkCheckLullabyRewardGivenTwo 0x546374 : {
+    *(.patch_EnGkCheckLullabyRewardGivenTwo)
+  }
+  .patch_EnMkNWBNOverride 0x58722C : {
+    *(.patch_EnMkNWBNOverride)
   }
 
   .patch_UpdateOcarinaVisibility 0x59AA2C : {
@@ -775,6 +834,10 @@ SECTIONS{
 
   .patch_HandleOcarinaHooks 0x604D8C : {
     *(.patch_HandleOcarinaHooks)
+  }
+
+  .patch_OverrideGetSongItem 0x60597C : {
+    *(.patch_OverrideGetSongItem)
   }
 
   .patch_FDOpenDungeonDoors 0x68D9C0 : {

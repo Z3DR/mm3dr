@@ -33,6 +33,7 @@ namespace rnd {
     saveData.inventory.inventory_count_register.stick_upgrades = 2;
     saveData.inventory.inventory_count_register.nut_upgrade = 2;
     saveData.player.rupee_count = 5000;
+    rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::Ocarina);
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::Arrow);
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::IceArrow);
     rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::LightArrow);
@@ -90,12 +91,12 @@ namespace rnd {
     saveData.player.magic_size_type = 0;  // saveData.player.magic = 10;
     saveData.player.magic_num_upgrades = 0;
     saveData.equipment.data[3].item_btns[0] = game::ItemId::DekuNuts;
-    saveData.inventory.item_counts[6] = 50;   // Arrows
-    saveData.inventory.item_counts[11] = 40;  // Bombs
-    saveData.inventory.item_counts[12] = 40;  // Bombchus
-    saveData.inventory.item_counts[14] = 30;  // Nuts
-    saveData.inventory.item_counts[13] = 20;  // Sticks
-    saveData.has_great_spin_0x02 = 2;         // Set great spin.
+    saveData.inventory.item_counts[6] = 50;                                  // Arrows
+    saveData.inventory.item_counts[11] = 40;                                 // Bombs
+    saveData.inventory.item_counts[12] = 40;                                 // Bombchus
+    saveData.inventory.item_counts[14] = 30;                                 // Nuts
+    saveData.inventory.item_counts[13] = 20;                                 // Sticks
+    saveData.week_event_reg_23.WEEKEVENTREG_RECEIVED_GREAT_SPIN_ATTACK = 1;  // Set great spin.
 
     saveData.player.owl_statue_flags.great_bay = 1;
     saveData.player.owl_statue_flags.zora_cape = 1;
@@ -108,19 +109,22 @@ namespace rnd {
     saveData.player.owl_statue_flags.ikana_canyon = 1;
     saveData.player.owl_statue_flags.stone_tower = 1;
 
-    saveData.inventory.collect_register.sonata_of_awakening = 1;
+    // saveData.inventory.collect_register.sonata_of_awakening = 1;
     saveData.inventory.collect_register.goron_lullaby = 1;
-    saveData.inventory.collect_register.new_wave_bossa_nova = 1;
+    // saveData.inventory.collect_register.new_wave_bossa_nova = 1;
     saveData.inventory.collect_register.elegy_of_emptiness = 1;
     saveData.inventory.collect_register.eponas_song = 1;
-    saveData.inventory.collect_register.song_of_soaring = 1;
+    // saveData.inventory.collect_register.song_of_soaring = 1;
     saveData.inventory.collect_register.song_of_time = 1;
     // saveData.inventory.collect_register.oath_to_order = 1;
     // saveData.inventory.collect_register.song_of_healing = 1;
 
     gSettingsContext.skipBombersMinigame = 1;
     gSettingsContext.freeScarecrow = 1;
-    saveData.activate_dungeon_skip_portal_0xF0_for_all = 0xF0;
+    saveData.week_event_reg_132.WEEKEVENTREG_SKIP_WOODFALL_PORTAL_CUTSCENE = 1;
+    saveData.week_event_reg_132.WEEKEVENTREG_SKIP_SNOWHEAD_PORTAL_CUTSCENE = 1;
+    saveData.week_event_reg_132.WEEKEVENTREGSKIP_GREAT_BAY_PORTAL_CUTSCENE = 1;
+    saveData.week_event_reg_132.WEEKEVENTREG_SKIP_STT_PORTAL_CUTSCENE = 1;
     // SaveFile_FillOverWorldMapData();
     saveData.inventory.collect_register.oath_to_order = 1;
 
@@ -162,11 +166,11 @@ namespace rnd {
       SaveFile_SetStartingInventory();
 
       // These events replay after song of time
-      saveData.ct_guard_allows_through_if_0x20 = 0x20;
+      saveData.week_event_reg_12.WEEKEVENTREG_12_20 = 1;
       saveData.tatl_dialogue_snowhead_entry_0x08 = 0x08;
       saveData.pirate_leader_dialogue_0x20 = 0x20;
-      saveData.clock_town_temp_flags.ct_deku_in_flower_if_present = 1;
-      saveData.skip_tingle_intro_dialogue_0x01 = 0x01;
+      saveData.week_event_reg_73.WEEKEVENTREG_73_04 = 1;
+      saveData.week_event_reg_10.WEEKEVENTREG_TALKED_TINGLE = 1;
 
       saveData.player_form = game::act::Player::Form::Human;
       // Shuffling now works, removing the starting item with notebook.
@@ -177,61 +181,56 @@ namespace rnd {
   void SaveFile_SkipMinorCutscenes() {
     game::SaveData& saveData = game::GetCommonData().save;
     saveData.has_completed_intro = 0x2B;
-    saveData.skip_tatl_talking_0x04 = 0x04;
+    saveData.week_event_reg_59.WEEKEVENTREG_59_04 = 1;
+    saveData.week_event_reg_31.WEEKEVENTREG_TATL_NOT_FINISHED_MOUNTAIN_TEXT = 1;
 
     // camera panning cutscenes
-    saveData.camera_panning_event_flag_bundle.termina_field = 1;
-    saveData.camera_panning_event_flag_bundle.graveyard = 1;
-    saveData.camera_panning_event_flag_bundle.romani_ranch = 1;
-    saveData.camera_panning_event_flag_bundle.gorman_track = 1;
-    saveData.camera_panning_event_flag_bundle.mountain_village = 1;
-    saveData.camera_panning_event_flag_bundle.goron_city = 1;
-    saveData.camera_panning_event_flag_bundle.snowhead = 1;
-    saveData.camera_panning_event_flag_bundle.southern_swamp = 1;
-    saveData.camera_panning_event_flag_bundle.woodfall = 1;
-    saveData.camera_panning_event_flag_bundle.deku_palace = 1;
-    saveData.camera_panning_event_flag_bundle.great_bay_coast = 1;
-    saveData.camera_panning_event_flag_bundle.pirates_fortress_interior = 1;
-    saveData.camera_panning_event_flag_bundle.zora_domain = 1;
-    saveData.camera_panning_event_flag_bundle.waterfall_rapids = 1;
-    saveData.camera_panning_event_flag_bundle.ikana_canyon = 1;
-    saveData.camera_panning_event_flag_bundle.stone_tower = 1;
-    saveData.camera_panning_event_flag_bundle.stone_tower_inverted = 1;
-    saveData.camera_panning_event_flag_bundle.east_clock_town = 1;
-    saveData.camera_panning_event_flag_bundle.west_clock_town = 1;
-    saveData.camera_panning_event_flag_bundle.north_clock_town = 1;
-    saveData.camera_panning_event_flag_bundle.woodfall_temple = 1;
-    saveData.camera_panning_event_flag_bundle.snowhead_temple_entry_room = 1;
-    saveData.camera_panning_event_flag_bundle.stone_tower_temple = 1;
-    saveData.camera_panning_event_flag_bundle.stone_tower_temple_inverted = 1;
-    saveData.cut_scene_flag_bundle.deku_palace_throne_room_camera_pan = 1;
-    saveData.road_to_woodfall_camera_pan_0x08 = 0x08;
+    saveData.week_event_reg_00.WEEKEVENTREG_ENTERED_TERMINA_FIELD = 1;
+    saveData.week_event_reg_00.WEEKEVENTREG_ENTERED_IKANA_GRAVEYARD = 1;
+    saveData.week_event_reg_00.WEEKEVENTREG_ENTERED_ROMANI_RANCH = 1;
+    saveData.week_event_reg_00.WEEKEVENTREG_ENTERED_GORMAN_TRACK = 1;
+    saveData.week_event_reg_00.WEEKEVENTREG_ENTERED_MOUNTAIN_VILLAGE_WINTER = 1;
+    saveData.week_event_reg_00.WEEKEVENTREG_ENTERED_GORON_SHRINE = 1;
+    saveData.week_event_reg_00.WEEKEVENTREG_ENTERED_SNOWHEAD = 1;
+    saveData.week_event_reg_01.WEEKEVENTREG_ENTERED_WOODFALL_TEMPLE = 1;
+    saveData.week_event_reg_01.WEEKEVENTREG_ENTERED_SNOWHEAD_TEMPLE = 1;
+    saveData.week_event_reg_01.WEEKEVENTREG_ENTERED_GREAT_BAY_TEMPLE = 1;
+    saveData.week_event_reg_01.WEEKEVENTREG_ENTERED_STONE_TOWER_TEMPLE = 1;
+    saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_IKANA_CASTLE = 1;
+    saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_STONE_TOWER = 1;
+    saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_STONE_TOWER_INVERTED = 1;
+    saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_EAST_CLOCK_TOWN = 1;
+    saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_WEST_CLOCK_TOWN = 1;
+    saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_NORTH_CLOCK_TOWN = 1;
+    saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_WOODFALL_TEMPLE = 1;
+    saveData.week_event_reg_02.WEEKEVENTREG_ENTERED_SNOWHEAD_TEMPLE = 1;
+    saveData.week_event_reg_131.WEEKEVENTREG_DEKU_THRONE_ROOM_CAMERA_PAN = 1;
+    saveData.week_event_reg_136.WEEKEVENTREG_CAMERA_PAN_WOODFALL_ENTER = 1;
     saveData.snowhead_temple_main_room_camera_pan_0x01 = 0x01;
     saveData.pirates_fortress_exterior_camera_pan_0x04 = 0x04;
     saveData.ikana_castle_camera_pan_0x08 = 0x80;
 
     // Tatl constant tatling skip
-    saveData.cut_scene_flag_bundle.tatl_moon_tear_dialogue = 1;
-    saveData.tatl_dialogue_flags2.go_south = 1;
-    saveData.tatl_dialogue_direction_to_go.go_north = 1;
-    saveData.tatl_dialogue_direction_to_go.go_west = 1;
-    saveData.tatl_dialogue_direction_to_go.go_east = 1;
-    saveData.tatl_dialogue_direction_to_go.go_to_skullkid = 1;
+    saveData.week_event_reg_131.WEEKEVENTREG_TATL_MOON_TEAR_DIALOGUE = 1;
+    saveData.week_event_reg_31.WEEKEVENTREG_TATL_GO_SOUTH_TEXT = 1;
+    saveData.week_event_reg_87.WEEKEVENTREG_TATL_GO_NORTH_DIALOGUE_SPOKEN = 1;
+    saveData.week_event_reg_87.WEEKEVENTREG_TATL_GO_WEST_DIALOGUE_SPOKEN = 1;
+    saveData.week_event_reg_87.WEEKEVENTREG_TATL_GO_EAST_DIALOGUE_SPOKEN = 1;
+    saveData.week_event_reg_87.WEEKEVENTREG_TATL_GO_TO_MOON_DIALOGUE_SPOKEN = 1;
     saveData.woodfall_platform_tatl_dialogue_0x02 = 0x02;
     saveData.tatl_dialogue_inside_woodfall_temple_0x80 = 0x80;
-    saveData.tatl_apology_dialogue_post_Odolwa_0x80 = 0x80;
+    saveData.week_event_reg_07.WEEKEVENTREG_ENTERED_WOODFALL_TEMPLE_PRISON = 1;
     saveData.talt_dialogue_great_bay_temple.waterwheel_room_tatl_dialogue = 1;
     saveData.talt_dialogue_great_bay_temple.whirlpool_room_tatl_dialogue = 1;
 
     // tutorials
-    // saveData.cut_scene_flag_bundle.map_tutorial_by_tingle = 1;
+    // saveData.week_event_reg_131.WEEKEVENTREG_SKIP_MAP_TUTORIAL_BY_TINGLE = 1;
 
     // Misc cutscenes
     saveData.meeting_happy_mask_salesman_0x01 = 0x01;
     saveData.skullkid_backstory_cutscene_0x10 = 0x10;
-    saveData.cut_scene_flag_bundle.owl_statue_cut_scene = 1;
+    saveData.week_event_reg_131.WEEKEVENTREG_OWL_STATUE_CUTSCENE = 1;
     // saveData.dungeon_skip_portal_cutscene_0x3C_to_skip_all = 0x3C;
-    saveData.turtle_flags.skip_swimming_to_great_bay_temple_cutscene = 1;
 
     // Needs to be greater than zero to skip first time song of time cutscene
     saveData.player.three_day_reset_count = 1;
@@ -240,16 +239,16 @@ namespace rnd {
   void SaveFile_SetFastAnimationFlags() {
     game::SaveData& saveData = game::GetCommonData().save;
     // Masks
-    saveData.have_worn_mask_once.has_worn_deku_mask_once = 1;
-    saveData.have_worn_mask_once.has_worn_goron_mask_once = 1;
-    saveData.have_worn_mask_once.has_worn_zora_mask_once = 1;
-    saveData.have_worn_mask_once.has_worn_deity_mask_once = 1;
+    saveData.week_event_reg_30.WEEKEVENTREG_WORN_DEKU_MASK_ONCE = 1;
+    saveData.week_event_reg_30.WEEKEVENTREG_WORN_GORON_MASK_ONCE = 1;
+    saveData.week_event_reg_30.WEEKEVENTREG_WORN_ZORA_MASK_ONCE = 1;
+    saveData.week_event_reg_30.WEEKEVENTREG_WORN_FIERCE_DEITY_MASK_ONCE = 1;
     // Dungeons
-    saveData.opened_temple_once_flags.woodfall_temple_opened_at_least_once = 1;
-    saveData.opened_temple_once_flags.snowhead_temple_opened_at_least_once = 1;
-    saveData.opened_temple_once_flags.greatbay_temple_opened_at_least_once = 1;
+    saveData.week_event_reg_137.WEEKEVENTREG_WOODFALL_TEMPLE_OPENED = 1;
+    saveData.week_event_reg_137.WEEKEVENTREG_SNOWHEAD_TEMPLE_OPENED = 1;
+    saveData.week_event_reg_137.WEEKEVENTREG_GREAT_BAY_TEMPLE_OPENED = 1;
     // Misc
-    saveData.opened_temple_once_flags.deku_flown_in_at_least_once = 1;
+    saveData.week_event_reg_137.WEEKEVENTREG_DEKU_FLOWN_IN = 1;
   }
 
   void SaveFile_SetStartingOwlStatues() {
@@ -287,7 +286,7 @@ namespace rnd {
       saveData.bomberscode[2] = 0x03;
       saveData.bomberscode[3] = 0x04;
       saveData.bomberscode[4] = 0x05;
-      saveData.clock_town_temp_flags.bomber_open_hideout = 1;  // Currently gets reset by Song of time
+      saveData.week_event_reg_73.WEEKEVENTREG_73_80 = 1;  // Currently gets reset by Song of time
     }
 
     // Game uses an inventory check to determine whether you can
@@ -308,14 +307,20 @@ namespace rnd {
       // Currently sets song to the ingame default: LLLLLLLL
       saveData.inventory.collect_register.scarecrows_song_icon = 1;
       // both flags below get reset to 0 by song of time
-      saveData.removes_scarecrow_from_shop_0x08 = 0x08;
+      saveData.week_event_reg_79.WEEKEVENTREG_79_08 = 1;
       saveData.activate_scarecrow_song_0x01 = 0x01;
     }
   }
 
   void SaveFile_FillOverWorldMapData() {
     game::SaveData& saveData = game::GetCommonData().save;
-    saveData.overworld_map_get_flags_0x3F_for_all = 0x3F;
+    saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_CLOCK_TOWN = 1;
+    saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_WOODFALL = 1;
+    saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_SNOWHEAD = 1;
+    saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_ROMANI_RANCH = 1;
+    saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_GREAT_BAY = 1;
+    saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_STONE_TOWER = 1;
+
     // setting individual maps is possible if necessary, the game just ||'s the map data in.
     // Currently sets data for all maps
     saveData.overworld_map_data[0] = 0x01;
@@ -781,7 +786,7 @@ namespace rnd {
 
     // TODO: Starting stray fairies - need to update flags for which ones are acquired or not.
     if (gSettingsContext.startingSpinSettting == (u8)StartingSpinSetting::STARTINGSPIN_GREAT) {
-      saveData.has_great_spin_0x02 = 2;
+      saveData.week_event_reg_23.WEEKEVENTREG_RECEIVED_GREAT_SPIN_ATTACK = 1;
     }
 
     // Starting Notebook

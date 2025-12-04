@@ -11,7 +11,7 @@ hook_OverrideHMSDekuMask:
     cpy r0,r5
     cpy r1,r4
     mov r2,#0x78
-    bl ItemOverride_GetSoHItem
+    bl ItemOverride_GetSoHOrSongItem
     ldr r5,.rActiveItemRow_addr
     ldr r5,[r5]
     cmp r5,#0x0
@@ -35,7 +35,7 @@ hook_OverrideHMSBombers:
     cpy r0,r6
     mov r1,#0x0
     mov r2,#0x50
-    bl ItemOverride_GetSoHItem
+    bl ItemOverride_GetSoHOrSongItem
     ldr r5,.rActiveItemRow_addr
     ldr r5,[r5]
     cmp r5,#0x0

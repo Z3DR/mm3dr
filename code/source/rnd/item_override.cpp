@@ -43,6 +43,8 @@ namespace rnd {
                                    0x2D, 0x33, 0x37, 0x3B, 0x3F, 0x42, 0x46, 0x4A, 0x4F, 0x53,
                                    0x57, 0x59, 0x5D, 0x61, 0x65, 0x69, 0x6D, 0x73, 0x77, 0x7B};
 
+  static bool givenItemOverride = false;
+
   void ItemOverride_Init(void) {
 #ifdef ENABLE_DEBUG
     // Manual overide example code
@@ -557,27 +559,27 @@ namespace rnd {
     game::SaveData& saveData = game::GetCommonData().save;
     switch (getItemMapId) {
     case 0xB4:
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_CLOCK_TOWN = 1;
       util::GetPointer<void(u8)>(0x548260)(0x0);
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 1;
       break;
     case 0xB5:
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_WOODFALL = 1;
       util::GetPointer<void(u8)>(0x548260)(0x1);
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 2;
       break;
     case 0xB6:
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 4;
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_SNOWHEAD = 1;
       util::GetPointer<void(u8)>(0x548260)(0x2);
       break;
     case 0xB7:
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 8;
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_ROMANI_RANCH = 1;
       util::GetPointer<void(u8)>(0x548260)(0x3);
       break;
     case 0xB8:
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 0x10;
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_GREAT_BAY = 1;
       util::GetPointer<void(u8)>(0x548260)(0x4);
       break;
     case 0xB9:
-      saveData.overworld_map_get_flags_0x3F_for_all = saveData.overworld_map_get_flags_0x3F_for_all | 0x20;
+      saveData.week_event_reg_35.WEEKEVENTREG_TINGLE_MAP_BOUGHT_STONE_TOWER = 1;
       util::GetPointer<void(u8)>(0x548260)(0x5);
       break;
     default:
@@ -631,6 +633,46 @@ namespace rnd {
     ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
     return (game::HasMask((game::ItemId)itemToBeGiven->itemId) || game::HasItem((game::ItemId)itemToBeGiven->itemId) ||
             (itemToBeGiven->itemId > 0x49 && itemToBeGiven->itemId < 0x81) || override.value.getItemId == 0x5A);
+  }
+
+  GetItemID ItemOverride_MapSongsToGID(game::ItemId incomingItemId) {
+    switch (incomingItemId) {
+    case game::ItemId::SonataOfAwakening:
+      gExtSaveData.givenSongChecks.sonataGiven = 1;
+      return GetItemID(0x4B);
+    case game::ItemId::GoronLullaby:
+      gExtSaveData.givenSongChecks.goronLullabyGiven = 2;
+      return GetItemID(0x4D);
+    case game::ItemId::NewWaveBossaNova:
+      gExtSaveData.givenSongChecks.newWaveBossaNovaGiven = 1;
+      return GetItemID(0x4E);
+    case game::ItemId::ElegyOfEmptiness:
+      gExtSaveData.givenSongChecks.elegyOfEmptinessGiven = 1;
+      return GetItemID(0x4F);
+    case game::ItemId::OathToOrder:
+      gExtSaveData.givenSongChecks.oathToOrderGiven = 1;
+      return GetItemID(0x51);
+    case game::ItemId::SongOfTime:
+      gExtSaveData.givenSongChecks.songOfTimeGiven = 1;
+      return GetItemID(0x53);
+    case game::ItemId::SongOfHealing:
+      gExtSaveData.givenSongChecks.songOfHealingGiven = 1;
+      return GetItemID(0x54);
+    case game::ItemId::EponaSong:
+      gExtSaveData.givenSongChecks.eponasSongGiven = 1;
+      return GetItemID(0x6C);
+    case game::ItemId::SongOfSoaring:
+      gExtSaveData.givenSongChecks.songOfSoaringGiven = 1;
+      return GetItemID(0x72);
+    case game::ItemId::SongOfStorms:
+      gExtSaveData.givenSongChecks.songOfStormsGiven = 1;
+      return GetItemID(0x73);
+    case game::ItemId::GoronLullabyIntro:
+      gExtSaveData.givenSongChecks.goronLullabyGiven = 1;
+      return GetItemID(0x74);
+    default:
+      return GetItemID::GI_NONE;
+    }
   }
 
   extern "C" {
@@ -829,11 +871,20 @@ namespace rnd {
     }
     if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52)
       player->get_item_id = incomingNegative ? -baseItemId : baseItemId;
-    // Weird edge case with the way text and masks are handled with Couples' Mask.
-    // Set the text and apply it later in a different patch.
-    if (incomingGetItemId == 0x85) {
+      // Edge case with Song of healing items. Override their show text in their own functions
+      // to ensure that we have the same 'feel' as the base game.
+      // This also ensures that if there is no override the default text still works.
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: %#04x\n", __func__, incomingGetItemId);
+#endif
+    if (incomingGetItemId == 0x4B || incomingGetItemId == 0x4D || incomingGetItemId == 0x4E ||
+        incomingGetItemId == 0x51 || incomingGetItemId == 0x53 || incomingGetItemId == 0x6C ||
+        (incomingGetItemId <= 0x72 || incomingGetItemId >= 0x74) ||
+        (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) || incomingGetItemId == 0x85 ||
+        incomingGetItemId == 0x87) {
       rStoredTextId = rActiveItemRow->textId;
     }
+    givenItemOverride = true;
     return;
   }
 
@@ -870,10 +921,13 @@ namespace rnd {
     }
   }
 
-  void ItemOverride_GetSoHItem(game::GlobalContext* gctx, game::act::Actor* fromActor, s16 incomingItemId) {
+  void ItemOverride_GetSoHOrSongItem(game::GlobalContext* gctx, game::act::Actor* fromActor, s16 incomingItemId) {
     game::act::Player* link = gctx->GetPlayerActor();
-    // Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
-    // This is mainly prevalent when the item override is in a calc function (Anju & Kafei).
+// Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
+// This is mainly prevalent when the item override is in a calc function (Anju & Kafei).
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Link's getitemid %#04x incoming GID is %#04x\n", __func__, link->get_item_id, incomingItemId);
+#endif
     if (link->get_item_id != 0x00)
       return;
     if (incomingItemId == 0x7A) {
@@ -885,12 +939,16 @@ namespace rnd {
     } else if (incomingItemId == 0x78) {
       gExtSaveData.givenItemChecks.enOsnGivenMask = 1;
     } else if (incomingItemId == 0x50) {
-      fromActor = gctx->GetPlayerActor();
+      fromActor = link;
     } else if (incomingItemId == 0x85) {
       gExtSaveData.givenItemChecks.kafeiGivenItem = 1;
+    } else if ((incomingItemId >= 0x61 || incomingItemId <= 0x6C) || incomingItemId == 0x73) {
+      // Additional logic to map songs to getItemIds.
+      incomingItemId = (s16)ItemOverride_MapSongsToGID(game::ItemId(incomingItemId));
+      fromActor = link;
     }
 
-    ItemOverride_GetItem(gctx, fromActor, gctx->GetPlayerActor(), incomingItemId);
+    ItemOverride_GetItem(gctx, fromActor, link, incomingItemId);
     return;
   }
 
@@ -998,15 +1056,22 @@ namespace rnd {
   }
 
   // clang-format on
-  void ItemOverride_SwapSoHGetItemText(game::GlobalContext* gctx, u16 textId, game::act::Actor* fromActor) {
-    // Check which text ID is coming in. If it's any mask from Song of Healing, replace it with active item text.
-    if (textId == 0x79 || textId == 0x7a || textId == 0x87 || textId == 0x78) {
-      return;
-    } else if (textId == 0x85) {
-      gctx->ShowMessage(rStoredTextId);
-      rStoredTextId = 0;
-    } else
+  void ItemOverride_SwapSoHAndSongGetItemText(game::GlobalContext* gctx, u16 textId, game::act::Actor* fromActor) {
+// Check which text ID is coming in. If it's any mask from Song of Healing, replace it with active item text.
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: txtId = %#08x\n", __func__, textId);
+#endif
+    if (givenItemOverride) {
+      givenItemOverride = false;
+      if (rStoredTextId) {
+        gctx->ShowMessage(rStoredTextId);
+        rStoredTextId = 0;
+      } else
+        gctx->ShowMessage(textId);
+    } else {
       gctx->ShowMessage(textId);
+    }
+
     return;
   }
 
@@ -1130,6 +1195,50 @@ namespace rnd {
 
   u8 ItemOverride_ReceivedOcarinaFromSkt() {
     return gExtSaveData.givenItemChecks.ocarinaOfTimeGiven == 1 ? 1 : 0;
+  }
+
+  u8 ItemOverride_ReceivedSongOverride(s16 incomingItemId) {
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Incoming item id is %#04x\n", __func__, incomingItemId);
+#endif
+    game::OcarinaSong lastPlayedSong = GetContext().gctx->msg_context.lastPlayedSong;
+    switch (incomingItemId) {
+    case 0x61:
+      return gExtSaveData.givenSongChecks.sonataGiven == 1 ? 1 : 0;
+    case 0x62:
+      if (lastPlayedSong != game::OcarinaSong::GoronLullablyIntro || lastPlayedSong != game::OcarinaSong::GoronLullaby)
+        return gExtSaveData.givenSongChecks.goronLullabyGiven == 1 ? 1 : 0;
+      else
+        return 1;
+      break;
+    case 0x63:
+      return gExtSaveData.givenSongChecks.newWaveBossaNovaGiven == 1 ? 1 : 0;
+    case 0x64:
+      return gExtSaveData.givenSongChecks.elegyOfEmptinessGiven == 1 ? 1 : 0;
+    case 0x65:
+      return gExtSaveData.givenSongChecks.oathToOrderGiven == 1 ? 1 : 0;
+    case 0x67:
+      return gExtSaveData.givenSongChecks.songOfTimeGiven == 1 ? 1 : 0;
+    case 0x68:
+      return gExtSaveData.givenSongChecks.songOfHealingGiven == 1 ? 1 : 0;
+    case 0x69:
+      return gExtSaveData.givenSongChecks.eponasSongGiven == 1 ? 1 : 0;
+    case 0x6A:
+      return gExtSaveData.givenSongChecks.songOfSoaringGiven == 1 ? 1 : 0;
+    case 0x6B:
+      return gExtSaveData.givenSongChecks.songOfStormsGiven == 1 ? 1 : 0;
+    case 0x73:
+      return gExtSaveData.givenSongChecks.goronLullabyIntroGiven == 1 ? 1 : 0;
+    default:
+      return 0;
+    }
+  }
+
+  u8 ItemOverride_CheckIfSongOfTimeAwarded(u8 currentItem) {
+    game::SceneId scene = GetContext().gctx->scene;
+    if (scene == game::SceneId::ClockTowerRooftop && gExtSaveData.givenSongChecks.songOfTimeGiven == 0)
+      return 0x4C;
+    return currentItem;
   }
   }
 }  // namespace rnd

@@ -110,6 +110,23 @@ namespace rnd {
       BitField<59, 5, u64> unused;
     };
     GivenItemRegister givenItemChecks;
+    union GivenSongRegister {
+      u16 raw;
+
+      BitField<0, 1, u16> sonataGiven;
+      BitField<1, 1, u16> goronLullabyGiven;
+      BitField<2, 1, u16> goronLullabyIntroGiven;
+      BitField<3, 1, u16> newWaveBossaNovaGiven;
+      BitField<4, 1, u16> elegyOfEmptinessGiven;
+      BitField<5, 1, u16> oathToOrderGiven;
+      BitField<6, 1, u16> songOfTimeGiven;
+      BitField<7, 1, u16> songOfHealingGiven;
+      BitField<8, 1, u16> eponasSongGiven;
+      BitField<9, 1, u16> songOfSoaringGiven;
+      BitField<10, 1, u16> songOfStormsGiven;
+      BitField<11, 5, u16> unused;
+    };
+    GivenSongRegister givenSongChecks;
     union FairyCollectRegister {
       u8 raw;
 

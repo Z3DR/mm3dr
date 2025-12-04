@@ -104,7 +104,7 @@ namespace rnd {
     /* 0x4D */  // GI_ERROR_NOTHING_4D, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
     /* 0x4E */  // GI_ERROR_NOTHING_4E, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
+                // Ocarina in Inventory - New Wave Bossa Nova
     /* 0x4F */  // GI_ERROR_NOTHING_4F, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
     /* 0x50 */ GI_BOMBERS_NOTEBOOK = 0x50,
@@ -112,7 +112,7 @@ namespace rnd {
                 // subsequently yellow rupee. No rupee increment.
     /* 0x52 */ GI_GOLD_SKULLTULA_SPIRIT = 0x52,  // Pickup model is whacky since we usually don't have one.
     /* 0x53 */  // GI_ERROR_NOTHING_53, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
+                // Ocarina in Inventory Song of Time
     /* 0x54 */  // GI_ERROR_NOTHING_54, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
     /* 0x55 */ GI_ODOLWAS_REMAINS = 0x55,  // Also softlocks!
@@ -146,7 +146,7 @@ namespace rnd {
     /* 0x70 */ GI_BOTTLE_MYSTERY_MILK,  // Activates Timer
     /* 0x71 */ GI_BOTTLE_MOLDY_MILK,    // Mystery milk text followed by tatl.
     /* 0x72 */  // GI_ERROR_NOTHING_72, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
+                // Ocarina in Inventory. Song of Soaring.
     /* 0x73 */  // GI_ERROR_NOTHING_73, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
     /* 0x74 */  // GI_ERROR_NOTHING_74, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
@@ -448,9 +448,9 @@ namespace rnd {
   void ItemOverride_GetItemTextAndItemID(game::act::Player*);
   void ItemOverride_GetItem(game::GlobalContext*, game::act::Actor*, game::act::Player*, s16);
   void ItemOverride_GetFairyRewardItem(game::GlobalContext*, game::act::GreatFairy*, s16);
-  void ItemOverride_GetSoHItem(game::GlobalContext*, game::act::Actor*, s16);
+  void ItemOverride_GetSoHOrSongItem(game::GlobalContext*, game::act::Actor*, s16);
   int ItemOverride_CheckInventoryItemOverride(game::ItemId);
-  void ItemOverride_SwapSoHGetItemText(game::GlobalContext*, u16, game::act::Actor*);
+  void ItemOverride_SwapSoHAndSongGetItemText(game::GlobalContext*, u16, game::act::Actor*);
   bool ItemOverride_CheckTingleMaps(u16, game::GlobalContext*);
   u32 ItemOverride_GetGaboraExtData();
   u32 ItemOverride_GetOshExtData();
@@ -459,6 +459,8 @@ namespace rnd {
   u8 ItemOverride_OverrideSkullToken(game::act::Actor*);
   u8 ItemOverride_CheckBossStatus();
   u8 ItemOverride_ReceivedOcarinaFromSkt();
+  u8 ItemOverride_ReceivedSongOverride(s16);
+  u8 ItemOverride_CheckIfSongOfTimeAwarded(u8);
   }
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];

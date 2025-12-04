@@ -91,7 +91,7 @@ namespace rnd {
   }
 
   void ItemEffect_GiveGreatSpin(game::CommonData* comData, s16 arg1, s16 arg2) {
-    comData->save.has_great_spin_0x02 = 2;
+    comData->save.week_event_reg_23.WEEKEVENTREG_RECEIVED_GREAT_SPIN_ATTACK = 1;
   }
 
   void ItemEffect_GiveDoubleMagic(game::CommonData* comData, s16 arg1, s16 arg2) {
@@ -149,7 +149,6 @@ namespace rnd {
       comData->save.inventory.collect_register.sonata_of_awakening = 1;
       break;
     case 2:
-      comData->save.inventory.collect_register.lullaby_intro = 1;
       comData->save.inventory.collect_register.goron_lullaby = 1;
       break;
     case 3:
