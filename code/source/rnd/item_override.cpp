@@ -879,9 +879,12 @@ namespace rnd {
 #endif
     if (incomingGetItemId == 0x4B || incomingGetItemId == 0x4D || incomingGetItemId == 0x4E ||
         incomingGetItemId == 0x51 || incomingGetItemId == 0x53 || incomingGetItemId == 0x6C ||
-        (incomingGetItemId <= 0x72 || incomingGetItemId >= 0x74) ||
+        (incomingGetItemId <= 0x72 && incomingGetItemId >= 0x74) ||
         (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) || incomingGetItemId == 0x85 ||
         incomingGetItemId == 0x87) {
+          #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+            rnd::util::Print("%s: Must be a song, storing text ID %#04x for incomingItemId %#04x.\n", __func__, rActiveItemRow->textId, incomingGetItemId);	
+          #endif
       rStoredTextId = rActiveItemRow->textId;
     }
     givenItemOverride = true;
