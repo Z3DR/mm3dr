@@ -103,18 +103,8 @@ hook_RemoveSoSCheckKaepora:
 .global hook_EnGkCheckLullabyRewardGiven
 hook_EnGkCheckLullabyRewardGiven:
     push {r0-r12,lr}
-    mov r0, #0x62
-    bl ItemOverride_ReceivedSongOverride
-    cmp r0,#0x0
-    pop {r0-r12,lr}
-    bx lr
-
-.global hook_EnGkCheckLullabyRewardGivenTwo
-hook_EnGkCheckLullabyRewardGivenTwo:
-    push {r0-r12,lr}
-    mov r0, #0x62
-    bl ItemOverride_ReceivedSongOverride
-    cmp r0,#0x1 @We want to check if given, instead of not given at this instruction.
+    bl ItemOverride_ChangeEnGkSong
+    cmp r0,#0xE @ Is it goron lullaby intro?
     pop {r0-r12,lr}
     bx lr
 

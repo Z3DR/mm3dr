@@ -1201,18 +1201,11 @@ namespace rnd {
   }
 
   u8 ItemOverride_ReceivedSongOverride(s16 incomingItemId) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Incoming item id is %#04x\n", __func__, incomingItemId);
-#endif
-    game::OcarinaSong lastPlayedSong = GetContext().gctx->msg_context.lastPlayedSong;
     switch (incomingItemId) {
     case 0x61:
       return gExtSaveData.givenSongChecks.sonataGiven == 1 ? 1 : 0;
     case 0x62:
-      if (lastPlayedSong != game::OcarinaSong::GoronLullablyIntro || lastPlayedSong != game::OcarinaSong::GoronLullaby)
-        return gExtSaveData.givenSongChecks.goronLullabyGiven == 1 ? 1 : 0;
-      else
-        return 1;
+      return gExtSaveData.givenSongChecks.goronLullabyGiven == 1 ? 1 : 0;
       break;
     case 0x63:
       return gExtSaveData.givenSongChecks.newWaveBossaNovaGiven == 1 ? 1 : 0;
@@ -1242,6 +1235,18 @@ namespace rnd {
     if (scene == game::SceneId::ClockTowerRooftop && gExtSaveData.givenSongChecks.songOfTimeGiven == 0)
       return 0x4C;
     return currentItem;
+  }
+  
+  // TODO: Break out functions like these into specific actor files or songsanity files?
+  game::OcarinaSong ItemOverride_ChangeEnGkSong() {
+    game::GlobalContext* gctx = GetContext().gctx;
+    game::OcarinaSong lastPlayedSong = gctx->msg_context.lastPlayedSong;
+    if ((lastPlayedSong == game::OcarinaSong::GoronLullaby) && gExtSaveData.givenSongChecks.goronLullabyGiven == 0) {
+      gctx->msg_context.lastPlayedSong = game::OcarinaSong::GoronLullablyIntro;
+      return game::OcarinaSong::GoronLullablyIntro;
+    }
+      
+    return lastPlayedSong;
   }
   }
 }  // namespace rnd
