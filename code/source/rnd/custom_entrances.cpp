@@ -6,11 +6,6 @@ namespace rnd {
     game::CommonData& cdata = game::GetCommonData();
     game::GlobalContext* gctx = GetContext().gctx;
     bool didWarp = false;
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Changing scene next entrace %#06x active form is %u savedata form is %u\n", __func__,
-                     gctx->next_entrance, gctx->GetPlayerActor()->active_form, cdata.save.player_form);
-
-#endif
     if (gctx->next_entrance == 0x1C04 && gSettingsContext.skipMikauCutscene) {
       gctx->next_entrance = 0x6890;
       cdata.sub13s[0].entrance_index = 0x6890;
