@@ -1,5 +1,6 @@
 #include "rnd/custom_messages.h"
 #include "game/common_data.h"
+#include "game/message.h"
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
 #include "common/debug.h"
@@ -8,6 +9,9 @@ extern "C" {
 }
 #endif
 
+
+#define MAX_CUSTOM_MSG_SIZE 512
+#define MAX_CUSTOM_MSGS 512
 #define LINE_WIDTH 260
 #define ICON_WIDTH 16
 #define MAJORA_ICON_WIDTH 32
@@ -15,10 +19,10 @@ extern "C" {
 #define DEFAULT_WIDTH 8
 #define INSTANT_FLAG 0x8000
 #define REPEAT_FLAG 0x4000
-#define LINE_PADDING(msg) (((msg.flags & 0x00FF0000) == 0x00FF0000) ? 0 : 20)
+#define LINE_PADDING(msg) ((((msg).flags & 0x00FF0000) == 0x00FF0000) ? 0 : 20)
 
 // Pixel widths of printable characters (many are replaced by * which is 8 pixels)
-char width[MAX_CHAR] = {
+const char width[MAX_CHAR] = {
     0,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,   // 00x
     8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,   // 01x
     4,  4,  6,  10, 9,  12, 10, 4,  5,  5,  8,  9,  5,  7,  4,  7,   // 02x
@@ -55,14 +59,19 @@ char width[MAX_CHAR] = {
     8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  9,  5,  8,  8,  8,  8,   // 21x
 };
 
+volatile const char rCustomMessageTextData[1 << 18] = {0};
+volatile const char rCustomMessageColData[4 << (10 - 3)] = {0};
+volatile const char rCustomMessageIconData[6 << (10 - 3)] = {0};
+volatile const char rCustomMessageDelayData[6 << (10 - 3)] = {0};
+
 typedef struct {
   u16 id;
-  char data[MAX_MSG_SIZE];
   u16 size;
+  char data[MAX_CUSTOM_MSG_SIZE];
 } CustomMessage;
 
 // Extract data less than 8 bits long from a char array without wasting bits
-u8 unpackData(u8 size, u8 idx, char* data) {
+u8 unpackData(u8 size, u32 idx, volatile const char* data) {
   u8 i, unpacked = 0;
   for (i = 0; i < size; i++) {
     unpacked <<= 1;
@@ -73,7 +82,7 @@ u8 unpackData(u8 size, u8 idx, char* data) {
 }
 
 // Pack data less than 8 bits long into a char array without wasting bits
-void packData(u8 size, u8 idx, char* data, u8 unpacked) {
+void packData(u8 size, u32 idx, char* data, u8 unpacked) {
   for (u8 i = size; i--;) {
     if (unpacked & 1)
       data[(idx * size + i) / 8] |= 0x80 >> ((idx * size + i) % 8);
@@ -100,7 +109,7 @@ typedef struct {
 } VarVal;
 
 // Retrieve data to match a three letter acronym
-VarVal getVarVal(char* text) {
+VarVal getVarVal(volatile const char* text) {
   // Ensure prefixed with '='
   if (text[0] != '=')
     return (VarVal){VT_UNK, 0};
@@ -124,6 +133,43 @@ VarVal getVarVal(char* text) {
   return (VarVal){VT_UNK, 0};
 }
 
+volatile const char* resolveTextPtr(volatile const u32* offsets) {
+  // Offsets are 18 bits long packed into array
+  u32 offsetEn = offsets[0] & 0x3FFFF;
+  u32 offsetFr = ((offsets[1] << 14) | (offsets[0] >> 18)) & 0x3FFFF;
+  u32 offsetEs = (offsets[1] >> 4) & 0x3FFFF;
+  u32 offsetDe = ((offsets[2] << 10) | (offsets[1] >> 22)) & 0x3FFFF;
+  u32 offsetIt = (offsets[2] >> 8) & 0x3FFFF;
+  u32 offsetNl = ((offsets[3] << 6) | (offsets[2] >> 26)) & 0x3FFFF;
+
+  // Choose offset based on current language and if an offset is assigned
+  // Offset 0 should contain a "No text" message
+  game::MessageMgr mgr = game::MessageMgr::Instance();
+  switch (mgr.lang) {
+  case game::Language::UsFr:
+  case game::Language::EuFr:
+    return rCustomMessageTextData + ((offsetFr) ? offsetFr : offsetEn);
+
+  case game::Language::UsEs:
+  case game::Language::EuEs:
+    return rCustomMessageTextData + ((offsetEs) ? offsetEs : offsetEn);
+
+  case game::Language::EuDe:
+    return rCustomMessageTextData + ((offsetDe) ? offsetDe : offsetEn);
+
+  case game::Language::EuIt:
+    return rCustomMessageTextData + ((offsetIt) ? offsetIt : offsetEn);
+
+  case game::Language::EuNl:
+    return rCustomMessageTextData + ((offsetNl) ? offsetNl : offsetEn);
+
+  case game::Language::UsEn:
+  case game::Language::EuEn:
+  default:
+    return rCustomMessageTextData + offsetEn;
+  }
+}
+
 class MsgBuilder {
 public:
   char* data;
@@ -136,7 +182,7 @@ public:
   }
 
   MsgBuilder* addChr(char chr) {
-    if (*size < MAX_MSG_SIZE)
+    if (*size < MAX_CUSTOM_MSG_SIZE)
       data[(*size)++] = chr;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     else
@@ -271,7 +317,7 @@ public:
     return addCom(0x02);
   }
 
-  void format(UnformattedMessage msg) {
+  void format(volatile const UnformattedMessage* msg) {
     // @ - filename min: 4px max: 120px
     // # - colour change
     // & - newline
@@ -279,14 +325,18 @@ public:
     // $ - icon
     // % - delay
     // = - 3 letter acronym for variable to insert
+    volatile const char* text = resolveTextPtr(msg->offsets);
+    u16 colOffset = (u16)(msg->offsets[3] >> 12) & 0x3FF;
+    u16 iconOffset = (u16)(msg->offsets[3] >> 22) & 0x3FF;
+    u16 delayOffset = msg->delayOffset;
     u16 idx = 0xFFFF, lastSpaceIdx = 0;
     u16 colIdx = 0, colIdxAtLastSpace = 0;
     u16 iconIdx = 0, iconIdxAtLastSpace = 0;
     u16 delayIdx = 0, delayIdxAtLastSpace = 0;
-    u16 sizeAtLastSpace = 0, resolvedChar = 0, lineLen = LINE_PADDING(msg);
+    u16 sizeAtLastSpace = 0, resolvedChar = 0, lineLen = LINE_PADDING(*msg);
     bool inCol = false, inColAtLastSpace = false;
     bool lineWrap = true;
-    u16 sfx = msg.sfxAndFlags & 0x3FFF;
+    u16 sfx = msg->sfxAndFlags & 0x3FFF;
     u8 resolvedCol = 0, resolvedIcon = 0, resolvedDelay = 0;
     VarVal resolvedVar;
     u16 playerNameLen = 0;
@@ -294,18 +344,18 @@ public:
 
     if (sfx)
       sound(sfx);
-    if (msg.sfxAndFlags & INSTANT_FLAG)
+    if (msg->sfxAndFlags & INSTANT_FLAG)
       instant();
 
     // Tingle Map Choices. Add 3 choices, 2 for maps and 1 for no thanks.
-    if (msg.id >= 0x1D11 && msg.id <= 0x1D16) {
+    if (msg->id >= 0x1D11 && msg->id <= 0x1D16) {
       addCom(0x2F, 3);
       // Disable line wrap to ensure text lines up with options
       lineWrap = false;
     }
 
-    while (++idx < MAX_UNFORMATTED_SIZE && msg.text[idx]) {
-      resolvedChar = msg.text[idx];
+    while (++idx < MAX_CUSTOM_MSG_SIZE && text[idx]) {
+      resolvedChar = text[idx];
 
       switch (resolvedChar) {
       case '@':  // Player file name
@@ -329,21 +379,21 @@ public:
         if (inCol)
           col(QM_DEFAULT);
         else {
-          // Abort if out of colours
-          if (colIdx >= 8) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-            rnd::util::Print("Error formatting message, out of colours: %s\n", msg.text);
-#endif
-
-            return;
-          }
           // Get next colour
-          resolvedCol = unpackData(4, colIdx++, msg.cols);
+          resolvedCol = unpackData(4, colOffset + colIdx, rCustomMessageColData);
+          if (resolvedCol != 0xF)
+            colIdx++;
+          else {
+            resolvedCol = QM_DEFAULT;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+            rnd::util::Print("Warning formatting message, out of colours: %s\n", text);
+#endif
+          }
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
           // Could be caused by not providing enough colours so provide debug message
           if (!resolvedCol)
-            rnd::util::Print("Warning formatting message, colour %i is 0x00: %s\n", colIdx, msg.text);
+            rnd::util::Print("Warning formatting message, colour %i is 0x00: %s\n", colIdx, text);
 #endif
 
           col(resolvedCol);
@@ -354,7 +404,7 @@ public:
       case '&':  // Newline
         newline();
         lastSpaceIdx = 0;
-        lineLen = LINE_PADDING(msg);
+        lineLen = LINE_PADDING(*msg);
         break;
 
       case '^':  // Newbox
@@ -363,65 +413,58 @@ public:
         if (inCol)
           col(resolvedCol);
         // If set to repeat sfx then add to this box
-        if ((msg.sfxAndFlags & REPEAT_FLAG) && sfx)
+        if ((msg->sfxAndFlags & REPEAT_FLAG) && sfx)
           sound(sfx);
         // New boxes lose the instant text property so re-set it
-        if (msg.sfxAndFlags & INSTANT_FLAG)
+        if (msg->sfxAndFlags & INSTANT_FLAG)
           instant();
 
         lastSpaceIdx = 0;
-        lineLen = LINE_PADDING(msg);
+        lineLen = LINE_PADDING(*msg);
         break;
 
       case '$':  // Icon marker
         if (!lastSpaceIdx)
           sizeAtLastSpace = *size;
-        // Abort if out of icons
-        if (iconIdx >= 8) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("Error formatting message, out of icons: %s\n", msg.text);
-#endif
 
-          return;
-        }
         // Get next icon
-        resolvedIcon = unpackData(6, iconIdx++, msg.icons);
-
+        resolvedIcon = unpackData(6, iconOffset + iconIdx, rCustomMessageIconData);
+        if (resolvedIcon != 0x3F)
+          iconIdx++;
+        else {
+          resolvedIcon = BLANK;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        // Could be caused by not providing enough icons so provide debug message
-        if (!resolvedIcon)
-          rnd::util::Print("Warning formatting message, icon %i is 0x00: %s\n", iconIdx, msg.text);
+          rnd::util::Print("Warning formatting message, out of icons: %s\n", text);
 #endif
+        }
+
         // Majora icon is wider than all other icons
         lineLen += (resolvedIcon == MAJORA_ICON) ? MAJORA_ICON_WIDTH : ICON_WIDTH;
         icon(resolvedIcon);
         break;
 
       case '%':  // Delay marker
-        // Abort if out of delays
-        if (delayIdx >= 8) {
+        resolvedDelay = unpackData(6, delayOffset + delayIdx, rCustomMessageDelayData);
+        if (resolvedDelay != 0x3F)
+          delayIdx++;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("Error formatting message, out of delays: %s\n", msg.text);
+        else
+          rnd::util::Print("Warning formatting message, out of delays: %s\n", text);
 #endif
-
-          return;
-        }
-
-        resolvedDelay = unpackData(6, delayIdx++, msg.delays);
         // Don't bother inserting a delay of 0 as is a waste of characters
         if (resolvedDelay)
-          delay(resolvedDelay);
+          delay(resolvedDelay && resolvedDelay != 0x3F);
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
         // Could be caused by not providing enough delays so provide debug message
-        else
-          rnd::util::Print("Warning formatting message, delay %i is 0x00: %s\n", delayIdx, msg.text);
+        else if (!resolvedDelay)
+          rnd::util::Print("Warning formatting message, delay %i is 0x00: %s\n", delayIdx, text);
 #endif
         break;
 
       case '=':  // Numeric variable marker
         if (!lastSpaceIdx)
           sizeAtLastSpace = *size;
-        resolvedVar = getVarVal(&msg.text[idx]);
+        resolvedVar = getVarVal(&text[idx]);
         switch (resolvedVar.type) {
         case VT_INT:
           idx += 3;
@@ -437,7 +480,7 @@ public:
           break;
         default:
           // 3LA didn't match any variables, treat '=' as normal text
-          addChr(msg.text[idx]);
+          addChr(text[idx]);
           lineLen += width[resolvedChar];
         }
         break;
@@ -459,17 +502,17 @@ public:
           // Abort if char requires 3 or more bytes to represent in UTF8
           if (resolvedChar > 0xDF) {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-            rnd::util::Print("Error formatting message, unsupported character: %s\n", msg.text);
+            rnd::util::Print("Error formatting message, unsupported character: %s\n", text);
 #endif
 
             return;
           }
           // Extract data from 2 byte UTF8 char. Also add the first half to the message
-          resolvedChar = ((msg.text[idx] & 0x1F) << 6) | (msg.text[idx + 1] & 0x3F);
-          addChr(msg.text[idx++]);
+          resolvedChar = ((text[idx] & 0x1F) << 6) | (text[idx + 1] & 0x3F);
+          addChr(text[idx++]);
         }
 
-        addChr(msg.text[idx]);
+        addChr(text[idx]);
         // Assumes all further chars will be represented by * as many up to MAX_CHAR already are
         lineLen += (resolvedChar < MAX_CHAR) ? width[resolvedChar] : DEFAULT_WIDTH;
         break;
@@ -492,18 +535,18 @@ public:
         *size = sizeAtLastSpace;
         newline();
         lastSpaceIdx = 0;
-        lineLen = LINE_PADDING(msg);
+        lineLen = LINE_PADDING(*msg);
       }
     }
 
 // Add debug message if the last colour didn't have an end marker
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (inCol)
-      rnd::util::Print("Warning formatting message, colour not closed: %s\n", msg.text);
+      rnd::util::Print("Warning formatting message, colour not closed: %s\n", text);
 #endif
-    if (msg.id >= 0x1D11 && msg.id <= 0x1D16)
+    if (msg->id >= 0x1D11 && msg->id <= 0x1D16)
       addCom(0x00);
-    else if ((msg.flags & 0x01000000) == 0)
+    else if ((msg->flags & 0x01000000) == 0)
       end();
     else
       pseudoEnd();
@@ -513,35 +556,28 @@ public:
 MsgBuilder builder;
 CustomMessage customMsg;
 
-volatile const UnformattedMessage rCustomMessages[512] = {0};
+volatile const UnformattedMessage rCustomMessages[MAX_CUSTOM_MSGS] = {0};
 volatile const u32 numCustomMessageEntries = {0};
 
 bool SetCustomMessage(u16 id, game::MessageResEntry* msgResEntry) {
-  // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-  //   static u16 lastId;
-  //   if (id && id != lastId)
-  //     rnd::util::Print("Message ID is %#06x\n", id);
-  //   lastId = id;
-  // #endif
-
-  UnformattedMessage customMsgData;
+  volatile const UnformattedMessage* customMsgData;
   s32 start = 0, end = numCustomMessageEntries - 1, current;
 
   while (start <= end) {
     current = (start + end) / 2;
-    // Compiler isn't happy with assigning volatile const to not so reference/dereference to get data
-    customMsgData = *(UnformattedMessage*)&rCustomMessages[current];
-    if (customMsgData.id < id)
+    customMsgData = rCustomMessages + current;
+
+    if (customMsgData->id < id)
       start = current + 1;
-    else if (customMsgData.id > id)
+    else if (customMsgData->id > id)
       end = current - 1;
     else {
       builder.set(&customMsg)->format(customMsgData);
       // Populate message entry with data from app side and the formatted message
       msgResEntry->id = customMsg.id = id;
-      msgResEntry->field_2 = customMsgData.field_2;
-      msgResEntry->field_4 = customMsgData.field_4;
-      msgResEntry->flags = customMsgData.flags & 0x00FFFFFF;
+      msgResEntry->field_2 = customMsgData->field_2;
+      msgResEntry->field_4 = customMsgData->field_4;
+      msgResEntry->flags = customMsgData->flags & 0x00FFFFFF;
       msgResEntry->texts[0].offset = customMsg.data;
       msgResEntry->texts[0].length = customMsg.size;
       return true;

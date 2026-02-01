@@ -1,11 +1,7 @@
-#ifndef _RND_CUSTOM_MESSAGES_H_
-#define _RND_CUSTOM_MESSAGES_H_
+#pragma once
 
 #include "common/utils.h"
 #include "game/message.h"
-
-#define MAX_MSG_SIZE 512
-#define MAX_UNFORMATTED_SIZE 354
 
 bool SetCustomMessage(u16, game::MessageResEntry*);
 
@@ -14,10 +10,8 @@ typedef struct {
   u16 field_2;
   u32 field_4;
   u32 flags;
-  char text[MAX_UNFORMATTED_SIZE];
-  char cols[4];
-  char icons[6];
-  char delays[6];
+  u32 offsets[4];
+  u16 delayOffset;
   u16 sfxAndFlags;
 } UnformattedMessage;
 
@@ -88,5 +82,3 @@ typedef enum {
   QM_BLACK,
   QM_DEFAULT,
 } colType;
-
-#endif
