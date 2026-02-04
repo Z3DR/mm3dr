@@ -9,7 +9,6 @@ extern "C" {
 }
 #endif
 
-
 #define MAX_CUSTOM_MSG_SIZE 512
 #define MAX_CUSTOM_MSGS 512
 #define LINE_WIDTH 260
