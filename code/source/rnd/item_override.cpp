@@ -882,9 +882,10 @@ namespace rnd {
         (incomingGetItemId <= 0x72 && incomingGetItemId >= 0x74) ||
         (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) || incomingGetItemId == 0x85 ||
         incomingGetItemId == 0x87) {
-          #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-            rnd::util::Print("%s: Must be a song, storing text ID %#04x for incomingItemId %#04x.\n", __func__, rActiveItemRow->textId, incomingGetItemId);	
-          #endif
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: Must be a song, storing text ID %#04x for incomingItemId %#04x.\n", __func__,
+                       rActiveItemRow->textId, incomingGetItemId);
+#endif
       rStoredTextId = rActiveItemRow->textId;
     }
     givenItemOverride = true;
@@ -1236,7 +1237,7 @@ namespace rnd {
       return 0x4C;
     return currentItem;
   }
-  
+
   // TODO: Break out functions like these into specific actor files or songsanity files?
   game::OcarinaSong ItemOverride_ChangeEnGkSong() {
     game::GlobalContext* gctx = GetContext().gctx;
@@ -1245,7 +1246,7 @@ namespace rnd {
       gctx->msg_context.lastPlayedSong = game::OcarinaSong::GoronLullablyIntro;
       return game::OcarinaSong::GoronLullablyIntro;
     }
-      
+
     return lastPlayedSong;
   }
   }

@@ -9,7 +9,7 @@ namespace rnd {
     if (gctx->next_entrance == 0x1C04 && gSettingsContext.skipMikauCutscene) {
       gctx->next_entrance = 0x6890;
       cdata.sub13s[0].entrance_index = 0x6890;
-      
+
       didWarp = true;
     } else if (gctx->next_entrance == 0x1C05 && gSettingsContext.skipDarmaniCutscene) {
       gctx->next_entrance = 0x9610;
