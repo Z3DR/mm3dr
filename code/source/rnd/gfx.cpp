@@ -375,7 +375,7 @@ namespace rnd {
           keysFound += Dungeon_KeyAmount(dungeonId);
         }
         u32 keysFoundColor = COLOR_WHITE;
-        if (keysFound >= Dungeon_KeyAmount(dungeonId) || IsDungeonDiscovered(dungeonId)) {
+        if (keysFound >= Dungeon_KeyAmount(dungeonId) && IsDungeonDiscovered(dungeonId)) {
           keysFoundColor = COLOR_GREEN;
         } else if (keysFound == 0) {
           keysFoundColor = COLOR_DARK_GRAY;

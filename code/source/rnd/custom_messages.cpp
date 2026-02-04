@@ -498,17 +498,35 @@ public:
           sizeAtLastSpace = *size;
         // Uses UTF8 encoding so convert multi-byte representations to a single number
         if (resolvedChar > 0x7F) {
-          // Abort if char requires 3 or more bytes to represent in UTF8
-          if (resolvedChar > 0xDF) {
+          // Abort if char is not a valid first UTF8 byte
+          if (resolvedChar < 0xC0 || resolvedChar > 0xFD ) {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-            rnd::util::Print("Error formatting message, unsupported character: %s\n", text);
+            rnd::util::Print("Error formatting message, malformed character: %s\n", text);
 #endif
 
             return;
           }
-          // Extract data from 2 byte UTF8 char. Also add the first half to the message
-          resolvedChar = ((text[idx] & 0x1F) << 6) | (text[idx + 1] & 0x3F);
-          addChr(text[idx++]);
+          // Store whether character code will fit in resolvedChar's 16 bits
+          bool resolvedCharIsTooSmall = (resolvedChar > 0xEF);
+          // Remove first 3 bits in case char is two bytes long
+          resolvedChar &= 0x1F;
+          // Iterate through UTF8 prefix's left bits
+          for (char utfPrefix = (text[idx] << 1); utfPrefix > 0x7F; utfPrefix <<= 1) {
+            // Abort if expected continuation byte is missing
+            if ((text[idx + 1] >> 6) != 2) {
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+              rnd::util::Print("Error formatting message, malformed character: %s\n", text);
+#endif
+              return;
+            }
+            // Concat next byte's bits to resolvedChar
+            resolvedChar <<= 6;
+            resolvedChar |= (text[idx + 1] & 0x3F);
+            // Add current byte to message and increment
+            addChr(text[idx++]);
+          }
+          // Reset resolvedChar to * if it couldn't fit value
+          if (resolvedCharIsTooSmall) {resolvedChar = 0x2A;}
         }
 
         addChr(text[idx]);
