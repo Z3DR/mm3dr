@@ -53,9 +53,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0xB2;
-    rItemOverrides[1].value.looksLikeItemId = 0xB2;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
+    rItemOverrides[1].value.getItemId = 0x59;
+    rItemOverrides[1].value.looksLikeItemId = 0x59;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -828,20 +828,29 @@ namespace rnd {
                override.value.getItemId == 0x6F) {
       switch (override.value.getItemId) {
       case 0x59:
-        if (gExtSaveData.givenItemChecks.bottleRedPotionGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
-          override.value.getItemId = 0x01;
+        if (gExtSaveData.givenItemChecks.bottleRedPotionGiven == 1) {
+          if (!game::HasBottle(game::ItemId::Bottle))
+            override.value.getItemId = 0x01;
+          else
+            override.value.getItemId = 0x5B;
           override.value.looksLikeItemId = 0x59;
         }
         break;
       case 0x60:
-        if (gExtSaveData.givenItemChecks.bottleMilkGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
-          override.value.getItemId = 0x01;
+        if (gExtSaveData.givenItemChecks.bottleMilkGiven == 1) {
+          if (!game::HasBottle(game::ItemId::Bottle))
+            override.value.getItemId = 0x01;
+          else
+            override.value.getItemId = 0x92;
           override.value.looksLikeItemId = 0x60;
         }
         break;
       case 0x6A:
-        if (gExtSaveData.givenItemChecks.bottleGoldDustGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
-          override.value.getItemId = 0x01;
+        if (gExtSaveData.givenItemChecks.bottleGoldDustGiven == 1) {
+          if (!game::HasBottle(game::ItemId::Bottle))
+            override.value.getItemId = 0x01;
+          else
+            override.value.getItemId = 0x93;
           override.value.looksLikeItemId = 0x6A;
         }
         break;
@@ -852,8 +861,11 @@ namespace rnd {
         }
         break;
       case 0x6F:
-        if (gExtSaveData.givenItemChecks.bottleChateuGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
-          override.value.getItemId = 0x01;
+        if (gExtSaveData.givenItemChecks.bottleChateuGiven == 1) {
+          if (!game::HasBottle(game::ItemId::Bottle))
+            override.value.getItemId = 0x01;
+          else
+            override.value.getItemId = 0x91;
           override.value.looksLikeItemId = 0x6F;
         }
         break;
@@ -871,12 +883,9 @@ namespace rnd {
     }
     if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52)
       player->get_item_id = incomingNegative ? -baseItemId : baseItemId;
-      // Edge case with Song of healing items. Override their show text in their own functions
-      // to ensure that we have the same 'feel' as the base game.
-      // This also ensures that if there is no override the default text still works.
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: %#04x\n", __func__, incomingGetItemId);
-#endif
+    // Edge case with Song of healing items. Override their show text in their own functions
+    // to ensure that we have the same 'feel' as the base game.
+    // This also ensures that if there is no override the default text still works.
     if (incomingGetItemId == 0x4B || incomingGetItemId == 0x4D || incomingGetItemId == 0x4E ||
         incomingGetItemId == 0x51 || incomingGetItemId == 0x53 || incomingGetItemId == 0x6C ||
         (incomingGetItemId <= 0x72 && incomingGetItemId >= 0x74) ||
