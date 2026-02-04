@@ -499,7 +499,7 @@ public:
         // Uses UTF8 encoding so convert multi-byte representations to a single number
         if (resolvedChar > 0x7F) {
           // Abort if char is not a valid first UTF8 byte
-          if (resolvedChar < 0xC0 || resolvedChar > 0xFD ) {
+          if (resolvedChar < 0xC0 || resolvedChar > 0xFD) {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
             rnd::util::Print("Error formatting message, malformed character: %s\n", text);
 #endif
@@ -526,7 +526,9 @@ public:
             addChr(text[idx++]);
           }
           // Reset resolvedChar to * if it couldn't fit value
-          if (resolvedCharIsTooSmall) {resolvedChar = 0x2A;}
+          if (resolvedCharIsTooSmall) {
+            resolvedChar = 0x2A;
+          }
         }
 
         addChr(text[idx]);
