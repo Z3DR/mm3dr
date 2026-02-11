@@ -53,9 +53,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0x81;
-    rItemOverrides[1].value.looksLikeItemId = 0x81;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
+    rItemOverrides[1].value.getItemId = 0x59;
+    rItemOverrides[1].value.looksLikeItemId = 0x59;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -828,20 +828,29 @@ namespace rnd {
                override.value.getItemId == 0x6F) {
       switch (override.value.getItemId) {
       case 0x59:
-        if (gExtSaveData.givenItemChecks.bottleRedPotionGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
-          override.value.getItemId = 0x01;
+        if (gExtSaveData.givenItemChecks.bottleRedPotionGiven == 1) {
+          if (!game::HasBottle(game::ItemId::Bottle))
+            override.value.getItemId = 0x01;
+          else
+            override.value.getItemId = 0x5B;
           override.value.looksLikeItemId = 0x59;
         }
         break;
       case 0x60:
-        if (gExtSaveData.givenItemChecks.bottleMilkGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
-          override.value.getItemId = 0x01;
+        if (gExtSaveData.givenItemChecks.bottleMilkGiven == 1) {
+          if (!game::HasBottle(game::ItemId::Bottle))
+            override.value.getItemId = 0x01;
+          else
+            override.value.getItemId = 0x92;
           override.value.looksLikeItemId = 0x60;
         }
         break;
       case 0x6A:
-        if (gExtSaveData.givenItemChecks.bottleGoldDustGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
-          override.value.getItemId = 0x01;
+        if (gExtSaveData.givenItemChecks.bottleGoldDustGiven == 1) {
+          if (!game::HasBottle(game::ItemId::Bottle))
+            override.value.getItemId = 0x01;
+          else
+            override.value.getItemId = 0x93;
           override.value.looksLikeItemId = 0x6A;
         }
         break;
@@ -852,8 +861,11 @@ namespace rnd {
         }
         break;
       case 0x6F:
-        if (gExtSaveData.givenItemChecks.bottleChateuGiven == 1 && !game::HasBottle(game::ItemId::Bottle)) {
-          override.value.getItemId = 0x01;
+        if (gExtSaveData.givenItemChecks.bottleChateuGiven == 1) {
+          if (!game::HasBottle(game::ItemId::Bottle))
+            override.value.getItemId = 0x01;
+          else
+            override.value.getItemId = 0x91;
           override.value.looksLikeItemId = 0x6F;
         }
         break;
@@ -871,17 +883,18 @@ namespace rnd {
     }
     if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52)
       player->get_item_id = incomingNegative ? -baseItemId : baseItemId;
-      // Edge case with Song of healing items. Override their show text in their own functions
-      // to ensure that we have the same 'feel' as the base game.
-      // This also ensures that if there is no override the default text still works.
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: %#04x\n", __func__, incomingGetItemId);
-#endif
+    // Edge case with Song of healing items. Override their show text in their own functions
+    // to ensure that we have the same 'feel' as the base game.
+    // This also ensures that if there is no override the default text still works.
     if (incomingGetItemId == 0x4B || incomingGetItemId == 0x4D || incomingGetItemId == 0x4E ||
         incomingGetItemId == 0x51 || incomingGetItemId == 0x53 || incomingGetItemId == 0x6C ||
-        (incomingGetItemId <= 0x72 || incomingGetItemId >= 0x74) ||
+        (incomingGetItemId <= 0x72 && incomingGetItemId >= 0x74) ||
         (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) || incomingGetItemId == 0x85 ||
         incomingGetItemId == 0x87) {
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: Must be a song, storing text ID %#04x for incomingItemId %#04x.\n", __func__,
+                       rActiveItemRow->textId, incomingGetItemId);
+#endif
       rStoredTextId = rActiveItemRow->textId;
     }
     givenItemOverride = true;
@@ -1198,18 +1211,11 @@ namespace rnd {
   }
 
   u8 ItemOverride_ReceivedSongOverride(s16 incomingItemId) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Incoming item id is %#04x\n", __func__, incomingItemId);
-#endif
-    game::OcarinaSong lastPlayedSong = GetContext().gctx->msg_context.lastPlayedSong;
     switch (incomingItemId) {
     case 0x61:
       return gExtSaveData.givenSongChecks.sonataGiven == 1 ? 1 : 0;
     case 0x62:
-      if (lastPlayedSong != game::OcarinaSong::GoronLullablyIntro || lastPlayedSong != game::OcarinaSong::GoronLullaby)
-        return gExtSaveData.givenSongChecks.goronLullabyGiven == 1 ? 1 : 0;
-      else
-        return 1;
+      return gExtSaveData.givenSongChecks.goronLullabyGiven == 1 ? 1 : 0;
       break;
     case 0x63:
       return gExtSaveData.givenSongChecks.newWaveBossaNovaGiven == 1 ? 1 : 0;
@@ -1239,6 +1245,18 @@ namespace rnd {
     if (scene == game::SceneId::ClockTowerRooftop && gExtSaveData.givenSongChecks.songOfTimeGiven == 0)
       return 0x4C;
     return currentItem;
+  }
+
+  // TODO: Break out functions like these into specific actor files or songsanity files?
+  game::OcarinaSong ItemOverride_ChangeEnGkSong() {
+    game::GlobalContext* gctx = GetContext().gctx;
+    game::OcarinaSong lastPlayedSong = gctx->msg_context.lastPlayedSong;
+    if ((lastPlayedSong == game::OcarinaSong::GoronLullaby) && gExtSaveData.givenSongChecks.goronLullabyGiven == 0) {
+      gctx->msg_context.lastPlayedSong = game::OcarinaSong::GoronLullablyIntro;
+      return game::OcarinaSong::GoronLullablyIntro;
+    }
+
+    return lastPlayedSong;
   }
   }
 }  // namespace rnd

@@ -748,13 +748,10 @@ SECTIONS{
     *(.patch_SkulltulaOverrideTwo)
   }
 
-  .patch_EnGkCheckLullabyRewardGivenOne 0x546294 : {
-    *(.patch_EnGkCheckLullabyRewardGivenOne)
+  .patch_EnGkCheckLullabyRewardGiven 0x546294 : {
+    *(.patch_EnGkCheckLullabyRewardGiven)
   }
 
-  .patch_EnGkCheckLullabyRewardGivenTwo 0x546374 : {
-    *(.patch_EnGkCheckLullabyRewardGivenTwo)
-  }
   .patch_EnMkNWBNOverride 0x58722C : {
     *(.patch_EnMkNWBNOverride)
   }

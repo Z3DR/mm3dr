@@ -461,6 +461,7 @@ namespace rnd {
   u8 ItemOverride_ReceivedOcarinaFromSkt();
   u8 ItemOverride_ReceivedSongOverride(s16);
   u8 ItemOverride_CheckIfSongOfTimeAwarded(u8);
+  game::OcarinaSong ItemOverride_ChangeEnGkSong();
   }
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];

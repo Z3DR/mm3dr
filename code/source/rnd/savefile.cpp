@@ -698,6 +698,14 @@ namespace rnd {
       saveData.inventory.collect_register.oath_to_order = 1;
     }
 
+    if (gSettingsContext.startingSongOfTime > 0) {
+      saveData.inventory.collect_register.song_of_time = 1;
+    }
+
+    if (gSettingsContext.startingGoronIntro > 0) {
+      saveData.inventory.collect_register.lullaby_intro = 1;
+    }
+
     // Boss Remains
     if (gSettingsContext.startingOdolwaRemains > 0) {
       saveData.inventory.collect_register.odolwas_remains = 1;

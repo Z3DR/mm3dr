@@ -357,6 +357,8 @@ namespace rnd {
     u8 startingHealth;
 
     // Songs
+    u8 startingSongOfTime;
+    u8 startingGoronIntro;
     u8 startingOathToOrder;
     u8 startingEponasSong;
     u8 startingSongOfStorms;

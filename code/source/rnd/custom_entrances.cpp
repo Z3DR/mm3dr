@@ -9,6 +9,7 @@ namespace rnd {
     if (gctx->next_entrance == 0x1C04 && gSettingsContext.skipMikauCutscene) {
       gctx->next_entrance = 0x6890;
       cdata.sub13s[0].entrance_index = 0x6890;
+
       didWarp = true;
     } else if (gctx->next_entrance == 0x1C05 && gSettingsContext.skipDarmaniCutscene) {
       gctx->next_entrance = 0x9610;
@@ -28,6 +29,9 @@ namespace rnd {
       // Re-enable the sound track.
       game::sound::ControlStream(game::sound::StreamPlayer::DEFAULT_PLAYER, 1, 1);
       game::sound::PlayStream(game::sound::StreamId::NA_BGM_CLOCK_TOWER, game::sound::StreamPlayer::DEFAULT_PLAYER);
+    } else if (gctx->next_entrance == 0x2C10 && gctx->GetPlayerActor()->active_form != game::act::Player::Form::Deku) {
+      // Patch for the rooftop to ensure that link is not turned into a form that has unintended effects.
+      cdata.save.player_form = gctx->GetPlayerActor()->active_form;
     }
 
     if (didWarp)
