@@ -98,21 +98,15 @@ namespace rnd {
                 // Ocarina in Inventory
     /* 0x4A */  // GI_ERROR_NOTHING_4A, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
-    /* 0x4B */  // GI_ERROR_NOTHING_4B, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
-    /* 0x4C */ GI_OCARINA_OF_TIME = 0x4C,
-    /* 0x4D */  // GI_ERROR_NOTHING_4D, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
-    /* 0x4E */  // GI_ERROR_NOTHING_4E, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory - New Wave Bossa Nova
-    /* 0x4F */  // GI_ERROR_NOTHING_4F, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
-    /* 0x50 */ GI_BOMBERS_NOTEBOOK = 0x50,
-    /* 0x51 */  // GI_ERROR_YELLOW_RUPPEE, // ***ERROR TEXT Get Item Nothing in hand at first - then
-                // subsequently yellow rupee. No rupee increment.
-    /* 0x52 */ GI_GOLD_SKULLTULA_SPIRIT = 0x52,  // Pickup model is whacky since we usually don't have one.
-    /* 0x53 */  // GI_ERROR_NOTHING_53, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory Song of Time
+    /* 0x4B */ GI_SONATA_OF_AWAKENING = 0x4B,
+    /* 0x4C */ GI_OCARINA_OF_TIME,
+    /* 0x4D */ GI_GORON_LULLABY,
+    /* 0x4E */ GI_NEW_WAVE_BOSSA_NOVA,
+    /* 0x4F */ GI_ELEGY_OF_EMPTINESS,
+    /* 0x50 */ GI_BOMBERS_NOTEBOOK,
+    /* 0x51 */ GI_OATH_TO_ORDER,
+    /* 0x52 */ GI_GOLD_SKULLTULA_SPIRIT,  // Pickup model is whacky since we usually don't have one.
+    /* 0x53 */ GI_SONG_OF_TIME,
     /* 0x54 */  // GI_ERROR_NOTHING_54, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
     /* 0x55 */ GI_ODOLWAS_REMAINS = 0x55,  // Also softlocks!
@@ -138,19 +132,15 @@ namespace rnd {
     /* 0x69 */ GI_BOTTLE_ZORA_EGG,
     /* 0x6A */ GI_BOTTLE_GOLD_DUST,
     /* 0x6B */ GI_BOTTLE_MAGIC_MUSHROOM,
-    /* 0x6C */  // GI_ERROR_NOTHING_6C, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
-    /* 0x6D */  // GI_BOTTLE_EMPTY_ERROR_TEXT,
+    /* 0x6C */ GI_EPONAS_SONG,
+    /* 0x6D */                             // GI_BOTTLE_EMPTY_ERROR_TEXT,
     /* 0x6E */ GI_BOTTLE_SEAHORSE = 0x6E,  // Gold Dust Actor lol
     /* 0x6F */ GI_BOTTLE_CHATEAU_ROMANI,
     /* 0x70 */ GI_BOTTLE_MYSTERY_MILK,  // Activates Timer
     /* 0x71 */ GI_BOTTLE_MOLDY_MILK,    // Mystery milk text followed by tatl.
-    /* 0x72 */  // GI_ERROR_NOTHING_72, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory. Song of Soaring.
-    /* 0x73 */  // GI_ERROR_NOTHING_73, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
-    /* 0x74 */  // GI_ERROR_NOTHING_74, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
-                // Ocarina in Inventory
+    /* 0x72 */ GI_SONG_OF_SOARING,
+    /* 0x73 */ GI_SONG_OF_STORMS,
+    /* 0x74 */ GI_GORON_LULLABY_INTRO,
     /* 0x75 */  // GI_ERROR_NOTHING_75, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
                 // Ocarina in Inventory
     /* 0x76 */  // GI_ERROR_NOTHING_76, // ***ERROR TEXT Get Item Nothing in hand - Green Rupee with
