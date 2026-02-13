@@ -675,6 +675,29 @@ namespace rnd {
     }
   }
 
+  bool isGIDSongOrSoHItem(GetItemID incomingGetItemId) {
+    switch (incomingGetItemId) {
+    case GetItemID::GI_SONATA_OF_AWAKENING:
+    case GetItemID::GI_GORON_LULLABY:
+    case GetItemID::GI_NEW_WAVE_BOSSA_NOVA:
+    case GetItemID::GI_OATH_TO_ORDER:
+    case GetItemID::GI_SONG_OF_TIME:
+    case GetItemID::GI_EPONAS_SONG:
+    case GetItemID::GI_MASK_COUPLES:
+    case GetItemID::GI_MASK_GIBDO:
+    case GetItemID::GI_SONG_OF_SOARING:
+    case GetItemID::GI_SONG_OF_STORMS:
+    case GetItemID::GI_GORON_LULLABY_INTRO:
+    case GetItemID::GI_MASK_DEKU:
+    case GetItemID::GI_MASK_GORON:
+    case GetItemID::GI_MASK_ZORA:
+    case GetItemID::GI_ELEGY_OF_EMPTINESS:
+      return true;
+    default:
+      return false;
+    }
+  }
+
   extern "C" {
   bool ItemOverride_CheckAromaGivenItem() {
     if (gExtSaveData.givenItemChecks.enAlGivenItem > 0)
@@ -729,11 +752,11 @@ namespace rnd {
     s32 incomingNegative = incomingGetItemId < 0;
     if (fromActor != NULL && incomingGetItemId != 0) {
       s16 getItemId = ItemOverride_CheckNpc(fromActor->id, incomingGetItemId, incomingNegative);
-      // #if defined ENABLE_DEBUG || DEBUG_PRINT
-      //       util::Print("%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId
-      //       %#04x\nParams %#04x\n", __func__, fromActor->id,
-      //                   gctx->scene, incomingGetItemId, getItemId, fromActor->params);
-      // #endif
+#if defined ENABLE_DEBUG || DEBUG_PRINT
+      util::Print(
+          "%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId %#04x\nParams %#04x\n ",
+          __func__, fromActor->id, gctx->scene, incomingGetItemId, getItemId, fromActor->params);
+#endif
       storedActorId = fromActor->id;
       storedGetItemId = incomingNegative ? (GetItemID)-incomingGetItemId : (GetItemID)incomingGetItemId;
       override = ItemOverride_Lookup(fromActor, (u16)gctx->scene, getItemId);
@@ -886,11 +909,7 @@ namespace rnd {
     // Edge case with Song of healing items. Override their show text in their own functions
     // to ensure that we have the same 'feel' as the base game.
     // This also ensures that if there is no override the default text still works.
-    if (incomingGetItemId == 0x4B || incomingGetItemId == 0x4D || incomingGetItemId == 0x4E ||
-        incomingGetItemId == 0x51 || incomingGetItemId == 0x53 || incomingGetItemId == 0x6C ||
-        (incomingGetItemId <= 0x72 && incomingGetItemId >= 0x74) ||
-        (incomingGetItemId >= 0x78 && incomingGetItemId <= 0x7A) || incomingGetItemId == 0x85 ||
-        incomingGetItemId == 0x87) {
+    if (isGIDSongOrSoHItem(static_cast<GetItemID>(incomingGetItemId))) {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
       rnd::util::Print("%s: Must be a song, storing text ID %#04x for incomingItemId %#04x.\n", __func__,
                        rActiveItemRow->textId, incomingGetItemId);
@@ -1072,7 +1091,7 @@ namespace rnd {
   void ItemOverride_SwapSoHAndSongGetItemText(game::GlobalContext* gctx, u16 textId, game::act::Actor* fromActor) {
 // Check which text ID is coming in. If it's any mask from Song of Healing, replace it with active item text.
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: txtId = %#08x\n", __func__, textId);
+    rnd::util::Print("%s: txtId = %#08x \n", __func__, textId);
 #endif
     if (givenItemOverride) {
       givenItemOverride = false;

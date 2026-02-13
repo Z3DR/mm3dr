@@ -107,12 +107,11 @@ namespace rnd {
 // const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-      auto& inventory = game::GetCommonData().save.inventory;
-      inventory.items[0] = game::ItemId::None;
-      inventory.collect_register.song_of_time = 0;
+      gExtSaveData.givenSongChecks.songOfSoaringGiven = 0;
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       auto& inventory = game::GetCommonData().save.inventory;
-      inventory.items[0] = game::ItemId::Ocarina;
+      inventory.woodfall_dungeon_items.boss_key = 1;
+      // inventory.items[0] = game::ItemId::Ocarina;
     } else if (pressedButtons == (u32)game::pad::Button::Right) {
       xPos += 10.00f;
     } else if (pressedButtons == (u32)game::pad::Button::Left) {
