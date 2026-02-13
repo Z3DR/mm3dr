@@ -59,11 +59,6 @@ SleepQueryCallback_patch:
 Gfx_Update_patch:
     b hook_Gfx_Update
 
-.section .patch_OverrideBombersNotebook
-.global patch_OverrideBombersNotebook
-patch_OverrideBombersNotebook:
-    b hook_OverrideHMSBombers
-
 .section .patch_GiveTempSwordForHandD
 .global patch_GiveTempSwordForHandD
 patch_GiveTempSwordForHandD:
