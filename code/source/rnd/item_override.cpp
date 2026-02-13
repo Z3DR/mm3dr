@@ -1270,11 +1270,10 @@ namespace rnd {
   game::OcarinaSong ItemOverride_ChangeEnGkSong() {
     game::GlobalContext* gctx = GetContext().gctx;
     game::OcarinaSong lastPlayedSong = gctx->msg_context.lastPlayedSong;
-    if ((lastPlayedSong == game::OcarinaSong::GoronLullaby) && gExtSaveData.givenSongChecks.goronLullabyGiven == 0) {
+    if ((lastPlayedSong == game::OcarinaSong::GoronLullaby) && gExtSaveData.givenSongChecks.goronLullabyGiven < 2) {
       gctx->msg_context.lastPlayedSong = game::OcarinaSong::GoronLullablyIntro;
       return game::OcarinaSong::GoronLullablyIntro;
     }
-
     return lastPlayedSong;
   }
   }
