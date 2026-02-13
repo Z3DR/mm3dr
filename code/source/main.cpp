@@ -111,8 +111,6 @@ namespace rnd {
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       auto& inventory = game::GetCommonData().save.inventory;
       inventory.woodfall_dungeon_items.boss_key = 1;
-      inventory.collect_register.song_of_healing = 1;
-      game::GiveItem(game::ItemId::DekuMask);
       // inventory.items[0] = game::ItemId::Ocarina;
     } else if (pressedButtons == (u32)game::pad::Button::Right) {
       xPos += 10.00f;
