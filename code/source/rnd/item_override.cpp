@@ -1078,6 +1078,13 @@ namespace rnd {
         : (int)0xFF;
     } else if (currentItem == game::ItemId::Ocarina) {
       return (int) currentItem; // XXX: Use this to fix Termina being in Cycle 1.
+    } else if (currentItem == game::ItemId::DekuMask) {
+      auto* gctx = GetContext().gctx;
+      if(gctx->scene == game::SceneId::ClockTowerInterior) {
+        return givenItems.enOsnGivenMask ? (int) currentItem
+          : (int)0xFF;
+      }
+      
     }
     // Use the standard pointer to array as this seems to mess with
     // some issues in checking items such as trade items, and Giant's Mask.

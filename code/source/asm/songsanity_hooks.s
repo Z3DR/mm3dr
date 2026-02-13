@@ -44,7 +44,7 @@ hook_LullabyCheckEnJg:
 .global hook_EnOsnCheckSoHExtData
 hook_EnOsnCheckSoHExtData:
     push {r0-r12, lr}
-    mov r0,#0x69
+    mov r0,#0x68
     bl ItemOverride_ReceivedSongOverride
     cmp r0,#0x0
     pop {r0-r12,lr}
