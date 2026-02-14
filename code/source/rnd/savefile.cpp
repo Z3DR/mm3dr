@@ -149,14 +149,6 @@ namespace rnd {
       SaveFile_SetStartingOwlStatues();
       SaveFile_SetComfortOptions();
 
-      /*Currently starting with ocarina and song of time is default in MM rando.
-        These two items allows for skipping the first three day cycle.
-        Currently there is no known way to get termina field to load
-        in properly without ocarina in inventory.                                */
-      saveData.inventory.collect_register.song_of_time = 1;  // Part of starting quest items options
-      // rnd::util::GetPointer<void(game::ItemId)>(0x22b14c)(game::ItemId::Ocarina);
-      //  gSettingsContext.startingDekuMask = 1;  // start with Deku Mask, Song of Healing & Bomber's notebook always
-      //  saveData.inventory.collect_register.song_of_healing = 1;  // until happy mask salesman is overridden
       saveData.player.owl_statue_flags.clock_town = 1;
 #ifdef ENABLE_DEBUG
       gSettingsContext.startingKokiriSword = 3;
@@ -173,8 +165,6 @@ namespace rnd {
       saveData.week_event_reg_10.WEEKEVENTREG_TALKED_TINGLE = 1;
 
       saveData.player_form = game::act::Player::Form::Human;
-      // Shuffling now works, removing the starting item with notebook.
-      // saveData.inventory.collect_register.bombers_notebook = 1;
     }
   }
 
@@ -230,7 +220,6 @@ namespace rnd {
     saveData.meeting_happy_mask_salesman_0x01 = 0x01;
     saveData.skullkid_backstory_cutscene_0x10 = 0x10;
     saveData.week_event_reg_131.WEEKEVENTREG_OWL_STATUE_CUTSCENE = 1;
-    // saveData.dungeon_skip_portal_cutscene_0x3C_to_skip_all = 0x3C;
 
     // Needs to be greater than zero to skip first time song of time cutscene
     saveData.player.three_day_reset_count = 1;
