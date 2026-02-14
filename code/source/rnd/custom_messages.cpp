@@ -251,10 +251,11 @@ public:
     return this;
   }
 
-  MsgBuilder* pad(bool always) {
-    if (always)
-      addChr(0x00);
-    if (*size % 2)
+  MsgBuilder* pad(bool fourByte) {
+    if (fourByte) {
+      while (((u32)data + *size) & 3)
+        addChr(0x00);
+    } else if (((u32)data + *size) & 1)
       addChr(0x00);
     return this;
   }
