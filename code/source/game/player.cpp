@@ -73,8 +73,8 @@ namespace game::act {
 
   extern "C" {
   bool PlayerStateSpawningElegyStatue(Player* player, GlobalContext* gctx) {
-    if (!rnd::gSettingsContext.enableFastElegyStatues)
-      return false;
+    // if (!rnd::gSettingsContext.enableFastElegyStatues)
+    //   return false;
     auto& pad = gctx->pad_state;
     player->controller_info.state = &pad;
 
@@ -92,7 +92,7 @@ namespace game::act {
           !statue || (statue->pos.pos.x == player->pos.pos.x && statue->pos.pos.y == player->pos.pos.y &&
                       statue->pos.pos.z == player->pos.pos.z);
       if (player->timer > 135 || statue_ready) {
-        gctx->msg_context.ocarina_state = OcarinaState::StoppedPlaying;
+        gctx->msg_context.ocarinaMode = OcarinaMode::OCARINA_MODE_END;
         PlayerChangeStateToStill(player, gctx);
       } else if (statue && !statue_ready) {
         // Speed up the statue fadeout. (0x18 + 8 = 0x20 per game tick)
