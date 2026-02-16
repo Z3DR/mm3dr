@@ -336,8 +336,8 @@ namespace game {
     u16 field_8360;
     u16 field_8362;
     OcarinaSong ocarina_song2;
-    OcarinaState ocarina_state;
-    OcarinaState ocarina_state2;
+    OcarinaMode ocarina_state;
+    OcarinaMode ocarina_state2;
     OcarinaSong ocarina_song;
     u16 field_836C;
     u8 field_836E;
@@ -620,6 +620,7 @@ namespace game {
   static_assert(offsetof(GlobalContext, field_C4C8) == 0xC4C8);
   static_assert(offsetof(GlobalContext, gap_AC6C) == 0xAC6C);
   static_assert(offsetof(GlobalContext, msg_context) == 0x8020);
+  static_assert(offsetof(GlobalContext, msg_context.ocarinaMode) == 0x8366);
   static_assert(offsetof(GlobalContext, gap_404) == 0x0404);
   static_assert(offsetof(GlobalContext, object_context) == 0x9438);
   static_assert(sizeof(GlobalContext) == 0x11030);
