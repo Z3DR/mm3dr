@@ -377,3 +377,11 @@ hook_OverrideGetSongItem:
 noOverrideSongItemID:
     bl 0x233BEC
     b 0x605980
+
+.global hook_EditDrawGetItemBeforeModelSpawn
+hook_EditDrawGetItemBeforeModelSpawn:
+    push {r0-r12, lr}
+    bl ItemOverride_EditDrawGetItemBeforeModelSpawn
+    pop {r0-r12, lr}
+    mov r9, #0x0
+    bx lr

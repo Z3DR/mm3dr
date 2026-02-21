@@ -303,10 +303,10 @@ namespace rnd {
     //          "%s: Our key values:\nKey Type %#04x\nKey Scene: %#04x\nKey Flag: %#06x\n",
     //          key.type, key.scene, key.flag);
     // #endif
-    ItemOverride_Clear();
   }
 
   void ItemOverride_Update(void) {
+    game::act::Player* player = GetContext().gctx->GetPlayerActor();
     // TODO: Custom models, trade items.
     if (ItemOverride_PlayerIsReady()) {
       ItemOverride_PopIceTrap();
@@ -316,8 +316,18 @@ namespace rnd {
         ItemOverride_TryPendingItem();
       }
     }
+
+    if(rActiveItemRow != NULL && player->get_item_id == 0) {
+      ItemOverride_Clear();
+    }
   }
 
+  extern "C" void ItemOverride_EditDrawGetItemBeforeModelSpawn(void) {
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    bool active = rActiveItemRow == NULL;
+    rnd::util::Print("%s: Is active item override active? %u base is %#04x\n", __func__, active, rActiveItemRow->baseItemId);
+#endif
+  }
   void ItemOverride_PushDungeonReward(u8 dungeon) {
     ItemOverride_Key key = {.all = 0};
     key.scene = 0xFF;
