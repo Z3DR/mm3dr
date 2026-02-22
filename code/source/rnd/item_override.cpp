@@ -317,7 +317,8 @@ namespace rnd {
       }
     }
 
-    if(rActiveItemRow != NULL && player->get_item_id == 0) {
+    if (rActiveItemRow != NULL &&
+        (player->get_item_id == 0 || (player->grabbable_actor == NULL && (player->flags1 & 0x40000000) == 0))) {
       ItemOverride_Clear();
     }
   }
@@ -325,7 +326,8 @@ namespace rnd {
   extern "C" void ItemOverride_EditDrawGetItemBeforeModelSpawn(void) {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     bool active = rActiveItemRow == NULL;
-    rnd::util::Print("%s: Is active item override active? %u base is %#04x\n", __func__, active, rActiveItemRow->baseItemId);
+    rnd::util::Print("%s: Is active item override active? %u base is %#04x\n", __func__, active,
+                     rActiveItemRow->baseItemId);
 #endif
   }
   void ItemOverride_PushDungeonReward(u8 dungeon) {
