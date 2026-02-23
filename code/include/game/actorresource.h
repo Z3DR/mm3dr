@@ -34,6 +34,11 @@ namespace game::ActorResource {
   };
   static_assert(sizeof(ActorResources) == 0x10408);
 
+  struct ActorResourcePath {
+    char path[52];
+  };
+  static_assert(sizeof(ActorResourcePath) == 0x34);
+
   struct ObjectContext {
     u8 num;
     char gap_01[3];
@@ -44,5 +49,6 @@ namespace game::ActorResource {
   u32 find(ActorResources*, int);
   u32 loadActorResource(ActorResources*, u32);
   void freeActorResource(ActorResource*);
+  ActorResourcePath* GetActorResourcePathTable();
 
 }  // namespace game::ActorResource

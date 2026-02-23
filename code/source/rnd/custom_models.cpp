@@ -4,6 +4,35 @@
 
 #define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
 namespace rnd {
+  u8 SmallKeyData[][7] = {
+      {0x00, 0x80, 0x00, 0x00, 0x00, 0xCC, 0x00},  // Woodfall
+      {0x54, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00},  // Snowhead
+      {0x00, 0x00, 0xDA, 0x00, 0x00, 0x00, 0xFF},  // Great Bay
+      {0x25, 0x00, 0x40, 0x00, 0x64, 0x00, 0xAD}   // Stone Tower
+  };
+
+  static void CustomModel_ApplyColorEditsToSmallKey(void* smallKeyCMB, s32 keyType) {
+    char* BASE_ = (char*)smallKeyCMB;
+
+    for (s32 i = 0; i < 7; i++) {
+      EDIT_BYTE(0x12C + i, SmallKeyData[keyType][i]);
+    }
+  }
+
+  void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {
+    void* cmb;
+
+    switch (objectId) {
+    case OBJECT_CUSTOM_SMALL_KEY_WOODFALL:
+    case OBJECT_CUSTOM_SMALL_KEY_SNOWHEAD:
+    case OBJECT_CUSTOM_SMALL_KEY_GREAT_BAY:
+    case OBJECT_CUSTOM_SMALL_KEY_STONE_TOWER:
+      cmb = ((char*)ZARBuf) + 0x60;
+      CustomModel_ApplyColorEditsToSmallKey(cmb, special);
+      break;
+    }
+  }
+
   // TODO: Change this for MM3D.
   void CustomModel_EditTitleScreenLogo(void* titleScreenZAR) {
     char* BASE_ = (char*)titleScreenZAR;

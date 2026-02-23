@@ -1,4 +1,5 @@
 #include "rnd/models.h"
+#include "rnd/custom_models.h"
 #include "rnd/actors/dm_char03.h"
 #include "rnd/actors/dm_char05.h"
 #include "rnd/actors/dm_hina.h"
@@ -328,6 +329,7 @@ namespace rnd {
 
   void Actor_Init() {
     game::act::ActorOverlayInfo* overlayTable = game::act::GetActorOverlayInfoTable();
+    game::ActorResource::ActorResourcePath* resourcePathTable = game::ActorResource::GetActorResourcePathTable();
     // Setup destroy and init functions at this point instead of creating a ton of ASM patches.
     // Use this only if the drwaing for the actor is not complex. Otherwise ASM patches are better.
     overlayTable[0x0E].info->deinit_fn = EnItem00_rDestroy;
@@ -358,5 +360,11 @@ namespace rnd {
 
     overlayTable[0x212].info->init_fn = Obj_Moon_Stone_Init;
     overlayTable[0x212].info->deinit_fn = Obj_Moon_Stone_Destroy;
+
+    // Define all the small key objects to be by default the same as object 134
+    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY_WOODFALL].path, resourcePathTable[0x86].path, 0x34);
+    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY_SNOWHEAD].path, resourcePathTable[0x86].path, 0x34);
+    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY_GREAT_BAY].path, resourcePathTable[0x86].path, 0x34);
+    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY_STONE_TOWER].path, resourcePathTable[0x86].path, 0x34);
   }
 }  // namespace rnd

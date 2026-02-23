@@ -114,7 +114,7 @@ namespace game::pad {
     u32 field_40;
     u32 field_44;
   };
-
+  static_assert(sizeof(ControllerInfo) == 0x48);
 #pragma pack(push, 1)
   struct ControllerMgr {
     u8 gap_0[0x1000];
