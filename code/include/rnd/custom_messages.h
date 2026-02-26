@@ -10,8 +10,7 @@ typedef struct {
   u16 field_2;
   u32 field_4;
   u32 flags;
-  u32 offsets[4];
-  u16 delayOffset;
+  u32 offsets[6];
   u16 sfxAndFlags;
 } UnformattedMessage;
 
