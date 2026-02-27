@@ -109,11 +109,8 @@ namespace rnd {
     if (pressedButtons == (u32)game::pad::Button::ZR) {
       gExtSaveData.givenSongChecks.songOfSoaringGiven = 0;
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
-      auto& inventory = game::GetCommonData().save.inventory;
-      inventory.woodfall_dungeon_items.boss_key = 1;
-      inventory.collect_register.song_of_healing = 1;
-      game::GiveItem(game::ItemId::DekuMask);
-      // inventory.items[0] = game::ItemId::Ocarina;
+      auto& save = game::GetCommonData().save;
+      save.week_event_reg_93.WEEKEVENTREG_CALLED_GIANTS_ON_ROOFTOP_ONCE = 1;
     } else if (pressedButtons == (u32)game::pad::Button::Right) {
       xPos += 10.00f;
     } else if (pressedButtons == (u32)game::pad::Button::Left) {

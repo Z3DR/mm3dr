@@ -74,11 +74,6 @@ patch_RemoveTempSwordForHandD:
 patch_KeepBowOnEpona:
     nop
 
-.section .patch_OverrideCutsceneNextEntrance
-.global patch_OverrideCutsceneNextEntrance
-patch_OverrideCutsceneNextEntrance:
-    bl hook_OverrideCutsceneNextEntrance
-
 @ There's a while loop located in the event
 @ timer that checks if we have mystery milk.
 @ We do not wish to show this since we want to remove
@@ -87,16 +82,6 @@ patch_OverrideCutsceneNextEntrance:
 .global patch_RemoveMysteryMilkTimer
 patch_RemoveMysteryMilkTimer:
     nop
-
-@ Skip past all the fairy and 
-@ door resetting if we are the temples
-@ as we don't want to softlock users
-@ if they have already used their keys.
-.section .patch_DoNotResetTempleFlags
-.global patch_DoNotResetTempleFlags
-patch_DoNotResetTempleFlags:
-    bl hook_DoNotResetTempleFlags
-
 
 @ Skips past a loop that resets all
 @ values in the each dungeon for 

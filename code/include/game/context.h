@@ -516,7 +516,11 @@ namespace game {
     u8 field_C530;
     u8 field_C531;
     u8 field_C532;
-    u8 gap_C533[5];
+    // u8 gap_C533[5];
+    u8 gap_C533;
+    u8 transitionType;
+    u8 field_C535;
+    u16 field_C536;
     int field_C538;
     u8 gap_C53C[798];
     u8 field_C85A;
@@ -623,6 +627,8 @@ namespace game {
   static_assert(offsetof(GlobalContext, msg_context.ocarinaMode) == 0x8366);
   static_assert(offsetof(GlobalContext, gap_404) == 0x0404);
   static_assert(offsetof(GlobalContext, object_context) == 0x9438);
+  static_assert(offsetof(GlobalContext, transitionType) == 0xC534);
+  static_assert(offsetof(GlobalContext, field_C538) == 0xC538);
   static_assert(sizeof(GlobalContext) == 0x11030);
 
   struct PersistentSceneCycleFlags {

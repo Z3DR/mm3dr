@@ -752,6 +752,10 @@ SECTIONS{
     *(.patch_EnGkCheckLullabyRewardGiven)
   }
 
+  .patch_AdjustMoonEntryRequirements 0x576D48 : {
+    *(.patch_AdjustMoonEntryRequirements)
+  }
+
   .patch_EnMkNWBNOverride 0x58722C : {
     *(.patch_EnMkNWBNOverride)
   }

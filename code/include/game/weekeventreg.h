@@ -1247,7 +1247,7 @@ namespace game {
     u8 raw;
     BitField<0, 1, u8> WEEKEVENTREG_93_01;
     BitField<1, 1, u8> WEEKEVENTREG_93_02;
-    BitField<2, 1, u8> WEEKEVENTREG_93_04;
+    BitField<2, 1, u8> WEEKEVENTREG_CALLED_GIANTS_ON_ROOFTOP_ONCE;
     BitField<3, 1, u8> WEEKEVENTREG_93_08;
     BitField<4, 1, u8> WEEKEVENTREG_93_10;
     BitField<5, 1, u8> WEEKEVENTREG_93_20;
