@@ -524,7 +524,8 @@ public:
             resolvedChar <<= 6;
             resolvedChar |= (text[idx + 1] & 0x3F);
             // Add current byte to message and increment
-            addChr(text[idx++]);
+            if (game::MessageMgr::Instance().lang != game::Language::JpJp) addChr(text[idx]);
+            idx++;
           }
           // Reset resolvedChar to * if it couldn't fit value
           if (resolvedCharIsTooSmall) {
@@ -532,7 +533,11 @@ public:
           }
         }
 
-        addChr(text[idx]);
+        if (game::MessageMgr::Instance().lang == game::Language::JpJp) {
+          addChr(resolvedChar & 0xFF);
+          addChr(resolvedChar >> 8);
+        }
+        else addChr(text[idx]);
         // Assumes all further chars will be represented by * as many up to MAX_CHAR already are
         lineLen += (resolvedChar < MAX_CHAR) ? width[resolvedChar] : DEFAULT_WIDTH;
         break;
