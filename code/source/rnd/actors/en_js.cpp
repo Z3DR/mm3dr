@@ -70,7 +70,7 @@ namespace rnd
       else
         return 0x2202;
     }
-    return 0xFFFE;
+    return 0x6144;
   }
   } 
 } // namespace rnd
