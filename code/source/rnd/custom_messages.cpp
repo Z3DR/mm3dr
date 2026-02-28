@@ -552,11 +552,11 @@ public:
           }
         }
 
-        if (game::MessageMgr::Instance().lang == game::Language::JpJp) {
+       if (game::MessageMgr::Instance().lang == game::Language::JpJp) {
           addChr(resolvedChar & 0xFF);
           addChr(resolvedChar >> 8);
-        }
-        else addChr(text[idx]);
+        } else
+          addChr(text[idx]);
         // Assumes all further chars will be represented by * as many up to MAX_CHAR already are
         lineLen += (resolvedChar < MAX_CHAR) ? width[resolvedChar] : DEFAULT_WIDTH;
         break;
