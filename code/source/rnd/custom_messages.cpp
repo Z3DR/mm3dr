@@ -134,38 +134,47 @@ VarVal getVarVal(volatile const char* text) {
 
 volatile const char* resolveTextPtr(volatile const u32* offsets) {
   // Offsets are 18 bits long packed into array
-  u32 offsetEn = offsets[0] & 0x3FFFF;
-  u32 offsetFr = ((offsets[1] << 14) | (offsets[0] >> 18)) & 0x3FFFF;
-  u32 offsetEs = (offsets[1] >> 4) & 0x3FFFF;
-  u32 offsetDe = ((offsets[2] << 10) | (offsets[1] >> 22)) & 0x3FFFF;
-  u32 offsetIt = (offsets[2] >> 8) & 0x3FFFF;
-  u32 offsetNl = ((offsets[3] << 6) | (offsets[2] >> 26)) & 0x3FFFF;
+  u32 offsetUsEn = offsets[0] & 0x3FFFF;
+  u32 offsetUsFr = ((offsets[1] << 14) | (offsets[0] >> 18)) & 0x3FFFF;
+  u32 offsetUsEs = (offsets[1] >> 4) & 0x3FFFF;
+  u32 offsetEuEn = ((offsets[2] << 10) | (offsets[1] >> 22)) & 0x3FFFF;
+  u32 offsetEuFr = (offsets[2] >> 8) & 0x3FFFF;
+  u32 offsetEuEs = ((offsets[3] << 6) | (offsets[2] >> 26)) & 0x3FFFF;
+  u32 offsetEuDe = (offsets[3] >> 12) & 0x3FFFF;
+  u32 offsetEuIt = ((offsets[4] << 2) | (offsets[3] >> 30)) & 0x3FFFF;
+  u32 offsetEuNl = ((offsets[5] << 16) | (offsets[4] >> 16)) & 0x3FFFF;
 
   // Choose offset based on current language and if an offset is assigned
   // Offset 0 should contain a "No text" message
   game::MessageMgr mgr = game::MessageMgr::Instance();
   switch (mgr.lang) {
   case game::Language::UsFr:
-  case game::Language::EuFr:
-    return rCustomMessageTextData + ((offsetFr) ? offsetFr : offsetEn);
+    return rCustomMessageTextData + ((offsetUsFr) ? offsetUsFr : offsetUsEn);
 
   case game::Language::UsEs:
+    return rCustomMessageTextData + ((offsetUsEs) ? offsetUsEs : offsetUsEn);
+
+  case game::Language::EuFr:
+    return rCustomMessageTextData + ((offsetEuFr) ? offsetEuFr : offsetEuEn);
+
   case game::Language::EuEs:
-    return rCustomMessageTextData + ((offsetEs) ? offsetEs : offsetEn);
+    return rCustomMessageTextData + ((offsetEuEs) ? offsetEuEs : offsetEuEn);
 
   case game::Language::EuDe:
-    return rCustomMessageTextData + ((offsetDe) ? offsetDe : offsetEn);
+    return rCustomMessageTextData + ((offsetEuDe) ? offsetEuDe : offsetEuEn);
 
   case game::Language::EuIt:
-    return rCustomMessageTextData + ((offsetIt) ? offsetIt : offsetEn);
+    return rCustomMessageTextData + ((offsetEuIt) ? offsetEuIt : offsetEuEn);
 
   case game::Language::EuNl:
-    return rCustomMessageTextData + ((offsetNl) ? offsetNl : offsetEn);
+    return rCustomMessageTextData + ((offsetEuNl) ? offsetEuNl : offsetEuEn);
+
+  case game::Language::EuEn:
+    return rCustomMessageTextData + offsetEuEn;
 
   case game::Language::UsEn:
-  case game::Language::EuEn:
   default:
-    return rCustomMessageTextData + offsetEn;
+    return rCustomMessageTextData + offsetUsEn;
   }
 }
 
@@ -326,9 +335,9 @@ public:
     // % - delay
     // = - 3 letter acronym for variable to insert
     volatile const char* text = resolveTextPtr(msg->offsets);
-    u16 colOffset = (u16)(msg->offsets[3] >> 12) & 0x3FF;
-    u16 iconOffset = (u16)(msg->offsets[3] >> 22) & 0x3FF;
-    u16 delayOffset = msg->delayOffset;
+    u16 colOffset = (u16)(msg->offsets[5] >> 2) & 0x3FF;
+    u16 iconOffset = (u16)(msg->offsets[5] >> 12) & 0x3FF;
+    u16 delayOffset = (u16)(msg->offsets[5] >> 22) & 0x3FF;
     u16 idx = 0xFFFF, lastSpaceIdx = 0;
     u16 colIdx = 0, colIdxAtLastSpace = 0;
     u16 iconIdx = 0, iconIdxAtLastSpace = 0;
