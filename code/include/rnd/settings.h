@@ -438,6 +438,10 @@ namespace rnd {
     // Extra MM Settings
     u8 blastMaskCooldown;
 
+    // Moon Settings
+    u8 masksNeededToEnterMoon;
+    u8 masksNeededForVictory;
+
     u8 useFierceDeityAnywhere = 0;
   } SettingsContext;
 

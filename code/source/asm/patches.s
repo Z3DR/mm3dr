@@ -83,6 +83,11 @@ patch_KeepBowOnEpona:
 patch_RemoveMysteryMilkTimer:
     nop
 
+.section .patch_tmp
+.global patch_tmp
+patch_tmp:
+    b 0x34EA0C
+
 @ Skips past a loop that resets all
 @ values in the each dungeon for 
 @ keys/fairies/boss key/etc
@@ -246,11 +251,6 @@ patch_RemoveBombers:
 .global patch_RemoveSoHMaskAppearing
 patch_RemoveSoHMaskAppearing:
     nop
-
-.section .patch_CheckMasksOnMoon
-.global patch_CheckMasksOnMoon
-patch_CheckMasksOnMoon:
-    bl hook_CheckMasksOnMoon
 
 .section .patch_RemoveJimWhenExitingHideout
 .global RemoveJimWhenExitingHideout_patch

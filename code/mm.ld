@@ -756,6 +756,10 @@ SECTIONS{
     *(.patch_AdjustMoonEntryRequirements)
   }
 
+  .patch_EnJsVictoryCheck 0x57C178 : {
+    *(.patch_EnJsVictoryCheck)
+  }
+
   .patch_EnMkNWBNOverride 0x58722C : {
     *(.patch_EnMkNWBNOverride)
   }
