@@ -1,7 +1,6 @@
 #include "rnd/actors/en_js.h"
 
-namespace rnd
-{
+namespace rnd {
   extern "C" {
   u16 En_Js_CurrentMasksInInventory() {
     // I can see why the original devs did this, because they did not want to count specific masks (transform + FD)
@@ -72,5 +71,5 @@ namespace rnd
     }
     return 0x6144;
   }
-  } 
-} // namespace rnd
+  }
+}  // namespace rnd

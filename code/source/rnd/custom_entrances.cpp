@@ -46,7 +46,7 @@ namespace rnd {
         cdata.next_cutscene_index = 0xfff2;
         cdata.next_transition_type = 2;
       }
-      
+
       didWarp = true;
     }
 

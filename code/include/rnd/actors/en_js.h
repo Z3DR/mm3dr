@@ -3,13 +3,11 @@
 #include "game/common_data.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
-namespace rnd
-{
-  extern "C"  {
+namespace rnd {
+  extern "C" {
   u16 En_Js_CurrentMasksInInventory();
   u16 En_Js_CheckVictoryRequirements();
   }
-} // namespace rnd
-
+}  // namespace rnd
 
 #endif
