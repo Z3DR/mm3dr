@@ -353,7 +353,7 @@ public:
     u16 delayIdx = 0, delayIdxAtLastSpace = 0;
     u16 sizeAtLastSpace = 0, resolvedChar = 0, lineLen = LINE_PADDING(*msg);
     bool inCol = false, inColAtLastSpace = false;
-    //bool inFuriganaMode = false;
+    // bool inFuriganaMode = false;
     bool lineWrap = true;
     u16 sfx = msg->sfxAndFlags & 0x3FFF;
     u8 resolvedCol = 0, resolvedIcon = 0, resolvedDelay = 0;
@@ -543,7 +543,8 @@ public:
             resolvedChar <<= 6;
             resolvedChar |= (text[idx + 1] & 0x3F);
             // Add current byte to message and increment
-            if (game::MessageMgr::Instance().lang != game::Language::JpJp) addChr(text[idx]);
+            if (game::MessageMgr::Instance().lang != game::Language::JpJp)
+              addChr(text[idx]);
             idx++;
           }
           // Reset resolvedChar to * if it couldn't fit value
@@ -552,7 +553,7 @@ public:
           }
         }
 
-       if (game::MessageMgr::Instance().lang == game::Language::JpJp) {
+        if (game::MessageMgr::Instance().lang == game::Language::JpJp) {
           addChr(resolvedChar & 0xFF);
           addChr(resolvedChar >> 8);
         } else
