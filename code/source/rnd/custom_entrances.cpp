@@ -65,7 +65,21 @@ namespace rnd {
   }
 
   bool CheckMoonRequirements() {
-    return true;
+    game::InventoryData::CollectRegister& collect_register = game::GetCommonData().save.inventory.collect_register;
+    u16 remainsCollected = 0;
+    if (collect_register.odolwas_remains == 1)
+      remainsCollected++;
+    if (collect_register.gohts_remains == 1)
+      remainsCollected++;
+    if (collect_register.gyorgs_remains == 1)
+      remainsCollected++;
+    if (collect_register.twinmolds_remains == 1)
+      remainsCollected++;
+
+    if (remainsCollected >= gSettingsContext.masksNeededToEnterMoon) {
+      return true;
+    }
+    return false;
   }
   }
 
