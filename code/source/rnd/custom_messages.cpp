@@ -316,6 +316,15 @@ public:
     addCom(0x31, 0x00);
     return addCom(0x02);
   }
+  // MsgBuilder* furiganaOpen() {
+  //   return addCom(0x3B);
+  // }
+  // MsgBuilder* furiganaSwitch() {
+  //   return addCom(0x00);
+  // }
+  // MsgBuilder* furiganaClose() {
+  //   return addCom(0x3C);
+  // }
 
   void format(volatile const UnformattedMessage* msg) {
     // @ - filename min: 4px max: 120px
@@ -335,6 +344,7 @@ public:
     u16 delayIdx = 0, delayIdxAtLastSpace = 0;
     u16 sizeAtLastSpace = 0, resolvedChar = 0, lineLen = LINE_PADDING(*msg);
     bool inCol = false, inColAtLastSpace = false;
+    //bool inFuriganaMode = false;
     bool lineWrap = true;
     u16 sfx = msg->sfxAndFlags & 0x3FFF;
     u8 resolvedCol = 0, resolvedIcon = 0, resolvedDelay = 0;
