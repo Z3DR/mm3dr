@@ -142,7 +142,7 @@ volatile const char* resolveTextPtr(volatile const u32* offsets) {
   u32 offsetEuEs = ((offsets[3] << 6) | (offsets[2] >> 26)) & 0x3FFFF;
   u32 offsetEuDe = (offsets[3] >> 12) & 0x3FFFF;
   u32 offsetEuIt = ((offsets[4] << 2) | (offsets[3] >> 30)) & 0x3FFFF;
-  u32 offsetEuNl = ((offsets[5] << 16) | (offsets[4] >> 16)) & 0x3FFFF;
+  u32 offsetJpJp = ((offsets[5] << 16) | (offsets[4] >> 16)) & 0x3FFFF;
 
   // Choose offset based on current language and if an offset is assigned
   // Offset 0 should contain a "No text" message
@@ -166,8 +166,8 @@ volatile const char* resolveTextPtr(volatile const u32* offsets) {
   case game::Language::EuIt:
     return rCustomMessageTextData + ((offsetEuIt) ? offsetEuIt : offsetEuEn);
 
-  case game::Language::EuNl:
-    return rCustomMessageTextData + ((offsetEuNl) ? offsetEuNl : offsetEuEn);
+  case game::Language::JpJp:
+    return rCustomMessageTextData + ((offsetJpJp) ? offsetJpJp : offsetUsEn);
 
   case game::Language::EuEn:
     return rCustomMessageTextData + offsetEuEn;
@@ -325,6 +325,15 @@ public:
     addCom(0x31, 0x00);
     return addCom(0x02);
   }
+  // MsgBuilder* furiganaOpen() {
+  //   return addCom(0x3B);
+  // }
+  // MsgBuilder* furiganaSwitch() {
+  //   return addCom(0x00);
+  // }
+  // MsgBuilder* furiganaClose() {
+  //   return addCom(0x3C);
+  // }
 
   void format(volatile const UnformattedMessage* msg) {
     // @ - filename min: 4px max: 120px
@@ -344,6 +353,7 @@ public:
     u16 delayIdx = 0, delayIdxAtLastSpace = 0;
     u16 sizeAtLastSpace = 0, resolvedChar = 0, lineLen = LINE_PADDING(*msg);
     bool inCol = false, inColAtLastSpace = false;
+    // bool inFuriganaMode = false;
     bool lineWrap = true;
     u16 sfx = msg->sfxAndFlags & 0x3FFF;
     u8 resolvedCol = 0, resolvedIcon = 0, resolvedDelay = 0;
@@ -533,7 +543,9 @@ public:
             resolvedChar <<= 6;
             resolvedChar |= (text[idx + 1] & 0x3F);
             // Add current byte to message and increment
-            addChr(text[idx++]);
+            if (game::MessageMgr::Instance().lang != game::Language::JpJp)
+              addChr(text[idx]);
+            idx++;
           }
           // Reset resolvedChar to * if it couldn't fit value
           if (resolvedCharIsTooSmall) {
@@ -541,7 +553,11 @@ public:
           }
         }
 
-        addChr(text[idx]);
+        if (game::MessageMgr::Instance().lang == game::Language::JpJp) {
+          addChr(resolvedChar & 0xFF);
+          addChr(resolvedChar >> 8);
+        } else
+          addChr(text[idx]);
         // Assumes all further chars will be represented by * as many up to MAX_CHAR already are
         lineLen += (resolvedChar < MAX_CHAR) ? width[resolvedChar] : DEFAULT_WIDTH;
         break;
