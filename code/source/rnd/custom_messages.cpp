@@ -142,7 +142,7 @@ volatile const char* resolveTextPtr(volatile const u32* offsets) {
   u32 offsetEuEs = ((offsets[3] << 6) | (offsets[2] >> 26)) & 0x3FFFF;
   u32 offsetEuDe = (offsets[3] >> 12) & 0x3FFFF;
   u32 offsetEuIt = ((offsets[4] << 2) | (offsets[3] >> 30)) & 0x3FFFF;
-  u32 offsetEuNl = ((offsets[5] << 16) | (offsets[4] >> 16)) & 0x3FFFF;
+  u32 offsetJpJp = ((offsets[5] << 16) | (offsets[4] >> 16)) & 0x3FFFF;
 
   // Choose offset based on current language and if an offset is assigned
   // Offset 0 should contain a "No text" message
@@ -166,8 +166,8 @@ volatile const char* resolveTextPtr(volatile const u32* offsets) {
   case game::Language::EuIt:
     return rCustomMessageTextData + ((offsetEuIt) ? offsetEuIt : offsetEuEn);
 
-  case game::Language::EuNl:
-    return rCustomMessageTextData + ((offsetEuNl) ? offsetEuNl : offsetEuEn);
+  case game::Language::JpJp:
+    return rCustomMessageTextData + ((offsetJpJp) ? offsetJpJp : offsetUsEn);
 
   case game::Language::EuEn:
     return rCustomMessageTextData + offsetEuEn;
