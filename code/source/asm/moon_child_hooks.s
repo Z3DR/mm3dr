@@ -4,7 +4,7 @@
 .global hook_CheckMasksOnMoon
 hook_CheckMasksOnMoon:
     push {r5-r12,lr}
-    bl CurrentMasksInInventory
+    bl En_Js_CurrentMasksInInventory
     cpy r4,r0
     pop {r5-r12, lr}
     mov r0,#0x0

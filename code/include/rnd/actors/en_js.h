@@ -5,7 +5,10 @@
 #include "rnd/settings.h"
 namespace rnd
 {
-  extern "C" u16 En_Js_CheckVictoryRequirements();
+  extern "C"  {
+  u16 En_Js_CurrentMasksInInventory();
+  u16 En_Js_CheckVictoryRequirements();
+  }
 } // namespace rnd
 
 
