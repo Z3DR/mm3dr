@@ -543,6 +543,10 @@ SECTIONS{
       *(.patch_RemoveWoodfallClearConditionFromBoatHouse)
   }
 
+  .patch_DrawGiantAfterMoonCutscene 0x39A53C : {
+    *(.patch_DrawGiantAfterMoonCutscene)
+  }
+
   .patch_DmChar03ModelDraw 0x3B9254 : {
     *(.patch_DmChar03ModelDraw)
   }
@@ -762,6 +766,10 @@ SECTIONS{
 
   .patch_EnMkNWBNOverride 0x58722C : {
     *(.patch_EnMkNWBNOverride)
+  }
+
+  .patch_EnGiantDrawGiantIfMoonRequirementsMet 0x58AB24 : {
+    *(.patch_EnGiantDrawGiantIfMoonRequirementsMet)
   }
 
   .patch_UpdateOcarinaVisibility 0x59AA2C : {

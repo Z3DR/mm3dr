@@ -110,7 +110,16 @@ namespace rnd {
       gExtSaveData.givenSongChecks.songOfSoaringGiven = 0;
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       auto& save = game::GetCommonData().save;
-      save.week_event_reg_93.WEEKEVENTREG_CALLED_GIANTS_ON_ROOFTOP_ONCE = 1;
+      save.week_event_reg_93.WEEKEVENTREG_CALLED_GIANTS_ON_ROOFTOP_ONCE = 0;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED %u\n", __func__,
+                       save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED);
+#endif
+      save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED = 0;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED %u\n", __func__,
+                       save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED);
+#endif
     } else if (pressedButtons == (u32)game::pad::Button::Right) {
       xPos += 10.00f;
     } else if (pressedButtons == (u32)game::pad::Button::Left) {

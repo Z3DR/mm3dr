@@ -449,6 +449,7 @@ namespace rnd {
   extern const char hashIconNames[62][25];
 
   extern "C" s32 Settings_ApplyDamageMultiplier(game::GlobalContext*, s32);
+  u16 Settings_CountRemainsCollected();
   u32 Hash(u32);
   u8 Bias(u32);
 }  // namespace rnd

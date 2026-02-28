@@ -25,7 +25,7 @@ hook_DoNotResetTempleFlags:
 hook_AdjustMoonEntryRequirements:
     ldr r2,[r3,#0x0]
     push {r0-r12, lr}
-    bl CheckMoonRequirements
+    bl EnFall_CheckMoonRequirements
     cmp r0,#0x1
     pop {r0-r12, lr}
     bne 0x576DFC @Did not meet requirements for moon.

@@ -17,7 +17,7 @@ namespace rnd {
   extern "C" {
   bool SceneEntranceOverride();
   void ForceTempleFlags();
-  bool CheckMoonRequirements();
+  bool EnFall_CheckMoonRequirements();
   }
 }  // namespace rnd
 

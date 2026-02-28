@@ -36,7 +36,7 @@ namespace rnd {
       // Patch for the rooftop to ensure that link is not turned into a form that has unintended effects.
       cdata.save.player_form = gctx->GetPlayerActor()->active_form;
     } else if (gctx->next_entrance == 0x5401 && gSettingsContext.skipGiantsCutscene) {
-      if (CheckMoonRequirements()) {
+      if (EnFall_CheckMoonRequirements()) {
         gctx->next_entrance = 0x2C02;
         cdata.sub13s[0].entrance_index = 0x2C02;
       } else {
@@ -64,17 +64,8 @@ namespace rnd {
     cycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1 = 0xFFFFFFFF;
   }
 
-  bool CheckMoonRequirements() {
-    game::InventoryData::CollectRegister& collect_register = game::GetCommonData().save.inventory.collect_register;
-    u16 remainsCollected = 0;
-    if (collect_register.odolwas_remains == 1)
-      remainsCollected++;
-    if (collect_register.gohts_remains == 1)
-      remainsCollected++;
-    if (collect_register.gyorgs_remains == 1)
-      remainsCollected++;
-    if (collect_register.twinmolds_remains == 1)
-      remainsCollected++;
+  bool EnFall_CheckMoonRequirements() {
+    u16 remainsCollected = Settings_CountRemainsCollected();
 
     if (remainsCollected >= gSettingsContext.masksNeededToEnterMoon) {
       return true;
