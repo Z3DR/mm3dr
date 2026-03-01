@@ -120,14 +120,6 @@ namespace rnd {
       rnd::util::Print("%s: save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED %u\n", __func__,
                        save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED);
 #endif
-    } else if (pressedButtons == (u32)game::pad::Button::Right) {
-      xPos += 10.00f;
-    } else if (pressedButtons == (u32)game::pad::Button::Left) {
-      xPos -= 10.00f;
-    } else if (pressedButtons == (u32)game::pad::Button::Up) {
-      zPos += 10.00f;
-    } else if (pressedButtons == (u32)game::pad::Button::Down) {
-      zPos -= 10.00f;
     }
 #endif
     if (gSettingsContext.customMaskButton != 0 && pressedButtons == gSettingsContext.customMaskButton) {
