@@ -107,19 +107,17 @@ namespace rnd {
 // const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-      gExtSaveData.givenSongChecks.songOfSoaringGiven = 0;
+      auto& cdata = game::GetCommonData();
+      rnd::util::Print("%s: cycleSceneFlags[gctx->scene].switch1 %08x\n", __func__,
+                       cdata.cycleSceneFlags[(u32)gctx->scene].switch1);
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       auto& save = game::GetCommonData().save;
       save.week_event_reg_93.WEEKEVENTREG_CALLED_GIANTS_ON_ROOFTOP_ONCE = 0;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
       rnd::util::Print("%s: save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED %u\n", __func__,
                        save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED);
-#endif
       save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED = 0;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
       rnd::util::Print("%s: save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED %u\n", __func__,
                        save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED);
-#endif
     }
 #endif
     if (gSettingsContext.customMaskButton != 0 && pressedButtons == gSettingsContext.customMaskButton) {
