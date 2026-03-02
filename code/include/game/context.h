@@ -51,40 +51,66 @@ namespace game {
   };
   static_assert(sizeof(ActorList) == 0xc);
 
+  struct ActorContextSceneFlags {
+    u32 switches[4];  // First 0x40 are permanent, second 0x40 are temporary
+    u32 chest;
+    u32 clearedRoom;
+    u32 clearedRoomTemp;
+    u32 collectible[4];  // bitfield of 128 bits
+  };
+  static_assert(sizeof(ActorContextSceneFlags) == 0x2C);
+
+  struct PlayerImpact {
+    u8 timer;
+    u8 type;
+    float dist;
+    z3dVec3f pos;
+  };
+  static_assert(sizeof(PlayerImpact) == 0x14);
+
+  struct TitleCardContext {
+    void* texturePtr;
+    s16 x;
+    s16 y;
+    u8 width;
+    u8 height;
+    u8 durationTimer;
+    u8 delayTimer;
+    u8 alpha;
+    u8 intensity;
+    u16 field_e;
+    u16 field_10;
+  };
+  static_assert(sizeof(TitleCardContext) == 0x14);
+
   struct ActorLists {
     ActorList& GetList(act::Type type) { return lists[u8(type)]; }
     const ActorList& GetList(act::Type type) const { return lists[u8(type)]; }
-    u8 gap_0[4];
-    u8 field_4;
-    u8 field_5;
+    u8 freeze_flash_timer;
+    u8 pad1;
+    u8 field_2;
+    u8 lens_active;
+    u8 lens_mask_size;
+    u8 flag;
     u8 gap_6[6];
     u8 num_actors;
     std::array<ActorList, 12> lists;
+    u8 gap_2150[128];
+    z3dVec3f field_21D0;
+    u8 gap_21DC[280];
+    ActorContextSceneFlags actor_ctx_scene_flags;
+    TitleCardContext title_card_ctx;
+    PlayerImpact player_impact;
+    u8 gap_2348[72];
+    void* absolute_space;
+    std::array<act::ObjElegyStatue*, 5> elegy_statues;
+    char field_23A8;
+    u8 gap_23A9[3];
+    pad::State pad_state_copy;
+    u8 gap_2418[12];
   };
-  static_assert(sizeof(ActorLists) == 0xa0);
-
-  enum class OcarinaState : u16 {
-    NotOpened = 0,
-    Playing = 1,
-    PlayingAndReplayDone = 3,
-    StoppedPlaying = 4,
-    PlayedSongOfTime = 0x12,
-    PlayedInvertedSongOfTime = 0x13,
-    GoingBackInTime = 0x16,
-    RestoringTimeToNormalSpeed = 0x18,
-    SlowingTime = 0x19,
-    JumpingForwardInTime = 0x1a,
-    WarpingToGreatBayCoast = 0x1c,
-    WarpingToZoraCape = 0x1d,
-    WarpingToSnowhead = 0x1e,
-    WarpingToMountainVillage = 0x1f,
-    WarpingToClockTown = 0x20,
-    WarpingToMilkRoad = 0x21,
-    WarpingToWoodfall = 0x22,
-    WarpingToSouthernSwamp = 0x23,
-    WarpingToIkanaCanyon = 0x24,
-    WarpingToStoneTower = 0x25,
-  };
+  static_assert(sizeof(ActorLists) == 0x374);
+  static_assert(offsetof(ActorLists, gap_6) == 0x06);
 
   enum class OcarinaMode : u16 {
     OCARINA_MODE_NONE = 0,
@@ -423,25 +449,20 @@ namespace game {
     u32 field_2000;
     u8 gap_2004[172];
     ActorLists actors;
-    u8 gap_2150[128];
+    /*u8 gap_2150[128];
     z3dVec3f field_21D0;
-    u8 gap_21DC[284];
-    int field_22f3;
-    int field_22FC;
-    u8 gap_2300[8];
-    int room_number_mask;
-    u8 gap_230C[4];
-    u8 field_2310;
-    u8 gap_2311[3];
-    int field_2314;
-    int field_2318;
-    int field_231C;
-    u8 gap_2320[116];
+    u8 gap_21DC[280];
+    ActorContextSceneFlags actor_ctx_scene_flags;
+    TitleCardContext title_card_ctx;
+    PlayerImpact player_impact;
+    u8 gap_2348[72];
+    void* absolute_space;
     std::array<act::ObjElegyStatue*, 5> elegy_statues;
     char field_23A8;
     u8 gap_23A9[3];
     pad::State pad_state_copy;
-    u8 gap_2418[16];
+    u8 gap_2418[12];*/
+    int field_2424;
     u32 field_2428;
     u8 gap_242C[604];
     u32 field_2688;
@@ -516,7 +537,11 @@ namespace game {
     u8 field_C530;
     u8 field_C531;
     u8 field_C532;
-    u8 gap_C533[5];
+    // u8 gap_C533[5];
+    u8 gap_C533;
+    u8 transitionType;
+    u8 field_C535;
+    u16 field_C536;
     int field_C538;
     u8 gap_C53C[798];
     u8 field_C85A;
@@ -615,7 +640,8 @@ namespace game {
   };
   static_assert(offsetof(GlobalContext, main_camera) == 0x408);
   static_assert(offsetof(GlobalContext, pause_flags) == 0xAAC);
-  static_assert(offsetof(GlobalContext, elegy_statues) == 0x2394);
+  static_assert(offsetof(GlobalContext, actors.elegy_statues) == 0x2394);
+  static_assert(offsetof(GlobalContext, actors.gap_2348) == 0x2348);
   static_assert(offsetof(GlobalContext, field_C000) == 0xc000);
   static_assert(offsetof(GlobalContext, field_C4C8) == 0xC4C8);
   static_assert(offsetof(GlobalContext, gap_AC6C) == 0xAC6C);
@@ -623,6 +649,8 @@ namespace game {
   static_assert(offsetof(GlobalContext, msg_context.ocarinaMode) == 0x8366);
   static_assert(offsetof(GlobalContext, gap_404) == 0x0404);
   static_assert(offsetof(GlobalContext, object_context) == 0x9438);
+  static_assert(offsetof(GlobalContext, transitionType) == 0xC534);
+  static_assert(offsetof(GlobalContext, field_C538) == 0xC538);
   static_assert(sizeof(GlobalContext) == 0x11030);
 
   struct PersistentSceneCycleFlags {

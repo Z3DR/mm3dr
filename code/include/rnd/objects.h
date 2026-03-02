@@ -12,9 +12,6 @@ namespace rnd {
   typedef game::ActorResource::ObjectContext ExtendedObjectContext;
   extern "C" ExtendedObjectContext rExtendedObjectCtx;
   extern "C" s32 rStoredObjId;
-  extern "C" s32 yPos;
-  extern "C" s32 xPos;
-  extern "C" s32 zPos;
 
   s32 Object_SpawnPersistent(void* objectCtx, s16 objectId);
   s32 Object_GetSlot(void* objectCtx, s16 objectId);

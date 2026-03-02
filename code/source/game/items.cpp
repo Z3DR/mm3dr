@@ -865,7 +865,7 @@ namespace game {
     if (item == ItemId::FierceDeityMask)
       return IsBossRoomScene(gctx);
 
-    if (gctx->actors.field_4) {
+    if (gctx->actors.lens_mask_size) {
       if (rnd::util::IsAnyOf(item, ItemId::FireArrow, ItemId::IceArrow, ItemId::LightArrow))
         return false;
     }

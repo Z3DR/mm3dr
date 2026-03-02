@@ -125,8 +125,8 @@ SECTIONS{
     *(.patch_DoNotResetTempleFlags)
   }
 
-  .patch_DoNotResetPermFlags 0x1C9348 : {
-    *(.patch_DoNotResetPermFlags)
+  .patch_DoNotResetCurrentSceneFlags 0x1C9348 : {
+    *(.patch_DoNotResetCurrentSceneFlags)
   }
 
   .patch_DoNotRemoveTradeItems 0x1C9AA8 : {
@@ -543,6 +543,10 @@ SECTIONS{
       *(.patch_RemoveWoodfallClearConditionFromBoatHouse)
   }
 
+  .patch_DrawGiantAfterMoonCutscene 0x39A53C : {
+    *(.patch_DrawGiantAfterMoonCutscene)
+  }
+
   .patch_DmChar03ModelDraw 0x3B9254 : {
     *(.patch_DmChar03ModelDraw)
   }
@@ -752,8 +756,20 @@ SECTIONS{
     *(.patch_EnGkCheckLullabyRewardGiven)
   }
 
+  .patch_AdjustMoonEntryRequirements 0x576D48 : {
+    *(.patch_AdjustMoonEntryRequirements)
+  }
+
+  .patch_EnJsVictoryCheck 0x57C178 : {
+    *(.patch_EnJsVictoryCheck)
+  }
+
   .patch_EnMkNWBNOverride 0x58722C : {
     *(.patch_EnMkNWBNOverride)
+  }
+
+  .patch_EnGiantDrawGiantIfMoonRequirementsMet 0x58AB24 : {
+    *(.patch_EnGiantDrawGiantIfMoonRequirementsMet)
   }
 
   .patch_UpdateOcarinaVisibility 0x59AA2C : {

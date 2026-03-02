@@ -426,6 +426,7 @@ namespace rnd {
     u8 skipHMSCutscenes;
     u8 skipMikauCutscene;
     u8 skipDarmaniCutscene;
+    u8 skipGiantsCutscene;
 
     // Custom Buttons
     u32 customMapButton = 0;
@@ -437,6 +438,10 @@ namespace rnd {
     // Extra MM Settings
     u8 blastMaskCooldown;
 
+    // Moon Settings
+    u8 masksNeededToEnterMoon;
+    u8 masksNeededForVictory;
+
     u8 useFierceDeityAnywhere = 0;
   } SettingsContext;
 
@@ -444,6 +449,7 @@ namespace rnd {
   extern const char hashIconNames[62][25];
 
   extern "C" s32 Settings_ApplyDamageMultiplier(game::GlobalContext*, s32);
+  u16 Settings_CountRemainsCollected();
   u32 Hash(u32);
   u8 Bias(u32);
 }  // namespace rnd

@@ -752,11 +752,12 @@ namespace rnd {
     s32 incomingNegative = incomingGetItemId < 0;
     if (fromActor != NULL && incomingGetItemId != 0) {
       s16 getItemId = ItemOverride_CheckNpc(fromActor->id, incomingGetItemId, incomingNegative);
-#if defined ENABLE_DEBUG || DEBUG_PRINT
-      util::Print(
-          "%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId %#04x\nParams %#04x\n ",
-          __func__, fromActor->id, gctx->scene, incomingGetItemId, getItemId, fromActor->params);
-#endif
+      /*#if defined ENABLE_DEBUG || DEBUG_PRINT
+            util::Print(
+                "%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId %#04x\nParams %#04x\n
+      ",
+                __func__, fromActor->id, gctx->scene, incomingGetItemId, getItemId, fromActor->params);
+      #endif*/
       storedActorId = fromActor->id;
       storedGetItemId = incomingNegative ? (GetItemID)-incomingGetItemId : (GetItemID)incomingGetItemId;
       override = ItemOverride_Lookup(fromActor, (u16)gctx->scene, getItemId);
@@ -1096,10 +1097,10 @@ namespace rnd {
 
   // clang-format on
   void ItemOverride_SwapSoHAndSongGetItemText(game::GlobalContext* gctx, u16 textId, game::act::Actor* fromActor) {
-// Check which text ID is coming in. If it's any mask from Song of Healing, replace it with active item text.
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: txtId = %#08x \n", __func__, textId);
-#endif
+    // Check which text ID is coming in. If it's any mask from Song of Healing, replace it with active item text.
+    // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    //     rnd::util::Print("%s: txtId = %#08x \n", __func__, textId);
+    // #endif
     if (givenItemOverride) {
       givenItemOverride = false;
       if (rStoredTextId) {

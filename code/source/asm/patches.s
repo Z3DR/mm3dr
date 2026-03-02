@@ -26,9 +26,9 @@ patch_ResetCycleFlagOnMoonCrash:
     bl 0x1C92A8
 
 @ nop gctx->field_22f8 from being potentially nulled. Disables stray fairy respawn and doors locking.
-.section .patch_DoNotResetPermFlags
-.global patch_DoNotResetPermFlags
-patch_DoNotResetPermFlags:
+.section .patch_DoNotResetCurrentSceneFlags
+.global patch_DoNotResetCurrentSceneFlags
+patch_DoNotResetCurrentSceneFlags:
     nop
     nop
     nop
@@ -74,11 +74,6 @@ patch_RemoveTempSwordForHandD:
 patch_KeepBowOnEpona:
     nop
 
-.section .patch_OverrideCutsceneNextEntrance
-.global patch_OverrideCutsceneNextEntrance
-patch_OverrideCutsceneNextEntrance:
-    bl hook_OverrideCutsceneNextEntrance
-
 @ There's a while loop located in the event
 @ timer that checks if we have mystery milk.
 @ We do not wish to show this since we want to remove
@@ -88,15 +83,10 @@ patch_OverrideCutsceneNextEntrance:
 patch_RemoveMysteryMilkTimer:
     nop
 
-@ Skip past all the fairy and 
-@ door resetting if we are the temples
-@ as we don't want to softlock users
-@ if they have already used their keys.
-.section .patch_DoNotResetTempleFlags
-.global patch_DoNotResetTempleFlags
-patch_DoNotResetTempleFlags:
-    bl hook_DoNotResetTempleFlags
-
+.section .patch_tmp
+.global patch_tmp
+patch_tmp:
+    b 0x34EA0C
 
 @ Skips past a loop that resets all
 @ values in the each dungeon for 
@@ -261,11 +251,6 @@ patch_RemoveBombers:
 .global patch_RemoveSoHMaskAppearing
 patch_RemoveSoHMaskAppearing:
     nop
-
-.section .patch_CheckMasksOnMoon
-.global patch_CheckMasksOnMoon
-patch_CheckMasksOnMoon:
-    bl hook_CheckMasksOnMoon
 
 .section .patch_RemoveJimWhenExitingHideout
 .global RemoveJimWhenExitingHideout_patch

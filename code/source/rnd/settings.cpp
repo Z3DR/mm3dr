@@ -54,6 +54,21 @@ namespace rnd {
 
     return modifiedChangeHealth;
   }
+
+  u16 Settings_CountRemainsCollected() {
+    game::InventoryData::CollectRegister& collect_register = game::GetCommonData().save.inventory.collect_register;
+    u16 remainsCollected = 0;
+    if (collect_register.odolwas_remains == 1)
+      remainsCollected++;
+    if (collect_register.gohts_remains == 1)
+      remainsCollected++;
+    if (collect_register.gyorgs_remains == 1)
+      remainsCollected++;
+    if (collect_register.twinmolds_remains == 1)
+      remainsCollected++;
+
+    return remainsCollected;
+  }
   // With the No Health Refill option on, full health refills from health upgrades and Bombchu
   // Bowling are turned off, and fairies restore 3 hearts Otherwise, they grant a full heal, and the
   // default effect applies (full heal from bottle, 8 hearts on contact)

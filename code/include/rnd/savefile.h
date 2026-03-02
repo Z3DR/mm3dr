@@ -39,7 +39,6 @@ namespace rnd {
   void SaveFile_RemoveTradeItemFromSlot(u16, u8);
   u8 SaveFile_GetItemCurrentlyInSlot(u8);
   void SaveFile_SetNextTradeSlotItem(u8);
-  u16 CurrentMasksInInventory();
   void SaveFile_UpdateBossExtData();
   }
 

@@ -84,10 +84,10 @@ namespace game::act {
     if (player->timer == 1) {
       auto spawn_elegy_statue = rnd::util::GetPointer<void(GlobalContext*, Player*)>(0x1F0758);
       spawn_elegy_statue(gctx, player);
-      auto* statue = gctx->elegy_statues[u8(player->active_form)];
+      auto* statue = gctx->actors.elegy_statues[u8(player->active_form)];
       statue->timer = 0;
     } else if (player->timer > 5) {
-      auto* statue = gctx->elegy_statues[u8(player->active_form)];
+      auto* statue = gctx->actors.elegy_statues[u8(player->active_form)];
       const bool statue_ready =
           !statue || (statue->pos.pos.x == player->pos.pos.x && statue->pos.pos.y == player->pos.pos.y &&
                       statue->pos.pos.z == player->pos.pos.z);

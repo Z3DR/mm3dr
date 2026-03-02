@@ -6,6 +6,9 @@ namespace rnd {
     game::CommonData& cdata = game::GetCommonData();
     game::GlobalContext* gctx = GetContext().gctx;
     bool didWarp = false;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Next entrance is %#06x\n", __func__, gctx->next_entrance);
+#endif
     if (gctx->next_entrance == 0x1C04 && gSettingsContext.skipMikauCutscene) {
       gctx->next_entrance = 0x6890;
       cdata.sub13s[0].entrance_index = 0x6890;
@@ -32,6 +35,19 @@ namespace rnd {
     } else if (gctx->next_entrance == 0x2C10 && gctx->GetPlayerActor()->active_form != game::act::Player::Form::Deku) {
       // Patch for the rooftop to ensure that link is not turned into a form that has unintended effects.
       cdata.save.player_form = gctx->GetPlayerActor()->active_form;
+    } else if (gctx->next_entrance == 0x5401 && gSettingsContext.skipGiantsCutscene) {
+      if (EnFall_CheckMoonRequirements()) {
+        gctx->next_entrance = 0x2C02;
+        cdata.sub13s[0].entrance_index = 0x2C02;
+      } else {
+        gctx->next_entrance = 0x2C00;
+        gctx->transitionType = 2;
+        gctx->field_C535 = 0;
+        cdata.next_cutscene_index = 0xfff2;
+        cdata.next_transition_type = 2;
+      }
+
+      didWarp = true;
     }
 
     if (didWarp)
@@ -40,12 +56,32 @@ namespace rnd {
   }
 
   void ForceTempleFlags() {
-    game::PersistentSceneCycleFlags* cycleFlags = game::GetPersistentCycleStruct();
-    cycleFlags[(u32)game::SceneId::WoodfallTemple].switch1 = 0xFFFFFFFF;
-    cycleFlags[(u32)game::SceneId::SnowheadTemple].switch1 = 0xFFFFFFFF;
-    cycleFlags[(u32)game::SceneId::GreatBayTemple].switch1 = 0xFFFFFFFF;
-    cycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1 = 0xFFFFFFFF;
-    cycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1 = 0xFFFFFFFF;
+    game::PersistentSceneCycleFlags* persistentCycleFlags = game::GetPersistentCycleStruct();
+    auto& cycleFlags = game::GetCommonData().cycleSceneFlags;
+// TODO: Make this smarter, define each fairy chest for now and door and set the switches to be properly set.
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s:\ncycleFlags[woodfall].switch0 0x%08x \ncycleFlags[woodfall].switch1 "
+                     "0x%08x \ncycleFlags[woodfall].chest 0x%08x \ncycleFlags[woodfall].clearedRoom "
+                     "0x%08x \ncycleFlags[woodfall].collectible 0x%08x \n",
+                     __func__, cycleFlags[(u32)game::SceneId::WoodfallTemple].switch0,
+                     cycleFlags[(u32)game::SceneId::WoodfallTemple].switch1,
+                     cycleFlags[(u32)game::SceneId::WoodfallTemple].clearedRoom,
+                     cycleFlags[(u32)game::SceneId::WoodfallTemple].collectible);
+#endif
+    persistentCycleFlags[(u32)game::SceneId::WoodfallTemple].chest = 0xFFFFFFFF;
+    persistentCycleFlags[(u32)game::SceneId::SnowheadTemple].switch1 = 0xFFFFFFFF;
+    persistentCycleFlags[(u32)game::SceneId::GreatBayTemple].switch1 = 0xFFFFFFFF;
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1 = 0xFFFFFFFF;
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1 = 0xFFFFFFFF;
+  }
+
+  bool EnFall_CheckMoonRequirements() {
+    u16 remainsCollected = Settings_CountRemainsCollected();
+
+    if (remainsCollected >= gSettingsContext.masksNeededToEnterMoon) {
+      return true;
+    }
+    return false;
   }
   }
 

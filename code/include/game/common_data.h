@@ -209,6 +209,15 @@ namespace game {
   static_assert(sizeof(InventoryData) == 0xD4);
   static_assert(offsetof(InventoryData, inventory_count_register) == 0x78);
 
+  struct CycleSceneFlags {
+    u32 switch0;
+    u32 switch1;
+    u32 chest;
+    u32 clearedRoom;
+    u32 collectible;
+  };
+  static_assert(sizeof(CycleSceneFlags) == 0x14);
+
   struct SaveData {
     // Todo: rename gaps to match savefile address location
     MaskId mask;
@@ -654,6 +663,7 @@ namespace game {
     int field_10;
     int field_14;
   };
+  static_assert(sizeof(CommonDataSub12) == 0x18);
 
   struct RespawnData {
     z3dVec3f pos;
@@ -738,7 +748,7 @@ namespace game {
     u16 field_3698;
     u16 field_369A;
     u16 field_369C;
-    u16 field_369E;
+    u16 next_cutscene_index;
     u16 time_copy_2;
     // Used for scheduling NPCs?
     u16 time_copy;
@@ -785,11 +795,9 @@ namespace game {
     char field_1375F;
     u16 time_copy_3;
     char field_13762;
-    char field_13763;
-    u8 gap_13764[2204];
-    u32 field_14000;
-    u8 gap_14004[192];
-    int field_140C4;
+    char next_transition_type;
+    int field_13764;
+    CycleSceneFlags cycleSceneFlags[120];
     int field_140C8;
     int field_140CC;
     int field_140D0;
@@ -805,6 +813,13 @@ namespace game {
     int field_140F4;
   };
   static_assert(sizeof(CommonData) == 0x140F8);
+  static_assert(offsetof(CommonData, next_cutscene_index) == 0x369E);
+  static_assert(offsetof(CommonData, gap_3668) == 0x3668);
+  static_assert(offsetof(CommonData, field_3676) == 0x3676);
+  static_assert(offsetof(CommonData, gap_1361A) == 0x1361A);
+  static_assert(offsetof(CommonData, pictograph_data) == 0x36CC);
+  static_assert(offsetof(CommonData, cycleSceneFlags) == 0x13768);
+  static_assert(offsetof(CommonData, field_140F2) == 0x140F2);
 
   CommonData& GetCommonData();
 
