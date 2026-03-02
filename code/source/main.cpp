@@ -108,8 +108,9 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
       auto& cdata = game::GetCommonData();
-      rnd::util::Print("%s: cycleSceneFlags[gctx->scene].switch1 %08x\n", __func__,
-                       cdata.cycleSceneFlags[(u32)gctx->scene].switch1);
+      rnd::util::Print(
+          "%s: cycleSceneFlags[gctx->scene].switch1 %#08x\n gctx->actor_ctx_scene_flags.clearedRoom are %#08x\n",
+          __func__, cdata.cycleSceneFlags[(u32)gctx->scene].switch1, gctx->actor_ctx_scene_flags.clearedRoom);
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       auto& save = game::GetCommonData().save;
       save.week_event_reg_93.WEEKEVENTREG_CALLED_GIANTS_ON_ROOFTOP_ONCE = 0;
