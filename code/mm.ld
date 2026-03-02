@@ -125,8 +125,8 @@ SECTIONS{
     *(.patch_DoNotResetTempleFlags)
   }
 
-  .patch_DoNotResetPermFlags 0x1C9348 : {
-    *(.patch_DoNotResetPermFlags)
+  .patch_DoNotResetCurrentSceneFlags 0x1C9348 : {
+    *(.patch_DoNotResetCurrentSceneFlags)
   }
 
   .patch_DoNotRemoveTradeItems 0x1C9AA8 : {

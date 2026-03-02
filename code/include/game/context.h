@@ -51,22 +51,6 @@ namespace game {
   };
   static_assert(sizeof(ActorList) == 0xc);
 
-  struct ActorLists {
-    ActorList& GetList(act::Type type) { return lists[u8(type)]; }
-    const ActorList& GetList(act::Type type) const { return lists[u8(type)]; }
-    u8 freeze_flash_timer;
-    u8 pad1;
-    u8 field_2;
-    u8 lens_active;
-    u8 lens_mask_size;
-    u8 flag;
-    u8 gap_6[6];
-    u8 num_actors;
-    std::array<ActorList, 12> lists;
-  };
-  static_assert(sizeof(ActorLists) == 0xa0);
-  static_assert(offsetof(ActorLists, gap_6) == 0x06);
-
   struct ActorContextSceneFlags {
     u32 switches[4];  // First 0x40 are permanent, second 0x40 are temporary
     u32 chest;
@@ -98,6 +82,35 @@ namespace game {
     u16 field_10;
   };
   static_assert(sizeof(TitleCardContext) == 0x14);
+
+  struct ActorLists {
+    ActorList& GetList(act::Type type) { return lists[u8(type)]; }
+    const ActorList& GetList(act::Type type) const { return lists[u8(type)]; }
+    u8 freeze_flash_timer;
+    u8 pad1;
+    u8 field_2;
+    u8 lens_active;
+    u8 lens_mask_size;
+    u8 flag;
+    u8 gap_6[6];
+    u8 num_actors;
+    std::array<ActorList, 12> lists;
+    u8 gap_2150[128];
+    z3dVec3f field_21D0;
+    u8 gap_21DC[280];
+    ActorContextSceneFlags actor_ctx_scene_flags;
+    TitleCardContext title_card_ctx;
+    PlayerImpact player_impact;
+    u8 gap_2348[72];
+    void* absolute_space;
+    std::array<act::ObjElegyStatue*, 5> elegy_statues;
+    char field_23A8;
+    u8 gap_23A9[3];
+    pad::State pad_state_copy;
+    u8 gap_2418[12];
+  };
+  static_assert(sizeof(ActorLists) == 0x374);
+  static_assert(offsetof(ActorLists, gap_6) == 0x06);
 
   enum class OcarinaMode : u16 {
     OCARINA_MODE_NONE = 0,
@@ -436,7 +449,7 @@ namespace game {
     u32 field_2000;
     u8 gap_2004[172];
     ActorLists actors;
-    u8 gap_2150[128];
+    /*u8 gap_2150[128];
     z3dVec3f field_21D0;
     u8 gap_21DC[280];
     ActorContextSceneFlags actor_ctx_scene_flags;
@@ -448,7 +461,7 @@ namespace game {
     char field_23A8;
     u8 gap_23A9[3];
     pad::State pad_state_copy;
-    u8 gap_2418[12];
+    u8 gap_2418[12];*/
     int field_2424;
     u32 field_2428;
     u8 gap_242C[604];
@@ -627,8 +640,8 @@ namespace game {
   };
   static_assert(offsetof(GlobalContext, main_camera) == 0x408);
   static_assert(offsetof(GlobalContext, pause_flags) == 0xAAC);
-  static_assert(offsetof(GlobalContext, elegy_statues) == 0x2394);
-  static_assert(offsetof(GlobalContext, gap_2348) == 0x2348);
+  static_assert(offsetof(GlobalContext, actors.elegy_statues) == 0x2394);
+  static_assert(offsetof(GlobalContext, actors.gap_2348) == 0x2348);
   static_assert(offsetof(GlobalContext, field_C000) == 0xc000);
   static_assert(offsetof(GlobalContext, field_C4C8) == 0xC4C8);
   static_assert(offsetof(GlobalContext, gap_AC6C) == 0xAC6C);
