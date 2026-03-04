@@ -667,10 +667,6 @@ SECTIONS{
     *(.patch_DmChar05GoronDraw)
   } */
 
-  /* .patch_tmp 0x41d224 : {
-    *(.patch_tmp)
-  } */
-
   .patch_GibdoMaskGiveItem 0x41DC48 : {
     *(.patch_GibdoMaskGiveItem)
   }

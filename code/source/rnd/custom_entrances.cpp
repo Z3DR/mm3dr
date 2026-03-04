@@ -57,22 +57,12 @@ namespace rnd {
 
   void ForceTempleFlags() {
     game::PersistentSceneCycleFlags* persistentCycleFlags = game::GetPersistentCycleStruct();
-    auto& cycleFlags = game::GetCommonData().cycleSceneFlags;
-// TODO: Make this smarter, define each fairy chest for now and door and set the switches to be properly set.
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s:\ncycleFlags[woodfall].switch0 0x%08x \ncycleFlags[woodfall].switch1 "
-                     "0x%08x \ncycleFlags[woodfall].chest 0x%08x \ncycleFlags[woodfall].clearedRoom "
-                     "0x%08x \ncycleFlags[woodfall].collectible 0x%08x \n",
-                     __func__, cycleFlags[(u32)game::SceneId::WoodfallTemple].switch0,
-                     cycleFlags[(u32)game::SceneId::WoodfallTemple].switch1,
-                     cycleFlags[(u32)game::SceneId::WoodfallTemple].clearedRoom,
-                     cycleFlags[(u32)game::SceneId::WoodfallTemple].collectible);
-#endif
-    persistentCycleFlags[(u32)game::SceneId::WoodfallTemple].chest = 0xFFFFFFFF;
-    persistentCycleFlags[(u32)game::SceneId::SnowheadTemple].switch1 = 0xFFFFFFFF;
-    persistentCycleFlags[(u32)game::SceneId::GreatBayTemple].switch1 = 0xFFFFFFFF;
-    persistentCycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1 = 0xFFFFFFFF;
-    persistentCycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1 = 0xFFFFFFFF;
+    // Ensure persistent cycle flags do not reset doors. Bits are commonly stored in highest bit except for inverted.
+    persistentCycleFlags[(u32)game::SceneId::WoodfallTemple].switch1 = 0xF0000000; // Highest bit is the door
+    persistentCycleFlags[(u32)game::SceneId::SnowheadTemple].switch1 = 0xF0000000;
+    persistentCycleFlags[(u32)game::SceneId::GreatBayTemple].switch1 = 0xF0000000;
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1 = 0xF0000000;
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1 = 0xFF000000;
   }
 
   bool EnFall_CheckMoonRequirements() {
