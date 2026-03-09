@@ -58,7 +58,7 @@ namespace rnd {
   void ForceTempleFlags() {
     game::PersistentSceneCycleFlags* persistentCycleFlags = game::GetPersistentCycleStruct();
     // Ensure persistent cycle flags do not reset doors. Bits are commonly stored in highest bit except for inverted.
-    persistentCycleFlags[(u32)game::SceneId::WoodfallTemple].switch1 = 0xF0000000; // Highest bit is the door
+    persistentCycleFlags[(u32)game::SceneId::WoodfallTemple].switch1 = 0xF0000000;  // Highest bit is the door
     persistentCycleFlags[(u32)game::SceneId::SnowheadTemple].switch1 = 0xF0000000;
     persistentCycleFlags[(u32)game::SceneId::GreatBayTemple].switch1 = 0xF0000000;
     persistentCycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1 = 0xF0000000;

@@ -2,6 +2,7 @@
 #include "rnd/actors/dm_char03.h"
 #include "rnd/actors/dm_char05.h"
 #include "rnd/actors/dm_hina.h"
+#include "rnd/actors/en_elforg.h"
 #include "rnd/actors/en_mag.h"
 #include "rnd/actors/en_si.h"
 #include "rnd/actors/fish_heart.h"
@@ -349,6 +350,8 @@ namespace rnd {
 
     overlayTable[0x12D].info->init_fn = Dm_Char05_Init;
     overlayTable[0x12D].info->deinit_fn = Dm_Char05_Destroy;
+
+    overlayTable[0x145].info->init_fn = En_Elforg_Init;
 
     overlayTable[0x16A].info->init_fn = Fish_Heart_Init;
     overlayTable[0x16A].info->deinit_fn = Fish_Heart_Destroy;

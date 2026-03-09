@@ -31,9 +31,14 @@ namespace rnd {
     u32 field_68C;
   };
   static_assert(sizeof(En_Elforg) == 0x690);
-  void En_Elforg_Init(game::act::Actor* actor, game::GlobalContext* gctx);
-  extern "C" s32 En_Elforg_OverrideModelDraw(game::act::sa_unk_d4*, game::act::Actor*);
-  void En_Elforg_Destroy(game::act::Actor* actor, game::GlobalContext* gctx);
+  int En_Elforg_getFairyIndex(game::SceneId);
+  void En_Elforg_Init(game::act::Actor*, game::GlobalContext*);
+  extern "C" {
+  s32 En_Elforg_OverrideModelDraw(game::act::sa_unk_d4*, game::act::Actor*);
+  void En_Elforg_UpdateExtFairyBits(game::act::Actor*, game::GlobalContext*);
+  bool En_Elforg_Chest_IsFairyObtained(u32 param, game::GlobalContext*);
+  } 
+  void En_Elforg_Destroy(game::act::Actor*, game::GlobalContext*);
 
 }  // namespace rnd
 #endif

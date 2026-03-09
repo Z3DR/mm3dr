@@ -369,6 +369,10 @@ SECTIONS{
     *(.patch_LullabyCheckEnJg)
   }
 
+  .patch_EnElforgUpdateFairyBits 0x25A69C : {
+    *(.patch_EnElforgUpdateFairyBits)
+  }
+
   .patch_EnOsnCheckSoHExtData 0x268030 : {
     *(.patch_EnOsnCheckSoHExtData)
   }
@@ -557,6 +561,10 @@ SECTIONS{
 
   .patch_RemainsModelDraw 0x3C7D7C : {
     *(.patch_RemainsModelDraw)
+  }
+
+  .patch_EnElfOrgTreasureSwitchSet 0x3CDDEC : {
+    *(.patch_EnElfOrgTreasureSwitchSet)
   }
 
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
@@ -750,6 +758,10 @@ SECTIONS{
 
   .patch_EnGkCheckLullabyRewardGiven 0x546294 : {
     *(.patch_EnGkCheckLullabyRewardGiven)
+  }
+
+  .patch_EnBoxCheckIfFairyObtained 0x5758E0 : {
+    *(.patch_EnBoxCheckIfFairyObtained)
   }
 
   .patch_AdjustMoonEntryRequirements 0x576D48 : {
