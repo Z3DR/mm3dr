@@ -369,6 +369,10 @@ SECTIONS{
     *(.patch_LullabyCheckEnJg)
   }
 
+  .patch_EnElforgUpdateFairyBits 0x25A69C : {
+    *(.patch_EnElforgUpdateFairyBits)
+  }
+
   .patch_EnOsnCheckSoHExtData 0x268030 : {
     *(.patch_EnOsnCheckSoHExtData)
   }
@@ -559,6 +563,10 @@ SECTIONS{
     *(.patch_RemainsModelDraw)
   }
 
+  .patch_EnElfOrgTreasureSwitchSet 0x3CDDEC : {
+    *(.patch_EnElfOrgTreasureSwitchSet)
+  }
+
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
     *(.patch_TingleCheckClocktownMapTwo)
   }
@@ -667,10 +675,6 @@ SECTIONS{
     *(.patch_DmChar05GoronDraw)
   } */
 
-  /* .patch_tmp 0x41d224 : {
-    *(.patch_tmp)
-  } */
-
   .patch_GibdoMaskGiveItem 0x41DC48 : {
     *(.patch_GibdoMaskGiveItem)
   }
@@ -754,6 +758,10 @@ SECTIONS{
 
   .patch_EnGkCheckLullabyRewardGiven 0x546294 : {
     *(.patch_EnGkCheckLullabyRewardGiven)
+  }
+
+  .patch_EnBoxCheckIfFairyObtained 0x5758E0 : {
+    *(.patch_EnBoxCheckIfFairyObtained)
   }
 
   .patch_AdjustMoonEntryRequirements 0x576D48 : {

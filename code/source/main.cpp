@@ -107,38 +107,7 @@ namespace rnd {
 // const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-      auto& cdata = game::GetCommonData();
-      rnd::util::Print("%s: cdata.cycleSceneFlags[(u32)gctx->scene].chest x%08x\n", __func__,
-                       cdata.cycleSceneFlags[(u32)gctx->scene].chest);
-      gctx->actors.actor_ctx_scene_flags.chest = 0x01000000;
-
-      // gctx->actors.actor_ctx_scene_flags.chest = cdata.cycleSceneFlags[(u32)gctx->scene].chest;
-      rnd::util::Print(
-          "%s:\ncycleSceneFlags[gctx->scene].switch0 0x%08x "
-          "\ncycleSceneFlags[gctx->scene].switch1 0x%08x "
-          "\ncycleSceneFlags[gctx->scene].chest 0x%08x "
-          "\ncycleSceneFlags[gctx->scene].clearedRoom 0x%08x "
-          "\ncycleSceneFlags[gctx->scene].collectible 0x%08x "
-          "\ngctx->actor_ctx_scene_flags.switches[0] 0x%08x "
-          "\ngctx->actor_ctx_scene_flags.switches[1] 0x%08x "
-          "\ngctx->actor_ctx_scene_flags.chest 0x%08x\n",
-          __func__, cdata.cycleSceneFlags[(u32)gctx->scene].switch0, cdata.cycleSceneFlags[(u32)gctx->scene].switch1,
-          cdata.cycleSceneFlags[(u32)gctx->scene].chest, cdata.cycleSceneFlags[(u32)gctx->scene].clearedRoom,
-          cdata.cycleSceneFlags[(u32)gctx->scene].collectible, gctx->actors.actor_ctx_scene_flags.switches[0],
-          gctx->actors.actor_ctx_scene_flags.switches[1], gctx->actors.actor_ctx_scene_flags.chest);
-      util::GetPointer<void(game::GlobalContext*)>(0x18ec98)(gctx);
-      rnd::util::Print(
-          "\ngctx->actor_ctx_scene_flags.clearedRoom 0x%08x "
-          "\ngctx->actor_ctx_scene_flags.clearedRoomTemp 0x%08x "
-          "\ngctx->actor_ctx_scene_flags.collectible[0] 0x%08x "
-          "\ngctx->actor_ctx_scene_flags.collectible[1] 0x%08x "
-          "\ngctx->actor_ctx_scene_flags.collectible[2] 0x%08x "
-          "\ngctx->actor_ctx_scene_flags.switches[2] 0x%08x "
-          "\ngctx->actor_ctx_scene_flags.switches[3] 0x%08x ",
-          __func__, gctx->actors.actor_ctx_scene_flags.clearedRoom, gctx->actors.actor_ctx_scene_flags.clearedRoomTemp,
-          gctx->actors.actor_ctx_scene_flags.collectible[0], gctx->actors.actor_ctx_scene_flags.collectible[1],
-          gctx->actors.actor_ctx_scene_flags.collectible[2], gctx->actors.actor_ctx_scene_flags.collectible[3],
-          gctx->actors.actor_ctx_scene_flags.switches[2], gctx->actors.actor_ctx_scene_flags.switches[3]);
+      util::Print("%s: Hehe :)", __func__);
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       auto& save = game::GetCommonData().save;
       save.inventory.woodfall_temple_keys = 0;

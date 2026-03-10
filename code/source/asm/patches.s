@@ -83,11 +83,6 @@ patch_KeepBowOnEpona:
 patch_RemoveMysteryMilkTimer:
     nop
 
-.section .patch_tmp
-.global patch_tmp
-patch_tmp:
-    b 0x34EA0C
-
 @ Skips past a loop that resets all
 @ values in the each dungeon for 
 @ keys/fairies/boss key/etc
