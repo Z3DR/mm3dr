@@ -12,14 +12,12 @@
 #include "common/flags.h"
 #include "common/types.h"
 #include "game/ui.h"
+#include "game/ui/layouts/message_window.h"
 
 namespace game {
 
   class Allocator;
   class FileEntity;
-  namespace ui {
-    class MessageWindow;
-  }
 
   enum class Language : u32 {
     JpJp = 0,

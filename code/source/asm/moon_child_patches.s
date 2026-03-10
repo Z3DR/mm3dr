@@ -9,3 +9,8 @@ patch_CheckMasksOnMoon:
 .global patch_EnJsVictoryCheck
 patch_EnJsVictoryCheck:
     bl hook_EnJsVictoryCheck
+
+.section .patch_EnJsSoftlockOnCustomText
+.global patch_EnJsSoftlockOnCustomText
+patch_EnJsSoftlockOnCustomText:
+    bl hook_EnJsSoftlockOnCustomText

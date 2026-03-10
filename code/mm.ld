@@ -491,6 +491,10 @@ SECTIONS{
     *(.patch_FixFDObservatoryTextTwo)
   }
 
+  .patch_EnJsSoftlockOnCustomText 0x30FABC : {
+    *(.patch_tmp)
+  }
+
   .patch_SaveExtDataOnOwl 0x317004 : {
     *(.patch_SaveExtDataOnOwl)
   }

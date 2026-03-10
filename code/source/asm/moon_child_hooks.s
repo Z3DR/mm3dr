@@ -17,3 +17,12 @@ hook_EnJsVictoryCheck:
     mov r1,r0
     pop {r0, r2-r12, lr}
     bx lr
+
+.global hook_EnJsSoftlockOnCustomText
+hook_EnJsSoftlockOnCustomText:
+    push {r0-r12, lr}
+    cpy r0,r6
+    bl En_Js_CheckTextValues
+    pop {r0-r12,lr}
+    cmp r0,#0x5
+    bx lr

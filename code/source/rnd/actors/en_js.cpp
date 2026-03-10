@@ -55,13 +55,25 @@ namespace rnd {
 
     u16 remainsCollected = Settings_CountRemainsCollected();
 
-    if (remainsCollected >= gSettingsContext.masksNeededForVictory) {
+    if (remainsCollected >= 5) {
       if (rnd::util::GetPointer<u16(int)>(0x2F217C)(0) < 20)
         return 0x21FC;
       else
         return 0x2202;
     }
     return 0x6144;
+  }
+
+  void En_Js_CheckTextValues(game::GlobalContext* gctx) {
+    int textChoice = util::GetPointer<int(game::GlobalContext*)>(0x1c5018)(gctx);
+    // TODO: This technically doesn't softlock, but you need to input another A press in order to talk to the child
+    // again.
+    if (gctx->msg_context.current_text_id == 0x0000 && textChoice == 0) {
+      game::MessageMgr* ptrMgr = util::GetPointer<game::MessageMgr>(0x6B36F8);
+      ptrMgr->message_window->status = 0xC;
+      return;
+    }
+    return;
   }
   }
 }  // namespace rnd
