@@ -55,7 +55,7 @@ namespace rnd {
 
     u16 remainsCollected = Settings_CountRemainsCollected();
 
-    if (remainsCollected >= 5) {
+    if (remainsCollected >= gSettingsContext.masksNeededForVictory) {
       if (rnd::util::GetPointer<u16(int)>(0x2F217C)(0) < 20)
         return 0x21FC;
       else
@@ -74,6 +74,14 @@ namespace rnd {
       return;
     }
     return;
+  }
+
+  bool En_Js_AutoPressEmptyText(game::GlobalContext* gctx) {
+    if (gctx->msg_context.current_text_id == 0x0000) {
+      return true;
+    } else {
+      return false;
+    }
   }
   }
 }  // namespace rnd
