@@ -492,7 +492,7 @@ SECTIONS{
   }
 
   .patch_EnJsSoftlockOnCustomText 0x30FABC : {
-    *(.patch_tmp)
+    *(.patch_EnJsSoftlockOnCustomText)
   }
 
   .patch_SaveExtDataOnOwl 0x317004 : {
