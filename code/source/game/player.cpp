@@ -44,7 +44,7 @@ namespace game::act {
 
     if (active_form == Player::Form::Deku) {
       // Playing the Honey and Darling shooting minigame as Deku Link.
-      info.can_use = cdata.save.player.magic >= 2 || ((cdata.save.week_event_reg_09.WEEKEVENTREG_09_01 == 1) &&
+      info.can_use = cdata.save.player.magic >= 2 || ((cdata.save.week_event_reg_08.WEEKEVENTREG_08_01 == 1) &&
                                                       gctx->scene == SceneId::HoneyAndDarling);
     } else {
       info.can_use = flags3.IsSet(Flag3::DekuStuffMaybe) || (cdata.field_3696 == 1 && gctx->hud_state.field_244) ||

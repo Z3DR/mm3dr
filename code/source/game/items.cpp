@@ -792,7 +792,7 @@ namespace game {
     const auto mode = get_item_usability_mode(gctx);
 
     // Riding or Honey & Darling minigame (and more?)
-    if (player->flags1.IsSet(act::Player::Flag1::Riding) || cdata.save.week_event_reg_09.WEEKEVENTREG_09_01 == 1 ||
+    if (player->flags1.IsSet(act::Player::Flag1::Riding) || cdata.save.week_event_reg_08.WEEKEVENTREG_08_01 == 1 ||
         (!(cdata.save.anonymous_13 & 2) && gctx->field_C531 >= 2)) {
       return false;
     }
