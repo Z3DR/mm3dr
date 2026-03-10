@@ -103,11 +103,14 @@ namespace rnd {
     if (!gctx || gctx->type != game::StateType::Play)
       return;
 
-    const u32 pressedButtons = gctx->pad_state.input.new_buttons.flags;
-// const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
+    const u32 pressedButtons = gctx->pad_state.input.buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
       util::Print("%s: Hehe :)", __func__);
+      auto& save = game::GetCommonData().save;
+      save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED = 1;
+      save.inventory.collect_register.odolwas_remains = 1;
+      save.inventory.collect_register.twinmolds_remains = 1;
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       auto& save = game::GetCommonData().save;
       save.inventory.woodfall_temple_keys = 0;

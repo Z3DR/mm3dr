@@ -7,10 +7,6 @@ namespace rnd {
     u16 remainsCollected = Settings_CountRemainsCollected();
     game::SaveData save = game::GetCommonData().save;
     game::InventoryData::CollectRegister& collect_register = save.inventory.collect_register;
-    if (save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED == 0) {
-      giant->draw_fn = (game::act::MainFunc*)0x0;
-      return;
-    }
     if (remainsCollected >= gSettingsContext.masksNeededToEnterMoon)
       return;  // Draw all if it's been completed.
 
@@ -40,7 +36,11 @@ namespace rnd {
   }
 
   bool En_Giant_KillAfterCutscene(game::act::Actor* giant) {
-    game::InventoryData::CollectRegister& collect_register = game::GetCommonData().save.inventory.collect_register;
+    game::SaveData save = game::GetCommonData().save;
+    game::InventoryData::CollectRegister& collect_register = save.inventory.collect_register;
+    if (save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED == 0) {
+      return false;
+    }
     u8 giantId = giant->params & 0xF;
     switch (giantId) {
     case 4:  // Snowhead
