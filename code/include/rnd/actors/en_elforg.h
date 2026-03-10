@@ -37,7 +37,7 @@ namespace rnd {
   s32 En_Elforg_OverrideModelDraw(game::act::sa_unk_d4*, game::act::Actor*);
   void En_Elforg_UpdateExtFairyBits(game::act::Actor*, game::GlobalContext*);
   bool En_Elforg_Chest_IsFairyObtained(u32 param, game::GlobalContext*);
-  } 
+  }
   void En_Elforg_Destroy(game::act::Actor*, game::GlobalContext*);
 
 }  // namespace rnd

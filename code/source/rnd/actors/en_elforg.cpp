@@ -29,9 +29,9 @@ namespace rnd {
                      fairyIdx, bitIndex, fairyType, isFlagSet);
 #endif
     if (fairyIdx != -1) {
-      #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("%s: Fairy type is %u\n", __func__, fairyType);	
-      #endif
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: Fairy type is %u\n", __func__, fairyType);
+#endif
       switch (fairyType) {
       default:  // Regular switch flag
         if (isFlagSet)
@@ -44,11 +44,11 @@ namespace rnd {
         break;
       case 6:  // Treasure flag
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("%s: CASE 6, LOOKING AT FLAG SET?\n", __func__);	
+        rnd::util::Print("%s: CASE 6, LOOKING AT FLAG SET?\n", __func__);
 #endif
         if (isFlagSet) {
           util::GetPointer<void(game::GlobalContext*, int)>(0x4C6D58)(gctx, bitIndex);  // Set Treasure
-          #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
           rnd::util::Print("%s: Set treasure bit, flag was true %u bitIdx is %#04x\n", __func__,
                            (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (bitIndex & 0x1F)), bitIndex);
 #endif
@@ -76,7 +76,6 @@ namespace rnd {
     int bitIndex = ((actor->params << 0x10) >> 0x19);
     int fairyIdx = En_Elforg_getFairyIndex(gctx->scene);
     if (fairyIdx != -1) {
-
       gExtSaveData.dungeonFairyBitfields[fairyIdx] |= 1 << (bitIndex & 0x1F);
     }
     return;
@@ -88,7 +87,7 @@ namespace rnd {
   bool En_Elforg_Chest_IsFairyObtained(u32 param, game::GlobalContext* gctx) {
     int bitIndex = ((param << 0x10) >> 0x19);
     int fairyIdx = En_Elforg_getFairyIndex(gctx->scene);
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: Fair idx %u bitfield is %#08x\n", __func__, fairyIdx,
                      (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (bitIndex & 0x1F)));
 #endif
@@ -97,7 +96,6 @@ namespace rnd {
     return false;
   }
   }
-  
 
   void En_Elforg_Destroy(game::act::Actor* self, game::GlobalContext*) {
     Model_DestroyByActor(self);
