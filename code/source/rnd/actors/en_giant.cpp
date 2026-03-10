@@ -5,7 +5,12 @@ namespace rnd {
   void En_Giant_ShouldDrawGiant(game::act::Actor* giant) {
     u8 giantId = giant->params & 0xF;
     u16 remainsCollected = Settings_CountRemainsCollected();
-    game::InventoryData::CollectRegister& collect_register = game::GetCommonData().save.inventory.collect_register;
+    game::SaveData save = game::GetCommonData().save;
+    game::InventoryData::CollectRegister& collect_register = save.inventory.collect_register;
+    if (save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED == 0) {
+      giant->draw_fn = (game::act::MainFunc*)0x0;
+      return;
+    }
     if (remainsCollected >= gSettingsContext.masksNeededToEnterMoon)
       return;  // Draw all if it's been completed.
 
