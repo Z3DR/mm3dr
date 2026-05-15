@@ -308,10 +308,6 @@ namespace rnd {
 
   void ItemOverride_Update(void) {
     // TODO: Custom models, trade items.
-    /*ItemOverride_CheckStartingItem();
-    ItemOverride_CheckZeldasLetter();
-    IceTrap_Update();
-    CustomModel_Update();*/
     if (ItemOverride_PlayerIsReady()) {
       ItemOverride_PopIceTrap();
       if (IceTrap_IsPending()) {
@@ -322,62 +318,6 @@ namespace rnd {
     }
   }
 
-  void ItemOverride_EditDrawGetItemBeforeModelSpawn(void) {
-    // TODO: Custom graphics eventually.
-    /*void *cmb;
-
-    switch (rActiveItemGraphicId)
-    {
-    case GID_CUSTOM_DOUBLE_DEFENSE:
-      cmb = (void *)(((char *)PLAYER->giDrawSpace) + 0xA4);
-      CustomModel_EditHeartContainerToDoubleDefense(cmb);
-      break;
-    case GID_CUSTOM_CHILD_SONGS:
-      cmb = (void *)(((char *)PLAYER->giDrawSpace) + 0x2E60);
-      CustomModel_SetOcarinaToRGBA565(cmb);
-      break;
-    case GID_CUSTOM_ADULT_SONGS:
-      cmb = (void *)(((char *)PLAYER->giDrawSpace) + 0xE8);
-      CustomModel_SetOcarinaToRGBA565(cmb);
-      break;
-    case GID_CUSTOM_SMALL_KEYS:
-      cmb = (void *)(((char *)PLAYER->giDrawSpace) + 0x74);
-      CustomModel_ApplyColorEditsToSmallKey(cmb, rActiveItemRow->special);
-      break;
-    case GID_CUSTOM_BOSS_KEYS:
-      cmb = (void *)(((char *)PLAYER->giDrawSpace) + 0x78);
-      CustomModel_SetBossKeyToRGBA565(cmb);
-      break;
-    }*/
-  }
-
-  // TODO: Get skeleanimation models.
-  /*void ItemOverride_EditDrawGetItemAfterModelSpawn(SkeletonAnimationModel* model) {
-    void* cmabMan;
-
-    switch (rActiveItemGraphicId) {
-        case GID_CUSTOM_CHILD_SONGS:
-            cmabMan = ExtendedObject_GetCMABByIndex(OBJECT_CUSTOM_GENERAL_ASSETS,
-  TEXANIM_CHILD_SONG); TexAnim_Spawn(model->unk_0C, cmabMan); model->unk_0C->animSpeed = 0.0f;
-            model->unk_0C->animMode = 0;
-            model->unk_0C->curFrame = rActiveItemRow->special;
-            break;
-        case GID_CUSTOM_ADULT_SONGS:
-            cmabMan = ExtendedObject_GetCMABByIndex(OBJECT_CUSTOM_GENERAL_ASSETS,
-  TEXANIM_ADULT_SONG); TexAnim_Spawn(model->unk_0C, cmabMan); model->unk_0C->animSpeed = 0.0f;
-            model->unk_0C->animMode = 0;
-            model->unk_0C->curFrame = rActiveItemRow->special;
-            break;
-        case GID_CUSTOM_BOSS_KEYS:
-            cmabMan = ExtendedObject_GetCMABByIndex(OBJECT_CUSTOM_GENERAL_ASSETS, TEXANIM_BOSS_KEY);
-            TexAnim_Spawn(model->unk_0C, cmabMan);
-            model->unk_0C->animSpeed = 0.0f;
-            model->unk_0C->animMode = 0;
-            model->unk_0C->curFrame = rActiveItemRow->special;
-            break;
-    }
-  }*/
-
   void ItemOverride_PushDungeonReward(u8 dungeon) {
     ItemOverride_Key key = {.all = 0};
     key.scene = 0xFF;
@@ -387,16 +327,6 @@ namespace rnd {
     ItemOverride_PushPendingOverride(override);
   }
 
-  void ItemOverride_CheckStartingItem() {
-    // TODO: Check for starting quest items?
-    // use eventChkInf[0] |= 0x0001 as the check for this
-    /*if (EventCheck(0x00) == 0) {
-          if (gSettingsContext.linksPocketItem != LINKSPOCKETITEM_DUNGEON_REWARD) {
-              ItemOverride_PushDungeonReward(0xFF); // Push Link's Pocket Reward
-          }
-          EventSet(0x00);
-      }*/
-  }
 
   s16 ItemOverride_CheckNpc(game::act::Id actorId, s16 originalGetItemId, s32 incomingNegative) {
     s16 getItemId = incomingNegative ? -originalGetItemId : originalGetItemId;
@@ -696,6 +626,44 @@ namespace rnd {
     default:
       return false;
     }
+  }
+
+  void ItemOverride_SetSkullCollected(u16 params, game::SceneId scene, game::act::Type actorType) {
+    if (actorType != game::act::Type::Item) return;
+    for (u8 i = 0; i < 30; i++) {
+      if (scene == game::SceneId::SwampSpiderHouse) {
+        if (skulltulaMapSSH[i] == (params & 0xFF)) {
+          gExtSaveData.chestRewarded[(u8)game::SceneId::SwampSpiderHouse][i] = 1;
+          return;
+        }
+      } else if (scene == game::SceneId::OceansideSpiderHouse) {
+        // Special case - since OSH has one chest with param 00,
+        // let's ensure that it only sets the second element onwards in the chestRewarded array.
+        if (skulltulaMapOSH[i] == (params & 0xFF)) {
+          gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i + 1] = 1;
+          return;
+        }
+      }
+    }
+  }
+
+  u8 ItemOverride_IsSkullCollected(game::act::Actor* actor, game::SceneId scene) {
+    if (actor->actor_type != game::act::Type::Item)
+      return 0;
+    for (u8 i = 0; i < 30; i++) {
+      if (scene == game::SceneId::SwampSpiderHouse) {
+        if (skulltulaMapSSH[i] == (actor->params & 0xFF)) {
+          return gExtSaveData.chestRewarded[(u8)game::SceneId::SwampSpiderHouse][i];
+        }
+      } else if (scene == game::SceneId::OceansideSpiderHouse) {
+        // Special case - since OSH has one chest with param 00,
+        // let's ensure that it only gets the elements after the first item in the array.
+        if (skulltulaMapOSH[i] == (actor->params & 0xFF)) {
+          return gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i + 1];
+        }
+      }
+    }
+    return 0;
   }
 
   extern "C" {
@@ -1167,50 +1135,13 @@ namespace rnd {
     return (u32)gExtSaveData.givenItemChecks.enOshGivenItem;
   }
 
-  void ItemOverride_SetSkullCollected(u16 params, game::SceneId scene) {
-    for (u8 i = 0; i < 30; i++) {
-      if (scene == game::SceneId::SwampSpiderHouse) {
-        if (skulltulaMapSSH[i] == (params & 0xFF)) {
-          gExtSaveData.chestRewarded[(u8)game::SceneId::SwampSpiderHouse][i] = 1;
-          return;
-        }
-      } else if (scene == game::SceneId::OceansideSpiderHouse) {
-        // Special case - since OSH has one chest, let's remove
-        if ((i + 1) == 30)
-          break;
-        if (skulltulaMapOSH[i + 1] == (params & 0xFF)) {
-          gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i + 1] = 1;
-          return;
-        }
-      }
-    }
-  }
-
-  u8 ItemOverride_IsSkullCollected(game::act::Actor* actor, game::SceneId scene) {
-    for (u8 i = 0; i < 30; i++) {
-      if (scene == game::SceneId::SwampSpiderHouse) {
-        if (skulltulaMapSSH[i] == (actor->params & 0xFF)) {
-          return gExtSaveData.chestRewarded[(u8)game::SceneId::SwampSpiderHouse][i];
-        }
-      } else if (scene == game::SceneId::OceansideSpiderHouse) {
-        // Special case - since OSH has one chest, let's remove
-        if ((i + 1) == 30)
-          break;
-        if (skulltulaMapOSH[i + 1] == (actor->params & 0xFF)) {
-          return gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i + 1];
-        }
-      }
-    }
-    return 0;
-  }
-
   u8 ItemOverride_OverrideSkullToken(game::act::Actor* actor) {
     game::GlobalContext* gctx = GetContext().gctx;
     s16 getItemId = gctx->scene == game::SceneId::SwampSpiderHouse ? 0x44 : 0x6D;
     ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
     if (rActiveItemRow != NULL) {
       ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
-      ItemOverride_SetSkullCollected(actor->params, gctx->scene);
+      ItemOverride_SetSkullCollected(actor->params, gctx->scene, actor->actor_type);
       return true;
     }
 

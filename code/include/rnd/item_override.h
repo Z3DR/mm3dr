@@ -425,7 +425,6 @@ namespace rnd {
   s32 ItemOverride_IsAPendingOverride(void);
   ItemOverride ItemOverride_Lookup(game::act::Actor*, u16, s16);
   void ItemOverride_PushDungeonReward(u8);
-  void ItemOverride_CheckStartingItem();
   void ItemOverride_Init();
   void ItemOverride_Update();
   void ItemOverride_RevealMapBasedOnId(u8);
