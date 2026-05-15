@@ -327,7 +327,6 @@ namespace rnd {
     ItemOverride_PushPendingOverride(override);
   }
 
-
   s16 ItemOverride_CheckNpc(game::act::Id actorId, s16 originalGetItemId, s32 incomingNegative) {
     s16 getItemId = incomingNegative ? -originalGetItemId : originalGetItemId;
     if (actorId == game::act::Id::NpcEnNb) {
@@ -629,7 +628,8 @@ namespace rnd {
   }
 
   void ItemOverride_SetSkullCollected(u16 params, game::SceneId scene, game::act::Type actorType) {
-    if (actorType != game::act::Type::Item) return;
+    if (actorType != game::act::Type::Item)
+      return;
     for (u8 i = 0; i < 30; i++) {
       if (scene == game::SceneId::SwampSpiderHouse) {
         if (skulltulaMapSSH[i] == (params & 0xFF)) {
