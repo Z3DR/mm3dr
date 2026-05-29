@@ -4,7 +4,6 @@
 #include "game/common_data.h"
 #include "rnd/savefile.h"
 
-namespace rnd
-{
+namespace rnd {
   extern "C" void Entrance_EnteredLocation(u16);
-} // namespace rnd
+}  // namespace rnd

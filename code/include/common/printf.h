@@ -108,4 +108,3 @@ int fctprintf(void (*out)(char character, void* arg), void* arg, const char* for
 #ifdef __cplusplus
 }
 #endif
-

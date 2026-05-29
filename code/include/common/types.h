@@ -15,4 +15,3 @@ using size_t = std::size_t;
 
 static_assert(sizeof(u16) == sizeof(short));
 static_assert(sizeof(u32) == sizeof(int));
-

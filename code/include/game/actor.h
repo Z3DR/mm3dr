@@ -383,4 +383,3 @@ namespace game::act {
   ActorOverlayInfo* GetActorOverlayInfoTable();
 
 }  // namespace game::act
-

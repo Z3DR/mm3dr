@@ -17,4 +17,3 @@ namespace rnd::util {
   void Print(const char* format, ...);
 
 }  // namespace rnd::util
-
