@@ -907,19 +907,14 @@ SECTIONS{
   . = 0x007D0000;
   _LD_SYMBOL_TEXT_START = . ;
   .text : {
-      __text_start = . ;
-      *(.text*)
-      *(.rodata*)
-      *(.data*)
-      *(.bss*)
-      *(.init*)
-      *(.fini*)
-      *(.eh_frame*)
-      *(.init_array*)
-      *(.fini_array*)
-      *(COMMON)
-      rCustomMessages = . ;
-      __text_end  = . ;
+    __text_start = . ;
+		*(.text*)
+		__text_end = . ;
+		*(.rodata*)
+		*(.data*)
+		*(.bss*)
+		*(COMMON)
+		rCustomMessages = . ;
 }
   _LD_SYMBOL_TEXT_SIZE = __text_end - __text_start;
 }

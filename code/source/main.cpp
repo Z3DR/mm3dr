@@ -19,7 +19,6 @@
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
 #include "z3d/z3DVec.h"
-#include "newcodeinfo.h"
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
 #include "common/debug.h"
@@ -107,7 +106,7 @@ namespace rnd {
     const u32 pressedButtons = gctx->pad_state.input.buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-      util::Print("%s: Hehe :) NEWCODE SIZE IS %#08x", __func__, NEWCODE_SIZE);
+      util::Print("%s: Hehe :)", __func__);
       auto& save = game::GetCommonData().save;
       save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED = 1;
       save.inventory.collect_register.odolwas_remains = 1;
