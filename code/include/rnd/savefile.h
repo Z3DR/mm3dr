@@ -1,5 +1,4 @@
-#ifndef _RND_SAVEFILE_H_
-#define _RND_SAVEFILE_H_
+#pragma once
 
 #include "common/bitfield.h"
 #include "game/common_data.h"
@@ -158,5 +157,3 @@ namespace rnd {
 
   extern "C" ExtSaveData gExtSaveData;
 }  // namespace rnd
-
-#endif  //_RND_SAVEFILE_H_

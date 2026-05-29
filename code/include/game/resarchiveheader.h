@@ -1,5 +1,4 @@
-#ifndef _GAME_RES_ARCHIVE_HEADER_H
-#define _GAME_RES_ARCHIVE_HEADER_H
+#pragma once
 
 #include "common/types.h"
 
@@ -33,5 +32,3 @@ namespace game {
   static_assert(sizeof(ResArchiveFileInfo) == 0x0C);
 
 }  // namespace game
-
-#endif

@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_UI_SCREENS_SCREEN_H
-#define _GAME_UI_SCREENS_SCREEN_H
+#pragma once
 
 #include "common/types.h"
 
@@ -84,5 +83,3 @@ namespace game::ui {
   static_assert(sizeof(Screen) == 0x4);
 
 }  // namespace game::ui
-
-#endif

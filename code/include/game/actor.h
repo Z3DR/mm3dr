@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_ACTOR_H
-#define _GAME_ACTOR_H
+#pragma once
 
 #include "common/bitfield.h"
 #include "common/flags.h"
@@ -384,5 +383,3 @@ namespace game::act {
   ActorOverlayInfo* GetActorOverlayInfoTable();
 
 }  // namespace game::act
-
-#endif

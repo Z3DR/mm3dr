@@ -1,5 +1,4 @@
-#ifndef _RND_ACTORS_EN_ELFORG_H_
-#define _RND_ACTORS_EN_ELFORG_H_
+#pragma once
 
 #include "game/actor.h"
 #include "game/as.h"
@@ -41,4 +40,3 @@ namespace rnd {
   void En_Elforg_Destroy(game::act::Actor*, game::GlobalContext*);
 
 }  // namespace rnd
-#endif

@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _COMMON_FLAGS_H
-#define _COMMON_FLAGS_H
+#pragma once
 
 #include <array>
 #include <cstdarg>
@@ -90,4 +89,3 @@ namespace rnd {
   };
 
 }  // namespace rnd
-#endif

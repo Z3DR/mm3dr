@@ -1,5 +1,5 @@
-#ifndef _RND_ACTOR_EN_GIANT_H_
-#define _RND_ACTOR_EN_GIANT_H_
+#pragma once
+
 #include "rnd/settings.h"
 namespace rnd {
   extern "C" {
@@ -7,4 +7,3 @@ namespace rnd {
   bool En_Giant_KillAfterCutscene(game::act::Actor*);
   }
 }  // namespace rnd
-#endif

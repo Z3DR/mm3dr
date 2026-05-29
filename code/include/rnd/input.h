@@ -1,5 +1,4 @@
-#ifndef _RND_INPUT_H
-#define _RND_INPUT_H
+#pragma once
 
 #include "hid.h"
 #include "z3d/z3DVec.h"
@@ -24,4 +23,3 @@ namespace rnd {
   extern "C" InputContext rInputCtx;
 
 }  // namespace rnd
-#endif

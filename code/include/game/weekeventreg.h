@@ -5,8 +5,7 @@
  * @date 2025-11-12
  *
  */
-#ifndef _GAME_WEEK_EVENT_REG_H
-#define _GAME_WEEK_EVENT_REG_H
+#pragma once
 
 namespace game {
   union WeekEventReg00 {
@@ -1808,5 +1807,3 @@ namespace game {
     BitField<7, 1, u8> WEEKEVENTREG_139_80;
   };
 }  // namespace game
-
-#endif  // _GAME_WEEK_EVENT_REG_H

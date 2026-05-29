@@ -1,5 +1,12 @@
-#ifndef _GAME_ACTORS_BOSS_TWINMOLD_H
-#define _GAME_ACTORS_BOSS_TWINMOLD_H
+/**
+ * @file static_context.h
+ * @author leoetlino (https://github.com/leoetlino/)
+ * @brief
+ * @date 2021-09-15
+ *
+ * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
+ */
+#pragma once
 #include <cstddef>
 
 #include "common/types.h"
@@ -182,4 +189,3 @@ namespace game::act {
   static_assert(offsetof(BossTwinmold, gap_93B0) == 0x93B0);
 
 }  // namespace game::act
-#endif

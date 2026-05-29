@@ -1,5 +1,4 @@
-#ifndef _RND_ITEM_OVERRIDE_H
-#define _RND_ITEM_OVERRIDE_H
+#pragma once
 
 #include "common/advanced_context.h"
 #include "common/utils.h"
@@ -458,5 +457,3 @@ namespace rnd {
   extern "C" u16 rStoredTextId;
 
 }  // namespace rnd
-
-#endif

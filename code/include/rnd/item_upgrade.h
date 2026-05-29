@@ -1,5 +1,5 @@
-#ifndef _RND_ITEM_UPGRADES_H
-#define _RND_ITEM_UPGRADES_H
+#pragma once
+
 #include "game/common_data.h"
 #include "rnd/item_override.h"
 
@@ -18,5 +18,3 @@ namespace rnd {
   GetItemID ItemUpgrade_CheckShield(game::SaveData*, GetItemID);
   // GetItemID ItemUpgrade_LetterToBottle(game::SaveData*, GetItemID);
 }  // namespace rnd
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _RND_ICETRAP_H
-#define _RND_ICETRAP_H
+#pragma once
 
 #include "common/advanced_context.h"
 #include "game/common_data.h"
@@ -10,5 +9,3 @@ namespace rnd {
   void IceTrap_Give();
   bool IceTrap_IsPending();
 }  // namespace rnd
-
-#endif  // ICETRAP_H

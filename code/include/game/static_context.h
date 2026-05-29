@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_STATIC_CONTEXT_H
-#define _GAME_STATIC_CONTEXT_H
+#pragma once
 
 #include "common/types.h"
 
@@ -2814,5 +2813,3 @@ namespace game {
   StaticContext& GetStaticContext();
 
 }  // namespace game
-
-#endif

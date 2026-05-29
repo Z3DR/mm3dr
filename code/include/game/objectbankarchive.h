@@ -1,5 +1,4 @@
-#ifndef _GAME_OBJECT_BANK_ARCHIVE_H
-#define _GAME_OBJECT_BANK_ARCHIVE_H
+#pragma once
 
 #include "common/types.h"
 #include "common/utils.h"
@@ -64,5 +63,3 @@ namespace game::ObjectBank {
   void* getCmbFile(ObjectBankArchive*, u32, u32);
   void free(ObjectBankArchive*);
 }  // namespace game::ObjectBank
-
-#endif

@@ -1,6 +1,3 @@
-#ifndef _COMMON_UTILS_H
-#define _COMMON_UTILS_H
-
 /**
  * @file utils.h
  * @author leoetlino (https://github.com/leoetlino/)
@@ -9,6 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
+#pragma once
 #include <algorithm>
 #include <cstring>
 #include <tuple>
@@ -79,4 +77,3 @@ namespace rnd::util {
   }
 
 }  // namespace rnd::util
-#endif

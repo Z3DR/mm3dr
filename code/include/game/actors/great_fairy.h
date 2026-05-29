@@ -1,5 +1,4 @@
-#ifndef _GAME_ACTORS_GREAT_FAIRY
-#define _GAME_ACTORS_GREAT_FAIRY
+#pragma once
 
 #include "game/actor.h"
 #include "game/as.h"
@@ -35,5 +34,3 @@ namespace game::act {
   static_assert(sizeof(GreatFairy) == 0x12b8);
 
 }  // namespace game::act
-
-#endif  // _GAME_ACTORS_GREAT_FAIRY

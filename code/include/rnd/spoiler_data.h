@@ -1,5 +1,4 @@
-#ifndef _RND_SPOILER_DATA_H_
-#define _RND_SPOILER_DATA_H_
+#pragma once
 
 #include "rnd/item_override.h"
 #include "rnd/savefile.h"
@@ -145,5 +144,3 @@ namespace rnd {
   u8 SpoilerLog_CheckMultiLocationItems(ItemOverride_Type type, u8 scene, u8 flag);
   void SpoilerData_UpdateMultiLocations(ItemOverride_Type type, u8 newScene, u8 flag);
 }  // namespace rnd
-
-#endif  // _RND_SPOILER_DATA_H_

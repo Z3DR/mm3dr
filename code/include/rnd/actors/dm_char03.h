@@ -1,5 +1,4 @@
-#ifndef _RND_ACTORS_DM_CHAR03_H_
-#define _RND_ACTORS_DM_CHAR03_H_
+#pragma once
 
 #include "game/actor.h"
 #include "rnd/models.h"
@@ -26,4 +25,3 @@ namespace rnd {
   void Dm_Char03_Destroy(game::act::Actor* actor, game::GlobalContext* gctx);
 
 }  // namespace rnd
-#endif

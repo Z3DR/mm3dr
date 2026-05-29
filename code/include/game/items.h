@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Modified for more items.
  */
-#ifndef _GAME_ITEMS_H
-#define _GAME_ITEMS_H
+#pragma once
 
 #include <array>
 
@@ -314,5 +313,3 @@ namespace game {
   void GiveItemWithEffect(u32);
 
 }  // namespace game
-
-#endif

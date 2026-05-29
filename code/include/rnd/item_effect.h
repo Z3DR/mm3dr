@@ -1,5 +1,4 @@
-#ifndef _RND_ITEM_EFFECT_H_
-#define _RND_ITEM_EFFECT_H_
+#pragma once
 
 // #include "icetrap.h"
 
@@ -33,5 +32,3 @@ namespace rnd {
   void ItemEffect_GiveMask(game::CommonData* comData, s16 mask, s16 arg2);
   void ItemEffect_GiveTradeItem(game::CommonData* comData, s16 mask, s16 arg2);
 }  // namespace rnd
-
-#endif  //_ITEM_EFFECT_H_

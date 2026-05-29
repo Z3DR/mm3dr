@@ -1,5 +1,4 @@
-#ifndef _GAME_SKELANIME_H
-#define _GAME_SKELANIME_H
+#pragma once
 
 #include "common/types.h"
 #include "game/context.h"
@@ -35,5 +34,3 @@ namespace game {
   };
 
 }  // namespace game
-
-#endif

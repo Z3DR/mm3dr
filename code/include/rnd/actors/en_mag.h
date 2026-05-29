@@ -1,5 +1,4 @@
-#ifndef _RND_ACTOR_EN_MAG_H_
-#define _RND_ACTOR_EN_MAG_H_
+#pragma once
 
 #include "game/actor.h"
 #include "game/context.h"
@@ -33,5 +32,3 @@ namespace rnd {
 
   void En_Mag_rInit(game::act::Actor*, game::GlobalContext*);
 }  // namespace rnd
-
-#endif  //_TITLE_SCREEN_H_

@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries.
  */
-#ifndef _GAME_UI__PLAY_HUD_H
-#define _GAME_UI__PLAY_HUD_H
+#pragma once
 #include "game/ui.h"
 
 namespace game::ui {
@@ -62,5 +61,3 @@ namespace game::ui {
   static_assert(sizeof(PlayHud) == 0x23C);
 
 }  // namespace game::ui
-
-#endif

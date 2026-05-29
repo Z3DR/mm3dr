@@ -1,5 +1,5 @@
-#ifndef _RND_ACTOR_EN_JS_H_
-#define _RND_ACTOR_EN_JS_H_
+#pragma once
+
 #include "game/common_data.h"
 #include "game/message.h"
 #include "rnd/savefile.h"
@@ -20,5 +20,3 @@ namespace rnd {
   void En_Js_CheckTextValues(game::GlobalContext*);
   }
 }  // namespace rnd
-
-#endif

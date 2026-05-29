@@ -1,5 +1,4 @@
-#ifndef _RND_ACTORS_EN_SI_H_
-#define _RND_ACTORS_EN_SI_H_
+#pragma once
 
 #include "game/actor.h"
 #include "rnd/models.h"
@@ -18,4 +17,3 @@ namespace rnd {
   void En_Si_Destroy(game::act::Actor* self, game::GlobalContext* gctx);
   }
 }  // namespace rnd
-#endif

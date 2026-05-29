@@ -1,5 +1,4 @@
-#ifndef _RND_LINK_
-#define _RND_LINK_
+#pragma once
 
 #include <optional>
 #include "common/advanced_context.h"
@@ -32,5 +31,3 @@ namespace rnd::link {
   }
 
 }  // namespace rnd::link
-
-#endif

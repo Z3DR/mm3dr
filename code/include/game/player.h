@@ -1,13 +1,3 @@
-#ifndef _GAME_PLAYER_H
-#define _GAME_PLAYER_H
-
-#include "common/flags.h"
-#include "common/types.h"
-#include "common/utils.h"
-#include "game/actor.h"
-#include "game/actorresource.h"
-#include "game/as.h"
-#include "game/context.h"
 /**
  * @file player.h
  * @author leoetlino (https://github.com/leoetlino/)
@@ -16,6 +6,15 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
+#pragma once
+#include "common/flags.h"
+#include "common/types.h"
+#include "common/utils.h"
+#include "game/actor.h"
+#include "game/actorresource.h"
+#include "game/as.h"
+#include "game/context.h"
+
 #include "game/items.h"
 #include "game/pad.h"
 #include "z3d/z3DVec.h"
@@ -550,5 +549,3 @@ namespace game::act {
                              AllowExistingMagicUsage allow_existing_usage);
 
 }  // namespace game::act
-
-#endif

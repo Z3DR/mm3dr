@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_ACTORS_OBJ_ELEGY_STATUE
-#define _GAME_ACTORS_OBJ_ELEGY_STATUE
+#pragma once
 
 #include "game/actor.h"
 #include "game/collision.h"
@@ -34,5 +33,3 @@ namespace game::act {
   static_assert(sizeof(ObjElegyStatue) == 0x258);
 
 }  // namespace game::act
-
-#endif
