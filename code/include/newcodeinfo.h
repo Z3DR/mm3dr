@@ -4,6 +4,10 @@
  */
 
 #pragma once
+#include "3ds/types.h"
 
-#define NEWCODE_OFFSET 0x007D0000
-#define NEWCODE_SIZE 0x00050000  // TODO: Probably too large for this patch but it is the size of restoration.
+extern char _LD_SYMBOL_TEXT_START;
+#define NEWCODE_OFFSET ((u32) & _LD_SYMBOL_TEXT_START)
+
+extern char _LD_SYMBOL_TEXT_SIZE;
+#define NEWCODE_SIZE ((u32) & _LD_SYMBOL_TEXT_SIZE)
