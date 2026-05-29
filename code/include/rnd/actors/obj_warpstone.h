@@ -4,6 +4,12 @@
 #include "game/collision.h"
 
 namespace rnd {
+
+  typedef enum {
+    /* 0 */ SEK_MODEL_CLOSED,
+    /* 1 */ SEK_MODEL_OPENED
+  } ObjectSekModels;
+
   struct Obj_Warpstone : public game::act::Actor {
     u8 gap_1F8[8];
     u32 field_200;
@@ -11,7 +17,7 @@ namespace rnd {
     game::CollisionBodyCylinder col_body;
     u8 talking;
     u8 timer;
-    u8 field_266;
+    ObjectSekModels modelIndex;
     u8 save_status;
     void* calc_fn;
     game::act::sa_unk_d4 skelAnime;
@@ -28,4 +34,4 @@ namespace rnd {
     u8 ex_started_activating;
     u16 field_28E;
   };
-} // namespace rnd 
+}  // namespace rnd
