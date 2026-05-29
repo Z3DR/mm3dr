@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_ANIMATION_SEQ_H
-#define _GAME_ANIMATION_SEQ_H
+#pragma once
 
 // Animation sequence system.
 
@@ -71,5 +70,3 @@ namespace game::as {
   static_assert(sizeof(ActorUtil) == 0x8C);
 
 }  // namespace game::as
-
-#endif

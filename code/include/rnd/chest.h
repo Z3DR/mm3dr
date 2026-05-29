@@ -1,5 +1,4 @@
-#ifndef _RND_CHEST_H_
-#define _RND_CHEST_H_
+#pragma once
 
 #include "common/advanced_context.h"
 #include "game/actors/chest.h"
@@ -40,4 +39,3 @@ namespace rnd {
   // u8 Chest_OverrideDecoration();
   // u8 Chest_OverrideIceSmoke(game::act::Actor* thisx);
 }  // namespace rnd
-#endif  //_CHEST_H_

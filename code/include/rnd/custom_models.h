@@ -1,6 +1,5 @@
-#ifndef _RND_CUSTOM_MODELS_H_
-#define _RND_CUSTOM_MODELS_H_
+#pragma once
 
-void CustomModel_EditTitleScreenLogo(void* titleScreenGAR);
-
-#endif
+namespace rnd {
+  void CustomModel_EditTitleScreenLogo(void* titleScreenGAR);
+} // namespace rnd

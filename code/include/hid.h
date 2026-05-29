@@ -2,9 +2,7 @@
  * From n3rdswithgame, who may or may not have originally written this
  */
 
-#ifndef HID_H
-#define HID_H
-
+#pragma once
 #include <stdint.h>
 
 typedef union {
@@ -115,5 +113,3 @@ typedef struct {
 #define CPAD_LEFT (1 << 29)
 #define CPAD_UP (1 << 30)
 #define CPAD_DOWN (1 << 31)
-
-#endif  // HID_H

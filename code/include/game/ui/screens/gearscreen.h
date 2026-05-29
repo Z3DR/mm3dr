@@ -1,9 +1,16 @@
+/**
+ * @file ui/screens/gear_screen.h
+ * @author leoetlino (https://github.com/leoetlino/)
+ * @brief
+ * @date 2023-08-27
+ *
+ * Brought in from the Project Restoration libraries.
+ */
+#pragma once
+
 #include "common/utils.h"
 #include "game/message.h"
 #include "game/ui.h"
-
-#ifndef _GAME_UI_GEARSCREEN_H
-#define _GAME_UI_GEARSCREEN_H
 
 namespace game::ui::screens {
   struct GearScreen {
@@ -65,5 +72,3 @@ namespace game::ui::screens {
 
   GearScreen* GetGearScreen();
 }  // namespace game::ui::screens
-
-#endif

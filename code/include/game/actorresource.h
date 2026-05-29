@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_ACTOR_RESOURCE_H
-#define _GAME_ACTOR_RESOURCE_H
+#pragma once
 #define OBJECT_EXCHANGE_BANK_MAX 36
 
 #include "common/types.h"
@@ -47,5 +46,3 @@ namespace game::ActorResource {
   void freeActorResource(ActorResource*);
 
 }  // namespace game::ActorResource
-
-#endif

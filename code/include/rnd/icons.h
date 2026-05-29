@@ -1,5 +1,3 @@
-#ifndef _RND_ICONS_H_
-#define _RND_ICONS_H_
 /**
  * @file icons.h
  * @author Giometric (https://github.com/Giometric)
@@ -8,6 +6,7 @@
  *
  * Brought in from the OoT3DR libraries.
  */
+#pragma once
 #define ICON_WIDTH 8
 #define ICON_HEIGHT 8
 
@@ -308,4 +307,3 @@ static const unsigned char rIcons[][ICON_HEIGHT] = {{
                                                         0x2c, /* 00101100 */
                                                         0x00, /* 00000000 */
                                                     }};
-#endif

@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_CAMERA_H
-#define _GAME_CAMERA_H
+#pragma once
 
 #include "common/flags.h"
 #include "common/types.h"
@@ -300,5 +299,3 @@ namespace game {
   static_assert(sizeof(CameraStateInfo) == 0xc);
 
 }  // namespace game
-
-#endif

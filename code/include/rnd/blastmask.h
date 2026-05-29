@@ -1,5 +1,4 @@
-#ifndef _RND_BLASTMASK_H_
-#define _RND_BLASTMASK_H_
+#pragma once
 
 #include "common/advanced_context.h"
 #include "rnd/settings.h"
@@ -12,4 +11,3 @@ extern "C" {
 namespace rnd {
   extern "C" u8 checkBlastMaskCooldown();
 }  // namespace rnd
-#endif

@@ -3,8 +3,9 @@
 #include "z3d/z3DVec.h"
 
 #define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
-
-// TODO: Change this for MM3D.
+namespace rnd
+{
+  // TODO: Change this for MM3D.
 void CustomModel_EditTitleScreenLogo(void* titleScreenZAR) {
   char* BASE_ = (char*)titleScreenZAR;
 
@@ -81,3 +82,5 @@ void CustomModel_EditTitleScreenLogo(void* titleScreenZAR) {
   EDIT_BYTE(0x5EB82, 0x5C);
   EDIT_BYTE(0x5EB83, 0x3F);
 }
+} // namespace rnd
+

@@ -1,5 +1,4 @@
-#ifndef _RND_BOSS_H_
-#define _RND_BOSS_H_
+#pragma once
 #include "common/advanced_context.h"
 #include "game/actors/boss/twinmold.h"
 #include "rnd/settings.h"
@@ -22,5 +21,3 @@ namespace rnd {
   u8 IsTwinmoldSetToRestoration();
   }
 }  // namespace rnd
-
-#endif

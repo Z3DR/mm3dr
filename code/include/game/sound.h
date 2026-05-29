@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_SOUND_H
-#define _GAME_SOUND_H
+#pragma once
 
 #include "common/types.h"
 #include "z3d/z3DVec.h"
@@ -2818,5 +2817,3 @@ namespace game::sound {
   void ControlEnv(int index);
 
 }  // namespace game::sound
-
-#endif

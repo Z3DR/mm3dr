@@ -1,5 +1,5 @@
-#ifndef _RND_OBJECTS_H_
-#define _RND_OBJECTS_H_
+#pragma once
+
 #define noop (void)0
 #include "common/advanced_context.h"
 #include "game/actor.h"
@@ -27,4 +27,3 @@ namespace rnd {
   extern "C" game::ActorResource::ActorResource* ExtendedObject_GetStatus();
   void* ExtendedObject_GetCMABByIndex(s16 objectId, u32 objectAnimIdx);
 }  // namespace rnd
-#endif  //_RND_OBJECTS_H_

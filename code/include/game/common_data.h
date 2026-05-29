@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_COMMON_DATA_H
-#define _GAME_COMMON_DATA_H
+#pragma once
 
 #include <array>
 
@@ -824,5 +823,3 @@ namespace game {
   CommonData& GetCommonData();
 
 }  // namespace game
-
-#endif

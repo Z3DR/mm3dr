@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_CONTEXT_H
-#define _GAME_CONTEXT_H
+#pragma once
 
 #include <cstddef>
 
@@ -664,5 +663,3 @@ namespace game {
 
   PersistentSceneCycleFlags* GetPersistentCycleStruct();
 }  // namespace game
-
-#endif

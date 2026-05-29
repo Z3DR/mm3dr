@@ -1,5 +1,4 @@
-#ifndef _RND_ACTORS_DM_HINA_H_
-#define _RND_ACTORS_DM_HINA_H_
+#pragma once
 
 #include "game/actor.h"
 #include "rnd/models.h"
@@ -22,4 +21,3 @@ namespace rnd {
   // void Dm_Hina_Draw(game::act::Actor*, game::GlobalContext*);
   void Dm_Hina_Destroy(game::act::Actor*, game::GlobalContext*);
 }  // namespace rnd
-#endif

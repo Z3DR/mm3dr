@@ -1,5 +1,4 @@
-#ifndef _RND_ACTORS_ITEM00_H_
-#define _RND_ACTORS_ITEM00_H_
+#pragma once
 
 #include "game/actor.h"
 #include "rnd/models.h"
@@ -211,4 +210,3 @@ namespace rnd {
     CMB_CHAIN_MODEL = 0XB0,                  // hookpin/model/chain_model.cmb
   };
 }  // namespace rnd
-#endif

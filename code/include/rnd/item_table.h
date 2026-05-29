@@ -1,5 +1,4 @@
-#ifndef _RND_ITEM_TABLE_H_
-#define _RND_ITEM_TABLE_H_
+#pragma once
 
 #include "game/common_data.h"
 #include "rnd/chest.h"
@@ -47,5 +46,3 @@ namespace rnd {
   void ItemTable_CallEffect(ItemRow* itemRow);
 
 }  // namespace rnd
-
-#endif  //_ITEM_TABLE_H_

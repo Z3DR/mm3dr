@@ -2,8 +2,7 @@
  * This comes from a file originally written by n3rdswithgame
  */
 
-#ifndef ADVANCE_H
-#define ADVANCE_H
+#pragma once
 
 #include <stdint.h>
 #include "game/common_data.h"
@@ -25,5 +24,3 @@ typedef struct {
 
 extern advance_ctx_t advance_ctx;
 extern advance_input_t inputs;
-
-#endif  // ADVANCE_H

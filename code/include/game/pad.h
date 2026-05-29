@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_PAD_H
-#define _GAME_PAD_H
+#pragma once
 
 #include "common/flags.h"
 #include "common/types.h"
@@ -138,5 +137,3 @@ namespace game::pad {
   ControllerMgr& GetControllerMgr();
 
 }  // namespace game::pad
-
-#endif

@@ -6,8 +6,7 @@
  *
  * Brought in from the OoT3DR libraries. Edited to adjust for this randomizer.
  */
-#ifndef _Z3DVEC_H_
-#define _Z3DVEC_H_
+#pragma once
 
 #include <stdint.h>
 
@@ -52,5 +51,3 @@ typedef struct {
 typedef struct {
   f32 data[4][4];
 } z3d_nn_math_MTX44;
-
-#endif

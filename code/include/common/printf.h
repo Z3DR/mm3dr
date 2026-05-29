@@ -29,8 +29,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _COMMON_PRINTF_H_
-#define _COMMON_PRINTF_H_
+#pragma once
 
 #include <stdarg.h>
 #include <stddef.h>
@@ -110,4 +109,3 @@ int fctprintf(void (*out)(char character, void* arg), void* arg, const char* for
 }
 #endif
 
-#endif  // _PRINTF_H_

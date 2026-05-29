@@ -1,5 +1,4 @@
-#ifndef _GAME_ACTORS_CHEST_H
-#define _GAME_ACTORS_CHEST_H
+#pragma once
 
 #include "game/actor.h"
 #include "game/as.h"
@@ -51,5 +50,3 @@ namespace game::actors {
     u8 gap_420[8];
   };
 }  // namespace game::actors
-
-#endif

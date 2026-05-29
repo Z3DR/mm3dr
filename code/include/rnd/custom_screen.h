@@ -1,5 +1,4 @@
-#ifndef _RND_CUSTOM_SCREEN_H_
-#define _RND_CUSTOM_SCREEN_H_
+#pragma once
 
 #include "common/advanced_context.h"
 #include "common/types.h"
@@ -22,5 +21,3 @@ namespace rnd {
     int GearScreen_GetModelIdFromItemId(game::ItemId);
   }  // namespace gearscreen
 }  // namespace rnd
-
-#endif

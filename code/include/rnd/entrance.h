@@ -1,10 +1,10 @@
-#ifndef __RND_ENTRANCE_H
-#define __RND_ENTRANCE_H
+#pragma once
 
 #include "common/advanced_context.h"
 #include "game/common_data.h"
 #include "rnd/savefile.h"
 
-void Entrance_EnteredLocation(void);
-
-#endif  // __RND_ENTRANCE_H
+namespace rnd
+{
+  extern "C" void Entrance_EnteredLocation(u16);
+} // namespace rnd

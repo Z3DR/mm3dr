@@ -1,5 +1,5 @@
-#ifndef _RND_MODELS_H_
-#define _RND_MODELS_H_
+#pragma once
+
 #include "game/actor.h"
 #include "rnd/gfx.h"
 #include "rnd/item_table.h"
@@ -51,4 +51,3 @@ namespace rnd {
   Model* Model_GetOverrideSaModel(game::act::Actor* actor);
   void Actor_Init();
 }  // namespace rnd
-#endif  //_RND_MODELS_H_

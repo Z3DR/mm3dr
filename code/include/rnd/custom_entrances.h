@@ -1,5 +1,4 @@
-#ifndef _RND_CUSTOM_MESSAGES_H_
-#define _RND_CUSTOM_MESSAGES_H_
+#pragma once
 
 #include "common/advanced_context.h"
 #include "game/common_data.h"
@@ -20,5 +19,3 @@ namespace rnd {
   bool EnFall_CheckMoonRequirements();
   }
 }  // namespace rnd
-
-#endif

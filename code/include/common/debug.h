@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _COMMON_DEBUG_H
-#define _COMMON_DEBUG_H
+#pragma once
 
 #include "common/printf.h"
 
@@ -19,4 +18,3 @@ namespace rnd::util {
 
 }  // namespace rnd::util
 
-#endif

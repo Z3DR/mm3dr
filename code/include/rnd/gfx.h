@@ -1,5 +1,4 @@
-#ifndef _RND_GFX_H_
-#define _RND_GFX_H_
+#pragma once
 
 #include "common/types.h"
 #include "hid.h"
@@ -62,5 +61,3 @@ namespace rnd {
   void* getExpHeapPtr();
 
 }  // namespace rnd
-
-#endif  //_RND_GFX_H_

@@ -7,8 +7,7 @@
  * Brought in from the OoT3D Randomizer libraries. Edited to adjust for MM3D.
  */
 
-#ifndef _RND_EXTDATA_H_
-#define _RND_EXTDATA_H_
+#pragma once
 extern "C" {
 #include <3ds/result.h>
 #include <3ds/services/fs.h>
@@ -129,4 +128,3 @@ namespace rnd {
   }
 }  // namespace rnd
 
-#endif  // _RND_EXTDATA_H_
