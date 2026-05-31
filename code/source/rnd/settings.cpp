@@ -69,6 +69,17 @@ namespace rnd {
 
     return remainsCollected;
   }
+
+  bool Settings_MetMoonRequirements() {
+    u16 remainsCollected = Settings_CountRemainsCollected();
+    return remainsCollected >= gSettingsContext.masksNeededToEnterMoon;
+  }
+
+  bool Settings_MetVictoryRequirements() {
+    u16 remainsCollected = Settings_CountRemainsCollected();
+    return remainsCollected >= gSettingsContext.masksNeededForVictory;
+  }
+
   // With the No Health Refill option on, full health refills from health upgrades and Bombchu
   // Bowling are turned off, and fairies restore 3 hearts Otherwise, they grant a full heal, and the
   // default effect applies (full heal from bottle, 8 hearts on contact)

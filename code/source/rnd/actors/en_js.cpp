@@ -53,9 +53,7 @@ namespace rnd {
     if (cdata.save.player_form != game::act::Player::Form::Human)
       return 0x220B;
 
-    u16 remainsCollected = Settings_CountRemainsCollected();
-
-    if (remainsCollected >= gSettingsContext.masksNeededForVictory) {
+    if (Settings_MetVictoryRequirements()) {
       if (rnd::util::GetPointer<u16(int)>(0x2F217C)(0) < 20)
         return 0x21FC;
       else

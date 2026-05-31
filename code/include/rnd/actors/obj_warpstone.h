@@ -2,6 +2,8 @@
 
 #include "game/actor.h"
 #include "game/collision.h"
+#include "game/items.h"
+#include "rnd/settings.h"
 
 namespace rnd {
 
@@ -20,7 +22,7 @@ namespace rnd {
     ObjectSekModels modelIndex;
     u8 save_status;
     void* calc_fn;
-    game::act::sa_unk_d4 skelAnime;
+    game::act::sa_unk_d4* skelAnime;
     u32 field_270;
     u32 field_274;
     u16 field_278;
@@ -34,4 +36,7 @@ namespace rnd {
     u8 ex_started_activating;
     u16 field_28E;
   };
+  static_assert(sizeof(Obj_Warpstone) == 0x290);
+
+  extern "C" void Obj_Warpstone_ExitMoon(game::GlobalContext*, u16);
 }  // namespace rnd
