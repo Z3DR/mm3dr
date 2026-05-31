@@ -4,10 +4,9 @@ namespace rnd {
   extern "C" {
   void En_Giant_ShouldDrawGiant(game::act::Actor* giant) {
     u8 giantId = giant->params & 0xF;
-    u16 remainsCollected = Settings_CountRemainsCollected();
     game::SaveData save = game::GetCommonData().save;
     game::InventoryData::CollectRegister& collect_register = save.inventory.collect_register;
-    if (remainsCollected >= gSettingsContext.masksNeededToEnterMoon)
+    if (Settings_MetMoonRequirements())
       return;  // Draw all if it's been completed.
 
     /* XXX: This is honestly a very redunant function call, but it's here to branch

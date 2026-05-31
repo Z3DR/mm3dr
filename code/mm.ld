@@ -503,6 +503,12 @@ SECTIONS{
     *(.patch_SaveExtDataOnOwl)
   }
 
+  /*We do not want to intersect with ext saves for moon edge cases.
+  * So we will make a separate patch an instruction down.*/
+  .patch_ObjWarpstoneExitMoon 0x317030 : {
+    *(.patch_ObjWarpstoneExitMoon)
+  }
+
   .patch_IceArrowsAnywhere 0x31874C : {
     *(.patch_IceArrowsAnywhere)
   }

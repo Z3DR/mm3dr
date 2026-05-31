@@ -66,9 +66,7 @@ namespace rnd {
   }
 
   bool EnFall_CheckMoonRequirements() {
-    u16 remainsCollected = Settings_CountRemainsCollected();
-
-    if (remainsCollected >= gSettingsContext.masksNeededToEnterMoon) {
+    if (Settings_MetMoonRequirements()) {
       return true;
     }
     return false;
