@@ -15,4 +15,4 @@ namespace rnd {
       return;
     }
   }
-} // namespace rnd 
+}  // namespace rnd
