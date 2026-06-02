@@ -25,15 +25,6 @@ patch_FixSurroundSound:
 patch_ResetCycleFlagOnMoonCrash:
     bl 0x1C92A8
 
-@ nop gctx->field_22f8 from being potentially nulled. Disables stray fairy respawn and doors locking.
-.section .patch_DoNotResetCurrentSceneFlags
-.global patch_DoNotResetCurrentSceneFlags
-patch_DoNotResetCurrentSceneFlags:
-    nop
-    nop
-    nop
-    nop
-
 .section .patch_MainLoop
 .global patch_MainLoop
 patch_MainLoop:

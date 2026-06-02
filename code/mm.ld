@@ -121,14 +121,6 @@ SECTIONS{
     *(.patch_GetCustomText)
   }
 
-  .patch_DoNotResetTempleFlags 0x1C936C : {
-    *(.patch_DoNotResetTempleFlags)
-  }
-
-  .patch_DoNotResetCurrentSceneFlags 0x1C9348 : {
-    *(.patch_DoNotResetCurrentSceneFlags)
-  }
-
   .patch_DoNotRemoveTradeItems 0x1C9AA8 : {
     *(.patch_DoNotRemoveTradeItems)
   }

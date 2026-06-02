@@ -8,6 +8,7 @@
 #include "game/ui.h"
 #include "game/ui/screens/gearscreen.h"
 #include "rnd/boss.h"
+#include "rnd/custom_entrances.h"
 #include "rnd/extdata.h"
 #include "rnd/icetrap.h"
 #include "rnd/input.h"
@@ -37,6 +38,7 @@ namespace rnd {
     // SaveFile_LoadExtSaveData(1);
     //  TODO: Maybe make this an option?
     link::FixSpeedIssues();
+    ForceTempleFlags();
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("MM3DR Initialized (" __DATE__ " " __TIME__ ")\n");
     game::sound::PlayEffect(game::sound::EffectId::NA_SE_SY_CHAT_ALLERT);
