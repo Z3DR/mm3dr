@@ -8,6 +8,7 @@
 #include "game/ui.h"
 #include "game/ui/screens/gearscreen.h"
 #include "rnd/boss.h"
+#include "rnd/custom_entrances.h"
 #include "rnd/extdata.h"
 #include "rnd/icetrap.h"
 #include "rnd/input.h"
@@ -37,6 +38,7 @@ namespace rnd {
     // SaveFile_LoadExtSaveData(1);
     //  TODO: Maybe make this an option?
     link::FixSpeedIssues();
+    ForceTempleFlags();
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("MM3DR Initialized (" __DATE__ " " __TIME__ ")\n");
     game::sound::PlayEffect(game::sound::EffectId::NA_SE_SY_CHAT_ALLERT);
@@ -107,14 +109,14 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
       util::Print("%s: Hehe :)", __func__);
-      auto& save = game::GetCommonData().save;
-      save.week_event_reg_25.WEEKEVENTREG_OATH_CUTSCENE_SUCCEEDED = 1;
-      save.inventory.collect_register.odolwas_remains = 1;
-      save.inventory.collect_register.twinmolds_remains = 1;
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       auto& save = game::GetCommonData().save;
-      save.inventory.woodfall_temple_keys = 0;
-      save.week_event_reg_01.WEEKEVENTREG_ENTERED_WOODFALL_TEMPLE = 0;
+      save.inventory.woodfall_temple_keys = 2;
+      save.inventory.snowhead_temple_keys = 5;
+      save.inventory.great_bay_temple_keys = 5;
+      save.inventory.stone_tower_temple_keys = 5;
+      save.inventory.stone_tower_dungeon_items.map = 1;
+      // save.week_event_reg_01.WEEKEVENTREG_ENTERED_WOODFALL_TEMPLE = 0;
     }
 #endif
     if (gSettingsContext.customMaskButton != 0 && pressedButtons == gSettingsContext.customMaskButton) {
