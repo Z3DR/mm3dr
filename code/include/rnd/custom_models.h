@@ -9,6 +9,3 @@ namespace rnd {
   void CustomModel_EditTitleScreenLogo(void* titleScreenGAR);
   void CustomModels_EditItemCMB(void*, u16, s8);
 } // namespace rnd 
-
-
-#endif
