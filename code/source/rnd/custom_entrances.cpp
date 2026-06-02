@@ -58,11 +58,23 @@ namespace rnd {
   void ForceTempleFlags() {
     game::PersistentSceneCycleFlags* persistentCycleFlags = game::GetPersistentCycleStruct();
     // Ensure persistent cycle flags do not reset doors. Bits are commonly stored in highest bit except for inverted.
-    persistentCycleFlags[(u32)game::SceneId::WoodfallTemple].switch1 = 0xF0000000;  // Highest bit is the door
-    persistentCycleFlags[(u32)game::SceneId::SnowheadTemple].switch1 = 0xF0000000;
-    persistentCycleFlags[(u32)game::SceneId::GreatBayTemple].switch1 = 0xF0000000;
-    persistentCycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1 = 0xF0000000;
-    persistentCycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1 = 0xFF000000;
+    persistentCycleFlags[(u32)game::SceneId::WoodfallTemple].switch1.unk29 = 0xF;  // Keyed Door in Woodfall
+    persistentCycleFlags[(u32)game::SceneId::SnowheadTemple].switch1.unk28 =
+        0xF;  // First keyed door in snowhead. switch0.unk1 is block at start, switch0.unk15 is clearing the ice
+    persistentCycleFlags[(u32)game::SceneId::SnowheadTemple].switch1.unk29 = 0xF;  // Second Keyed door on second floor.
+    persistentCycleFlags[(u32)game::SceneId::GreatBayTemple].switch1.unk29 = 0xF;
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1.unk29 = 0xF;  // First locked door draft room.
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1.unk28 =
+        0xF;  // Second locked door after elegy puzzle.
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1.unk19 = 0xF;  // ISTT Draft Room Top Right
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTemple].switch1.unk20 = 0xF;  // ISTT Main Entrance Locked door
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1.unk29 =
+        0xF;  // First locked door draft room.
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1.unk28 = 0xF;
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1.unk19 =
+        0xF;  // ISTT Draft Room Top Right
+    persistentCycleFlags[(u32)game::SceneId::StoneTowerTempleInverted].switch1.unk20 =
+        0xF;  // ISTT Main Entrance Locked door
   }
 
   bool EnFall_CheckMoonRequirements() {
