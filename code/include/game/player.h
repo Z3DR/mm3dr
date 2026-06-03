@@ -510,7 +510,7 @@ namespace game::act {
     u8 gap_129C0[12];
 
     pad::ControllerInfo controller_info;
-    //u8 gap_12A14[36];
+    // u8 gap_12A14[36];
     u8 gap_12A14[20];
     void* some_sa_unk_d4_maybe;
     u8 gap_12A28[12];

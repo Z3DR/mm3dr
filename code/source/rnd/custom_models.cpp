@@ -15,7 +15,7 @@ namespace rnd {
     char* BASE_ = (char*)smallKeyCMB;
 
     for (s32 i = 0; i < 7; i++) {
-      EDIT_BYTE(0x12C + i, SmallKeyData[keyType][i]);
+      EDIT_BYTE(0x170 + i, SmallKeyData[keyType][i]);
     }
   }
 
@@ -27,7 +27,7 @@ namespace rnd {
     case OBJECT_CUSTOM_SMALL_KEY_SNOWHEAD:
     case OBJECT_CUSTOM_SMALL_KEY_GREAT_BAY:
     case OBJECT_CUSTOM_SMALL_KEY_STONE_TOWER:
-      cmb = ((char*)ZARBuf) + 0x60;
+      cmb = ((char*)ZARBuf) + 0x84; // 0x84 bytes, view zeld_gi_key.gar.lzs to see offset for cmb.
       CustomModel_ApplyColorEditsToSmallKey(cmb, special);
       break;
     }

@@ -333,12 +333,12 @@ namespace rnd {
     rnd::util::Print("%s: Is active item override active? %u base is %#04x rActiveItemObjectId is %#04x\n", __func__,
                      active, rActiveItemRow->baseItemId, rActiveItemObjectId);
 #endif
-    if(ItemOverride_IsItemVanilla()) {
+    if (ItemOverride_IsItemVanilla()) {
       return;
     }
     game::act::Player* player = GetContext().gctx->GetPlayerActor();
     // void* giDrawTable = util::GetPointer<void*>(0x6a3a5c);
-    CustomModels_EditItemCMB(player->archive, rActiveItemObjectId, rActiveItemRow->special);
+    CustomModels_EditItemCMB(player->actor_resource_file->archive.archive.raw, rActiveItemObjectId, rActiveItemRow->special);
   }
 
   void ItemOverride_PushDungeonReward(u8 dungeon) {
@@ -743,11 +743,12 @@ namespace rnd {
     s32 incomingNegative = incomingGetItemId < 0;
     if (fromActor != NULL && incomingGetItemId != 0) {
       s16 getItemId = ItemOverride_CheckNpc(fromActor->id, incomingGetItemId, incomingNegative);
-/*#if defined ENABLE_DEBUG || DEBUG_PRINT
-      util::Print(
-          "%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId %#04x\nParams %#04x\n ",
-          __func__, fromActor->id, gctx->scene, incomingGetItemId, getItemId, fromActor->params);
-#endif*/
+      /*#if defined ENABLE_DEBUG || DEBUG_PRINT
+            util::Print(
+                "%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId %#04x\nParams %#04x\n
+      ",
+                __func__, fromActor->id, gctx->scene, incomingGetItemId, getItemId, fromActor->params);
+      #endif*/
       storedActorId = fromActor->id;
       storedGetItemId = incomingNegative ? (GetItemID)-incomingGetItemId : (GetItemID)incomingGetItemId;
       override = ItemOverride_Lookup(fromActor, (u16)gctx->scene, getItemId);

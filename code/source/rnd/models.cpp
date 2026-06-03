@@ -1,5 +1,4 @@
 #include "rnd/models.h"
-#include "rnd/custom_models.h"
 #include "rnd/actors/dm_char03.h"
 #include "rnd/actors/dm_char05.h"
 #include "rnd/actors/dm_hina.h"
@@ -10,6 +9,7 @@
 #include "rnd/actors/item00.h"
 #include "rnd/actors/item_b_heart.h"
 #include "rnd/actors/obj_moon_stone.h"
+#include "rnd/custom_models.h"
 #define LOADEDMODELS_MAX 16
 
 namespace rnd {
@@ -152,6 +152,7 @@ namespace rnd {
   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
+    void* GARbuf = (void*)Object_GetEntry(model->objectId)->archive.archive.raw;
     s16 objectId = model->itemRow->objectId;
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
 
