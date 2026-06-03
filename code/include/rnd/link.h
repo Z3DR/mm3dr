@@ -8,6 +8,7 @@
 #include "game/pad.h"
 #include "game/ui.h"
 #include "game/ui/layouts/play_hud.h"
+#include "rnd/objects.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
 
@@ -30,6 +31,7 @@ namespace rnd::link {
   u8 CheckIfLinkIsFD();
   u8 CheckIfOcarinaIsInInventory();
   game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form);
+  void* Link_GetCustomTunicCMAB(game::ObjectBank::ObjectBankArchive*, u32);
   void** Link_EditAndRetrieveCMB(game::ObjectBank::ObjectBankArchive*, u32);
   }
 

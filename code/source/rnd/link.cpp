@@ -429,6 +429,10 @@ namespace rnd::link {
   }
   }
 
+  void* Link_GetCustomTunicCMAB(game::ObjectBank::ObjectBankArchive* archive, u32 originalIdx) {
+    return GAR_GetCMABByIndex(archive, originalIdx);
+  }
+
   void** Link_EditAndRetrieveCMB(game::ObjectBank::ObjectBankArchive* archive, u32 objModelIdx) {
     void** cmbMan = (void**)game::ObjectBank::getCMBFileByIndex(archive, objModelIdx, 1);
     //void* cmb = *cmbMan;

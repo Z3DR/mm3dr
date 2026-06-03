@@ -213,6 +213,10 @@ SECTIONS{
     *(.patch_LinkEditAndRetrieveCMB)
   }
 
+  .patch_LinkGetCustomTunicCMAB 0x1F65D8 : {
+    *(.patch_LinkGetCustomTunicCMAB)
+  }
+
   /* .patch_OverrideItemIDFour 0x1FBD10 : {
     *(.patch_OverrideItemIdIndex)
   } */
