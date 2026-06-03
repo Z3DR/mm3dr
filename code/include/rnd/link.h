@@ -2,7 +2,9 @@
 
 #include <optional>
 #include "common/advanced_context.h"
+#include "game/actorresource.h"
 #include "game/common_data.h"
+#include "game/objectbankarchive.h"
 #include "game/pad.h"
 #include "game/ui.h"
 #include "game/ui/layouts/play_hud.h"
@@ -28,6 +30,7 @@ namespace rnd::link {
   u8 CheckIfLinkIsFD();
   u8 CheckIfOcarinaIsInInventory();
   game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form);
+  void** Link_EditAndRetrieveCMB(game::ObjectBank::ObjectBankArchive*, u32);
   }
 
 }  // namespace rnd::link

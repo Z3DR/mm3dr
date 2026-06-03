@@ -209,6 +209,10 @@ SECTIONS{
     *(.patch_CheckCurrentInventoryOverrideItem)
   }
 
+  .patch_LinkEditAndRetrieveCMB 0x1F61C0 : {
+    *(.patch_LinkEditAndRetrieveCMB)
+  }
+
   /* .patch_OverrideItemIDFour 0x1FBD10 : {
     *(.patch_OverrideItemIdIndex)
   } */
