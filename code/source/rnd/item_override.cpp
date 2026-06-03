@@ -1,5 +1,6 @@
 #include "rnd/item_override.h"
 #include "game/actors/great_fairy.h"
+#include "rnd/custom_models.h"
 #include "rnd/extdata.h"
 #include "rnd/icetrap.h"
 #include "rnd/item_table.h"
@@ -54,8 +55,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
-    rItemOverrides[1].value.getItemId = 0x59;
-    rItemOverrides[1].value.looksLikeItemId = 0x59;
+    rItemOverrides[1].value.getItemId = 0x76;
+    rItemOverrides[1].value.looksLikeItemId = 0x76;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -289,9 +290,6 @@ namespace rnd {
 
   void ItemOverride_AfterItemReceived(void) {
     ItemOverride_Key key = rActiveItemOverride.key;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: KEY IS %u\n", __func__, key);
-#endif
     if (key.all == 0) {
       return;
     }
@@ -303,10 +301,10 @@ namespace rnd {
     //          "%s: Our key values:\nKey Type %#04x\nKey Scene: %#04x\nKey Flag: %#06x\n",
     //          key.type, key.scene, key.flag);
     // #endif
-    ItemOverride_Clear();
   }
 
   void ItemOverride_Update(void) {
+    game::act::Player* player = GetContext().gctx->GetPlayerActor();
     // TODO: Custom models, trade items.
     if (ItemOverride_PlayerIsReady()) {
       ItemOverride_PopIceTrap();
@@ -316,6 +314,32 @@ namespace rnd {
         ItemOverride_TryPendingItem();
       }
     }
+
+    if (rActiveItemRow != NULL &&
+        (player->get_item_id == 0 ||
+         (player->grabbable_actor == NULL && player->flags1.IsSet(game::act::Player::Flag1::Unk40000000)))) {
+      ItemOverride_Clear();
+    }
+  }
+
+  static s32 ItemOverride_IsItemVanilla() {
+    game::GlobalContext* gctx = GetContext().gctx;
+    return rActiveItemRow == NULL && !gctx->IsPaused();
+  }
+
+  extern "C" void ItemOverride_EditDrawGetItemBeforeModelSpawn(void) {
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    bool active = rActiveItemRow != NULL;
+    rnd::util::Print("%s: Is active item override active? %u base is %#04x rActiveItemObjectId is %#04x\n", __func__,
+                     active, rActiveItemRow->baseItemId, rActiveItemObjectId);
+#endif
+    if (ItemOverride_IsItemVanilla()) {
+      return;
+    }
+    game::act::Player* player = GetContext().gctx->GetPlayerActor();
+    // void* giDrawTable = util::GetPointer<void*>(0x6a3a5c);
+    CustomModels_EditItemCMB(player->actor_resource_file->archive.archive.raw, rActiveItemObjectId,
+                             rActiveItemRow->special);
   }
 
   void ItemOverride_PushDungeonReward(u8 dungeon) {

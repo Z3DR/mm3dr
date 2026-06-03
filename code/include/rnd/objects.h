@@ -21,6 +21,7 @@ namespace rnd {
   void* GAR_GetCMABByIndex(game::ObjectBank::ObjectBankArchive* objBankArchive, u32 objectAnimIdx);
 
   s32 ExtendedObject_Spawn(game::ActorResource::ObjectContext* objectCtx, s16 objectId);
+  game::ActorResource::ActorResource* Object_GetEntry(s16 slot);
   extern "C" void ExtendedObject_Clear(game::ActorResource::ObjectContext* objectCtx);
   s32 ExtendedObject_GetIndex(game::ActorResource::ObjectContext* objectCtx, s16 objectId);
   s32 ExtendedObject_IsLoaded(game::ActorResource::ObjectContext* objectCtx, s16 bankIndex);

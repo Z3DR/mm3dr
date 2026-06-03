@@ -24,6 +24,12 @@ namespace game::ActorResource {
     return rnd::util::GetPointer<void(ActorResource*)>(0x14E8F4)(resource);
   }
 
+  // Returns a pointer to the array of the Overlay Table.
+  // This is known as gActorOverlay in OoT3DR.
+  ActorResourcePath* GetActorResourcePathTable() {
+    return rnd::util::GetPointer<ActorResourcePath>(0x6927E4);
+  }
+
 }  // namespace game::ActorResource
 
 // 0x804af5c

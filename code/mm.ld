@@ -217,6 +217,10 @@ SECTIONS{
     *(.patch_OverrideItemIdIndex)
   } */
 
+  .patch_EditDrawGetItemBeforeModelSpawn 0x1FF044 : {
+    *(.patch_EditDrawGetItemBeforeModelSpawn)
+  }
+
   .patch_RemoveGoronRollChecksWithoutMask 0x1F78CC : {
     *(.patch_RemoveGoronRollChecksWithoutMask)
   }

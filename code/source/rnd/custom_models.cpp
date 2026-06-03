@@ -3,7 +3,37 @@
 #include "z3d/z3DVec.h"
 
 #define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
+#define EDIT_U32(offset_, val_)                                                                                        \
+  (EDIT_BYTE((offset_) + 0, (val_) >> 24), EDIT_BYTE((offset_) + 1, (val_) >> 16),                                     \
+   EDIT_BYTE((offset_) + 2, (val_) >> 8), EDIT_BYTE((offset_) + 3, (val_)))
 namespace rnd {
+  u32 SmallKeyData[][3] = {
+      {0x00000000, 0x00800000, 0x00CC0000},  // Woodfall
+      {0xFFFFFF00, 0xFFFFFF00, 0x7F7FFFFF},  // Snowhead
+      {0x00000000, 0x0000DA00, 0x0000FFFF},  // Great Bay
+      {0x00000000, 0x80550000, 0xFFAA0000}   // Stone Tower
+  };
+
+  static void CustomModel_ApplyColorEditsToSmallKey(void* smallKeyCMB, s32 keyType) {
+    char* BASE_ = (char*)smallKeyCMB;
+    const u32* color = SmallKeyData[keyType];
+
+    EDIT_U32(0x16C, color[0]);  // Emission
+    EDIT_U32(0x170, color[1]);  // Ambient
+    EDIT_U32(0x174, color[2]);  // Diffuse
+  }
+
+  void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {
+    void* cmb;
+
+    switch (objectId) {
+    case OBJECT_CUSTOM_SMALL_KEY:
+      cmb = ((char*)ZARBuf) + 0x84;  // 0x84 bytes, view zeld_gi_key.gar.lzs to see offset for cmb.
+      CustomModel_ApplyColorEditsToSmallKey(cmb, special);
+      break;
+    }
+  }
+
   // TODO: Change this for MM3D.
   void CustomModel_EditTitleScreenLogo(void* titleScreenZAR) {
     char* BASE_ = (char*)titleScreenZAR;

@@ -206,7 +206,8 @@ namespace game::act {
     u8 gap_220[80];
     u32 field_270;
     game::ActorResource::ActorResource* actor_resource_file;
-    u8 gap_278[108];
+    game::ObjectBank::ObjectBankArchive* archive;
+    u8 gap_27c[104];
     u32 field_2E4;
     u8 gap_2E8[56];
     u32 field_320;
@@ -509,7 +510,10 @@ namespace game::act {
     u8 gap_129C0[12];
 
     pad::ControllerInfo controller_info;
-    u8 gap_12A14[36];
+    // u8 gap_12A14[36];
+    u8 gap_12A14[20];
+    void* some_sa_unk_d4_maybe;
+    u8 gap_12A28[12];
     u32 field_12A38;
     u8 gap_12A3C[4];
     u32 field_12A40;
@@ -542,6 +546,9 @@ namespace game::act {
   static_assert(offsetof(Player, field_12CCE) == 0x12CCE);
   static_assert(offsetof(Player, get_item_direction) == 0x0091E);
   static_assert(offsetof(Player, sword_active) == 0x11E3C);
+  static_assert(offsetof(Player, gap_12A14) == 0x12A14);
+  static_assert(offsetof(Player, gap_27c) == 0x0027C);
+  static_assert(offsetof(Player, some_sa_unk_d4_maybe) == 0x12A28);
   // TODO: complete the struct and add a size assertion.
 
   enum class AllowExistingMagicUsage { No, Yes };

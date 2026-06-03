@@ -36,6 +36,16 @@ namespace rnd {
     return Object_SpawnPersistent(&rExtendedObjectCtx, objectId) + OBJECT_EXCHANGE_BANK_MAX;
   }
 
+  game::ActorResource::ActorResource* Object_GetEntry(s16 slot) {
+    game::GlobalContext* gctx = GetContext().gctx;
+    if (slot >= OBJECT_EXCHANGE_BANK_MAX)
+      return &rExtendedObjectCtx.status[slot - OBJECT_EXCHANGE_BANK_MAX];
+    else if (slot >= 0)
+      return &gctx->object_context.status[slot];
+
+    return NULL;
+  }
+
   extern "C" void ExtendedObject_Clear(game::ActorResource::ObjectContext* objectCtx) {
     Object_Clear(objectCtx);
     Object_Clear(&rExtendedObjectCtx);

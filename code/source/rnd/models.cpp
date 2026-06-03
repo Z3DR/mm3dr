@@ -9,6 +9,7 @@
 #include "rnd/actors/item00.h"
 #include "rnd/actors/item_b_heart.h"
 #include "rnd/actors/obj_moon_stone.h"
+#include "rnd/custom_models.h"
 #define LOADEDMODELS_MAX 16
 
 namespace rnd {
@@ -151,7 +152,11 @@ namespace rnd {
   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
+    void* GARbuf = Object_GetEntry(model->objectBankIdx)->archive.archive.raw;
     s16 objectId = model->itemRow->objectId;
+
+    CustomModels_EditItemCMB(GARbuf, objectId, model->itemRow->special);
+
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
 
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
@@ -328,6 +333,7 @@ namespace rnd {
 
   void Actor_Init() {
     game::act::ActorOverlayInfo* overlayTable = game::act::GetActorOverlayInfoTable();
+    game::ActorResource::ActorResourcePath* resourcePathTable = game::ActorResource::GetActorResourcePathTable();
     // Setup destroy and init functions at this point instead of creating a ton of ASM patches.
     // Use this only if the drwaing for the actor is not complex. Otherwise ASM patches are better.
     overlayTable[0x0E].info->deinit_fn = EnItem00_rDestroy;
@@ -358,5 +364,8 @@ namespace rnd {
 
     overlayTable[0x212].info->init_fn = Obj_Moon_Stone_Init;
     overlayTable[0x212].info->deinit_fn = Obj_Moon_Stone_Destroy;
+
+    // Define all the small key objects to be by default the same as object 134
+    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY].path, resourcePathTable[0x86].path, 0x34);
   }
 }  // namespace rnd
