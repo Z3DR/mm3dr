@@ -42,6 +42,7 @@ namespace rnd {
       return &rExtendedObjectCtx.status[slot - OBJECT_EXCHANGE_BANK_MAX];
     else if (slot >= 0)
       return &gctx->object_context.status[slot];
+
     return NULL;
   }
 

@@ -599,7 +599,7 @@ namespace rnd {
                         1.00f),  // Small Key (Woodfall)
 
       [0x77] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::DECORATED_SMALL, (u8)game::ItemId::SmallKey, 0x6134,
-                        0x00086, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0x01, DrawGraphicItemID::DI_SMALL_KEY,
+                        0x0001B, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0x01, DrawGraphicItemID::DI_SMALL_KEY,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSmallKey, (s16)1, (s16)-1,
                         1.00f),  // Small Key (Snowhead)
 
@@ -715,7 +715,7 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 1.00f),  // Kafei Mask
 
       [0x90] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::DECORATED_SMALL, (u8)game::ItemId::SmallKey, 0x6135,
-                        0x00086, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0x02, DrawGraphicItemID::DI_SMALL_KEY,
+                        0x0001B, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0x02, DrawGraphicItemID::DI_SMALL_KEY,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSmallKey, (s16)2, (s16)-1,
                         1.00f),  // Small Key (Great Bay)
 
@@ -809,7 +809,7 @@ namespace rnd {
                         1.00f),  // Letter To Mama
 
       [0xA2] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::DECORATED_SMALL, (u8)game::ItemId::SmallKey, 0x6136,
-                        0x0086, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0x03, DrawGraphicItemID::DI_SMALL_KEY,
+                        0x0001B, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0x03, DrawGraphicItemID::DI_SMALL_KEY,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSmallKey, (s16)3, (s16)-1,
                         1.00f),  // Small Key (Stone Tower)
 

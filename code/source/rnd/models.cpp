@@ -152,8 +152,11 @@ namespace rnd {
   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
-    void* GARbuf = (void*)Object_GetEntry(model->objectId)->archive.archive.raw;
+    void* GARbuf = Object_GetEntry(model->objectBankIdx)->archive.archive.raw;
     s16 objectId = model->itemRow->objectId;
+
+    CustomModels_EditItemCMB(GARbuf, objectId, model->itemRow->special);
+
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
 
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
@@ -363,9 +366,6 @@ namespace rnd {
     overlayTable[0x212].info->deinit_fn = Obj_Moon_Stone_Destroy;
 
     // Define all the small key objects to be by default the same as object 134
-    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY_WOODFALL].path, resourcePathTable[0x86].path, 0x34);
-    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY_SNOWHEAD].path, resourcePathTable[0x86].path, 0x34);
-    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY_GREAT_BAY].path, resourcePathTable[0x86].path, 0x34);
-    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY_STONE_TOWER].path, resourcePathTable[0x86].path, 0x34);
+    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY].path, resourcePathTable[0x86].path, 0x34);
   }
 }  // namespace rnd

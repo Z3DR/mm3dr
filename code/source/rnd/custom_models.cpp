@@ -6,9 +6,9 @@
 namespace rnd {
   u8 SmallKeyData[][7] = {
       {0x00, 0x80, 0x00, 0x00, 0x00, 0xCC, 0x00},  // Woodfall
-      {0x54, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00},  // Snowhead
+      {0x44, 0x1E, 0x00, 0x00, 0x86, 0x3B, 0x00},  // Snowhead
       {0x00, 0x00, 0xDA, 0x00, 0x00, 0x00, 0xFF},  // Great Bay
-      {0x25, 0x00, 0x40, 0x00, 0x64, 0x00, 0xAD}   // Stone Tower
+      {0x80, 0x55, 0x00, 0x00, 0xFF, 0xAA, 0x00}   // Stone Tower
   };
 
   static void CustomModel_ApplyColorEditsToSmallKey(void* smallKeyCMB, s32 keyType) {
@@ -23,10 +23,7 @@ namespace rnd {
     void* cmb;
 
     switch (objectId) {
-    case OBJECT_CUSTOM_SMALL_KEY_WOODFALL:
-    case OBJECT_CUSTOM_SMALL_KEY_SNOWHEAD:
-    case OBJECT_CUSTOM_SMALL_KEY_GREAT_BAY:
-    case OBJECT_CUSTOM_SMALL_KEY_STONE_TOWER:
+    case OBJECT_CUSTOM_SMALL_KEY:
       cmb = ((char*)ZARBuf) + 0x84; // 0x84 bytes, view zeld_gi_key.gar.lzs to see offset for cmb.
       CustomModel_ApplyColorEditsToSmallKey(cmb, special);
       break;

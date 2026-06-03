@@ -14,14 +14,14 @@ namespace game::ObjectBank {
   };
   static_assert(sizeof(Archive) == 0x14);
 
-  struct Csab {
+  struct CsabMan {
     u32 field_0;
     u32 field_4;
     u8 field_8;
   };  // size == 0x09?
-  static_assert(sizeof(Csab) == 0x0C);
+  static_assert(sizeof(CsabMan) == 0x0C);
 
-  struct Cmab {
+  struct CmabMan {
     void* vtable;
     int field_4;
     u8 field_8;
@@ -31,7 +31,7 @@ namespace game::ObjectBank {
     u32 field_14;
     u32 field_18;
   };  // size == 0x09?
-  static_assert(sizeof(Cmab) == 0x1C);
+  static_assert(sizeof(CmabMan) == 0x1C);
 
   struct ObjectBankArchive {
     u32 field_0;
@@ -42,10 +42,10 @@ namespace game::ObjectBank {
     u8 gap_5D;
     u16 actor_id;
     void** cmb_files;
-    Csab** csab_files;
+    CsabMan** csab_files;
     void** ctxb_files;
     void** ptxb_files;
-    Cmab** cmab_files;
+    CmabMan** cmab_files;
     void** zsi_files;
     void** qdb_files;
     void** faceb_files;
