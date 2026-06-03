@@ -3,21 +3,24 @@
 #include "z3d/z3DVec.h"
 
 #define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
+#define EDIT_U32(offset_, val_)                                                                                        \
+  (EDIT_BYTE((offset_) + 0, (val_) >> 24), EDIT_BYTE((offset_) + 1, (val_) >> 16),                                     \
+   EDIT_BYTE((offset_) + 2, (val_) >> 8), EDIT_BYTE((offset_) + 3, (val_)))
 namespace rnd {
-  u8 SmallKeyData[][11] = {
-      // Emission RGBA, Ambient RGBA, Diffuse RGBA
-      {0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0xCC, 0x00},  // Woodfall
-      {0xFF, 0xFF, 0xFF, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x7F, 0x7F, 0xFF},  // Snowhead
-      {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xDA, 0x00, 0x00, 0x00, 0xFF},  // Great Bay
-      {0x00, 0x00, 0x00, 0x00, 0x80, 0x55, 0x00, 0x00, 0xFF, 0xAA, 0x00}   // Stone Tower
+  u32 SmallKeyData[][3] = {
+      {0x00000000, 0x00800000, 0x00CC0000},  // Woodfall
+      {0xFFFFFF00, 0xFFFFFF00, 0x7F7FFFFF},  // Snowhead
+      {0x00000000, 0x0000DA00, 0x0000FFFF},  // Great Bay
+      {0x00000000, 0x80550000, 0xFFAA0000}   // Stone Tower
   };
 
   static void CustomModel_ApplyColorEditsToSmallKey(void* smallKeyCMB, s32 keyType) {
     char* BASE_ = (char*)smallKeyCMB;
+    const u32* color = SmallKeyData[keyType];
 
-    for (s32 i = 0; i < 11; i++) {
-      EDIT_BYTE(0x16C + i, SmallKeyData[keyType][i]);
-    }
+    EDIT_U32(0x16C, color[0]);  // Emission
+    EDIT_U32(0x170, color[1]);  // Ambient
+    EDIT_U32(0x174, color[2]);  // Diffuse
   }
 
   void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {
