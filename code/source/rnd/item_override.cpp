@@ -338,7 +338,8 @@ namespace rnd {
     }
     game::act::Player* player = GetContext().gctx->GetPlayerActor();
     // void* giDrawTable = util::GetPointer<void*>(0x6a3a5c);
-    CustomModels_EditItemCMB(player->actor_resource_file->archive.archive.raw, rActiveItemObjectId, rActiveItemRow->special);
+    CustomModels_EditItemCMB(player->actor_resource_file->archive.archive.raw, rActiveItemObjectId,
+                             rActiveItemRow->special);
   }
 
   void ItemOverride_PushDungeonReward(u8 dungeon) {
