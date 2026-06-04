@@ -23,13 +23,26 @@ namespace rnd {
     EDIT_U32(0x174, color[2]);  // Diffuse
   }
 
+  static void CustomModels_SetOcarinaToRGBA565(void* ocarinaCMB) {
+    //char* BASE_ = (char*)ocarinaCMB;
+    // TODO: When we get the custom gar.lzs or .gar then we can modify these.
+    //EDIT_BYTE(0x532, 0x01);
+    //EDIT_BYTE(0x538, 0x5A);
+  }
+
   void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {
     void* cmb;
 
-    switch (objectId) {
-    case OBJECT_CUSTOM_SMALL_KEY:
+    switch ((ObjectId)objectId) {
+    case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
       cmb = ((char*)ZARBuf) + 0x84;  // 0x84 bytes, view zeld_gi_key.gar.lzs to see offset for cmb.
       CustomModel_ApplyColorEditsToSmallKey(cmb, special);
+      break;
+    case ObjectId::OBJECT_CUSTOM_SONGS:
+      cmb = ((char*)ZARBuf) + 0x8C;
+      CustomModels_SetOcarinaToRGBA565(cmb);
+      break;
+    case ObjectId::OBJECT_CUSTOM_ASSETS:
       break;
     }
   }

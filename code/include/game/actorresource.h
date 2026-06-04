@@ -41,7 +41,8 @@ namespace game::ActorResource {
 
   struct ObjectContext {
     u8 num;
-    char gap_01[3];
+    u8 numPersistent;
+    char gap_02[2];
     ActorResource status[OBJECT_EXCHANGE_BANK_MAX];
   };
   static_assert(sizeof(ObjectContext) == 0x1834);

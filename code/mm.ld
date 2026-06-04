@@ -757,6 +757,14 @@ SECTIONS{
     *(.patch_FishHeartDraw)
   }
 
+  .patch_AfterInvalidatingRoomObjects 0x50E6CC : {
+    *(.patch_AfterInvalidatingRoomObjects)
+  }
+
+  .patch_AfterObjectListCommand 0x50E73C : {
+    *(.patch_AfterObjectListCommand)
+  }
+
   /* .patch_DmChar05GetObjectStatus 0x50F3DC : {
     *(.patch_DmChar05GetObjectStatus)
   } */

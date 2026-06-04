@@ -366,6 +366,7 @@ namespace rnd {
     overlayTable[0x212].info->deinit_fn = Obj_Moon_Stone_Destroy;
 
     // Define all the small key objects to be by default the same as object 134
-    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY].path, resourcePathTable[0x86].path, 0x34);
+    strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_SMALL_KEY)].path, resourcePathTable[0x86].path, 0x34);
+    strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_SONGS)].path, resourcePathTable[0xB5].path, 0x34);
   }
 }  // namespace rnd

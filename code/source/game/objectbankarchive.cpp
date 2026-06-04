@@ -13,4 +13,8 @@ namespace game::ObjectBank {
   void free(ObjectBankArchive* obj_bank_archive) {
     return rnd::util::GetPointer<void(ObjectBankArchive*)>(0x1E477C)(obj_bank_archive);
   }
+
+  ObjectBankArchive* freeAndCleanup(ObjectBankArchive* obj_bank_archive) {
+    return rnd::util::GetPointer<ObjectBankArchive*(ObjectBankArchive*)>(0x1616B8)(obj_bank_archive);
+  }
 }  // namespace game::ObjectBank
