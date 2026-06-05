@@ -87,7 +87,7 @@ namespace rnd {
   void Model_SetAnim(game::act::SkeletonAnimationModel* model, s16 objectId, u32 objectAnimIdx) {
     void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
     TexAnim_Spawn(model->texAnim, cmabMan);
-    model->texAnim->animMode = 1;
+    // model->texAnim->animMode = 1;
   }
 
   void Matrix_UpdatePosition(void* dst, void* src, void* vec) {
@@ -160,6 +160,8 @@ namespace rnd {
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
 
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
+
+    // CustomModels_ApplyItemCMAB(model->saModel, model->itemRow->objectId, model->itemRow->special);
 
     if (model->itemRow->cmabIndex >= 0) {
       Model_SetAnim(model->saModel, model->itemRow->objectId, model->itemRow->cmabIndex);
@@ -344,8 +346,6 @@ namespace rnd {
     overlayTable[0x2F].info->init_fn = ItemBHeart_Init;
     overlayTable[0x2F].info->draw_fn = ItemBHeart_Draw;
     overlayTable[0x2F].info->deinit_fn = ItemBHeart_Destroy;
-
-    // overlayTable[0x87].info->init_fn = En_Mag_rInit;
 
     overlayTable[0x99].info->init_fn = En_Si_Init;
     overlayTable[0x99].info->draw_fn = En_Si_Draw;

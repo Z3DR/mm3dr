@@ -229,6 +229,10 @@ SECTIONS{
     *(.patch_EditDrawGetItemBeforeModelSpawn)
   }
 
+  .patch_EditDrawGetItemAfterModelSpawn 0x1FF144 : {
+    *(.patch_EditDrawGetItemAfterModelSpawn)
+  }
+
   .patch_RemoveGoronRollChecksWithoutMask 0x1F78CC : {
     *(.patch_RemoveGoronRollChecksWithoutMask)
   }

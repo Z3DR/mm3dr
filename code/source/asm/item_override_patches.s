@@ -164,6 +164,11 @@ patch_SkulltulaOverrideTwo:
 patch_OverrideGetSongItem:
     b hook_OverrideGetSongItem
 
+.section .patch_EditDrawGetItemAfterModelSpawn
+.global patch_EditDrawGetItemAfterModelSpawn
+patch_EditDrawGetItemAfterModelSpawn:
+    bl hook_EditDrawGetItemAfterModelSpawn
+
 .section .patch_EditDrawGetItemBeforeModelSpawn
 .global patch_EditDrawGetItemBeforeModelSpawn
 patch_EditDrawGetItemBeforeModelSpawn:
