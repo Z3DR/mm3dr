@@ -2,7 +2,6 @@
 
 #define noop (void)0
 #include "common/advanced_context.h"
-#include "game/objectbankarchive.h"
 #include "game/actor.h"
 #include "game/actorresource.h"
 #include "game/common_data.h"
