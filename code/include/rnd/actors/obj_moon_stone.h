@@ -13,13 +13,13 @@ namespace rnd {
     u8 gap_1f8[88];
     void* next_fn;
     u32 field_254;
-    game::act::sa_unk_d4* skelAnimeModelOne;
-    game::act::sa_unk_d4* skelAnimeModelTwo;
-    game::act::sa_unk_d4* skelAnimeModelThree;
+    game::act::SkeletonAnimationModel* skelAnimeModelOne;
+    game::act::SkeletonAnimationModel* skelAnimeModelTwo;
+    game::act::SkeletonAnimationModel* skelAnimeModelThree;
   };
   static_assert(sizeof(Obj_Moon_Stone) == 0x264);
   void Obj_Moon_Stone_Init(game::act::Actor* actor, game::GlobalContext* gctx);
-  extern "C" s32 Obj_Moon_Stone_OverrideModelDraw(game::act::sa_unk_d4*, game::act::Actor*);
+  extern "C" s32 Obj_Moon_Stone_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
   void Obj_Moon_Stone_Destroy(game::act::Actor* actor, game::GlobalContext* gctx);
 
 }  // namespace rnd

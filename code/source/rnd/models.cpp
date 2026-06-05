@@ -15,10 +15,11 @@
 namespace rnd {
   Model ModelContext[LOADEDMODELS_MAX] = {0};
 
-  game::act::sa_unk_d4* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx, s16 objectId,
-                                                     s32 objectModelIndex) {
-    return util::GetPointer<game::act::sa_unk_d4*(game::act::Actor * actor, game::GlobalContext * globalCtx, s16 objId,
-                                                  s32 objModelIdx)>(0x203C40)(actor, gctx, objectId, objectModelIndex);
+  game::act::SkeletonAnimationModel* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx,
+                                                                  s16 objectId, s32 objectModelIndex) {
+    return util::GetPointer<game::act::SkeletonAnimationModel*(
+        game::act::Actor * actor, game::GlobalContext * globalCtx, s16 objId, s32 objModelIdx)>(0x203C40)(
+        actor, gctx, objectId, objectModelIndex);
   }
 
   void Actor_SetModelMatrix(float x, float y, float z, z3d_nn_math_MTX34* mtx, game::act::ActorShape* shape) {
@@ -83,10 +84,9 @@ namespace rnd {
     model->objectBankIdx = objectBankIdx;
   }
 
-  void Model_SetAnim(game::act::sa_unk_d4* model, s16 objectId, u32 objectAnimIdx) {
+  void Model_SetAnim(game::act::SkeletonAnimationModel* model, s16 objectId, u32 objectAnimIdx) {
     void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
     TexAnim_Spawn(model->texAnim, cmabMan);
-    model->texAnim->animSpeed = 1.0f;
     model->texAnim->animMode = 1;
   }
 
@@ -366,7 +366,9 @@ namespace rnd {
     overlayTable[0x212].info->deinit_fn = Obj_Moon_Stone_Destroy;
 
     // Define all the small key objects to be by default the same as object 134
-    strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_SMALL_KEY)].path, resourcePathTable[0x86].path, 0x34);
-    strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_SONGS)].path, resourcePathTable[0xB5].path, 0x34);
+    strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_SMALL_KEY)].path, resourcePathTable[0x86].path,
+            0x34);
+    strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_SONGS)].path, resourcePathTable[0xB5].path,
+            0x34);
   }
 }  // namespace rnd

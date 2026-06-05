@@ -20,17 +20,14 @@ namespace rnd {
 
     cmabMan = GAR_GetCMABByIndex(&rExtendedObjectCtx.status[exObjectBankIdx].archive, 2);
     TexAnim_Spawn(enMag->skelAnime->texAnim, cmabMan);
-    enMag->skelAnime->texAnim->animSpeed = 0.0f;
     enMag->skelAnime->texAnim->animMode = 0;
 
     // cmabMan = GAR_GetCMABByIndex(&rExtendedObjectCtx.status[exObjectBankIdx].archive, 1);
     // TexAnim_Spawn(enMag->field_220->texAnim, cmabMan);
-    // enMag->field_220->texAnim->animSpeed = 0.0f;
     // enMag->field_220->texAnim->animMode = 0;
 
     // cmabMan = ZAR_GetCMABByIndex(&rExtendedObjectCtx.status[exObjectBankIdx].zarInfo,
     // TEXANIM_COPY_NINTENDO); TexAnim_Spawn(enmag->copyrightModel->unk_0C, cmabMan);
-    // enmag->copyrightModel->unk_0C->animSpeed = 0.0f;
     // enmag->copyrightModel->unk_0C->animMode = 0;
   }
 }  // namespace rnd

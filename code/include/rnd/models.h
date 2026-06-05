@@ -15,14 +15,14 @@ namespace rnd {
     s32 objectBankIdx;
     s32 objectBankIdx2;
     u8 loaded;
-    game::act::sa_unk_d4* saModel;
-    game::act::sa_unk_d4* saModel2;
+    game::act::SkeletonAnimationModel* saModel;
+    game::act::SkeletonAnimationModel* saModel2;
     z3d_nn_math_MTX34* hardcodedMtx;  // used for actors that draw their models in unusual ways
     f32 scale;
     z3dVec3f posOffset;
   } Model;
 
-  game::act::sa_unk_d4* SkeletonAnimationModel_Spawn(game::act::Actor*, game::GlobalContext*, s16, s32);
+  game::act::SkeletonAnimationModel* SkeletonAnimationModel_Spawn(game::act::Actor*, game::GlobalContext*, s16, s32);
   void SkeletonAnimationModel_CopyMtx(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* src);
   void TexAnim_Spawn(game::act::SA_TextureAnimation*, void*);
   void SkeletonAnimationModel_SetMeshByDrawItemID(void* model, s32 drawItemId);
@@ -34,7 +34,7 @@ namespace rnd {
   void Model_UpdateMatrixPosition(void* mtx, void* mtxTwo, void* scaleMtx);
 
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx);
-  void Model_SetAnim(game::act::sa_unk_d4* model, s16 objectId, u32 objectAnimIndex);
+  void Model_SetAnim(game::act::SkeletonAnimationModel* model, s16 objectId, u32 objectAnimIndex);
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx);
   void Model_Destroy(Model* model);

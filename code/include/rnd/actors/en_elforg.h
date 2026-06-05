@@ -33,7 +33,7 @@ namespace rnd {
   int En_Elforg_getFairyIndex(game::SceneId);
   void En_Elforg_Init(game::act::Actor*, game::GlobalContext*);
   extern "C" {
-  s32 En_Elforg_OverrideModelDraw(game::act::sa_unk_d4*, game::act::Actor*);
+  s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
   void En_Elforg_UpdateExtFairyBits(game::act::Actor*, game::GlobalContext*);
   bool En_Elforg_Chest_IsFairyObtained(u32 param, game::GlobalContext*);
   }

@@ -22,7 +22,7 @@ namespace rnd {
     ObjectSekModels modelIndex;
     u8 save_status;
     void* calc_fn;
-    game::act::sa_unk_d4* skelAnime;
+    game::act::SkeletonAnimationModel* skelAnime;
     u32 field_270;
     u32 field_274;
     u16 field_278;

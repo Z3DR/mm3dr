@@ -6,7 +6,7 @@ namespace rnd {
     Model_SpawnByActor(actor, gctx, 0x96);
   }
 
-  extern "C" s32 Obj_Moon_Stone_OverrideModelDraw(game::act::sa_unk_d4* saModel, game::act::Actor* actor) {
+  extern "C" s32 Obj_Moon_Stone_OverrideModelDraw(game::act::SkeletonAnimationModel* saModel, game::act::Actor* actor) {
     return Model_DrawByActor(actor, &saModel->mtx);
   }
 

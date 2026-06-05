@@ -12,7 +12,7 @@ namespace rnd {
     util::GetPointer<void(game::act::Actor*)>(0x34F864)(self);
   }
 
-  extern "C" s32 Remains_OverrideModelDraw(game::act::sa_unk_d4* saModel, game::act::Actor* actor) {
+  extern "C" s32 Remains_OverrideModelDraw(game::act::SkeletonAnimationModel* saModel, game::act::Actor* actor) {
     return Model_DrawByActor(actor, &saModel->mtx);
   }
 

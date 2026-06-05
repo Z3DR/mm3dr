@@ -2,10 +2,10 @@
 
 #define noop (void)0
 #include "common/advanced_context.h"
-#include "game/objectbankarchive.h"
 #include "game/actor.h"
 #include "game/actorresource.h"
 #include "game/common_data.h"
+#include "game/objectbankarchive.h"
 #include "rnd/custom_models.h"
 #include "z3d/z3DVec.h"
 
@@ -34,5 +34,5 @@ namespace rnd {
   void ExtendedObject_AfterObjectListCommand();
   void ExtendedObject_InvalidateRoomObjects();
   }
-  
+
 }  // namespace rnd

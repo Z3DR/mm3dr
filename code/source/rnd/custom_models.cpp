@@ -24,10 +24,10 @@ namespace rnd {
   }
 
   static void CustomModels_SetOcarinaToRGBA565(void* ocarinaCMB) {
-    //char* BASE_ = (char*)ocarinaCMB;
-    // TODO: When we get the custom gar.lzs or .gar then we can modify these.
-    //EDIT_BYTE(0x532, 0x01);
-    //EDIT_BYTE(0x538, 0x5A);
+    // char* BASE_ = (char*)ocarinaCMB;
+    //  TODO: When we get the custom gar.lzs or .gar then we can modify these.
+    // EDIT_BYTE(0x532, 0x01);
+    // EDIT_BYTE(0x538, 0x5A);
   }
 
   void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {

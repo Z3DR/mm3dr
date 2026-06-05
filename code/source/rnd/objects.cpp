@@ -147,7 +147,6 @@ namespace rnd {
       Model_DestroyAll();
     }
   }
-
   }
 
 }  // namespace rnd
