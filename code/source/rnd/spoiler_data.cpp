@@ -235,6 +235,10 @@ namespace rnd {
     if ((scene == 0x00) && (flag == 0x00) && (type == ItemOverride_Type::OVR_COLLECTABLE)) {
       SpoilerData_UpdateMultiLocations(type, 0x45, flag);
     }
+    // STT Upside Down Death Armos Chest  > STT Death Armos Chest
+    if ((scene == 0x16) && (flag == 0x05) && (type == ItemOverride_Type::OVR_CHEST)) {
+      SpoilerData_UpdateMultiLocations(type, 0x18, 0x05);
+    }
     return -1;
   }
   void SpoilerData_UpdateMultiLocations(ItemOverride_Type type, u8 newScene, u8 flag) {
