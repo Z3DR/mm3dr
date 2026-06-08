@@ -7,7 +7,12 @@ namespace rnd {
   }
 
   extern "C" s32 En_Pm_OverrideModelHatDraw(game::act::SkeletonAnimationModel* saModel, game::act::Actor* actor) {
-    return Model_DrawByActor(actor, &saModel->mtx);
+    static z3d_nn_math_MTX34 hatMtx;
+    f32 hatX = saModel->mtx.data[0][3];
+    f32 hatY = saModel->mtx.data[1][3] + 20;
+    f32 hatZ = saModel->mtx.data[2][3];
+    Actor_SetModelMatrix(hatX, hatY, hatZ, &hatMtx, &actor->actor_shape);
+    return Model_DrawByActor(actor, &hatMtx);
   }
 
   void En_Pm_Destroy(game::act::Actor* actor, game::GlobalContext* gctx) {
