@@ -4,6 +4,7 @@
 #include "rnd/actors/dm_hina.h"
 #include "rnd/actors/en_elforg.h"
 #include "rnd/actors/en_mag.h"
+#include "rnd/actors/en_pm.h"
 #include "rnd/actors/en_si.h"
 #include "rnd/actors/fish_heart.h"
 #include "rnd/actors/item00.h"
@@ -358,6 +359,9 @@ namespace rnd {
     overlayTable[0x12D].info->deinit_fn = Dm_Char05_Destroy;
 
     overlayTable[0x145].info->init_fn = En_Elforg_Init;
+
+    overlayTable[0x166].info->init_fn = En_Pm_Init;
+    overlayTable[0x166].info->deinit_fn = En_Pm_Destroy;
 
     overlayTable[0x16A].info->init_fn = Fish_Heart_Init;
     overlayTable[0x16A].info->deinit_fn = Fish_Heart_Destroy;

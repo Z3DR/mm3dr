@@ -549,6 +549,10 @@ SECTIONS{
     *(.patch_RemoveZoraMaskCheckMikau)
   }
 
+  .patch_EnPmOverrideHatModel 0x333100 : {
+    *(.patch_EnPmOverrideHatModel)
+  }
+
   .patch_AromaItemCheck 0x35091C : {
     *(.patch_AromaItemCheck)
   }
