@@ -44,10 +44,10 @@ namespace rnd {
     u32 field_BEC;
     u8 gap_BF0[4];
     u32 field_BF4;
-    };
-    static_assert(sizeof(En_Pm) == 0xBF8);
-    void En_Pm_Init(game::act::Actor* actor, game::GlobalContext* gctx);
-    extern "C" s32 En_Pm_OverrideModelHatDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
-    void En_Pm_Destroy(game::act::Actor* actor, game::GlobalContext* gctx);
+  };
+  static_assert(sizeof(En_Pm) == 0xBF8);
+  void En_Pm_Init(game::act::Actor* actor, game::GlobalContext* gctx);
+  extern "C" s32 En_Pm_OverrideModelHatDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
+  void En_Pm_Destroy(game::act::Actor* actor, game::GlobalContext* gctx);
 
 }  // namespace rnd

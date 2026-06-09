@@ -317,6 +317,10 @@ namespace rnd {
       if (ModelContext[i].actor == actor) {
         actorDrawn = 1;
         ModelContext[i].hardcodedMtx = hardcodedMtx;
+        if (actor->id == game::act::Id::NpcEnPm &&
+            ModelContext[i].itemRow->itemId == static_cast<u8>(game::ItemId::PostmanHat)) {
+          return 0;
+        }
         Model_Draw(&ModelContext[i]);
       }
     }

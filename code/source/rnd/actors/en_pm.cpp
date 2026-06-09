@@ -19,4 +19,4 @@ namespace rnd {
     Model_DestroyByActor(actor);
     util::GetPointer<void(game::act::Actor*)>(0x48E5F4)(actor);
   }
-} // namespace rnd
+}  // namespace rnd

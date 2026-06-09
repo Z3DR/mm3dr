@@ -1,8 +1,8 @@
 #pragma once
 
 #include "common/types.h"
-#include "shared_defs.h"
 #include "rnd/models.h"
+#include "shared_defs.h"
 #include "z3d/z3DVec.h"
 
 namespace rnd {

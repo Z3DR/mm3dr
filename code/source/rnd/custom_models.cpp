@@ -1,7 +1,6 @@
 #include "rnd/custom_models.h"
 #include <string.h>
 
-
 #define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
 #define EDIT_U32(offset_, val_)                                                                                        \
   (EDIT_BYTE((offset_) + 0, (val_) >> 24), EDIT_BYTE((offset_) + 1, (val_) >> 16),                                     \
@@ -50,19 +49,19 @@ namespace rnd {
   void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel* model, u16 objectId, s8 special) {
     void* cmabMan;
 
-    switch((ObjectId)objectId) {
-      case ObjectId::OBJECT_CUSTOM_SONGS:
-        cmabMan = ExtendedObject_GetCMABByIndex(static_cast<s16>(ObjectId::OBJECT_CUSTOM_ASSETS),
-                                                static_cast<u32>(TexAnimCustomAssets::TEXANIM_SONG));
-        TexAnim_Spawn(model->texAnim, cmabMan);
-        model->texAnim->anim_speed_maybe = 0.0f;
-        model->texAnim->animMode = 0;
-        model->texAnim->field_1A = special;
-        break;
-      case ObjectId::OBJECT_CUSTOM_ASSETS:
-        break;
-      case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
-        break;
+    switch ((ObjectId)objectId) {
+    case ObjectId::OBJECT_CUSTOM_SONGS:
+      cmabMan = ExtendedObject_GetCMABByIndex(static_cast<s16>(ObjectId::OBJECT_CUSTOM_ASSETS),
+                                              static_cast<u32>(TexAnimCustomAssets::TEXANIM_SONG));
+      TexAnim_Spawn(model->texAnim, cmabMan);
+      model->texAnim->anim_speed_maybe = 0.0f;
+      model->texAnim->animMode = 0;
+      model->texAnim->field_1A = special;
+      break;
+    case ObjectId::OBJECT_CUSTOM_ASSETS:
+      break;
+    case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
+      break;
     }
   }
 
