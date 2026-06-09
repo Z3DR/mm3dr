@@ -328,11 +328,6 @@ namespace rnd {
   }
 
   extern "C" void ItemOverride_EditDrawGetItemBeforeModelSpawn(void) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    bool active = rActiveItemRow != NULL;
-    rnd::util::Print("%s: Is active item override active? %u base is %#04x rActiveItemObjectId is %#04x\n", __func__,
-                     active, rActiveItemRow->baseItemId, rActiveItemObjectId);
-#endif
     if (ItemOverride_IsItemVanilla()) {
       return;
     }
@@ -360,10 +355,14 @@ namespace rnd {
     } else if (actorId == game::act::Id::NpcEnBjt) {
       getItemId = incomingNegative ? -0x01 : 0x01;
     } else if (actorId == game::act::Id::EnShn) {
-      if (gExtSaveData.givenItemChecks.enShnGivenItem == 1)
-        getItemId = incomingNegative ? -0x02 : 0x02;
-      else
-        getItemId = incomingNegative ? -0xBA : 0xBA;
+      // Boathouse can give good (5 rupee), better (20 rupee) or best (PoH/Fishing Pass).
+      // Ignore all values except for the PoH for this check.
+      if (originalGetItemId == 0xC || originalGetItemId == 0xBA) {
+        if (gExtSaveData.givenItemChecks.enShnGivenItem == 1)
+          getItemId = incomingNegative ? -0x02 : 0x02;
+        else
+          getItemId = incomingNegative ? -0xBA : 0xBA;
+      }
     } else if (actorId == game::act::Id::NpcInvisibleGuard) {
       if (gExtSaveData.givenItemChecks.enStoneHeishiGivenItem > 0) {
         getItemId = incomingNegative ? -0xBA : 0xBA;
