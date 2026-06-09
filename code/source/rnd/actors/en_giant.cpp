@@ -4,10 +4,11 @@ namespace rnd {
   extern "C" {
   void En_Giant_ShouldDrawGiant(game::act::Actor* giant) {
     u8 giantId = giant->params & 0xF;
+    game::GlobalContext* gctx = GetContext().gctx;
     game::SaveData save = game::GetCommonData().save;
     game::InventoryData::CollectRegister& collect_register = save.inventory.collect_register;
-    if (Settings_MetMoonRequirements())
-      return;  // Draw all if it's been completed.
+    if (Settings_MetMoonRequirements() || gctx->scene != game::SceneId::ClockTowerRooftop)
+      return;  // Draw all if it's been completed, or if we are not on the rooftop.
 
     /* XXX: This is honestly a very redunant function call, but it's here to branch
     / out to a new function when we can implement different checks to get to the moon,
