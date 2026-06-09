@@ -328,11 +328,6 @@ namespace rnd {
   }
 
   extern "C" void ItemOverride_EditDrawGetItemBeforeModelSpawn(void) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    bool active = rActiveItemRow != NULL;
-    rnd::util::Print("%s: Is active item override active? %u base is %#04x rActiveItemObjectId is %#04x\n", __func__,
-                     active, rActiveItemRow->baseItemId, rActiveItemObjectId);
-#endif
     if (ItemOverride_IsItemVanilla()) {
       return;
     }
