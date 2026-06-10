@@ -22,13 +22,6 @@ namespace rnd {
     EDIT_U32(0x174, color[2]);  // Diffuse
   }
 
-  static void CustomModels_SetOcarinaToRGBA565(void* ocarinaCMB) {
-    // char* BASE_ = (char*)ocarinaCMB;
-    //  TODO: When we get the custom gar.lzs or .gar then we can modify these.
-    // EDIT_BYTE(0x532, 0x01);
-    // EDIT_BYTE(0x538, 0x5A);
-  }
-
   void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {
     void* cmb;
 
@@ -38,8 +31,7 @@ namespace rnd {
       CustomModel_ApplyColorEditsToSmallKey(cmb, special);
       break;
     case ObjectId::OBJECT_CUSTOM_SONGS:
-      cmb = ((char*)ZARBuf) + 0x8C;
-      CustomModels_SetOcarinaToRGBA565(cmb);
+      //cmb = ((char*)ZARBuf) + 0x8C;
       break;
     case ObjectId::OBJECT_CUSTOM_ASSETS:
       break;
@@ -49,19 +41,24 @@ namespace rnd {
   void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel* model, u16 objectId, s8 special) {
     void* cmabMan;
 
-    switch ((ObjectId)objectId) {
-    case ObjectId::OBJECT_CUSTOM_SONGS:
-      cmabMan = ExtendedObject_GetCMABByIndex(static_cast<s16>(ObjectId::OBJECT_CUSTOM_ASSETS),
-                                              static_cast<u32>(TexAnimCustomAssets::TEXANIM_SONG));
-      TexAnim_Spawn(model->texAnim, cmabMan);
-      model->texAnim->anim_speed_maybe = 0.0f;
-      model->texAnim->animMode = 0;
-      model->texAnim->field_1A = special;
-      break;
-    case ObjectId::OBJECT_CUSTOM_ASSETS:
-      break;
-    case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
-      break;
+    switch((ObjectId)objectId) {
+      case ObjectId::OBJECT_CUSTOM_SONGS:
+        cmabMan = ExtendedObject_GetCMABByIndex(static_cast<s16>(ObjectId::OBJECT_CUSTOM_ASSETS),
+                                                static_cast<u32>(TexAnimCustomAssets::TEXANIM_SONG));
+
+
+        #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+          rnd::util::Print("%s: Special is %u\n", __func__, special);	
+        #endif
+        TexAnim_Spawn(model->texAnim, cmabMan);
+        model->texAnim->anim_speed = 0.00f;
+        model->texAnim->animMode = 0;
+        model->texAnim->curFrame = special;
+        break;
+      case ObjectId::OBJECT_CUSTOM_ASSETS:
+        break;
+      case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
+        break;
     }
   }
 

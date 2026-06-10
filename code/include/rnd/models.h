@@ -49,6 +49,5 @@ namespace rnd {
   void Model_DestroyByActor(game::act::Actor* actor);
   void Model_DestroyAll(void);
   s32 Model_DrawByActor(game::act::Actor* actor, z3d_nn_math_MTX34* hardcodedMtx = NULL);
-  Model* Model_GetOverrideSaModel(game::act::Actor* actor);
   void Actor_Init();
 }  // namespace rnd

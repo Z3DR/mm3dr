@@ -9,6 +9,7 @@
 #pragma once
 
 #include "common/bitfield.h"
+#include "game/objectbankarchive.h"
 #include "common/flags.h"
 #include "common/types.h"
 #include "common/utils.h"
@@ -378,19 +379,20 @@ namespace game::act {
 
   struct SA_TextureAnimation {
     TexAnim_Unk_00* field_00;
-    void* CMAB_man;
-    TexAnim_Unk_10* field_10;
+    game::ObjectBank::CmabMan* CMAB_man;
+    TexAnim_Unk_10* field_08;
     void* cmab_chunk;
-    float anim_speed_maybe;
-    char gap_14[0x4];
+    // u8 gap_10[4];
+    f32 curFrame;
+    f32 anim_speed;
     s8 animMode;
-    u8 field_19;
-    s8 field_1A;
-    u8 gap_1b[0x7D];
+    //s8 field_1A;
+    u8 gap_1b[139];
     // Likely incomplete sizing.
   };
   static_assert(offsetof(SA_TextureAnimation, animMode) == 0x18);
-  static_assert(sizeof(SA_TextureAnimation) == 0x98);
+  static_assert(offsetof(SA_TextureAnimation, field_08) == 0x08);
+  static_assert(sizeof(SA_TextureAnimation) == 0xA4);
 
   struct SkeletonAnimationModel {
     void* field_00;
