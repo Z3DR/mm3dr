@@ -281,6 +281,10 @@ SECTIONS{
     *(.patch_RemoveRazordSwordHealthTwo)
   }
 
+  .patch_FixOcarinaStandingIssue 0x21CBC4 : {
+    *(.patch_FixOcarinaStandingIssue)
+  }
+
   .patch_OverrideItemIdIndex 0x21D124 : {
     *(.patch_OverrideItemIdIndex)
   }

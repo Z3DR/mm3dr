@@ -38,6 +38,14 @@ hook_CheckCurrentInventory:
     pop {r1-r12, lr}
     b 0x1F3D6C
 
+.global hook_FixOcarinaStandingIssue
+hook_FixOcarinaStandingIssue:
+    push {r0-r12,lr}
+    bl ItemOverride_CheckIfOcarinaInClocktower
+    cmp r0, #0x2B
+    pop {r0-r12,lr}
+    bx lr
+
 .global hook_OverrideItemIdIndex
 hook_OverrideItemIdIndex:
     push {r0}

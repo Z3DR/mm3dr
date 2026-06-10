@@ -11,6 +11,11 @@ IncomingGetItemID_patch:
 patch_CheckCurrentInventoryOverrideItem:
     b hook_CheckCurrentInventory
 
+.section .patch_FixOcarinaStandingIssue
+.global patch_FixOcarinaStandingIssue
+patch_FixOcarinaStandingIssue:
+    bl hook_FixOcarinaStandingIssue
+
 .section .patch_OverrideItemIdIndex
 .global patch_OverrideItemIdIndex
 patch_OverrideItemIdIndex:
