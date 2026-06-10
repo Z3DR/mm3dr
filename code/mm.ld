@@ -229,7 +229,7 @@ SECTIONS{
     *(.patch_EditDrawGetItemBeforeModelSpawn)
   }
 
-  .patch_EditDrawGetItemAfterModelSpawn 0x1FF144 : {
+  .patch_EditDrawGetItemAfterModelSpawn 0x1FF130 : {
     *(.patch_EditDrawGetItemAfterModelSpawn)
   }
 

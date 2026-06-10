@@ -384,7 +384,7 @@ hook_EditDrawGetItemAfterModelSpawn:
     cpy r1,r6
     bl ItemOverride_EditDrawGetItemAfterModelSpawn
     pop {r0-r12,lr}
-    strb r8,[r4, #0x324]
+    add r1,r5,r6, lsl #0x2
     bx lr
 
 .global hook_EditDrawGetItemBeforeModelSpawn
