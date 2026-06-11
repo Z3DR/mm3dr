@@ -3,11 +3,12 @@
 #include "z3d/z3DVec.h"
 namespace game::cmb {
   struct RGBA {
-    u8 R;
-    u8 G;
-    u8 B;
-    u8 A;
-  };
+    u8 R, G, B, A;
+    
+    constexpr RGBA() : R(0), G(0), B(0), A(0) {}
+    constexpr RGBA(u8 r, u8 g, u8 b, u8 a) : R(r), G(g), B(b), A(a) {}
+    constexpr RGBA(u32 c) : R(u8(c >> 24)), G(u8(c >> 16)), B(u8(c >> 8)), A(u8(c)) {}
+};
 
   enum class BlendModes : u8 { BlendNone, Blend, BlendSeparate, LogicalOp };
 
@@ -52,7 +53,7 @@ namespace game::cmb {
     OneMinusConstantAlpha = 0x8004
   };
 
-  enum class BlendEquation : u64 {
+  enum class BlendEquation : u32 {
     FuncAdd = 0x8006,
     Min = 0x8007,
     Max = 0x8008,
@@ -200,7 +201,7 @@ namespace game::cmb {
   };
   static_assert(sizeof(Combiner) == 0x2C);
 
-  struct TextureMappers {
+  struct TextureMapper {
     s16 textureID;
     u16 unk_02;  // Padding?
     u16 textureMinFilter;
@@ -211,9 +212,9 @@ namespace game::cmb {
     f32 lodBias;
     RGBA BorderColor;
   };
-  static_assert(sizeof(TextureMappers) == 0x18);
+  static_assert(sizeof(TextureMapper) == 0x18);
 
-  struct TextureCoords {
+  struct TextureCoord {
     u8 coordinateIndex;
     u8 referenceCamera;
     u8 mappingMethod;
@@ -222,7 +223,7 @@ namespace game::cmb {
     z3dVec2f translation;
     f32 rotation;
   };
-  static_assert(sizeof(TextureCoords) == 0x18);
+  static_assert(sizeof(TextureCoord) == 0x18);
 
   struct Sampler {
     bool isAbs;
@@ -266,20 +267,15 @@ namespace game::cmb {
     u32 textureMappersUsed;
     u32 textureCoordsUsed;
 
-    TextureMappers textureMapper[3];
-    TextureCoords textureCoord[3];
+    TextureMapper textureMappers[3];
+    TextureCoord textureCoords[3];
 
     RGBA emissionColor;
     RGBA ambientColor;
     RGBA diffuse;
     RGBA specular0;
     RGBA specular1;
-    RGBA constant0;
-    RGBA constant1;
-    RGBA constant2;
-    RGBA constant3;
-    RGBA constant4;
-    RGBA constant5;
+    RGBA constantColors[6];
 
     z3dVec4f BufferColor;
 
@@ -320,7 +316,7 @@ namespace game::cmb {
     u16 zPassOP;
     u32 unkHash;
   };
-  static_assert(sizeof(Material) == 0x178);
+  static_assert(sizeof(Material) == 0x16C);
 
   struct Mats {
     char magic[4];
@@ -329,7 +325,7 @@ namespace game::cmb {
     game::cmb::Material material[];
     // game::cmb::Combiner Combiner[]; // Commented out as we cannot have two flexible arrays in a single struct.
   };
-  static_assert(sizeof(Mats) == 0x10);
+  static_assert(sizeof(Mats) == 0x0C);
 
   struct TextureEntry {
     u32 dataLength;
@@ -487,7 +483,6 @@ namespace game::cmb {
     u32 unk_48;
   };
   static_assert(sizeof(CMB_HEAD) == 0x4C);
-  static_assert(offsetof(CMB_HEAD, unk_48) == 0x48);
 
   struct CMB_SKLM {
     char magic[4];
@@ -498,17 +493,15 @@ namespace game::cmb {
     // CMB_SHP shp; // Meshes variable array is at the end of mshs so comment this out.
   };
 
-  static inline CMB_MSHS* Cmb_GetMeshesChunk(void* cmb) {
-    CMB_SKLM* sklmChunk = (CMB_SKLM*)(((u32)cmb) + ((CMB_HEAD*)cmb)->sklmOffset);
-    return &sklmChunk->mshs;
+  static inline Mats* Cmb_GetMatsChunk(void* cmb) {
+    return (Mats*)(((u32)cmb) + ((CMB_HEAD*)cmb)->matsOffset);
   }
 
-  static inline Combiner* Cmb_GetCombiners(Mats* mats) {
-    return (Combiner*)&mats->material[mats->materialCount];
-  }
-
-  static inline Tex* Cmb_GetTexChunk(void* cmb) {
-    return (Tex*)(((u32)cmb) + ((CMB_HEAD*)cmb)->texOffset);
+  static inline Material* Cmb_GetMaterial(void* cmb, u32 index) {
+    Mats* mats = Cmb_GetMatsChunk(cmb);
+    if (mats == nullptr || index >= mats->materialCount)
+      return nullptr;
+    return &mats->material[index];
   }
 
 }  // namespace game::cmb
