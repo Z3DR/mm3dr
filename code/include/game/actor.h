@@ -383,14 +383,14 @@ namespace game::act {
     TexAnim_Unk_10* field_08;
     void* cmab_chunk;
     // u8 gap_10[4];
-    f32 curFrame;
+    f32 cur_frame;
     f32 anim_speed;
-    s8 animMode;
+    s8 anim_mode;
     //s8 field_1A;
     u8 gap_1b[139];
     // Likely incomplete sizing.
   };
-  static_assert(offsetof(SA_TextureAnimation, animMode) == 0x18);
+  static_assert(offsetof(SA_TextureAnimation, anim_mode) == 0x18);
   static_assert(offsetof(SA_TextureAnimation, field_08) == 0x08);
   static_assert(sizeof(SA_TextureAnimation) == 0xA4);
 

@@ -22,6 +22,15 @@ namespace rnd {
     EDIT_U32(0x174, color[2]);  // Diffuse
   }
 
+  static void CustomModels_SetOcarinaToRGBA565(void* ocarinaCMB) {
+    char* BASE_ = (char*)ocarinaCMB;
+    //  TODO: When we get the custom gar.lzs or .gar then we can modify these.
+    EDIT_BYTE(0x16C, SmallKeyData[3][0]); // Emission
+    EDIT_BYTE(0x170, SmallKeyData[3][1]); // Ambient
+    EDIT_BYTE(0x174, SmallKeyData[3][2]); // Diffuse
+    // EDIT_BYTE(0x538, 0x5A);
+  }
+
   void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {
     void* cmb;
 
@@ -31,7 +40,8 @@ namespace rnd {
       CustomModel_ApplyColorEditsToSmallKey(cmb, special);
       break;
     case ObjectId::OBJECT_CUSTOM_SONGS:
-      //cmb = ((char*)ZARBuf) + 0x8C;
+      cmb = ((char*)ZARBuf) + 0x8C;
+      CustomModel_ApplyColorEditsToSmallKey(cmb, 2);
       break;
     case ObjectId::OBJECT_CUSTOM_ASSETS:
       break;
@@ -52,8 +62,8 @@ namespace rnd {
         #endif
         TexAnim_Spawn(model->texAnim, cmabMan);
         model->texAnim->anim_speed = 0.00f;
-        model->texAnim->animMode = 0;
-        model->texAnim->curFrame = special;
+        model->texAnim->anim_mode = 0;
+        model->texAnim->cur_frame = special;
         break;
       case ObjectId::OBJECT_CUSTOM_ASSETS:
         break;
