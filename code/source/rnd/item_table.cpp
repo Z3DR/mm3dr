@@ -380,7 +380,7 @@ namespace rnd {
                    1.00f),  // Progressive Sword
 
       [0x4B] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SonataOfAwakening, 0x1B9E,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x00, DrawGraphicItemID::DI_OCARINA_OF_TIME,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x03, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)-1, (s16)-1,
                         1.00f),  // Sonata Of Awakening
 
@@ -424,7 +424,7 @@ namespace rnd {
                         1.00f),  // Song Of Time
 
       [0x54] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfHealing, 0x1BA5,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x04, DrawGraphicItemID::DI_OCARINA_OF_TIME,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x08, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)7, (s16)-1,
                         1.00f),  // Song Of Healing
 
@@ -574,12 +574,12 @@ namespace rnd {
                         1.00f),  // Bottle With Spoiled Mystery Milk
 
       [0x72] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfSoaring, 0x1BA7,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x04, DrawGraphicItemID::DI_OCARINA_OF_TIME,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x06, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)9, (s16)-1,
                         1.00f),  // Song Of Soaring
 
       [0x73] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfStorms, 0x1BA8,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x04, DrawGraphicItemID::DI_OCARINA_OF_TIME,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x07, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)10, (s16)-1,
                         1.00f),  // Song Of Storms
 
