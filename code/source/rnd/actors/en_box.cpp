@@ -3,7 +3,7 @@
 
 namespace rnd {
   extern "C" {
-  game::actors::EnBoxType En_Box_OverrideSize(game::actors::En_Box* actor, game::GlobalContext* gctx) {    
+  game::actors::EnBoxType En_Box_OverrideSize(game::actors::En_Box* actor, game::GlobalContext* gctx) {
     if (gSettingsContext.chestSize == 0) {
       return (game::actors::EnBoxType)0xFF;
     }
@@ -43,8 +43,7 @@ namespace rnd {
   }
 
   bool En_Box_OverrideAnimation() {
-    if ((gSettingsContext.chestAnimations ==
-         (u8)ChestAnimationsSetting::CHESTANIMATIONS_ALWAYSFAST) ||
+    if ((gSettingsContext.chestAnimations == (u8)ChestAnimationsSetting::CHESTANIMATIONS_ALWAYSFAST) ||
         (!isItemOverrideActive))  // The animation is always fast for unused chests that aren't randomized
       return false;
 

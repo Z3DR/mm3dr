@@ -37,7 +37,7 @@ namespace rnd {
   }
   // void EnBox_rInit(game::act::Actor* thisx, game::GlobalContext* globalCtx);
   // void EnBox_rUpdate(game::act::Actor* thisx, game::GlobalContext* globalCtx);
-  
+
   // u8 En_Box_OverrideDecoration();
   // u8 En_Box_OverrideIceSmoke(game::act::Actor* thisx);
 }  // namespace rnd
