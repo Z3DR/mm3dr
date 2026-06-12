@@ -1,7 +1,7 @@
 #pragma once
 
 #include "game/common_data.h"
-#include "rnd/chest.h"
+#include "rnd/actors/en_box.h"
 #include "rnd/item_override.h"
 
 namespace rnd {
@@ -37,6 +37,7 @@ namespace rnd {
 
   extern "C" ItemRow rItemTable[];
   extern "C" ItemRow* rActiveItemRow;
+  extern "C" u8 rActiveItemChestType;
   extern "C" u32 rActiveItemTextId;
   extern "C" u16 rCustomDungeonItemRetrieved;
   u16 ItemTable_ResolveUpgrades(u16 itemId);

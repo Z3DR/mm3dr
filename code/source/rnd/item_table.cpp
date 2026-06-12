@@ -428,10 +428,10 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)7, (s16)-1,
                         1.00f),  // Song Of Healing
 
-      [0x55] = ITEM_ROW((u32)GetItemID::GI_HEART_CONTAINER, ChestType::WOODEN_BIG, (u8)game::ItemId::OdolwaRemains,
-                        0x0055, 0x01CC, 0x04, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
-                        DrawGraphicItemID::DI_ODOLWAS_REMAINS, (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveMask,
-                        (s16)0, (s16)-1, 1.00f),  // Odolwa's Remains
+      [0x55] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::DECORATED_BIG, (u8)game::ItemId::OdolwaRemains, 0x0055,
+                        0x01CC, 0x04, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_ODOLWAS_REMAINS,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveMask, (s16)0, (s16)-1,
+                        1.00f),  // Odolwa's Remains
 
       [0x56] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GohtRemains, 0x0056,
                         0x01CC, 0x06, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GOHTS_REMAINS,

@@ -457,5 +457,6 @@ namespace rnd {
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];
   extern "C" u16 rStoredTextId;
+  extern "C" bool isItemOverrideActive;
 
 }  // namespace rnd
