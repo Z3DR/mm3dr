@@ -9,10 +9,10 @@
 #pragma once
 
 #include "common/bitfield.h"
-#include "game/objectbankarchive.h"
 #include "common/flags.h"
 #include "common/types.h"
 #include "common/utils.h"
+#include "game/objectbankarchive.h"
 #include "game/sound.h"
 #include "z3d/z3DVec.h"
 
@@ -386,7 +386,7 @@ namespace game::act {
     f32 cur_frame;
     f32 anim_speed;
     s8 anim_mode;
-    //s8 field_1A;
+    // s8 field_1A;
     u8 gap_1b[139];
     // Likely incomplete sizing.
   };

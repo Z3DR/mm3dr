@@ -1,7 +1,7 @@
 #include "rnd/custom_models.h"
+#include <string.h>
 #include "game/cmb.h"
 #include "game/resarchiveheader.h"
-#include <string.h>
 
 #define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
 #define EDIT_U32(offset_, val_)                                                                                        \
@@ -25,15 +25,15 @@ namespace rnd {
   };
 
   game::cmb::RGBA SongColors[] = {
-      0xFF0000FF,// Goron
-      0x00FF00FF,// Elegy
-      0x800080FF,// Oath
-      0xFFFF00FF,// Sonata
-      0xFFA500FF,// Epona
-      0x00008BFF,// NWBN
-      0xFFFFFFFF,// Soaring
-      0x65809FFF,// Storms
-      0xFF96B0FF,// Healing
+      0xFF0000FF,  // Goron
+      0x00FF00FF,  // Elegy
+      0x800080FF,  // Oath
+      0xFFFF00FF,  // Sonata
+      0xFFA500FF,  // Epona
+      0x00008BFF,  // NWBN
+      0xFFFFFFFF,  // Soaring
+      0x65809FFF,  // Storms
+      0xFF96B0FF,  // Healing
   };
 
   static u8 Clamp8(u8 v) {
@@ -76,7 +76,7 @@ namespace rnd {
     if (baseMaterial == nullptr || triforceMaterial == nullptr)
       return;
 
-    if((songType >= 0 && songType < 9)) {
+    if ((songType >= 0 && songType < 9)) {
       auto songColor = SongColors[songType];
 
       baseMaterial->diffuse = SongColors[songType];
@@ -84,8 +84,7 @@ namespace rnd {
       LerpRGB(baseMaterial->specular0, songColor, OpaqueWhite, 0.35f);
 
       triforceMaterial->specular0 = baseMaterial->specular0;
-    }
-    else {
+    } else {
       baseMaterial->diffuse = 0x3B39FFFF;
       baseMaterial->specular0 = 0x592AB200;
     }
@@ -111,24 +110,23 @@ namespace rnd {
   void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel* model, u16 objectId, s8 special) {
     void* cmabMan;
 
-    switch((ObjectId)objectId) {
-      case ObjectId::OBJECT_CUSTOM_SONGS:
-        cmabMan = ExtendedObject_GetCMABByIndex(static_cast<s16>(ObjectId::OBJECT_CUSTOM_ASSETS),
-                                                static_cast<u32>(TexAnimCustomAssets::TEXANIM_SONG));
+    switch ((ObjectId)objectId) {
+    case ObjectId::OBJECT_CUSTOM_SONGS:
+      cmabMan = ExtendedObject_GetCMABByIndex(static_cast<s16>(ObjectId::OBJECT_CUSTOM_ASSETS),
+                                              static_cast<u32>(TexAnimCustomAssets::TEXANIM_SONG));
 
-
-        #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("%s: Special is %u\n", __func__, special);	
-        #endif
-        TexAnim_Spawn(model->texAnim, cmabMan);
-        model->texAnim->anim_speed = 0.00f;
-        model->texAnim->anim_mode = 0;
-        model->texAnim->cur_frame = special;
-        break;
-      case ObjectId::OBJECT_CUSTOM_ASSETS:
-        break;
-      case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
-        break;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: Special is %u\n", __func__, special);
+#endif
+      TexAnim_Spawn(model->texAnim, cmabMan);
+      model->texAnim->anim_speed = 0.00f;
+      model->texAnim->anim_mode = 0;
+      model->texAnim->cur_frame = special;
+      break;
+    case ObjectId::OBJECT_CUSTOM_ASSETS:
+      break;
+    case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
+      break;
     }
   }
 

@@ -4,11 +4,11 @@
 namespace game::cmb {
   struct RGBA {
     u8 R, G, B, A;
-    
+
     constexpr RGBA() : R(0), G(0), B(0), A(0) {}
     constexpr RGBA(u8 r, u8 g, u8 b, u8 a) : R(r), G(g), B(b), A(a) {}
     constexpr RGBA(u32 c) : R(u8(c >> 24)), G(u8(c >> 16)), B(u8(c >> 8)), A(u8(c)) {}
-};
+  };
 
   enum class BlendModes : u8 { BlendNone, Blend, BlendSeparate, LogicalOp };
 

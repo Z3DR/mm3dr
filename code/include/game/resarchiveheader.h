@@ -52,22 +52,38 @@ namespace game {
 
   inline const char* ResFileType_GetExtension(ResFileType type) {
     switch (type) {
-    case ResFileType::CMB: return "cmb";
-    case ResFileType::CSAB: return "csab";
-    case ResFileType::CTXB: return "ctxb";
-    case ResFileType::PTXB: return "ptxb";
-    case ResFileType::CMAB: return "cmab";
-    case ResFileType::ZSI: return "zsi";
-    case ResFileType::QDB: return "qdb";
-    case ResFileType::FACEB: return "faceb";
-    case ResFileType::TBD: return "tbd";
-    case ResFileType::CCB: return "ccb";
-    case ResFileType::LINKB: return "linkb";
-    case ResFileType::COLB: return "colb";
-    case ResFileType::GFB: return "gfb";
-    case ResFileType::VWX: return "vwx";
-    case ResFileType::OTHER: return "unknown";
-    default: return "";
+    case ResFileType::CMB:
+      return "cmb";
+    case ResFileType::CSAB:
+      return "csab";
+    case ResFileType::CTXB:
+      return "ctxb";
+    case ResFileType::PTXB:
+      return "ptxb";
+    case ResFileType::CMAB:
+      return "cmab";
+    case ResFileType::ZSI:
+      return "zsi";
+    case ResFileType::QDB:
+      return "qdb";
+    case ResFileType::FACEB:
+      return "faceb";
+    case ResFileType::TBD:
+      return "tbd";
+    case ResFileType::CCB:
+      return "ccb";
+    case ResFileType::LINKB:
+      return "linkb";
+    case ResFileType::COLB:
+      return "colb";
+    case ResFileType::GFB:
+      return "gfb";
+    case ResFileType::VWX:
+      return "vwx";
+    case ResFileType::OTHER:
+      return "unknown";
+    default:
+      return "";
     }
   }
 
