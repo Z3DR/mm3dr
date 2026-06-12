@@ -378,6 +378,15 @@ noOverrideSongItemID:
     bl 0x233BEC
     b 0x605980
 
+.global hook_EditDrawGetItemAfterModelSpawn
+hook_EditDrawGetItemAfterModelSpawn:
+    push {r0-r12,lr}
+    cpy r1,r6
+    bl ItemOverride_EditDrawGetItemAfterModelSpawn
+    pop {r0-r12,lr}
+    strb r8,[r4, #0x324]
+    bx lr
+
 .global hook_EditDrawGetItemBeforeModelSpawn
 hook_EditDrawGetItemBeforeModelSpawn:
     push {r0-r12, lr}

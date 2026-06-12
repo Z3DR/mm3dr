@@ -4,6 +4,7 @@
 #include "rnd/actors/dm_hina.h"
 #include "rnd/actors/en_elforg.h"
 #include "rnd/actors/en_mag.h"
+#include "rnd/actors/en_pm.h"
 #include "rnd/actors/en_si.h"
 #include "rnd/actors/fish_heart.h"
 #include "rnd/actors/item00.h"
@@ -15,10 +16,11 @@
 namespace rnd {
   Model ModelContext[LOADEDMODELS_MAX] = {0};
 
-  game::act::sa_unk_d4* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx, s16 objectId,
-                                                     s32 objectModelIndex) {
-    return util::GetPointer<game::act::sa_unk_d4*(game::act::Actor * actor, game::GlobalContext * globalCtx, s16 objId,
-                                                  s32 objModelIdx)>(0x203C40)(actor, gctx, objectId, objectModelIndex);
+  game::act::SkeletonAnimationModel* SkeletonAnimationModel_Spawn(game::act::Actor* actor, game::GlobalContext* gctx,
+                                                                  s16 objectId, s32 objectModelIndex) {
+    return util::GetPointer<game::act::SkeletonAnimationModel*(
+        game::act::Actor * actor, game::GlobalContext * globalCtx, s16 objId, s32 objModelIdx)>(0x203C40)(
+        actor, gctx, objectId, objectModelIndex);
   }
 
   void Actor_SetModelMatrix(float x, float y, float z, z3d_nn_math_MTX34* mtx, game::act::ActorShape* shape) {
@@ -83,11 +85,10 @@ namespace rnd {
     model->objectBankIdx = objectBankIdx;
   }
 
-  void Model_SetAnim(game::act::sa_unk_d4* model, s16 objectId, u32 objectAnimIdx) {
+  void Model_SetAnim(game::act::SkeletonAnimationModel* model, s16 objectId, u32 objectAnimIdx) {
     void* cmabMan = ExtendedObject_GetCMABByIndex(objectId, objectAnimIdx);
     TexAnim_Spawn(model->texAnim, cmabMan);
-    model->texAnim->animSpeed = 1.0f;
-    model->texAnim->animMode = 1;
+    // model->texAnim->animMode = 1;
   }
 
   void Matrix_UpdatePosition(void* dst, void* src, void* vec) {
@@ -160,6 +161,8 @@ namespace rnd {
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
 
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
+
+    // CustomModels_ApplyItemCMAB(model->saModel, model->itemRow->objectId, model->itemRow->special);
 
     if (model->itemRow->cmabIndex >= 0) {
       Model_SetAnim(model->saModel, model->itemRow->objectId, model->itemRow->cmabIndex);
@@ -314,6 +317,10 @@ namespace rnd {
       if (ModelContext[i].actor == actor) {
         actorDrawn = 1;
         ModelContext[i].hardcodedMtx = hardcodedMtx;
+        if (actor->id == game::act::Id::NpcEnPm &&
+            ModelContext[i].itemRow->itemId == static_cast<u8>(game::ItemId::PostmanHat)) {
+          return 0;
+        }
         Model_Draw(&ModelContext[i]);
       }
     }
@@ -345,8 +352,6 @@ namespace rnd {
     overlayTable[0x2F].info->draw_fn = ItemBHeart_Draw;
     overlayTable[0x2F].info->deinit_fn = ItemBHeart_Destroy;
 
-    // overlayTable[0x87].info->init_fn = En_Mag_rInit;
-
     overlayTable[0x99].info->init_fn = En_Si_Init;
     overlayTable[0x99].info->draw_fn = En_Si_Draw;
     overlayTable[0x99].info->deinit_fn = En_Si_Destroy;
@@ -359,6 +364,9 @@ namespace rnd {
 
     overlayTable[0x145].info->init_fn = En_Elforg_Init;
 
+    overlayTable[0x166].info->init_fn = En_Pm_Init;
+    overlayTable[0x166].info->deinit_fn = En_Pm_Destroy;
+
     overlayTable[0x16A].info->init_fn = Fish_Heart_Init;
     overlayTable[0x16A].info->deinit_fn = Fish_Heart_Destroy;
 
@@ -366,6 +374,9 @@ namespace rnd {
     overlayTable[0x212].info->deinit_fn = Obj_Moon_Stone_Destroy;
 
     // Define all the small key objects to be by default the same as object 134
-    strncpy(resourcePathTable[OBJECT_CUSTOM_SMALL_KEY].path, resourcePathTable[0x86].path, 0x34);
+    strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_SMALL_KEY)].path, resourcePathTable[0x86].path,
+            0x34);
+    strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_SONGS)].path, resourcePathTable[0xB5].path,
+            0x34);
   }
 }  // namespace rnd

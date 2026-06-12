@@ -55,8 +55,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
-    rItemOverrides[1].value.getItemId = 0x76;
-    rItemOverrides[1].value.looksLikeItemId = 0x76;
+    rItemOverrides[1].value.getItemId = 0x84;
+    rItemOverrides[1].value.looksLikeItemId = 0x84;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -325,16 +325,6 @@ namespace rnd {
   static s32 ItemOverride_IsItemVanilla() {
     game::GlobalContext* gctx = GetContext().gctx;
     return rActiveItemRow == NULL && !gctx->IsPaused();
-  }
-
-  extern "C" void ItemOverride_EditDrawGetItemBeforeModelSpawn(void) {
-    if (ItemOverride_IsItemVanilla()) {
-      return;
-    }
-    game::act::Player* player = GetContext().gctx->GetPlayerActor();
-    // void* giDrawTable = util::GetPointer<void*>(0x6a3a5c);
-    CustomModels_EditItemCMB(player->actor_resource_file->archive.archive.raw, rActiveItemObjectId,
-                             rActiveItemRow->special);
   }
 
   void ItemOverride_PushDungeonReward(u8 dungeon) {
@@ -1237,6 +1227,25 @@ namespace rnd {
       return game::OcarinaSong::GoronLullablyIntro;
     }
     return lastPlayedSong;
+  }
+
+  void ItemOverride_EditDrawGetItemBeforeModelSpawn() {
+    if (ItemOverride_IsItemVanilla()) {
+      return;
+    }
+    game::act::Player* player = GetContext().gctx->GetPlayerActor();
+    CustomModels_EditItemCMB(player->actor_resource_file->archive.archive.raw, rActiveItemObjectId,
+                             rActiveItemRow->special);
+  }
+
+  void ItemOverride_EditDrawGetItemAfterModelSpawn(game::act::SkeletonAnimationModel* saModel, u8 loopIdx) {
+    // This is called in a loop oddly enough.
+    // I'm assuming there's layered models depending on the item?
+    // We only wanna edit the base item, not additional layering I believe, so just return after the first model.
+    if (loopIdx != 0 || ItemOverride_IsItemVanilla())
+      return;
+
+    CustomModels_ApplyItemCMAB(saModel, rActiveItemObjectId, rActiveItemRow->special);
   }
   }
 }  // namespace rnd

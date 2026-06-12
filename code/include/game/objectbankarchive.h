@@ -60,6 +60,7 @@ namespace game::ObjectBank {
   static_assert(sizeof(ObjectBankArchive) == 0x9C);
 
   void init(ObjectBankArchive*, u32, ResArchiveHeader*, int, char);
-  void* getCmbFile(ObjectBankArchive*, u32, u32);
+  void* getCMBFileByIndex(ObjectBankArchive*, u32, u32);
   void free(ObjectBankArchive*);
+  ObjectBankArchive* freeAndCleanup(ObjectBankArchive*);
 }  // namespace game::ObjectBank

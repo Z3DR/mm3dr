@@ -70,4 +70,8 @@ namespace game {
     return rnd::util::GetPointer<PersistentSceneCycleFlags>(0x6A017C);
   }
 
+  void KillAllActorsWithMissingObjects(game::GlobalContext* gctx) {
+    rnd::util::GetPointer<void(game::GlobalContext*, game::ActorLists*)>(0x4E0974)(gctx, &gctx->actors);
+  }
+
 }  // namespace game

@@ -6,11 +6,15 @@ namespace game::ObjectBank {
     return rnd::util::GetPointer<void(ObjectBankArchive*, u32, ResArchiveHeader*, int, char)>(0x1F57DC)(
         obj_bank_archive, actor_id, data, size, set_field_5c);
   }
-  void* getCmbFile(ObjectBankArchive* obj_bank_archive, u32 cmb_file_index, u32 archive_type) {
+  void* getCMBFileByIndex(ObjectBankArchive* obj_bank_archive, u32 cmb_file_index, u32 archive_type) {
     return rnd::util::GetPointer<void*(ObjectBankArchive*, u32, u32)>(0x1F5C00)(obj_bank_archive, cmb_file_index,
                                                                                 archive_type);
   }
   void free(ObjectBankArchive* obj_bank_archive) {
     return rnd::util::GetPointer<void(ObjectBankArchive*)>(0x1E477C)(obj_bank_archive);
+  }
+
+  ObjectBankArchive* freeAndCleanup(ObjectBankArchive* obj_bank_archive) {
+    return rnd::util::GetPointer<ObjectBankArchive*(ObjectBankArchive*)>(0x1616B8)(obj_bank_archive);
   }
 }  // namespace game::ObjectBank

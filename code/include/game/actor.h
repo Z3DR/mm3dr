@@ -358,15 +358,41 @@ namespace game::act {
   };
   static_assert(sizeof(DayTimerActor) == 0x20C);
 
-  typedef struct SA_TextureAnimation {
-    /* 0x00 */ char gap_00[0x14];
-    /* 0x10 */ f32 animSpeed;
-    /* 0x18 */ s8 animMode;
-    // ... size unknown
-  } SA_TextureAnimation;
-  static_assert(offsetof(SA_TextureAnimation, animMode) == 0x18);
+  struct TexAnim_Unk_00 {
+    void* CMAB_man;
+    void* field_04;
+    s32 field_08;
+    s32 field_0C;
+    s32 field_10;
+    u8 gap_14[14];
+    // Likely incomplete sizing.
+  };
+  static_assert(sizeof(TexAnim_Unk_00) == 0x24);
 
-  struct sa_unk_d4 {
+  struct TexAnim_Unk_10 {
+    void* CMB_man;
+    u8 gap_14[20];
+    // Likely incomplete sizing.
+  };
+  static_assert(sizeof(TexAnim_Unk_10) == 0x18);
+
+  struct SA_TextureAnimation {
+    TexAnim_Unk_00* field_00;
+    void* CMAB_man;
+    TexAnim_Unk_10* field_10;
+    void* cmab_chunk;
+    float anim_speed_maybe;
+    char gap_14[0x4];
+    s8 animMode;
+    u8 field_19;
+    s8 field_1A;
+    u8 gap_1b[0x7D];
+    // Likely incomplete sizing.
+  };
+  static_assert(offsetof(SA_TextureAnimation, animMode) == 0x18);
+  static_assert(sizeof(SA_TextureAnimation) == 0x98);
+
+  struct SkeletonAnimationModel {
     void* field_00;
     void* field_04;
     float field_08;
@@ -378,7 +404,7 @@ namespace game::act {
     SA_TextureAnimation* texAnim;
     u8 gap_9C[0x38];
   };
-  static_assert(sizeof(sa_unk_d4) == 0xD4);
+  static_assert(sizeof(SkeletonAnimationModel) == 0xD4);
 
   ActorOverlayInfo* GetActorOverlayInfoTable();
 

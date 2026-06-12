@@ -9,11 +9,11 @@
 namespace rnd {
   struct En_Mag : public game::act::Actor {
     u8 gap_1f8[36];
-    game::act::sa_unk_d4* skelAnime;
-    game::act::sa_unk_d4* field_220;
-    game::act::sa_unk_d4* field_224;
-    game::act::sa_unk_d4* field_228;
-    game::act::sa_unk_d4* field_22c;
+    game::act::SkeletonAnimationModel* skelAnime;
+    game::act::SkeletonAnimationModel* field_220;
+    game::act::SkeletonAnimationModel* field_224;
+    game::act::SkeletonAnimationModel* field_228;
+    game::act::SkeletonAnimationModel* field_22c;
     u8 gap_230[54];
     u8 field_266;
     u8 gap_267[13];
@@ -29,6 +29,4 @@ namespace rnd {
     u32 field_290;
   };
   static_assert(sizeof(En_Mag) == 0x294);
-
-  void En_Mag_rInit(game::act::Actor*, game::GlobalContext*);
 }  // namespace rnd

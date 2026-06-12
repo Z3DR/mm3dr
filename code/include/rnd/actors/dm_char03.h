@@ -21,7 +21,7 @@ namespace rnd {
   };
   static_assert(sizeof(Dm_Char03) == 0x29C);
   void Dm_Char03_Init(game::act::Actor* actor, game::GlobalContext* gctx);
-  extern "C" s32 Dm_Char03_OverrideModelDraw(game::act::sa_unk_d4*, game::act::Actor*);
+  extern "C" s32 Dm_Char03_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
   void Dm_Char03_Destroy(game::act::Actor* actor, game::GlobalContext* gctx);
 
 }  // namespace rnd

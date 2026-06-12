@@ -80,7 +80,7 @@ namespace rnd {
     }
     return;
   }
-  s32 En_Elforg_OverrideModelDraw(game::act::sa_unk_d4* saModel, game::act::Actor* actor) {
+  s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel* saModel, game::act::Actor* actor) {
     return Model_DrawByActor(actor, &saModel->mtx);
   }
 

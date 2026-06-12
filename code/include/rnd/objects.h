@@ -5,6 +5,8 @@
 #include "game/actor.h"
 #include "game/actorresource.h"
 #include "game/common_data.h"
+#include "game/objectbankarchive.h"
+#include "rnd/custom_models.h"
 #include "z3d/z3DVec.h"
 
 namespace rnd {
@@ -22,9 +24,15 @@ namespace rnd {
 
   s32 ExtendedObject_Spawn(game::ActorResource::ObjectContext* objectCtx, s16 objectId);
   game::ActorResource::ActorResource* Object_GetEntry(s16 slot);
-  extern "C" void ExtendedObject_Clear(game::ActorResource::ObjectContext* objectCtx);
+  s32 Object_FindSlotOrSpawn(s16 objectId);
   s32 ExtendedObject_GetIndex(game::ActorResource::ObjectContext* objectCtx, s16 objectId);
   s32 ExtendedObject_IsLoaded(game::ActorResource::ObjectContext* objectCtx, s16 bankIndex);
-  extern "C" game::ActorResource::ActorResource* ExtendedObject_GetStatus();
   void* ExtendedObject_GetCMABByIndex(s16 objectId, u32 objectAnimIdx);
+  extern "C" {
+  game::ActorResource::ActorResource* ExtendedObject_GetStatus();
+  void ExtendedObject_Clear(game::ActorResource::ObjectContext* objectCtx);
+  void ExtendedObject_AfterObjectListCommand();
+  void ExtendedObject_InvalidateRoomObjects();
+  }
+
 }  // namespace rnd

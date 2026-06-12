@@ -512,7 +512,7 @@ namespace game::act {
     pad::ControllerInfo controller_info;
     // u8 gap_12A14[36];
     u8 gap_12A14[20];
-    void* some_sa_unk_d4_maybe;
+    void* some_SkeletonAnimationModel_maybe;
     u8 gap_12A28[12];
     u32 field_12A38;
     u8 gap_12A3C[4];
@@ -548,7 +548,7 @@ namespace game::act {
   static_assert(offsetof(Player, sword_active) == 0x11E3C);
   static_assert(offsetof(Player, gap_12A14) == 0x12A14);
   static_assert(offsetof(Player, gap_27c) == 0x0027C);
-  static_assert(offsetof(Player, some_sa_unk_d4_maybe) == 0x12A28);
+  static_assert(offsetof(Player, some_SkeletonAnimationModel_maybe) == 0x12A28);
   // TODO: complete the struct and add a size assertion.
 
   enum class AllowExistingMagicUsage { No, Yes };

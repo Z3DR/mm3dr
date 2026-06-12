@@ -209,6 +209,14 @@ SECTIONS{
     *(.patch_CheckCurrentInventoryOverrideItem)
   }
 
+  .patch_LinkEditAndRetrieveCMB 0x1F61C0 : {
+    *(.patch_LinkEditAndRetrieveCMB)
+  }
+
+  .patch_LinkGetCustomTunicCMAB 0x1F65D8 : {
+    *(.patch_LinkGetCustomTunicCMAB)
+  }
+
   /* .patch_OverrideItemIDFour 0x1FBD10 : {
     *(.patch_OverrideItemIdIndex)
   } */
@@ -219,6 +227,10 @@ SECTIONS{
 
   .patch_EditDrawGetItemBeforeModelSpawn 0x1FF044 : {
     *(.patch_EditDrawGetItemBeforeModelSpawn)
+  }
+
+  .patch_EditDrawGetItemAfterModelSpawn 0x1FF144 : {
+    *(.patch_EditDrawGetItemAfterModelSpawn)
   }
 
   .patch_RemoveGoronRollChecksWithoutMask 0x1F78CC : {
@@ -537,6 +549,10 @@ SECTIONS{
     *(.patch_RemoveZoraMaskCheckMikau)
   }
 
+  .patch_EnPmOverrideHatModel 0x333100 : {
+    *(.patch_EnPmOverrideHatModel)
+  }
+
   .patch_AromaItemCheck 0x35091C : {
     *(.patch_AromaItemCheck)
   }
@@ -747,6 +763,14 @@ SECTIONS{
 
   .patch_FishHeartDraw 0x50C1E4 : {
     *(.patch_FishHeartDraw)
+  }
+
+  .patch_AfterInvalidatingRoomObjects 0x50E6CC : {
+    *(.patch_AfterInvalidatingRoomObjects)
+  }
+
+  .patch_AfterObjectListCommand 0x50E73C : {
+    *(.patch_AfterObjectListCommand)
   }
 
   /* .patch_DmChar05GetObjectStatus 0x50F3DC : {

@@ -734,4 +734,5 @@ namespace game {
   static_assert(sizeof(PersistentSceneCycleFlags) == 0x10);
 
   PersistentSceneCycleFlags* GetPersistentCycleStruct();
+  void KillAllActorsWithMissingObjects(game::GlobalContext*);
 }  // namespace game
