@@ -32,4 +32,5 @@ namespace rnd {
 
   void Dm_Char05_Init(game::act::Actor* actor, game::GlobalContext* gctx);
   void Dm_Char05_Destroy(game::act::Actor* self, game::GlobalContext* gctx);
+  extern "C" s32 Dm_Char05_OverrideModelDraw(game::act::Actor*, z3d_nn_math_MTX34*);
 }  // namespace rnd

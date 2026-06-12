@@ -55,8 +55,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
-    rItemOverrides[1].value.getItemId = 0x84;
-    rItemOverrides[1].value.looksLikeItemId = 0x84;
+    rItemOverrides[1].value.getItemId = 0x51;
+    rItemOverrides[1].value.looksLikeItemId = 0x51;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -937,13 +937,14 @@ namespace rnd {
 
   void ItemOverride_GetSoHOrSongItem(game::GlobalContext* gctx, game::act::Actor* fromActor, s16 incomingItemId) {
     game::act::Player* link = gctx->GetPlayerActor();
-// Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
-// This is mainly prevalent when the item override is in a calc function (Anju & Kafei).
+    // Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
+    // This is mainly prevalent when the item override is in a calc function (Anju & Kafei).
+
+    if (link->get_item_id != 0x00)
+      return;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: Link's getitemid %#04x incoming GID is %#04x\n", __func__, link->get_item_id, incomingItemId);
 #endif
-    if (link->get_item_id != 0x00)
-      return;
     if (incomingItemId == 0x7A) {
       gExtSaveData.givenItemChecks.enZogGivenItem = 1;
     } else if (incomingItemId == 0x79) {
@@ -1079,10 +1080,15 @@ namespace rnd {
   // clang-format on
   void ItemOverride_SwapSoHAndSongGetItemText(game::GlobalContext* gctx, u16 textId, game::act::Actor* fromActor) {
     // Check which text ID is coming in. If it's any mask from Song of Healing, replace it with active item text.
-    // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    //     rnd::util::Print("%s: txtId = %#08x \n", __func__, textId);
-    // #endif
     if (givenItemOverride) {
+      if (textId == 0x2919 || textId == 0x291A) {
+        // Edge case in the DmChar05 cutscene for Couple's mask.
+        // We technically receive the item but have to clear some text
+        // before we show.
+        // Yes this is hacky, we can further adjust as needed during a cleanup of code.
+        gctx->ShowMessage(textId);
+        return;
+      }
       givenItemOverride = false;
       if (rStoredTextId) {
         gctx->ShowMessage(rStoredTextId);
