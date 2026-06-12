@@ -34,5 +34,4 @@ namespace rnd {
   void ExtendedObject_AfterObjectListCommand();
   void ExtendedObject_InvalidateRoomObjects();
   }
-
 }  // namespace rnd

@@ -108,7 +108,10 @@ namespace rnd {
     const u32 pressedButtons = gctx->pad_state.input.buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-      util::Print("%s: Hehe :)", __func__);
+      util::Print("%s: flags3 %#08x\n", __func__, gctx->GetPlayerActor()->flags3);
+      util::Print("%s: flags2 %#08x\n", __func__, gctx->GetPlayerActor()->flags2);
+      util::Print("%s: flags %#08x\n", __func__, gctx->GetPlayerActor()->flags);
+
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       auto& save = game::GetCommonData().save;
       save.inventory.woodfall_temple_keys = 2;

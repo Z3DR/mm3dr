@@ -1,4 +1,6 @@
 #include "rnd/custom_models.h"
+#include "game/cmb.h"
+#include "game/resarchiveheader.h"
 #include <string.h>
 
 #define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
@@ -6,40 +8,100 @@
   (EDIT_BYTE((offset_) + 0, (val_) >> 24), EDIT_BYTE((offset_) + 1, (val_) >> 16),                                     \
    EDIT_BYTE((offset_) + 2, (val_) >> 8), EDIT_BYTE((offset_) + 3, (val_)))
 namespace rnd {
-  u32 SmallKeyData[][3] = {
+  static constexpr game::cmb::RGBA OpaqueBlack{0, 0, 0, 255};
+  static constexpr game::cmb::RGBA OpaqueWhite{255, 255, 255, 255};
+
+  struct KeyColorData {
+    u32 emission;
+    u32 ambient;
+    u32 diffuse;
+  };
+
+  KeyColorData SmallKeyData[] = {
       {0x00000000, 0x00800000, 0x00CC0000},  // Woodfall
       {0xFFFFFF00, 0xFFFFFF00, 0x7F7FFFFF},  // Snowhead
       {0x00000000, 0x0000DA00, 0x0000FFFF},  // Great Bay
-      {0x00000000, 0x80550000, 0xFFAA0000}   // Stone Tower
+      {0x00000000, 0x80550000, 0xFFAA0000},  // Stone Tower
   };
 
-  static void CustomModel_ApplyColorEditsToSmallKey(void* smallKeyCMB, s32 keyType) {
-    char* BASE_ = (char*)smallKeyCMB;
-    const u32* color = SmallKeyData[keyType];
+  game::cmb::RGBA SongColors[] = {
+      0xFF0000FF,// Goron
+      0x00FF00FF,// Elegy
+      0x800080FF,// Oath
+      0xFFFF00FF,// Sonata
+      0xFFA500FF,// Epona
+      0x00008BFF,// NWBN
+      0xFFFFFFFF,// Soaring
+      0x65809FFF,// Storms
+      0xFF96B0FF,// Healing
+  };
 
-    EDIT_U32(0x16C, color[0]);  // Emission
-    EDIT_U32(0x170, color[1]);  // Ambient
-    EDIT_U32(0x174, color[2]);  // Diffuse
+  static u8 Clamp8(u8 v) {
+    return static_cast<u8>(v < 0 ? 0 : (v > 255 ? 255 : v));
   }
 
-  static void CustomModels_SetOcarinaToRGBA565(void* ocarinaCMB) {
-    // char* BASE_ = (char*)ocarinaCMB;
-    //  TODO: When we get the custom gar.lzs or .gar then we can modify these.
-    // EDIT_BYTE(0x532, 0x01);
-    // EDIT_BYTE(0x538, 0x5A);
+  static u8 Lerp(u8 a, u8 b, float t) {
+    return Clamp8(static_cast<int>(a + (int(b) - int(a)) * t));
+  }
+
+  static game::cmb::RGBA LerpRGB(game::cmb::RGBA& dst, game::cmb::RGBA a, game::cmb::RGBA b, float t) {
+    dst.R = Lerp(a.R, b.R, t);
+    dst.G = Lerp(a.G, b.G, t);
+    dst.B = Lerp(a.B, b.B, t);
+    return dst;
+  }
+
+  static game::cmb::RGBA LerpRGBA(game::cmb::RGBA& dst, game::cmb::RGBA a, game::cmb::RGBA b, float t) {
+    LerpRGB(dst, a, b, t);
+    dst.A = Lerp(a.A, b.A, t);
+    return dst;
+  }
+
+  static void CustomModel_ApplyColorEditsToSmallKey(void* smallKeyCMB, s32 keyType) {
+    const KeyColorData& c = SmallKeyData[keyType];
+    game::cmb::Material* material = game::cmb::Cmb_GetMaterial(smallKeyCMB, 0);
+
+    if (material == nullptr)
+      return;
+
+    material->emissionColor = c.emission;
+    material->ambientColor = c.ambient;
+    material->diffuse = c.diffuse;
+  }
+
+  static void CustomModel_ApplyColorEditsToOcarina(void* cmb, s32 songType) {
+    game::cmb::Material* baseMaterial = game::cmb::Cmb_GetMaterial(cmb, 0);
+    game::cmb::Material* triforceMaterial = game::cmb::Cmb_GetMaterial(cmb, 1);
+
+    if (baseMaterial == nullptr || triforceMaterial == nullptr)
+      return;
+
+    if((songType >= 0 && songType < 9)) {
+      auto songColor = SongColors[songType];
+
+      baseMaterial->diffuse = SongColors[songType];
+      LerpRGB(baseMaterial->ambientColor, songColor, OpaqueBlack, 0.55f);
+      LerpRGB(baseMaterial->specular0, songColor, OpaqueWhite, 0.35f);
+
+      triforceMaterial->specular0 = baseMaterial->specular0;
+    }
+    else {
+      baseMaterial->diffuse = 0x3B39FFFF;
+      baseMaterial->specular0 = 0x592AB200;
+    }
   }
 
   void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {
-    void* cmb;
+    void* cmb = game::ResArchive_GetFileByType(ZARBuf, game::ResFileType::CMB);
+    if (cmb == nullptr)
+      return;
 
     switch ((ObjectId)objectId) {
     case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
-      cmb = ((char*)ZARBuf) + 0x84;  // 0x84 bytes, view zeld_gi_key.gar.lzs to see offset for cmb.
       CustomModel_ApplyColorEditsToSmallKey(cmb, special);
       break;
     case ObjectId::OBJECT_CUSTOM_SONGS:
-      cmb = ((char*)ZARBuf) + 0x8C;
-      CustomModels_SetOcarinaToRGBA565(cmb);
+      CustomModel_ApplyColorEditsToOcarina(cmb, special);
       break;
     case ObjectId::OBJECT_CUSTOM_ASSETS:
       break;
@@ -49,19 +111,24 @@ namespace rnd {
   void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel* model, u16 objectId, s8 special) {
     void* cmabMan;
 
-    switch ((ObjectId)objectId) {
-    case ObjectId::OBJECT_CUSTOM_SONGS:
-      cmabMan = ExtendedObject_GetCMABByIndex(static_cast<s16>(ObjectId::OBJECT_CUSTOM_ASSETS),
-                                              static_cast<u32>(TexAnimCustomAssets::TEXANIM_SONG));
-      TexAnim_Spawn(model->texAnim, cmabMan);
-      model->texAnim->anim_speed_maybe = 0.0f;
-      model->texAnim->animMode = 0;
-      model->texAnim->field_1A = special;
-      break;
-    case ObjectId::OBJECT_CUSTOM_ASSETS:
-      break;
-    case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
-      break;
+    switch((ObjectId)objectId) {
+      case ObjectId::OBJECT_CUSTOM_SONGS:
+        cmabMan = ExtendedObject_GetCMABByIndex(static_cast<s16>(ObjectId::OBJECT_CUSTOM_ASSETS),
+                                                static_cast<u32>(TexAnimCustomAssets::TEXANIM_SONG));
+
+
+        #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+          rnd::util::Print("%s: Special is %u\n", __func__, special);	
+        #endif
+        TexAnim_Spawn(model->texAnim, cmabMan);
+        model->texAnim->anim_speed = 0.00f;
+        model->texAnim->anim_mode = 0;
+        model->texAnim->cur_frame = special;
+        break;
+      case ObjectId::OBJECT_CUSTOM_ASSETS:
+        break;
+      case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
+        break;
     }
   }
 

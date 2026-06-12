@@ -162,7 +162,7 @@ namespace rnd {
 
     SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
 
-    // CustomModels_ApplyItemCMAB(model->saModel, model->itemRow->objectId, model->itemRow->special);
+    CustomModels_ApplyItemCMAB(model->saModel, model->itemRow->objectId, model->itemRow->special);
 
     if (model->itemRow->cmabIndex >= 0) {
       Model_SetAnim(model->saModel, model->itemRow->objectId, model->itemRow->cmabIndex);
@@ -327,17 +327,6 @@ namespace rnd {
     return actorDrawn;
   }
 
-  Model* Model_GetOverrideSaModel(game::act::Actor* actor) {
-    Model* actorDrawn = NULL;
-    for (s32 i = 0; i < LOADEDMODELS_MAX; ++i) {
-      if (ModelContext[i].actor == actor) {
-        actorDrawn = &ModelContext[i];
-        break;
-      }
-    }
-    return actorDrawn;
-  }
-
   void Actor_Init() {
     game::act::ActorOverlayInfo* overlayTable = game::act::GetActorOverlayInfoTable();
     game::ActorResource::ActorResourcePath* resourcePathTable = game::ActorResource::GetActorResourcePathTable();
@@ -378,5 +367,7 @@ namespace rnd {
             0x34);
     strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_SONGS)].path, resourcePathTable[0xB5].path,
             0x34);
+    strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_ASSETS)].path,
+            "rom:/actors/zelda2_custom_data.gar.lzs", 0x34);
   }
 }  // namespace rnd

@@ -229,7 +229,7 @@ SECTIONS{
     *(.patch_EditDrawGetItemBeforeModelSpawn)
   }
 
-  .patch_EditDrawGetItemAfterModelSpawn 0x1FF144 : {
+  .patch_EditDrawGetItemAfterModelSpawn 0x1FF130 : {
     *(.patch_EditDrawGetItemAfterModelSpawn)
   }
 
@@ -279,6 +279,10 @@ SECTIONS{
 
   .patch_RemoveRSHealthTwo 0x20843C : {
     *(.patch_RemoveRazordSwordHealthTwo)
+  }
+
+  .patch_FixOcarinaStandingIssue 0x21CBC4 : {
+    *(.patch_FixOcarinaStandingIssue)
   }
 
   .patch_OverrideItemIdIndex 0x21D124 : {

@@ -380,8 +380,8 @@ namespace rnd {
                    1.00f),  // Progressive Sword
 
       [0x4B] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SonataOfAwakening, 0x1B9E,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
-                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)1, (s16)-1,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x03, DrawGraphicItemID::DI_OCARINA_OF_TIME,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)-1, (s16)-1,
                         1.00f),  // Sonata Of Awakening
 
       [0x4C] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Ocarina, 0x004C, 0x00B5,
@@ -389,17 +389,17 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 1.00f),  // Ocarina
 
       [0x4D] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GoronLullaby, 0x1B9F,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x00, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)2, (s16)-1,
                         1.00f),  // Goron Lullaby
 
       [0x4E] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::NewWaveBossaNova, 0x1BA0,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x05, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)3, (s16)-1,
                         1.00f),  // New Wave Bossanova
 
       [0x4F] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::ElegyOfEmptiness, 0x1BA1,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x01, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)4, (s16)-1,
                         1.00f),  // Elegy of Emptiness
 
@@ -409,7 +409,7 @@ namespace rnd {
                         1.00f),  // Bombers Notebook
 
       [0x51] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::OathToOrder, 0x1BA2,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x02, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)5, (s16)-1,
                         1.00f),  // Oath To Order
 
@@ -418,13 +418,13 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Gold Skulltula
 
-      [0x53] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfTime, 0x1BA4, 0x001E,
-                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+      [0x53] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfTime, 0x1BA4, 0x00B5,
+                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)6, (s16)-1,
                         1.00f),  // Song Of Time
 
       [0x54] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfHealing, 0x1BA5,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x08, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)7, (s16)-1,
                         1.00f),  // Song Of Healing
 
@@ -544,7 +544,7 @@ namespace rnd {
                         ItemEffect_None, (s16)-1, (s16)-1, 1.00f),  // Bottle With Magic Mushrooms
 
       [0x6C] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::EponaSong, 0x1BA6, 0x001E,
-                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x04, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)8, (s16)-1,
                         1.00f),  // Epona's Song
 
@@ -574,17 +574,17 @@ namespace rnd {
                         1.00f),  // Bottle With Spoiled Mystery Milk
 
       [0x72] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfSoaring, 0x1BA7,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x06, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)9, (s16)-1,
                         1.00f),  // Song Of Soaring
 
       [0x73] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfStorms, 0x1BA8,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x07, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)10, (s16)-1,
                         1.00f),  // Song Of Storms
 
       [0x74] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GoronLullabyIntro, 0x1BAC,
-                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
+                        0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x00, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)11, (s16)-1,
                         1.00f),  // Goron Lullaby Intro
 

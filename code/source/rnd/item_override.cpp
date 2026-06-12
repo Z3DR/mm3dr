@@ -1256,5 +1256,15 @@ namespace rnd {
 
     CustomModels_ApplyItemCMAB(saModel, rActiveItemObjectId, rActiveItemRow->special);
   }
+
+  u8 ItemOverride_CheckIfOcarinaInClocktower(u8 someAnimationIdx) {
+    if (someAnimationIdx == 0x2B) {
+      game::GlobalContext* gctx = GetContext().gctx;
+      if (gctx->scene == game::SceneId::ClockTowerRooftop) return someAnimationIdx;
+      else return 0x5C; // Arbitrary, nabbed from deku mask.
+    } else {
+      return someAnimationIdx;
+    }
+  }
   }
 }  // namespace rnd

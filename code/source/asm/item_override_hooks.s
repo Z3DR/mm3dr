@@ -38,6 +38,14 @@ hook_CheckCurrentInventory:
     pop {r1-r12, lr}
     b 0x1F3D6C
 
+.global hook_FixOcarinaStandingIssue
+hook_FixOcarinaStandingIssue:
+    push {r0-r12,lr}
+    bl ItemOverride_CheckIfOcarinaInClocktower
+    cmp r0, #0x2B
+    pop {r0-r12,lr}
+    bx lr
+
 .global hook_OverrideItemIdIndex
 hook_OverrideItemIdIndex:
     push {r0}
@@ -384,7 +392,7 @@ hook_EditDrawGetItemAfterModelSpawn:
     cpy r1,r6
     bl ItemOverride_EditDrawGetItemAfterModelSpawn
     pop {r0-r12,lr}
-    strb r8,[r4, #0x324]
+    add r1,r5,r6, lsl #0x2
     bx lr
 
 .global hook_EditDrawGetItemBeforeModelSpawn
