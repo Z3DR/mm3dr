@@ -1,7 +1,7 @@
 #pragma once
 
 #include "common/advanced_context.h"
-#include "game/actors/chest.h"
+#include "game/actors/en_box.h"
 #include "game/context.h"
 #include "rnd/item_override.h"
 #include "rnd/settings.h"
@@ -30,12 +30,14 @@ namespace rnd {
   };
 
   extern "C" {
-  game::actors::EnBoxType Chest_OverrideSize(game::actors::En_Box*, game::GlobalContext*);
-  u8 Chest_IsOverrideEnabled(game::actors::En_Box*, u16);
+  game::actors::EnBoxType En_Box_OverrideSize(game::actors::En_Box*, game::GlobalContext*);
+  u8 En_Box_IsOverrideEnabled(game::actors::En_Box*, u16);
+  bool En_Box_OverrideAnimation();
+  bool En_Box_IsOrnateChest(game::actors::En_Box*);
   }
   // void EnBox_rInit(game::act::Actor* thisx, game::GlobalContext* globalCtx);
   // void EnBox_rUpdate(game::act::Actor* thisx, game::GlobalContext* globalCtx);
-  // u8 Chest_OverrideAnimation();
-  // u8 Chest_OverrideDecoration();
-  // u8 Chest_OverrideIceSmoke(game::act::Actor* thisx);
+  
+  // u8 En_Box_OverrideDecoration();
+  // u8 En_Box_OverrideIceSmoke(game::act::Actor* thisx);
 }  // namespace rnd

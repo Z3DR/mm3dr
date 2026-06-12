@@ -1,9 +1,9 @@
-#include "rnd/chest.h"
+#include "rnd/actors/en_box.h"
 #include "rnd/item_table.h"
 
 namespace rnd {
   extern "C" {
-  game::actors::EnBoxType Chest_OverrideSize(game::actors::En_Box* actor, game::GlobalContext* gctx) {
+  game::actors::EnBoxType En_Box_OverrideSize(game::actors::En_Box* actor, game::GlobalContext* gctx) {    
     if (gSettingsContext.chestSize == 0) {
       return (game::actors::EnBoxType)0xFF;
     }
@@ -24,7 +24,8 @@ namespace rnd {
     }
     return (game::actors::EnBoxType)0xFF;
   }
-  u8 Chest_IsOverrideEnabled(game::actors::En_Box* actor, u16 chestType) {
+
+  u8 En_Box_IsOverrideEnabled(game::actors::En_Box* actor, u16 chestType) {
     s16 gid = (actor->dyna.params << 0x14) >> 0x19;
     if (gid == 0x3C && gSettingsContext.chestSize == 0)
       return false;
@@ -39,6 +40,27 @@ namespace rnd {
       return true;
     else
       return false;
+  }
+
+  bool En_Box_OverrideAnimation() {
+    if ((gSettingsContext.chestAnimations ==
+         (u8)ChestAnimationsSetting::CHESTANIMATIONS_ALWAYSFAST) ||
+        (!isItemOverrideActive))  // The animation is always fast for unused chests that aren't randomized
+      return false;
+
+    switch ((ChestType)rActiveItemChestType) {
+    case ChestType::WOODEN_BIG:
+    case ChestType::DECORATED_BIG:
+      return true;
+    case ChestType::WOODEN_SMALL:
+    case ChestType::DECORATED_SMALL:
+      return false;
+    }
+    return false;
+  }
+
+  bool En_Box_IsOrnateChest(game::actors::En_Box* actor) {
+    return actor->chest_type == game::actors::EnBoxType::ENBOX_TYPE_BIG_ORNATE;
   }
   }
 

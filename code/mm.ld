@@ -309,6 +309,10 @@ SECTIONS{
     *(.patch_ChangeDrawItemIndexSecond)
   }
 
+  .patch_FastChestOne 0x22F524 : {
+    *(.patch_FastChestOne)
+  }
+
   /* .patch_RemoveSkulltulaTokenGetItem 0x233C60 : {
     *(.patch_RemoveSkulltulaTokenGetItem)
   } */
@@ -784,6 +788,14 @@ SECTIONS{
 
   .patch_EnMkNWBNOverride 0x58722C : {
     *(.patch_EnMkNWBNOverride)
+  }
+
+  .patch_FastChestTwo 0x588030 : {
+    *(.patch_FastChestTwo)
+  }
+
+  .patch_RemoveChestGlowFromNonOrnateChests 0x588068 : {
+    *(.patch_RemoveChestGlowFromNonOrnateChests)
   }
 
   .patch_EnGiantDrawGiantIfMoonRequirementsMet 0x58AB24 : {

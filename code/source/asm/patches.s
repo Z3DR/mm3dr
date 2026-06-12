@@ -195,23 +195,12 @@ patch_FasterBlockMovementBack:
 patch_IceArrowsAnywhere:
     nop
 
-@ Removes a check to see if the GID is a small key.
-.section .patch_AdjustMapAndCompassChests
-.global patch_AdjustMapAndCompassChests
-patch_AdjustMapAndCompassChests:
-    bl hook_checkChestContentSetting
-
 
 .section .patch_RemoveSongCheckKaepora
 .global patch_RemoveSongCheckKaepora
 patch_RemoveSongCheckKaepora:
     bl hook_CheckKaeporaSpawn
     nop
-
-.section .patch_changeChestTypeToMatchContents
-.global patch_changeChestTypeToMatchContents
-patch_changeChestTypeToMatchContents:
-    bl hook_changeChestTypeToMatchContents
 
 .section .patch_RemoveZoraMaskCheckMikau
 .global patch_RemoveZoraMaskCheckMikau

@@ -230,6 +230,12 @@ namespace rnd {
     SHUFFLECHESTS_VANILLA,
     SHUFFLECHESTS_RANDOM,
   };
+
+  enum class ChestAnimationsSetting : u8 {
+    CHESTANIMATIONS_ALWAYSFAST,
+    CHESTANIMATIONS_MATCHCONTENT,
+  };
+
   enum class StrayFairySanitySetting : u8 {
     STRAYFAIRYSANITY_VANILLA,
     STRAYFAIRYSANITY_ANYWHERE,

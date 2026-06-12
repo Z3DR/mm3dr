@@ -31,9 +31,10 @@ namespace rnd {
   u32 rActiveItemObjectModelIdx = 0x0;
   u32 rActiveItemTextId = 0;
   u32 rActiveItemObjectId = 0;
-  u32 rActiveItemFastChest = 0;
   u16 rStoredTextId = 0;
   u16 rCustomDungeonItemRetrieved = 0;
+  u8 rActiveItemChestType = 0;
+  bool isItemOverrideActive = false;
 
   static u8 rSatisfiedPendingFrames = 0;
 
@@ -160,7 +161,8 @@ namespace rnd {
     rActiveItemObjectId = itemRow->objectId;
     rActiveItemGraphicId =
         looksLikeItemId ? (u32)ItemTable_GetItemRow(looksLikeItemId)->graphicId : (u32)itemRow->graphicId;
-    rActiveItemFastChest = (u32)itemRow->chestType & 0x01;
+    rActiveItemChestType = (u8)itemRow->chestType;
+    isItemOverrideActive = true;
   }
 
   static void ItemOverride_Clear(void) {
@@ -170,7 +172,8 @@ namespace rnd {
     rActiveItemTextId = 0;
     rActiveItemObjectId = 0;
     rActiveItemGraphicId = 0;
-    rActiveItemFastChest = 0;
+    rActiveItemChestType = 0;
+    isItemOverrideActive = false;
     rCustomDungeonItemRetrieved = 0;
     storedActorId = game::act::Id::Player;
     storedGetItemId = GetItemID::GI_NONE;
