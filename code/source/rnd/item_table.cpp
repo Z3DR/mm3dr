@@ -418,8 +418,8 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Gold Skulltula
 
-      [0x53] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfTime, 0x1BA4, 0x001E,
-                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, 0x04, DrawGraphicItemID::DI_OCARINA_OF_TIME,
+      [0x53] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SongOfTime, 0x1BA4, 0x00B5,
+                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_OCARINA_OF_TIME,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSong, (s16)6, (s16)-1,
                         1.00f),  // Song Of Time
 
