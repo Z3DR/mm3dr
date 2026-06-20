@@ -156,7 +156,11 @@ namespace rnd {
     void* GARbuf = Object_GetEntry(model->objectBankIdx)->archive.archive.raw;
     s16 objectId = model->itemRow->objectId;
 
-    CustomModels_EditItemCMB(GARbuf, objectId, model->itemRow->special);
+    // XXX: If there is ever any issues with models not being able to be edited, start here.
+    // However, custom modles should always be loaded, this is an edge case in Ancient Castle
+    // of Ikana that causes the Skulltula Token to be somehow loaded already, but the buffer is NULL.
+    if (GARbuf != NULL)
+      CustomModels_EditItemCMB(GARbuf, objectId, model->itemRow->special);
 
     model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
 
