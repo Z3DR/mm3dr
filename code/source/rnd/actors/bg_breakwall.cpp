@@ -6,4 +6,4 @@ namespace rnd {
     u8 mikauGivenItem = gExtSaveData.givenItemChecks.enZogGivenItem;
     return (clearedTemple && mikauGivenItem) ? 1 : 0;
   }
-} // namespace rnd 
+}  // namespace rnd

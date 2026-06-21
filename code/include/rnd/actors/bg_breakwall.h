@@ -4,4 +4,4 @@
 #include "rnd/savefile.h"
 namespace rnd {
   extern "C" u8 Breakwall_CheckIfMikauSaved();
-} // namespace rnd 
+}  // namespace rnd

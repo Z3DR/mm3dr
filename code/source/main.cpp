@@ -109,8 +109,7 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     auto& save = game::GetCommonData().save;
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-      
-      #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
                        save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
                        (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
