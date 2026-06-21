@@ -93,7 +93,11 @@ namespace rnd {
       // Only override heart pieces and keys
       u32 collectibleType = actor->params & 0xFF;
       // XXX: AFAIK These are correct. Heart piece was checked.
-      if (scene != 0x2F && (collectibleType != 0x06 && collectibleType != 0x11)) {
+      // Marine HP lab for some reason always is a fishing pass, 0xA.
+      if (scene == 0x2F &&
+          cdata.save.week_event_reg_56.WEEKEVENTREG_RECEIVED_MARINE_RESEARCH_LAB_FISH_HEART_PIECE == 1) {
+        return (ItemOverride_Key){.all = 0};
+      } else if (collectibleType != 0x06 && collectibleType != 0x11) {
         return (ItemOverride_Key){.all = 0};
       }
       retKey.scene = scene;
