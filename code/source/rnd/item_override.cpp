@@ -93,7 +93,7 @@ namespace rnd {
       // Only override heart pieces and keys
       u32 collectibleType = actor->params & 0xFF;
       // XXX: AFAIK These are correct. Heart piece was checked.
-      if (collectibleType != 0x06 && collectibleType != 0x11) {
+      if (scene != 0x2F && (collectibleType != 0x06 && collectibleType != 0x11)) {
         return (ItemOverride_Key){.all = 0};
       }
       retKey.scene = scene;
