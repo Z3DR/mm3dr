@@ -33,6 +33,10 @@ SECTIONS{
 		*(.patch_SleepQueryCallback)
 	}
 
+  .patch_DontSetNextCsIdInGreatBayUntilMikauSaved 0x12A934 : {
+    *(.patch_DontSetNextCsIdInGreatBayUntilMikauSaved)
+  }
+
   .patch_EnsureTerminaIsNotFirstCycle 0x12A954 : {
     *(.patch_EnsureTerminaIsNotFirstCycle)
   }

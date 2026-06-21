@@ -1,0 +1,6 @@
+.arm
+
+.section .patch_DontSetNextCsIdInGreatBayUntilMikauSaved
+.global patch_DontSetNextCsIdInGreatBayUntilMikauSaved
+patch_DontSetNextCsIdInGreatBayUntilMikauSaved:
+    bl hook_DontSetNextCsIdInGreatBayUntilMikauSaved

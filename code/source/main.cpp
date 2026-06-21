@@ -107,18 +107,25 @@ namespace rnd {
 
     const u32 pressedButtons = gctx->pad_state.input.buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    auto& save = game::GetCommonData().save;
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-      util::Print("%s: flags3 %#08x\n", __func__, gctx->GetPlayerActor()->flags3);
-      util::Print("%s: flags2 %#08x\n", __func__, gctx->GetPlayerActor()->flags2);
-      util::Print("%s: flags %#08x\n", __func__, gctx->GetPlayerActor()->flags);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
+                       save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
+                       (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
+#endif
+      save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE = 1;
 
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
-      auto& save = game::GetCommonData().save;
-      save.inventory.woodfall_temple_keys = 2;
+      rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
+                       save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
+                       (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
+      save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE = 0;
+      /*save.inventory.woodfall_temple_keys = 2;
       save.inventory.snowhead_temple_keys = 5;
       save.inventory.great_bay_temple_keys = 5;
       save.inventory.stone_tower_temple_keys = 5;
-      save.inventory.stone_tower_dungeon_items.map = 1;
+      save.inventory.stone_tower_dungeon_items.map = 1;*/
       // save.week_event_reg_01.WEEKEVENTREG_ENTERED_WOODFALL_TEMPLE = 0;
     }
 #endif
