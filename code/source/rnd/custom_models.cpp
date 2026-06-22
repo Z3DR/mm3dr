@@ -51,7 +51,8 @@ namespace rnd {
     return dst;
   }
 
-  static game::cmb::RGBA LerpRGBA(game::cmb::RGBA& dst, game::cmb::RGBA a, game::cmb::RGBA b, float t) {
+  [[maybe_unused]] static game::cmb::RGBA LerpRGBA(game::cmb::RGBA& dst, game::cmb::RGBA a, game::cmb::RGBA b,
+                                                   float t) {
     LerpRGB(dst, a, b, t);
     dst.A = Lerp(a.A, b.A, t);
     return dst;
@@ -97,7 +98,15 @@ namespace rnd {
 
     switch ((ObjectId)objectId) {
     case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      // Always apply as basepatch for testing.
       CustomModel_ApplyColorEditsToSmallKey(cmb, special);
+#else
+      if (gSettingsContext.coloredKeys == 1) {
+        CustomModel_ApplyColorEditsToSmallKey(cmb, special);
+      }
+#endif
+
       break;
     case ObjectId::OBJECT_CUSTOM_SONGS:
       CustomModel_ApplyColorEditsToOcarina(cmb, special);
