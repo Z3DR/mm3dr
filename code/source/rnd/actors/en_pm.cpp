@@ -15,8 +15,9 @@ namespace rnd {
       f32 hatZ = saModel->mtx.data[2][3];
       Actor_SetModelMatrix(hatX, hatY, hatZ, &hatMtx, &actor->actor_shape);
       return Model_DrawByActor(actor, &hatMtx);
-    } else { return 0; }
-      
+    } else {
+      return 0;
+    }
   }
 
   void En_Pm_Destroy(game::act::Actor* actor, game::GlobalContext* gctx) {
