@@ -448,6 +448,8 @@ namespace rnd {
     u8 masksNeededForVictory;
 
     u8 useFierceDeityAnywhere = 0;
+
+    u8 showPostmanItem;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;
