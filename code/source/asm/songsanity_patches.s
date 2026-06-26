@@ -50,6 +50,11 @@ patch_EnMnkSongOverride:
 patch_RemoveSoSCheckKaepora:
     bl hook_RemoveSoSCheckKaepora
 
+.section .patch_OverrideSoSGiveItem
+.global patch_OverrideSoSGiveItem
+patch_OverrideSoSGiveItem:
+    b hook_OverrideSoSGiveItem
+
 .section .patch_EnGkCheckLullabyRewardGiven
 .global patch_EnGkCheckLullabyRewardGiven
 patch_EnGkCheckLullabyRewardGiven:

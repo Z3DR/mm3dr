@@ -55,9 +55,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
-    rItemOverrides[1].value.getItemId = 0x76;
-    rItemOverrides[1].value.looksLikeItemId = 0x3C;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
+    rItemOverrides[1].value.getItemId = 0xA2;
+    rItemOverrides[1].value.looksLikeItemId = 0xA2;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -946,9 +946,12 @@ namespace rnd {
     game::act::Player* link = gctx->GetPlayerActor();
     // Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
     // This is mainly prevalent when the item override is in a calc function (Anju & Kafei).
-
-    if (link->get_item_id != 0x00)
+    // Clear the item since we should have already given it.
+    if (link->get_item_id != 0x00) {
+      ItemOverride_Clear();
       return;
+    }
+      
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: Link's getitemid %#04x incoming GID is %#04x\n", __func__, link->get_item_id, incomingItemId);
 #endif

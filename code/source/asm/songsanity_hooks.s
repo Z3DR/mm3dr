@@ -100,6 +100,33 @@ hook_RemoveSoSCheckKaepora:
     pop {r0-r12,lr}
     bx lr
 
+.global hook_OverrideSoSGiveItem
+hook_OverrideSoSGiveItem:
+    cpy r0,r5
+    push {r0-r12, lr}
+    cpy r2,r1
+    mov r1,#0xFF
+    bl ItemOverride_GetSoHOrSongItem
+    ldr r5,.rActiveItemRow_addr
+    ldr r5,[r5]
+    cmp r5,#0x0
+    pop {r0-r12, lr}
+    beq noOverrideSoSGiveItem
+    push {r0-r12, lr}
+    ldr r0, [r5,#0xDC]
+    bl ItemOverride_GetItemTextAndItemID
+    pop {r0-r12, lr}
+    cpy r0,r5
+    b 0x43FB6C
+noOverrideSoSGiveItem:
+    push {r0-r12, lr}
+    cpy r0,r1
+    bl ItemOverride_ReceivedSongOverride
+    cmp r0,#0x0
+    pop {r0-r12, lr}
+    beq 0x233BEC
+    b 0x43FB6C
+
 .global hook_EnGkCheckLullabyRewardGiven
 hook_EnGkCheckLullabyRewardGiven:
     push {r0-r12,lr}
