@@ -130,11 +130,6 @@ patch_ZoraMaskGiveItem:
 patch_GibdoMaskGiveItem:
     b hook_GibdoMaskGiveItem
 
-.section .patch_OverrideSoSGiveItem
-.global patch_OverrideSoSGiveItem
-patch_OverrideSoSGiveItem:
-    b hook_OverrideSoSGiveItem
-
 .section .patch_CouplesMaskGiveItem
 .global patch_CouplesMaskGiveItem
 patch_CouplesMaskGiveItem:
