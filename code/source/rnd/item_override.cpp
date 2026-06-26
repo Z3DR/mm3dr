@@ -951,7 +951,7 @@ namespace rnd {
       ItemOverride_Clear();
       return;
     }
-      
+
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: Link's getitemid %#04x incoming GID is %#04x\n", __func__, link->get_item_id, incomingItemId);
 #endif
