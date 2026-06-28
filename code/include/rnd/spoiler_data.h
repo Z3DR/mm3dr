@@ -125,6 +125,7 @@ namespace rnd {
   char* SpoilerData_StringData(u16 itemIndex);
   SpoilerItemCollectType SpoilerData_CollectType(u16 itemIndex);
 
+  bool SpoilerData_IsUniqueLocation(u16 itemIndex);
   char* SpoilerData_GetItemLocationString(u16 itemIndex);
   char* SpoilerData_GetItemNameString(u16 itemIndex);
   SpoilerItemLocation GetSpoilerItemLocation(u8 sphere, u16 itemIndex);

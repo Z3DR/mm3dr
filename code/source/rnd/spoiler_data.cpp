@@ -16,6 +16,54 @@ namespace rnd {
     return gSpoilerData.ItemLocations[itemIndex].CollectType;
   }
 
+  bool SpoilerData_IndexIs(int itemIndex, ItemOverride_Type type, u8 scene, u8 flag) {
+    return
+      gSpoilerData.ItemLocations[itemIndex].LocationScene == scene &&
+      gSpoilerData.ItemLocations[itemIndex].OverrideType == type &&
+      gSpoilerData.ItemLocations[itemIndex].LocationFlag == flag;
+  }
+
+  bool SpoilerData_IsUniqueLocation(u16 itemIndex) {
+    // Ensure itemIndex is not any of the following locations
+    return
+      // Koume in Potion Shop dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x64, 0x59) &&
+      // ECT Postbox dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x6E, 0xBA) &&
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x6F, 0xBA) &&
+      // NCT Tingle Clocktown Map dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x13, 0xB4) &&
+      // Woodfall Tingle Woodfall Map dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x6E, 0xB5) &&
+      // Snowhead Tingle Snowhead Map (Winter) dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x40, 0xB6) &&
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x5E, 0xB6) &&
+      // Ranch Tingle Ranch Map dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x5D, 0xB7) &&
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x5E, 0xB7) &&
+      // Great Bay Tingle Great Bay Map dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x22, 0xB8) &&
+      // Stone Tower Tingle Stone Tower Map dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x37, 0xB9) &&
+      // NCT Keaton dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x22, 0x03) &&
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x5A, 0x03) &&
+      // GV Powder Keg Challenge (Winter) dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x48, 0x34) &&
+      // GV Deku Merchant Purchase (Winter) dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x48, 0x1D) &&
+      // GV Deku Merchant Trade (Winter) dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x48, 0x99) &&
+      // GV Ledge Heart Piece (Winter) dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_COLLECTABLE, 0x48, 0x00) &&
+      // SS Deku Merchant Purchase (Poison) dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x00, 0x35) &&
+      // SS Deku Merchant Trade (Poison) dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_BASE_ITEM, 0x00, 0x98) &&
+      // SS Tourist Center Roof HP (Poison) dupes
+      !SpoilerData_IndexIs(itemIndex, ItemOverride_Type::OVR_COLLECTABLE, 0x00, 0x00);
+  }
+
   char* SpoilerData_StringData(u16 itemIndex) {
     return gSpoilerDataLocs[itemIndex / SPOILER_ITEMS_MAX].StringData;
   }
@@ -40,8 +88,7 @@ namespace rnd {
   u8 SpoilerLog_UpdateIngameLog(ItemOverride_Type type, u8 scene, u8 flag) {
     // SpoilerData currentCheck = {0};
     for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
-      if (gSpoilerData.ItemLocations[i].LocationScene == scene && gSpoilerData.ItemLocations[i].OverrideType == type &&
-          gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+      if (SpoilerData_IndexIs(i, type, scene, flag)) {
         gSpoilerData.ItemLocations[i].Collected = true;
         // Since it's not saved here, we need to return
         gExtSaveData.itemCollected[i] = 1;
@@ -243,8 +290,7 @@ namespace rnd {
   }
   void SpoilerData_UpdateMultiLocations(ItemOverride_Type type, u8 newScene, u8 flag) {
     for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
-      if (gSpoilerData.ItemLocations[i].LocationScene == newScene &&
-          gSpoilerData.ItemLocations[i].OverrideType == type && gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+      if (SpoilerData_IndexIs(i, type, newScene, flag)) {
         gSpoilerData.ItemLocations[i].Collected = true;
         // Since it's not saved here, we need to return
         gExtSaveData.itemCollected[i] = 1;
