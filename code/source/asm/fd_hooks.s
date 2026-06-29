@@ -24,25 +24,23 @@ hook_CheckIfLinkIsFD:
 
 .global hook_FixFDObservatoryText
 hook_FixFDObservatoryText:
+  beq 0x30A440
+  bxeq lr @ if we're meeting requirements for first, checks don't bother.
   push {r0-r12, lr}
   bl CheckIfLinkIsFD @ found in link.cpp
   cmp r0, #0x1
   pop {r0-r12,lr}
-  beq 0x30A440
-  cmp r0, #0x2
-  cmpne r0, #0x3
   beq 0x30A440
   bx lr
 
 .global hook_FixFDObservatoryTextTwo
 hook_FixFDObservatoryTextTwo:
+  beq 0x30A4F4
+  bxeq lr
   push {r0-r12, lr}
   bl CheckIfLinkIsFD @ found in link.cpp
   cmp r0, #0x1
   pop {r0-r12,lr}
-  beq 0x30A4F4
-  cmp r0, #0x2
-  cmpne r0, #0x3
   beq 0x30A4F4
   bx lr
 
