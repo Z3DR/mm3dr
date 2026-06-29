@@ -95,6 +95,20 @@ namespace rnd {
     util::GetPointer<void(void*, void*, void*)>(0x19A360)(dst, src, vec);
   }
 
+  game::SceneId Model_GetActorScene(game::act::Actor* actor, game::GlobalContext* gctx) {
+    // Some models will tend to travel around, like Postman and Kafei.
+    // Their overrides do not, so we need to change the scene for the
+    // key lookup.
+    switch (actor->id) {
+    case game::act::Id::NpcEnPm:
+      return game::SceneId::EastClockTown;
+    case game::act::Id::ObjMoonStone:
+      return game::SceneId::TerminaField;
+    default:
+      return gctx->scene;
+    }
+  }
+
   void Model_SetMatrix(Model* model) {
     // Init scale matrix
     z3d_nn_math_MTX44 scaleMtx = {0};
@@ -250,7 +264,8 @@ namespace rnd {
   }
 
   void Model_InfoLookup(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx, u16 baseItemId) {
-    ItemOverride override = ItemOverride_Lookup(actor, (u16)globalCtx->scene, baseItemId);
+    u16 scene = (u16)Model_GetActorScene(actor, globalCtx);
+    ItemOverride override = ItemOverride_Lookup(actor, scene, baseItemId);
 
     if (override.key.all != 0) {
       if (override.key.type == ItemOverride_Type::OVR_SKULL && ItemOverride_IsSkullCollected(actor, globalCtx->scene) &&

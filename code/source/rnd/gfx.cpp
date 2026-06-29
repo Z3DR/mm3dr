@@ -743,7 +743,7 @@ namespace rnd {
 
       // Keep updating while in the in-game menu
       Draw_ClearBackbuffer();
-      Draw_ClearFramebuffer();
+      // Draw_ClearFramebuffer();
 
       // Continue counting up play time while in the in-game menu
       Gfx_UpdatePlayTime();
