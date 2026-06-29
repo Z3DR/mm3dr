@@ -37,6 +37,8 @@ namespace rnd {
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx);
   void Model_SetAnim(game::act::SkeletonAnimationModel* model, s16 objectId, u32 objectAnimIndex);
 
+  game::SceneId Model_GetActorScene(game::act::Actor* actor, game::GlobalContext* gctx);
+
   void Model_Init(Model* model, game::GlobalContext* globalCtx);
   void Model_Destroy(Model* model);
   void Model_UpdateAll(game::GlobalContext* globalCtx);

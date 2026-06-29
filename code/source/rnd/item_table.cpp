@@ -553,7 +553,7 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSkulltula, (s16)1, (s16)-1,
                         1.00f),  // Gold Skulltula - Ocean
 
-      [0x6E] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SeaHorse, 0x006E, 0x01E9,
+      [0x6E] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::SeaHorse, 0x006E, 0x01F0,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_SEAHORSE,
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Sea Horse - Gold Dust Object
