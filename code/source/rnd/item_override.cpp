@@ -32,7 +32,7 @@ namespace rnd {
   u32 rActiveItemTextId = 0;
   u32 rActiveItemObjectId = 0;
   u16 rStoredTextId = 0;
-  u16 rCustomDungeonItemRetrieved = 0;
+  u32 rCustomDungeonItemRetrieved = 0;
   u8 rActiveItemChestType = 0;
   bool isItemOverrideActive = false;
 

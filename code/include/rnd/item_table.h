@@ -39,7 +39,7 @@ namespace rnd {
   extern "C" ItemRow* rActiveItemRow;
   extern "C" u8 rActiveItemChestType;
   extern "C" u32 rActiveItemTextId;
-  extern "C" u16 rCustomDungeonItemRetrieved;
+  extern "C" u32 rCustomDungeonItemRetrieved;
   u16 ItemTable_ResolveUpgrades(u16 itemId);
   ItemRow* ItemTable_GetItemRow(u16 itemId);
   ItemRow* ItemTable_GetItemRowFromIndex(u8 rowIndex);
