@@ -107,13 +107,12 @@ namespace rnd {
 
     const u32 pressedButtons = gctx->pad_state.input.buttons.flags;
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    auto& save = game::GetCommonData().save;
+    auto& cdata = game::GetCommonData();
+    auto& save = cdata.save;
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
                        save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
                        (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
-#endif
       save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE = 1;
 
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {

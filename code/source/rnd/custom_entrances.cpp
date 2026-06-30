@@ -37,8 +37,8 @@ namespace rnd {
       cdata.save.player_form = gctx->GetPlayerActor()->active_form;
     } else if (gctx->next_entrance == 0x5401 && gSettingsContext.skipGiantsCutscene) {
       if (EnFall_CheckMoonRequirements()) {
-        gctx->next_entrance = 0x2C02;
-        cdata.sub13s[0].entrance_index = 0x2C02;
+        gctx->next_entrance = 0xC800;
+        cdata.sub13s[0].entrance_index = 0xC800;
       } else {
         gctx->next_entrance = 0x2C00;
         gctx->transitionType = 2;
