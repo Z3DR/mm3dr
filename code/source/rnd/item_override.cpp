@@ -55,9 +55,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0xA2;
-    rItemOverrides[1].value.looksLikeItemId = 0xA2;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
+    rItemOverrides[1].value.getItemId = 0x12;
+    rItemOverrides[1].value.looksLikeItemId = 0x51;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -164,7 +164,7 @@ namespace rnd {
     rActiveItemTextId = itemRow->textId;
     rActiveItemObjectId = itemRow->objectId;
     rActiveItemGraphicId =
-        looksLikeItemId ? (u32)ItemTable_GetItemRow(looksLikeItemId)->graphicId : (u32)itemRow->graphicId;
+        override.value.getItemId == 0x12 ? 0x77 : (u32)ItemTable_GetItemRow(looksLikeItemId)->graphicId;
     rActiveItemChestType = (u8)itemRow->chestType;
     isItemOverrideActive = true;
   }
@@ -539,9 +539,7 @@ namespace rnd {
 
   u8 ItemOverride_SetProgressiveItemDraw(ItemOverride override) {
     game::SaveData saveData = game::GetCommonData().save;
-    if (override.value.getItemId == 0x12) {  // Ice trap
-      return 0;
-    } else if (override.value.getItemId == 0x4A) {
+    if (override.value.getItemId == 0x4A) {
       game::SwordType sword = saveData.equipment.sword_shield.sword;
       if (sword == game::SwordType::NoSword)
         return (u8)GetItemID::GI_KOKIRI_SWORD;
@@ -579,6 +577,7 @@ namespace rnd {
   }
 
   bool ItemOverride_IsItemObtainedOrEmptyBottle(ItemOverride override) {
+    if (override.value.getItemId == 0x12) return false; // Always give ice traps
     ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
     return (game::HasMask((game::ItemId)itemToBeGiven->itemId) || game::HasItem((game::ItemId)itemToBeGiven->itemId) ||
             (itemToBeGiven->itemId > 0x49 && itemToBeGiven->itemId < 0x81) || override.value.getItemId == 0x5A);

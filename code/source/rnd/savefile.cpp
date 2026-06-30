@@ -114,7 +114,7 @@ namespace rnd {
     // saveData.inventory.collect_register.new_wave_bossa_nova = 1;
     saveData.inventory.collect_register.elegy_of_emptiness = 1;
     saveData.inventory.collect_register.eponas_song = 1;
-    // saveData.inventory.collect_register.song_of_soaring = 1;
+    saveData.inventory.collect_register.song_of_soaring = 1;
     saveData.inventory.collect_register.song_of_time = 1;
     // saveData.inventory.collect_register.oath_to_order = 1;
     // saveData.inventory.collect_register.song_of_healing = 1;
