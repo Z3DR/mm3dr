@@ -577,7 +577,8 @@ namespace rnd {
   }
 
   bool ItemOverride_IsItemObtainedOrEmptyBottle(ItemOverride override) {
-    if (override.value.getItemId == 0x12) return false; // Always give ice traps
+    if (override.value.getItemId == 0x12)
+      return false;  // Always give ice traps
     ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
     return (game::HasMask((game::ItemId)itemToBeGiven->itemId) || game::HasItem((game::ItemId)itemToBeGiven->itemId) ||
             (itemToBeGiven->itemId > 0x49 && itemToBeGiven->itemId < 0x81) || override.value.getItemId == 0x5A);
