@@ -574,7 +574,8 @@ namespace rnd {
     }
     // No override, use the base item.
     return override.value.looksLikeItemId == 0xFF || override.value.looksLikeItemId == 0x00 ?
-        override.value.getItemId : override.value.looksLikeItemId;
+               override.value.getItemId :
+               override.value.looksLikeItemId;
   }
 
   bool ItemOverride_IsItemObtainedOrEmptyBottle(ItemOverride override) {
