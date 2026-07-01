@@ -55,7 +55,7 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[1].value.getItemId = 0x12;
     rItemOverrides[1].value.looksLikeItemId = 0x51;
     rItemOverrides[2].key.scene = 0x12;
@@ -97,7 +97,7 @@ namespace rnd {
       if (scene == 0x2F &&
           cdata.save.week_event_reg_56.WEEKEVENTREG_RECEIVED_MARINE_RESEARCH_LAB_FISH_HEART_PIECE == 1) {
         return (ItemOverride_Key){.all = 0};
-      } else if (collectibleType != 0x06 && collectibleType != 0x11) {
+      } else if (scene != 0x2F && collectibleType != 0x06 && collectibleType != 0x11) {
         return (ItemOverride_Key){.all = 0};
       }
       retKey.scene = scene;
@@ -120,11 +120,11 @@ namespace rnd {
   }
 
   ItemOverride ItemOverride_Lookup(game::act::Actor* actor, u16 scene, s16 getItemId) {
-    // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    //     util::Print(
-    //         "%s: Our param values:\nActor Type %#04x\nGet Item ID: %#04x\nActor ID: %#06x\n",
-    //         __func__, actor->actor_type, getItemId, actor->id);
-    // #endif
+    /*#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+        util::Print(
+            "%s: Our param values:\nActor Type %#04x\nGet Item ID: %#04x\nActor ID: %#06x\n",
+            __func__, actor->actor_type, getItemId, actor->id);
+    #endif*/
     ItemOverride_Key key = ItemOverride_GetSearchKey(actor, scene, getItemId);
     if (key.all == 0) {
       return (ItemOverride){0};
@@ -743,9 +743,8 @@ namespace rnd {
     if (fromActor != NULL && incomingGetItemId != 0) {
       s16 getItemId = ItemOverride_CheckNpc(fromActor->id, incomingGetItemId, incomingNegative);
       /*#if defined ENABLE_DEBUG || DEBUG_PRINT
-            util::Print(
-                "%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId %#04x\nParams %#04x\n
-      ",
+            util::Print("%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId %#04x\nParams
+      %#04x\n",
                 __func__, fromActor->id, gctx->scene, incomingGetItemId, getItemId, fromActor->params);
       #endif*/
       storedActorId = fromActor->id;
