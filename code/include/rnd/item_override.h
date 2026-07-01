@@ -443,8 +443,6 @@ namespace rnd {
   bool ItemOverride_CheckTingleMaps(u16, game::GlobalContext*);
   u32 ItemOverride_GetGaboraExtData();
   u32 ItemOverride_GetOshExtData();
-  void ItemOverride_SetSkullCollected(u16, game::SceneId);
-  u8 ItemOverride_IsSkullCollected(game::act::Actor*, game::SceneId);
   u8 ItemOverride_OverrideSkullToken(game::act::Actor*);
   u8 ItemOverride_CheckBossStatus();
   u8 ItemOverride_ReceivedOcarinaFromSkt();

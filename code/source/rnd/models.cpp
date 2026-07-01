@@ -268,8 +268,8 @@ namespace rnd {
     ItemOverride override = ItemOverride_Lookup(actor, scene, baseItemId);
 
     if (override.key.all != 0) {
-      if (override.key.type == ItemOverride_Type::OVR_SKULL && ItemOverride_IsSkullCollected(actor, globalCtx->scene) &&
-          ItemOverride_IsItemObtainedOrEmptyBottle(override)) {
+      if (override.key.type == ItemOverride_Type::OVR_SKULL &&
+          En_Si_IsTokenCollectedAndNonRepeatable(actor, globalCtx->scene, &override)) {
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
       }

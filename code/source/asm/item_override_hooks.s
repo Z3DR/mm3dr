@@ -98,19 +98,6 @@ noOverrideGraphicIdSecond:
     ldrsh r0, [r8,#2]
     b 0x22F478
 
-.global hook_RemoveSkulltulaTokenGetItem
-hook_RemoveSkulltulaTokenGetItem:
-    push {r0-r12,lr}
-    ldr r0,.rActiveItemRow_addr
-    ldr r0,[r0]
-    cmp r0,#0x0
-    pop {r0-r12,lr}
-    beq skulltulaNotOverridden
-    b 0x233C64 @branch back up to other checks.
-skulltulaNotOverridden:
-    ldr r1,[r7,#0x1F8]
-    bx lr
-
 .global hook_OverrideTextID
 hook_OverrideTextID:
     push {r3}
@@ -166,18 +153,6 @@ hook_DarmaniRewardCheck:
 doNotSpawnDarmani:
     nop
     b 0x2DE96C
-
-@ .global hook_RemoveSkulltulaSpawnIfCollectedItem
-@ hook_RemoveSkulltulaSpawnIfCollectedItem:
-@     push {r0-r12,lr}
-@     cpy r0,r4
-@     cpy r1,r6
-@     mov r1,#0x148
-@     ldrsh r1, [r1,r6]
-@     bl ItemOverride_IsSkullCollected
-@     cmp r0, #0x0
-@     pop {r0-r12,lr}
-@     bx lr
 
 .global hook_CheckOshExtData
 hook_CheckOshExtData:
