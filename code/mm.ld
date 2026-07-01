@@ -333,10 +333,6 @@ SECTIONS{
     *(.patch_FastChestOne)
   }
 
-  /* .patch_RemoveSkulltulaTokenGetItem 0x233C60 : {
-    *(.patch_RemoveSkulltulaTokenGetItem)
-  } */
-
   .patch_OverrideTextID 0x2310FC : {
     *(.patch_OverrideTextID)
   }
@@ -498,10 +494,6 @@ SECTIONS{
   .patch_EnMa4ExtDataCheckTwo 0x2E3D94 : {
     *(.patch_EnMa4ExtDataCheckTwo)
   }
-
-  /* .patch_RemoveSkulltulaSpawnIfCollectedItem 0x2E8384 : {
-    *(.patch_RemoveSkulltulaSpawnIfCollectedItem)
-  } */
 
   .patch_FixFDObservatoryText 0x30A3B0 : {
     *(.patch_FixFDObservatoryText)

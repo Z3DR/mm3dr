@@ -1,5 +1,6 @@
 #include "rnd/item_override.h"
 #include "game/actors/great_fairy.h"
+#include "rnd/actors/en_si.h"
 #include "rnd/custom_models.h"
 #include "rnd/extdata.h"
 #include "rnd/icetrap.h"
@@ -38,13 +39,6 @@ namespace rnd {
 
   static u8 rSatisfiedPendingFrames = 0;
 
-  static u8 skulltulaMapSSH[30] = {0x03, 0x07, 0x0B, 0x13, 0x15, 0x1B, 0x1F, 0x23, 0x25, 0x29,
-                                   0x2D, 0x31, 0x37, 0x3B, 0x3F, 0x41, 0x45, 0x49, 0x4F, 0x53,
-                                   0x56, 0x5B, 0x5D, 0x62, 0x67, 0x69, 0x6D, 0x71, 0x76, 0x79};
-  static u8 skulltulaMapOSH[30] = {0x07, 0x0B, 0x0F, 0x13, 0x17, 0x1B, 0x1F, 0x23, 0x27, 0x2B,
-                                   0x2D, 0x33, 0x37, 0x3B, 0x3F, 0x42, 0x46, 0x4A, 0x4F, 0x53,
-                                   0x57, 0x59, 0x5D, 0x61, 0x65, 0x69, 0x6D, 0x73, 0x77, 0x7B};
-
   static bool givenItemOverride = false;
 
   void ItemOverride_Init(void) {
@@ -55,9 +49,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0x12;
-    rItemOverrides[1].value.looksLikeItemId = 0x51;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_SKULL;
+    rItemOverrides[1].value.getItemId = 0x37;
+    rItemOverrides[1].value.looksLikeItemId = 0x37;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -649,45 +643,6 @@ namespace rnd {
     }
   }
 
-  void ItemOverride_SetSkullCollected(u16 params, game::SceneId scene, game::act::Type actorType) {
-    if (actorType != game::act::Type::Item)
-      return;
-    for (u8 i = 0; i < 30; i++) {
-      if (scene == game::SceneId::SwampSpiderHouse) {
-        if (skulltulaMapSSH[i] == (params & 0xFF)) {
-          gExtSaveData.chestRewarded[(u8)game::SceneId::SwampSpiderHouse][i] = 1;
-          return;
-        }
-      } else if (scene == game::SceneId::OceansideSpiderHouse) {
-        // Special case - since OSH has one chest with param 00,
-        // let's ensure that it only sets the second element onwards in the chestRewarded array.
-        if (skulltulaMapOSH[i] == (params & 0xFF)) {
-          gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i + 1] = 1;
-          return;
-        }
-      }
-    }
-  }
-
-  u8 ItemOverride_IsSkullCollected(game::act::Actor* actor, game::SceneId scene) {
-    if (actor->actor_type != game::act::Type::Item)
-      return 0;
-    for (u8 i = 0; i < 30; i++) {
-      if (scene == game::SceneId::SwampSpiderHouse) {
-        if (skulltulaMapSSH[i] == (actor->params & 0xFF)) {
-          return gExtSaveData.chestRewarded[(u8)game::SceneId::SwampSpiderHouse][i];
-        }
-      } else if (scene == game::SceneId::OceansideSpiderHouse) {
-        // Special case - since OSH has one chest with param 00,
-        // let's ensure that it only gets the elements after the first item in the array.
-        if (skulltulaMapOSH[i] == (actor->params & 0xFF)) {
-          return gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i + 1];
-        }
-      }
-    }
-    return 0;
-  }
-
   extern "C" {
   bool ItemOverride_CheckAromaGivenItem() {
     if (gExtSaveData.givenItemChecks.enAlGivenItem > 0)
@@ -776,15 +731,12 @@ namespace rnd {
       // then we give a blue rupee. Only check for inventory items. If an item is a heart piece
       // do not give multiples.
       if (ItemOverride_IsItemObtainedOrEmptyBottle(override)) {
-        // Do a secondary check as well for bottled items, and check to see if we have an empty bottle in our inventory.
-        // If we don't, then do not give the item as we don't want to override items in users inventories.
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
       }
     } else if (override.key.type == ItemOverride_Type::OVR_SKULL &&
                (gctx->scene == game::SceneId::SwampSpiderHouse || gctx->scene == game::SceneId::OceansideSpiderHouse) &&
-               (ItemOverride_IsSkullCollected(fromActor, gctx->scene) &&
-                ItemOverride_IsItemObtainedOrEmptyBottle(override))) {
+               En_Si_IsTokenCollectedAndNonRepeatable(fromActor, gctx->scene, &override)) {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
     }
@@ -794,11 +746,6 @@ namespace rnd {
     // Let's be a bit rude and give them fishing passes.
     if ((override.value.getItemId > 0x45 && override.value.getItemId < 0x4A) ||
         ItemOverride_IsItemObtainedOrEmptyBottle(override)) {
-      // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      //       rnd::util::Print("%s: GID #%04x IS ALREADY OBTAINED, INCOMING ID IS %#04x\n", __func__,
-      //       override.value.getItemId,
-      //                        incomingGetItemId);
-      // #endif
       if ((incomingGetItemId == (s16)GetItemID::GI_MOONS_TEAR &&
            gExtSaveData.givenItemChecks.enObjMoonStoneGivenItem == 1) ||
           (incomingGetItemId == (s16)GetItemID::GI_TOWN_TITLE_DEED &&
@@ -1171,7 +1118,7 @@ namespace rnd {
     ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
     if (rActiveItemRow != NULL) {
       ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
-      ItemOverride_SetSkullCollected(actor->params, gctx->scene, actor->actor_type);
+      En_Si_SetSkullCollected(actor->params, gctx->scene, actor->actor_type);
       return true;
     }
 

@@ -37,11 +37,6 @@ OverrideDrawIndex_patch:
 patch_ChangeDrawItemIndexSecond:
     b hook_OverrideDrawIndexSecond
 
-.section .patch_RemoveSkulltulaTokenGetItem
-.global patch_RemoveSkulltulaTokenGetItem
-patch_RemoveSkulltulaTokenGetItem:
-    bl hook_RemoveSkulltulaTokenGetItem
-
 .section .patch_OverrideTextID
 .global OverrideTextID_patch
 OverrideTextID_patch:
@@ -61,11 +56,6 @@ patch_RemoveAddingSkulltulaTokenIfOverridden:
 .global patch_RemoveGoronMaskCheckDarmani
 patch_RemoveGoronMaskCheckDarmani:
     b hook_DarmaniRewardCheck
-
-@ .section .patch_RemoveSkulltulaSpawnIfCollectedItem
-@ .global patch_RemoveSkulltulaSpawnIfCollectedItem
-@ patch_RemoveSkulltulaSpawnIfCollectedItem:
-@     bl hook_RemoveSkulltulaSpawnIfCollectedItem
 
 .section .patch_CheckOshExtData
 .global patch_CheckOshExtData
