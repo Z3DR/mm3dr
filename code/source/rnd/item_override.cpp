@@ -50,8 +50,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_SKULL;
-    rItemOverrides[1].value.getItemId = 0x4A;
-    rItemOverrides[1].value.looksLikeItemId = 0x4A;
+    rItemOverrides[1].value.getItemId = 0x06;
+    rItemOverrides[1].value.looksLikeItemId = 0x06;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -704,11 +704,11 @@ namespace rnd {
     s32 incomingNegative = incomingGetItemId < 0;
     if (fromActor != NULL && incomingGetItemId != 0) {
       s16 getItemId = ItemOverride_CheckNpc(fromActor->id, incomingGetItemId, incomingNegative);
-      /*#if defined ENABLE_DEBUG || DEBUG_PRINT
-            util::Print("%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId %#04x\nParams
-      %#04x\n",
-                __func__, fromActor->id, gctx->scene, incomingGetItemId, getItemId, fromActor->params);
-      #endif*/
+#if defined ENABLE_DEBUG || DEBUG_PRINT
+      util::Print(
+          "%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId %#04x\nParams %#04x\n",
+          __func__, fromActor->id, gctx->scene, incomingGetItemId, getItemId, fromActor->params);
+#endif
       storedActorId = fromActor->id;
       storedGetItemId = incomingNegative ? (GetItemID)-incomingGetItemId : (GetItemID)incomingGetItemId;
       override = ItemOverride_Lookup(fromActor, (u16)gctx->scene, getItemId);
@@ -902,7 +902,9 @@ namespace rnd {
     // Run only once. Once the get item is assigned, we shouldn't have to worry about running it again.
     // This is mainly prevalent when the item override is in a calc function (Anju & Kafei).
     // Clear the item since we should have already given it.
-    if (link->get_item_id != 0x00) {
+    // We also need to check the scene as there is some UB when doing this check with Ocarina items
+    // in the Goron Lullaby check.
+    if (link->get_item_id != 0x00 && gctx->scene != game::SceneId::GoronShrine) {
       ItemOverride_Clear();
       return;
     }
