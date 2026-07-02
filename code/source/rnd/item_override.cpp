@@ -50,8 +50,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_SKULL;
-    rItemOverrides[1].value.getItemId = 0x37;
-    rItemOverrides[1].value.looksLikeItemId = 0x37;
+    rItemOverrides[1].value.getItemId = 0x4A;
+    rItemOverrides[1].value.looksLikeItemId = 0x4A;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -565,6 +565,13 @@ namespace rnd {
         return 0x1C;
       else
         return 0x1D;
+    } else if (override.value.getItemId == 0x45) {
+      // Even though the objects are the same we could change these later on to indicate different items.
+      // So return the proper progressive item.
+      if (saveData.inventory.collect_register.lullaby_intro.Value() == 0)
+        return 0x74;
+      else
+        return 0x4D;
     }
     // No override, use the base item.
     return override.value.looksLikeItemId == 0xFF || override.value.looksLikeItemId == 0x00 ?
@@ -744,7 +751,7 @@ namespace rnd {
     // This check is mainly to ensure we do not have repeatable progressive items within these base items.
     // This is to ensure fairness and allows us to place these items without second guessing in logic.
     // Let's be a bit rude and give them fishing passes.
-    if ((override.value.getItemId > 0x45 && override.value.getItemId < 0x4A) ||
+    if ((override.value.getItemId > 0x44 && override.value.getItemId < 0x4B) ||
         ItemOverride_IsItemObtainedOrEmptyBottle(override)) {
       if ((incomingGetItemId == (s16)GetItemID::GI_MOONS_TEAR &&
            gExtSaveData.givenItemChecks.enObjMoonStoneGivenItem == 1) ||

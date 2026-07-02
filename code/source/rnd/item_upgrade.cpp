@@ -140,14 +140,15 @@ namespace rnd {
     }
   }
 
-  // TODO: Trade quest items.
-  /*
-  game::ItemId ItemUpgrade_LetterToBottle(game::SaveData *saveCtx, GetItemId GetItemId) {
-    if (saveCtx->eventChkInf[3] & 0x0008) // "King Zora Moved Aside" //TODO: check this
-      return 0xC8;                        // Redundant Letter Bottle
-    if (saveCtx->items[SLOT_BOTTLE_1] == ITEM_LETTER_RUTO || saveCtx->items[SLOT_BOTTLE_2] ==
-  ITEM_LETTER_RUTO || saveCtx->items[SLOT_BOTTLE_3] == ITEM_LETTER_RUTO ||
-  saveCtx->items[SLOT_BOTTLE_4] == ITEM_LETTER_RUTO) return 0xC8;
-  // Redundant Letter Bottle return itemId;
-  }*/
+  GetItemID ItemUpgrade_Lullaby(game::SaveData* saveCtx, GetItemID GetItemId) {
+    switch (saveCtx->inventory.collect_register.lullaby_intro.Value()) {
+    case 0:
+      return GetItemID::GI_GORON_LULLABY_INTRO;  // Intro not yet received
+    case 1:
+      return GetItemID::GI_GORON_LULLABY;  // Full lullaby
+    default:
+      return GetItemID::GI_GORON_LULLABY;  // Should not hit.
+    }
+  }
+
 }  // namespace rnd

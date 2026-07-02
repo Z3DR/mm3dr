@@ -350,10 +350,10 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSkulltula, (s16)0, (s16)-1,
                         1.00f),  // Gold Skulltula
 
-      [0x45] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::RecoveryHeart, 0x0045,
-                        0x0090, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_RECOVERY_HEART,
-                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
-                        1.00f),  // Recovery Heart - Broken Text
+      [0x45] =
+          ITEM_ROW(0xFF, ChestType::WOODEN_BIG, 0xFF, 0xFF, 0x001E, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
+                   DrawGraphicItemID::DI_NONE, (rnd::upgradeFunc)ItemUpgrade_Lullaby, ItemEffect_None, (s16)-1, (s16)-1,
+                   1.00f),  // Progressive Lullaby
 
       [0x46] =
           ITEM_ROW(0xFF, ChestType::WOODEN_BIG, 0xFF, 0xFF, 0x00098, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
