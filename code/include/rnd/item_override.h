@@ -393,6 +393,7 @@ namespace rnd {
     OVR_GROTTO_SCRUB = 4,
     OVR_DELAYED = 5,
     OVR_TEMPLE = 6,
+    OVR_STRAY_FAIRY = 7,
   };
 
   typedef union ItemOverride_Key {
@@ -444,6 +445,8 @@ namespace rnd {
   u32 ItemOverride_GetGaboraExtData();
   u32 ItemOverride_GetOshExtData();
   u8 ItemOverride_OverrideSkullToken(game::act::Actor*);
+  u8 ItemOverride_OverrideStrayFairy(game::act::Actor*);
+  u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor*);
   u8 ItemOverride_CheckBossStatus();
   u8 ItemOverride_ReceivedOcarinaFromSkt();
   u8 ItemOverride_ReceivedSongOverride(s16);

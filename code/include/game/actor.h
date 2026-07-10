@@ -80,6 +80,8 @@ namespace game::act {
     DmChar05 = 0x012D,
     // Ice platform created using ice arrows.
     BgIcePlatform = 0x013E,
+    // Stray Fairy
+    EnElfOrg = 0x0145,
     // Npc For Curiosity Shop Owner
     NpcEnFsn = 0x0157,
     // Npc For Boat Photography

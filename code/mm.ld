@@ -389,6 +389,10 @@ SECTIONS{
     *(.patch_EnElforgUpdateFairyBits)
   }
 
+  .patch_StrayFairyCollectOverride 0x25A6E8 : {
+    *(.patch_StrayFairyCollectOverride)
+  }
+
   .patch_EnOsnCheckSoHExtData 0x268030 : {
     *(.patch_EnOsnCheckSoHExtData)
   }
@@ -793,6 +797,11 @@ SECTIONS{
   .patch_SkulltulaOverrideTwo 0x52A044 : {
     *(.patch_SkulltulaOverrideTwo)
   }
+
+  .patch_StrayFairyCollectMessage 0x5410C0 : {
+    *(.patch_StrayFairyCollectMessage)
+  }
+
 
   .patch_EnGkCheckLullabyRewardGiven 0x546294 : {
     *(.patch_EnGkCheckLullabyRewardGiven)

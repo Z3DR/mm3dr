@@ -49,9 +49,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_SKULL;
-    rItemOverrides[1].value.getItemId = 0x06;
-    rItemOverrides[1].value.looksLikeItemId = 0x06;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
+    rItemOverrides[1].value.getItemId = 0x51;
+    rItemOverrides[1].value.looksLikeItemId = 0x51;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -100,6 +100,10 @@ namespace rnd {
     } else if (actor->id == game::act::Id::EnSi) {  // Gold Skulltula Token
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_SKULL;
+      retKey.flag = actor->params & 0xFF;
+    } else if (actor->id == game::act::Id::EnElfOrg) {  // Stray Fairy
+      retKey.scene = scene;
+      retKey.type = ItemOverride_Type::OVR_STRAY_FAIRY;
       retKey.flag = actor->params & 0xFF;
     } else if (scene == 0x14C0 && actor->id == (game::act::Id)0x0075) {  // Grotto Salesman
       retKey.scene = cdata.sub13s[8].data;
@@ -1132,6 +1136,30 @@ namespace rnd {
     }
 
     return false;
+  }
+
+  u8 ItemOverride_OverrideStrayFairy(game::act::Actor* actor) {
+    game::GlobalContext* gctx = GetContext().gctx;
+    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_CUSTOM_STRAY_FAIRY);
+    if (override.key.all == 0) {
+      return false;
+    }
+
+    u16 resolvedItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
+    ItemRow* itemRow = ItemTable_GetItemRow(resolvedItemId);
+    ItemTable_CallEffect(itemRow);
+    return true;
+  }
+
+  u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor* actor) {
+    game::GlobalContext* gctx = GetContext().gctx;
+    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_CUSTOM_STRAY_FAIRY);
+    if (override.key.all == 0) {
+      return 0x11;  // Vanilla "You found a Stray Fairy" text, as a safe fallback.
+    }
+
+    u16 resolvedItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
+    return ItemTable_GetItemRow(resolvedItemId)->textId;
   }
 
   u8 ItemOverride_CheckBossStatus() {

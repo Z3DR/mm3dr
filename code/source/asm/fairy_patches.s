@@ -29,3 +29,13 @@ patch_EnElfOrgTreasureSwitchSet:
 .global patch_EnBoxCheckIfFairyObtained
 patch_EnBoxCheckIfFairyObtained:
     bl hook_EnBoxCheckIfFairyObtained
+
+.section .patch_StrayFairyCollectOverride
+.global patch_StrayFairyCollectOverride
+patch_StrayFairyCollectOverride:
+    bl hook_StrayFairyCollectOverride
+
+.section .patch_StrayFairyCollectMessage
+.global patch_StrayFairyCollectMessage
+patch_StrayFairyCollectMessage:
+    bl hook_StrayFairyCollectMessage

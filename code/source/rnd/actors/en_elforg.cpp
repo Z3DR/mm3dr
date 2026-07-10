@@ -65,7 +65,13 @@ namespace rnd {
     }
 
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x3CD9D0)(actor, gctx);
-    // Model_SpawnByActor(actor, gctx, 0xBB);
+    Model_SpawnByActor(actor, gctx, 0xBB);
+  }
+
+  void En_Elforg_Draw(game::act::Actor* actor, game::GlobalContext* gctx) {
+    if (!Model_DrawByActor(actor)) {
+      util::GetPointer<void(game::act::Actor*)>(0x424BC0)(actor);
+    }
   }
 
   extern "C" {

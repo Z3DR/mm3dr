@@ -32,6 +32,7 @@ namespace rnd {
   static_assert(sizeof(En_Elforg) == 0x690);
   int En_Elforg_getFairyIndex(game::SceneId);
   void En_Elforg_Init(game::act::Actor*, game::GlobalContext*);
+  void En_Elforg_Draw(game::act::Actor*, game::GlobalContext*);
   extern "C" {
   s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
   void En_Elforg_UpdateExtFairyBits(game::act::Actor*, game::GlobalContext*);
