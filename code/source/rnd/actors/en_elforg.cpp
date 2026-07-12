@@ -109,12 +109,6 @@ namespace rnd {
     util::GetPointer<void(game::act::Actor*)>(0x3CDF20)(self);
   }
 
-  static game::ObjectBank::CmbMan* ObjectArchive_GetCmbManByIndex(game::ObjectBank::ObjectBankArchive* archive,
-                                                                  u32 cmbIdx) {
-    return util::GetPointer<game::ObjectBank::CmbMan*(game::ObjectBank::ObjectBankArchive*, u32, s8)>(0x1F5C00)(
-        archive, cmbIdx, 1);
-  }
-
   void En_Elforg_ConfigureItemRows(game::act::ActorOverlayInfo* overlayTable) {
     sElforgItemObjectId = overlayTable[0x145].info->object_id;
     float fairyScale = *util::GetPointer<float>(0x3CDCBC) / 0.3f;
