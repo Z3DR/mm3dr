@@ -597,6 +597,10 @@ SECTIONS{
     *(.patch_RemainsModelDraw)
   }
 
+  .patch_ClockTownFairyFountainCheck 0x3CD85C : {
+    *(.patch_ClockTownFairyFountainCheck)
+  }
+
   .patch_EnElfOrgTreasureSwitchSet 0x3CDDEC : {
     *(.patch_EnElfOrgTreasureSwitchSet)
   }

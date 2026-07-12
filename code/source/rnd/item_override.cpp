@@ -50,8 +50,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
-    rItemOverrides[1].value.getItemId = 0x51;
-    rItemOverrides[1].value.looksLikeItemId = 0x51;
+    rItemOverrides[1].value.getItemId = 0xBB;
+    rItemOverrides[1].value.looksLikeItemId = 0xBB;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -154,15 +154,21 @@ namespace rnd {
     u16 resolvedGetItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
 
     ItemRow* itemRow = ItemTable_GetItemRow(resolvedGetItemId);
+    if (itemRow == NULL) {
+      return;
+    }
     u8 looksLikeItemId = ItemOverride_SetProgressiveItemDraw(override);
+    ItemRow* looksLikeRow = ItemTable_GetItemRow(looksLikeItemId);
+    if (looksLikeRow == NULL) {
+      looksLikeRow = itemRow;
+    }
 
     rActiveItemOverride = override;
     rActiveItemRow = itemRow;
     rActiveItemActionId = itemRow->itemId;
     rActiveItemTextId = itemRow->textId;
     rActiveItemObjectId = itemRow->objectId;
-    rActiveItemGraphicId =
-        override.value.getItemId == 0x12 ? 0x77 : (u32)ItemTable_GetItemRow(looksLikeItemId)->graphicId;
+    rActiveItemGraphicId = override.value.getItemId == 0x12 ? 0x77 : (u32)looksLikeRow->graphicId;
     rActiveItemChestType = (u8)itemRow->chestType;
     isItemOverrideActive = true;
   }
@@ -1140,7 +1146,7 @@ namespace rnd {
 
   u8 ItemOverride_OverrideStrayFairy(game::act::Actor* actor) {
     game::GlobalContext* gctx = GetContext().gctx;
-    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_CUSTOM_STRAY_FAIRY);
+    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN);
     if (override.key.all == 0) {
       return false;
     }
@@ -1153,13 +1159,20 @@ namespace rnd {
 
   u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor* actor) {
     game::GlobalContext* gctx = GetContext().gctx;
-    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_CUSTOM_STRAY_FAIRY);
+    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN);
     if (override.key.all == 0) {
       return 0x11;  // Vanilla "You found a Stray Fairy" text, as a safe fallback.
     }
 
     u16 resolvedItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
     return ItemTable_GetItemRow(resolvedItemId)->textId;
+  }
+
+  u8 ItemOverride_GetClockTownFairyGiven() {
+    if (gExtSaveData.givenItemChecks.clockTownFairyGiven == 1) {
+      return 1;
+    }
+    return game::GetCommonData().save.week_event_reg_08.WEEKEVENTREG_08_80 == 1 ? 1 : 0;
   }
 
   u8 ItemOverride_CheckBossStatus() {
