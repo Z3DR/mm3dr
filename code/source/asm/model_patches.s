@@ -89,3 +89,13 @@ CoupleMaskModelDraw_patch:
 .global BombersNotebookModelDraw_patch
 BombersNotebookModelDraw_patch:
     bl hook_DmChar05ModelDraw
+
+.section .patch_DmChar05AnimatedDrawGoronZora
+.global DmChar05AnimatedDrawGoronZora_patch
+DmChar05AnimatedDrawGoronZora_patch:
+    bl hook_DmChar05AnimatedModelDraw
+
+.section .patch_DmChar05AnimatedDrawGibdo
+.global DmChar05AnimatedDrawGibdo_patch
+DmChar05AnimatedDrawGibdo_patch:
+    bl hook_DmChar05AnimatedModelDraw
