@@ -11,8 +11,13 @@ namespace rnd {
     return Model_DrawByActor(actor, &saModel->mtx);
   }
 
+  extern "C" s32 Dm_Char03_OverrideAnimatedModelDraw(Dm_Char03* actor) {
+    return Model_DrawByActorWithPose(actor, &actor->actor_util, 0.2f);
+  }
+
   void Dm_Char03_Destroy(game::act::Actor* actor, game::GlobalContext* gctx) {
     Model_DestroyByActor(actor);
+    Model_ClearPoseBase(actor);
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x2043cc)(actor, gctx);
   }
 
