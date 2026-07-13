@@ -681,6 +681,11 @@ SECTIONS{
     *(.patch_OverrideGreatFairySpawn)
   }
 
+  
+  .patch_DmChar03AnimatedDraw 0x41CEF8 : {
+    *(.patch_DmChar03AnimatedDraw)
+  }
+
   .patch_HMSGiveItem 0x41D018 : {
     *(.patch_HMSGiveItem)
   }

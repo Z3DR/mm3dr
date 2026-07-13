@@ -99,3 +99,8 @@ DmChar05AnimatedDrawGoronZora_patch:
 .global DmChar05AnimatedDrawGibdo_patch
 DmChar05AnimatedDrawGibdo_patch:
     bl hook_DmChar05AnimatedModelDraw
+
+.section .patch_DmChar03AnimatedDraw
+.global DmChar03AnimatedDraw_patch
+DmChar03AnimatedDraw_patch:
+    bl hook_DmChar03AnimatedModelDraw

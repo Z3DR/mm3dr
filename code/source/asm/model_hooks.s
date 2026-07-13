@@ -130,3 +130,15 @@ hook_DmChar05AnimatedModelDraw:
     b 0x1FEB14 @ no override: run the vanilla setDrawPartFunctions call we replaced
 dmChar05AnimatedModelDrawn:
     bx lr
+
+.global hook_DmChar03AnimatedModelDraw
+hook_DmChar03AnimatedModelDraw:
+    push {r0-r12, lr}
+    cpy r0,r4 @ actor
+    bl Dm_Char03_OverrideAnimatedModelDraw
+    cmp r0,#0x0
+    pop {r0-r12, lr}
+    bne dmChar03AnimatedModelDrawn
+    b 0x1FEB14 @ no override: run the vanilla setDrawPartFunctions call we replaced
+dmChar03AnimatedModelDrawn:
+    bx lr

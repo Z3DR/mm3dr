@@ -59,5 +59,7 @@ namespace rnd {
   void Model_DestroyByActor(game::act::Actor* actor);
   void Model_DestroyAll(void);
   s32 Model_DrawByActor(game::act::Actor* actor, z3d_nn_math_MTX34* hardcodedMtx = NULL);
+  s32 Model_DrawByActorWithPose(game::act::Actor* actor, game::as::ActorUtil* actorUtil, f32 displayScale);
+  void Model_ClearPoseBase(game::act::Actor* actor);
   void Actor_Init();
 }  // namespace rnd

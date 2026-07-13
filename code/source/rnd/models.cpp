@@ -402,6 +402,53 @@ namespace rnd {
     return actorDrawn;
   }
 
+  static game::act::Actor* sPoseBaseActor = NULL;
+  static z3d_nn_math_MTX34 sPoseBaseInv;
+
+  void Model_ClearPoseBase(game::act::Actor* actor) {
+    if (sPoseBaseActor == actor) {
+      sPoseBaseActor = NULL;
+    }
+  }
+
+  s32 Model_DrawByActorWithPose(game::act::Actor* actor, game::as::ActorUtil* actorUtil, f32 displayScale) {
+    z3d_nn_math_MTX34* actorMtx = reinterpret_cast<z3d_nn_math_MTX34*>(actor->mtx);
+
+    game::as::BoneMatrix* pose = actorUtil->bone_mtx_0;
+    if (pose != NULL &&
+        (pose[0].mtx.data[0][0] != 0.0f || pose[0].mtx.data[1][1] != 0.0f || pose[0].mtx.data[2][2] != 0.0f)) {
+      if (sPoseBaseActor != actor) {
+        sPoseBaseActor = actor;
+        for (u32 r = 0; r < 3; ++r) {
+          for (u32 c = 0; c < 3; ++c) {
+            sPoseBaseInv.data[r][c] = pose[0].mtx.data[c][r];
+          }
+          sPoseBaseInv.data[r][3] = 0.0f;
+        }
+      }
+
+      z3d_nn_math_MTX34 deltaPose;
+      Model_MultiplyMatrix34(&deltaPose, &pose[0].mtx, &sPoseBaseInv);
+
+      z3d_nn_math_MTX34 composed;
+      Model_MultiplyMatrix34(&composed, actorMtx, &deltaPose);
+
+      float actorScale = actor->model_scale.x;
+      if (actorScale > 0.000001f) {
+        float factor = displayScale / actorScale;
+        for (u32 r = 0; r < 3; ++r) {
+          for (u32 c = 0; c < 3; ++c) {
+            composed.data[r][c] *= factor;
+          }
+        }
+      }
+
+      composed.data[1][3] += 3.0f;
+      return Model_DrawByActor(actor, &composed);
+    }
+    return Model_DrawByActor(actor, actorMtx);
+  }
+
   void Actor_Init() {
     game::act::ActorOverlayInfo* overlayTable = game::act::GetActorOverlayInfoTable();
     game::ActorResource::ActorResourcePath* resourcePathTable = game::ActorResource::GetActorResourcePathTable();
