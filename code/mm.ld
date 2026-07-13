@@ -689,6 +689,14 @@ SECTIONS{
     *(.patch_GoronMaskModelDraw)
   }
 
+  .patch_DmChar05AnimatedDrawGoronZora 0x41D444 : {
+    *(.patch_DmChar05AnimatedDrawGoronZora)
+  }
+
+  .patch_DmChar05AnimatedDrawGibdo 0x41D5A0 : {
+    *(.patch_DmChar05AnimatedDrawGibdo)
+  }
+
   .patch_ZoraMaskModelDraw 0x41D4E8: {
     *(.patch_ZoraMaskModelDraw)
   }

@@ -97,6 +97,10 @@ namespace rnd {
     util::GetPointer<void(z3d_nn_math_MTX34*, z3d_nn_math_MTX34*, z3d_nn_math_MTX44*)>(0x21B850)(dst, lhs, rhs);
   }
 
+  void Model_MultiplyMatrix34(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* lhs, z3d_nn_math_MTX34* rhs) {
+    util::GetPointer<void(z3d_nn_math_MTX34*, z3d_nn_math_MTX34*, z3d_nn_math_MTX34*)>(0x21B850)(dst, lhs, rhs);
+  }
+
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx) {
     s32 objectBankIdx = ExtendedObject_GetIndex(&globalCtx->object_context, model->itemRow->objectId);
     if (objectBankIdx < 0) {

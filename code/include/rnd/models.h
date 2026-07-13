@@ -40,7 +40,8 @@ namespace rnd {
   void Model_InvertMatrix(void* mtx);
   void Model_InvertMatrixByScale(void* mtx, float scale);
   void Model_UpdateMatrixPosition(void* mtx, void* mtxTwo, void* scaleMtx);
-
+  void Model_MultiplyMatrix(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* lhs, z3d_nn_math_MTX44* rhs);
+  void Model_MultiplyMatrix34(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* lhs, z3d_nn_math_MTX34* rhs);
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx);
   void Model_SetAnim(game::act::SkeletonAnimationModel* model, s16 objectId, u32 objectAnimIndex);
 
