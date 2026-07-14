@@ -101,6 +101,12 @@ namespace rnd {
     util::GetPointer<void(z3d_nn_math_MTX34*, z3d_nn_math_MTX34*, z3d_nn_math_MTX34*)>(0x21B850)(dst, lhs, rhs);
   }
 
+  z3dVec3f Model_Matrix34_MulVec(const z3d_nn_math_MTX34* m, f32 x, f32 y, f32 z) {
+    z3dVec3f r = {x, y, z};
+    util::GetPointer<void(z3dVec3f*, const z3d_nn_math_MTX34*, const z3dVec3f*)>(0x224750)(&r, m, &r);
+    return r;
+  }
+
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx) {
     s32 objectBankIdx = ExtendedObject_GetIndex(&globalCtx->object_context, model->itemRow->objectId);
     if (objectBankIdx < 0) {
@@ -196,6 +202,31 @@ namespace rnd {
       }
       Model_MultiplyMatrix(&model->saModel2->mtx, &model->saModel2->mtx, &scaleMtx);
     }
+
+    if (model->clampGround && model->saModel != NULL) {
+      z3d_nn_math_MTX34* m = &model->saModel->mtx;
+      if (model->hasAabb) {
+        f32 minWorldY = 0.0f;
+        for (u32 corner = 0; corner < 8; ++corner) {
+          f32 x = (corner & 1) ? model->aabbMax.x : model->aabbMin.x;
+          f32 y = (corner & 2) ? model->aabbMax.y : model->aabbMin.y;
+          f32 z = (corner & 4) ? model->aabbMax.z : model->aabbMin.z;
+          f32 worldY = m->data[1][0] * x + m->data[1][1] * y + m->data[1][2] * z + m->data[1][3];
+          if (corner == 0 || worldY < minWorldY)
+            minWorldY = worldY;
+        }
+        f32 lift = model->actor->pos.pos.y - minWorldY;
+        if (lift > 0.0f) {
+          m->data[1][3] += lift;
+          if (model->saModel2 != NULL)
+            model->saModel2->mtx.data[1][3] += lift;
+        }
+      } else {
+        m->data[1][3] += 3.0f;
+        if (model->saModel2 != NULL)
+          model->saModel2->mtx.data[1][3] += 3.0f;
+      }
+    }
   }
 
   void Model_Init(Model* model, game::GlobalContext* globalCtx) {
@@ -205,8 +236,10 @@ namespace rnd {
     // XXX: If there is ever any issues with models not being able to be edited, start here.
     // However, custom modles should always be loaded, this is an edge case in Ancient Castle
     // of Ikana that causes the Skulltula Token to be somehow loaded already, but the buffer is NULL.
-    if (GARbuf != NULL)
+    if (GARbuf != NULL) {
       CustomModels_EditItemCMB(GARbuf, objectId, model->itemRow->special);
+      model->hasAabb = CustomModels_ComputeItemAabb(GARbuf, &model->aabbMin, &model->aabbMax);
+    }
 
     model->useActorUtil = 0;
     if (Model_IsStrayFairyGraphic(model->itemRow->graphicId) && En_Elforg_GetItemObjectId() != 0 &&
@@ -260,6 +293,8 @@ namespace rnd {
     model->objectBankIdx = -1;
     model->objectId = -1;
     model->posOffset = {0, -10.00, 0};
+    model->hasAabb = 0;
+    model->clampGround = 0;
   }
 
   void Model_UpdateAll(game::GlobalContext* globalCtx) {
@@ -354,6 +389,8 @@ namespace rnd {
       newModel->objectBankIdx = model->objectBankIdx;
       newModel->baseItemId = model->baseItemId;
       newModel->objectId = model->itemRow->objectId;
+      newModel->hasAabb = 0;
+      newModel->clampGround = 0;
       // XXX: Small patch - if we are not the index of a deku nut, then we adjust scale.
       if (newModel->itemRow->objectModelIdx != 0x8D) {
         newModel->scale = 0.3f * newModel->itemRow->scale;
@@ -386,12 +423,14 @@ namespace rnd {
     }
   }
 
-  s32 Model_DrawByActor(game::act::Actor* actor, z3d_nn_math_MTX34* hardcodedMtx /*= NULL*/) {
+  s32 Model_DrawByActor(game::act::Actor* actor, z3d_nn_math_MTX34* hardcodedMtx /*= NULL*/,
+                        s32 clampToGround /*= 0*/) {
     s32 actorDrawn = 0;
     for (s32 i = 0; i < LOADEDMODELS_MAX; ++i) {
       if (ModelContext[i].actor == actor) {
         actorDrawn = 1;
         ModelContext[i].hardcodedMtx = hardcodedMtx;
+        ModelContext[i].clampGround = (u8)clampToGround;
         if (actor->id == game::act::Id::NpcEnPm &&
             ModelContext[i].itemRow->itemId == static_cast<u8>(game::ItemId::PostmanHat)) {
           return 0;
@@ -443,10 +482,9 @@ namespace rnd {
         }
       }
 
-      composed.data[1][3] += 3.0f;
-      return Model_DrawByActor(actor, &composed);
+      return Model_DrawByActor(actor, &composed, 1);
     }
-    return Model_DrawByActor(actor, actorMtx);
+    return Model_DrawByActor(actor, actorMtx, 1);
   }
 
   void Actor_Init() {

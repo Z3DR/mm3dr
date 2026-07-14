@@ -160,10 +160,11 @@ namespace game::cmb {
     // But what is the flag?
     s16 parentIndex;
     z3dVec3f scale;
-    z3dVec3f rotation;
+    z3dVec3f rotation;  // radians, applied Rz*Ry*Rx
     z3dVec3f translation;
+    u32 unkMeta;
   };
-  static_assert(sizeof(Bone) == 0x28);
+  static_assert(sizeof(Bone) == 0x2C);
 
   struct Skeleton {
     char magic[4];
@@ -412,15 +413,7 @@ namespace game::cmb {
     char magic[4];
     u32 size;
     u16 prmsCount;
-
-    u16 hasPosition;
-    u16 hasNormals;
-    u16 hasColor;
-    u16 hasUV0;
-    u16 hasUV1;
-    u16 hasUV2;
-    u16 hasIndices;
-    u16 hasWeights;
+    u16 vertFlags;
 
     z3dVec3f meshCenter;
     z3dVec3f positionOffset;
@@ -432,17 +425,16 @@ namespace game::cmb {
     Attribute uv0;
     Attribute uv1;
     Attribute uv2;
-    Attribute indices;
-    Attribute weights;
+    Attribute indices;  // bone indices
+    Attribute weights;  // bone weights
 
     u16 boneDimensionCount;
     u16 usedConstantFlags;  // Bitflags for when an attribute uses contants values
-    u16 prmsOffsets[];
+    u16 prmsOffsets[];  // relative to the start of this SEPD chunk
 
-    // Variable amount of PRMs.
-    // PRMS prm;
+    bool HasAttribute(u32 n) const { return (vertFlags >> n) & 1; }
   };
-  static_assert(sizeof(SEPD) == 0x134);
+  static_assert(sizeof(SEPD) == 0x124);
 
   struct CMB_MSHS {
     char magic[4];
@@ -459,10 +451,31 @@ namespace game::cmb {
     u32 size;
     u32 sepdCount;
     u32 flags;
-    // Variable amount of SEPDs.
-    // SEPD sepd;
+    u16 sepdOffsets[];  // offsets to each SEPD, relative to the start of this chunk
   };
-  static_assert(sizeof(CMB_MSHS) == 0x10);
+  static_assert(sizeof(CMB_SHP) == 0x10);
+
+  struct VatrSlice {
+    u32 size;
+    u32 offset;
+  };
+  static_assert(sizeof(VatrSlice) == 0x08);
+
+  struct CMB_VATR {
+    char magic[4];
+    u32 size;
+    u32 maxVertexCount;
+    VatrSlice position;
+    VatrSlice normal;
+    VatrSlice tangent;
+    VatrSlice color;
+    VatrSlice uv0;
+    VatrSlice uv1;
+    VatrSlice uv2;
+    VatrSlice boneIndices;
+    VatrSlice boneWeights;
+  };
+  static_assert(sizeof(CMB_VATR) == 0x54);
 
   struct CMB_HEAD {
     char magic[4];
@@ -494,7 +507,7 @@ namespace game::cmb {
   };
 
   static inline Mats* Cmb_GetMatsChunk(void* cmb) {
-    return (Mats*)(((u32)cmb) + ((CMB_HEAD*)cmb)->matsOffset);
+    return (Mats*)(((u8*)cmb) + ((CMB_HEAD*)cmb)->matsOffset);
   }
 
   static inline Material* Cmb_GetMaterial(void* cmb, u32 index) {
