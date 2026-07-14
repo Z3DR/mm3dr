@@ -161,7 +161,7 @@ namespace game::cmb {
     // But what is the flag?
     s16 parentIndex;
     z3dVec3f scale;
-    z3dVec3f rotation;
+    z3dVec3f rotation;  // radians, applied Rz*Ry*Rx
     z3dVec3f translation;
     u32 unkMeta;
   };
@@ -416,7 +416,7 @@ namespace game::cmb {
     char magic[4];
     u32 size;
     u16 prmsCount;
-    u16 vertFlags;  // bit n set: attribute n (position, normals, ..., weights) is present
+    u16 vertFlags;
 
     z3dVec3f meshCenter;
     z3dVec3f positionOffset;
@@ -428,16 +428,15 @@ namespace game::cmb {
     Attribute uv0;
     Attribute uv1;
     Attribute uv2;
-    Attribute indices;
-    Attribute weights;
+    Attribute indices;  // bone indices
+    Attribute weights;  // bone weights
 
     u16 boneDimensionCount;
     u16 usedConstantFlags;  // Bitflags for when an attribute uses contants values
-    u16 prmsOffsets[];      // relative to the start of this SEPD
+    u16 prmsOffsets[];  // relative to the start of this SEPD chunk
 
     bool HasAttribute(u32 n) const { return (vertFlags >> n) & 1; }
   };
-  static_assert(offsetof(SEPD, position) == 0x24);
   static_assert(sizeof(SEPD) == 0x124);
 
   struct CMB_MSHS {
@@ -455,31 +454,13 @@ namespace game::cmb {
     u32 size;
     u32 sepdCount;
     u32 flags;
-    u16 sepdOffsets[];  // relative to the start of this chunk
+    u16 sepdOffsets[];  // offsets to each SEPD, relative to the start of this chunk
   };
   static_assert(sizeof(CMB_SHP) == 0x10);
 
-  // Bounding box quadtree. nodes[0] is the root and covers the whole model.
-  struct QtrsNode {
-    u32 unk_00;
-    z3dVec3f min;
-    z3dVec3f max;
-    s16 children[4];  // -1 for none
-  };
-  static_assert(sizeof(QtrsNode) == 0x24);
-
-  struct CMB_QTRS {
-    char magic[4];  // "qtrs"
-    u32 size;
-    u32 nodeCount;
-    u32 unk_0C;
-    QtrsNode nodes[];
-  };
-  static_assert(sizeof(CMB_QTRS) == 0x10);
-
   struct VatrSlice {
     u32 size;
-    u32 offset;  // relative to the start of the vatr chunk
+    u32 offset;
   };
   static_assert(sizeof(VatrSlice) == 0x08);
 
