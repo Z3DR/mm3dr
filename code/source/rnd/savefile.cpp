@@ -664,7 +664,12 @@ namespace rnd {
     }
 
     if (gSettingsContext.startingGoronsLullaby > 0) {
-      saveData.inventory.collect_register.goron_lullaby = 1;
+      if (gSettingsContext.startingGoronsLullaby == 1) {
+        saveData.inventory.collect_register.lullaby_intro = 1;
+      } else {
+        saveData.inventory.collect_register.lullaby_intro = 1;
+        saveData.inventory.collect_register.goron_lullaby = 1;
+      }
     }
 
     if (gSettingsContext.startingNewWaveBossaNova > 0) {
