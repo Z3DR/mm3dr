@@ -14,4 +14,5 @@ namespace rnd {
   };
   void CustomModels_EditItemCMB(void*, u16, s8);
   void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel*, u16, s8);
+  bool CustomModels_ComputeItemAabb(void* ZARBuf, z3dVec3f* outMin, z3dVec3f* outMax);
 }  // namespace rnd
