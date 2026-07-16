@@ -625,8 +625,12 @@ namespace rnd {
   static void Gfx_ShowMenu(void) {
     pressed = 0;
     Draw_ClearFramebuffer();
+    Draw_ClearFramebuffer();
     if (!playingOnCitra)
       Draw_FlushFramebuffer();
+    else
+      Draw_SetTopScreenDirty();
+
     do {
       // End the loop if the system has gone to sleep, so the game can properly respond
       if (isAsleep) {
@@ -719,6 +723,8 @@ namespace rnd {
           Draw_CopyBackBuffer();
           if (!playingOnCitra)
             Draw_FlushFramebuffer();
+          else
+            Draw_SetTopScreenDirty();
           break;
         } else if (pressed & BUTTON_R1) {
           showingLegend = false;
@@ -754,6 +760,9 @@ namespace rnd {
       Draw_CopyBackBuffer();
       if (!playingOnCitra)
         Draw_FlushFramebuffer();
+      else
+        Draw_SetTopScreenDirty();
+
       pressed = Input_WaitWithTimeout(1000, closingButton);
 
     } while (true);
