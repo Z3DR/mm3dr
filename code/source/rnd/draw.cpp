@@ -364,7 +364,7 @@ void Draw_FlushFramebufferTop(void) {
 
 void Draw_SetTopScreenDirty(void) {
   // Due to a new feature in Azahar 2126, we need to refresh the top screen
-  // with a dirty bit in order to avoid frame generation ignoring the 
+  // with a dirty bit in order to avoid frame generation ignoring the
   // custom menu.
   u32 frameBufTopScreenAddr = *rnd::util::GetPointer<u32>(0x64E5DC);
   if (frameBufTopScreenAddr == 0)

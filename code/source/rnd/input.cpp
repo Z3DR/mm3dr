@@ -38,7 +38,6 @@ namespace rnd {
 
   InputContext rInputCtx = {};
 
-
   // Needed for menus external to the game for spoiler logs.
   void Input_Update() {
     rInputCtx.cur.val = MergeIrPad(real_hid->pad.pads[real_hid->pad.index].curr.val);

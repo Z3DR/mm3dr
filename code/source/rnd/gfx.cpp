@@ -762,7 +762,6 @@ namespace rnd {
         Draw_FlushFramebuffer();
       else
         Draw_SetTopScreenDirty();
-        
 
       pressed = Input_WaitWithTimeout(1000, closingButton);
 
