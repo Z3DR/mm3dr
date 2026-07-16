@@ -126,6 +126,7 @@ void Draw_ClearBackbuffer(void);
 void Draw_CopyBackBuffer(void);
 void Draw_FlushFramebuffer(void);
 void Draw_FlushFramebufferTop(void);
+void Draw_SetTopScreenDirty(void);
 
 struct FramebufferAddress {
   u8* a;

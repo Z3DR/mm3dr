@@ -361,3 +361,17 @@ void Draw_FlushFramebufferTop(void) {
   svcFlushProcessDataCache(CUR_PROCESS_HANDLE, u32(FRAMEBUFFER[4]), FB_TOP_SIZE);
   svcFlushProcessDataCache(CUR_PROCESS_HANDLE, u32(FRAMEBUFFER[5]), FB_TOP_SIZE);
 }
+
+void Draw_SetTopScreenDirty(void) {
+  // Due to a new feature in Azahar 2126, we need to refresh the top screen
+  // with a dirty bit in order to avoid frame generation ignoring the 
+  // custom menu.
+  u32 frameBufTopScreenAddr = *rnd::util::GetPointer<u32>(0x64E5DC);
+  if (frameBufTopScreenAddr == 0)
+    return;
+  volatile u32* fbInfo = (volatile u32*)frameBufTopScreenAddr;
+  u32 header = fbInfo[0];
+  u32 newIdx = (header & 1) ^ 1;
+
+  fbInfo[0] = (header & 0xFFFF0000) | 0x100 | newIdx;
+}

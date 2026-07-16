@@ -8,17 +8,40 @@ extern "C" {
 #include <3ds/svc.h>
 }
 namespace rnd {
+  static u32 MergeIrPad(u32 pad) {
+    u8 conn = *util::GetPointer<u8>(0x7C14A5);
+    u32 extra = *util::GetPointer<u32>(0x7C1498) & 0x0F00C000;
+    if (conn)
+      pad |= extra;
+
+    // Circle pad has an input state but is never read on console
+    // So let's set a threshold for the circle pad.
+    const s16 threshold = 40;
+    cp_t cp = real_hid->pad.pads[real_hid->pad.index].cp;
+    if (cp.x > threshold)
+      pad |= CPAD_RIGHT;
+    if (cp.x < -threshold)
+      pad |= CPAD_LEFT;
+    if (cp.y > threshold)
+      pad |= CPAD_UP;
+    if (cp.y < -threshold)
+      pad |= CPAD_DOWN;
+    return pad;
+  }
+
   u32 GetCurrentPadState(void) {
     u32 hid_shared_mem = *(u32*)(0x007b2d34);
-    return *(volatile u32*)(hid_shared_mem + 0x1C);
+    return MergeIrPad(*(volatile u32*)(hid_shared_mem + 0x1C));
   }
+
 #define HID_PAD (GetCurrentPadState())
 
   InputContext rInputCtx = {};
 
+
   // Needed for menus external to the game for spoiler logs.
   void Input_Update() {
-    rInputCtx.cur.val = real_hid->pad.pads[real_hid->pad.index].curr.val;
+    rInputCtx.cur.val = MergeIrPad(real_hid->pad.pads[real_hid->pad.index].curr.val);
     rInputCtx.pressed.val = (rInputCtx.cur.val) & (~rInputCtx.old.val);
     rInputCtx.up.val = (~rInputCtx.cur.val) & (rInputCtx.old.val);
     rInputCtx.old.val = rInputCtx.cur.val;
@@ -27,7 +50,7 @@ namespace rnd {
 
   u32 buttonCheck(u32 key) {
     for (u32 i = 0x26000; i > 0; i--) {
-      if (key != real_hid->pad.pads[real_hid->pad.index].curr.val)
+      if (key != MergeIrPad(real_hid->pad.pads[real_hid->pad.index].curr.val))
         return 0;
     }
     return 1;
