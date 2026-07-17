@@ -17,9 +17,4 @@ namespace game::ObjectBank {
   ObjectBankArchive* freeAndCleanup(ObjectBankArchive* obj_bank_archive) {
     return rnd::util::GetPointer<ObjectBankArchive*(ObjectBankArchive*)>(0x1616B8)(obj_bank_archive);
   }
-
-  CmbMan* ObjectArchive_GetCmbManByIndex(game::ObjectBank::ObjectBankArchive* archive, u32 cmbIdx) {
-    return rnd::util::GetPointer<game::ObjectBank::CmbMan*(game::ObjectBank::ObjectBankArchive*, u32, s8)>(0x1F5C00)(
-        archive, cmbIdx, 1);
-  }
 }  // namespace game::ObjectBank
