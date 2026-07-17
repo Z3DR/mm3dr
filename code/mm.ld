@@ -605,6 +605,10 @@ SECTIONS{
     *(.patch_EnElfOrgTreasureSwitchSet)
   }
 
+  .patch_EnElfOrgChestCollect 0x3CDE0C : {
+    *(.patch_EnElfOrgChestCollect)
+  }
+
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
     *(.patch_TingleCheckClocktownMapTwo)
   }

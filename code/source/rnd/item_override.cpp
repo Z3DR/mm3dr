@@ -49,9 +49,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_CHEST;
-    rItemOverrides[1].value.getItemId = 0xBB;
-    rItemOverrides[1].value.looksLikeItemId = 0xBB;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
+    rItemOverrides[1].value.getItemId = 0xBF;
+    rItemOverrides[1].value.looksLikeItemId = 0xBF;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -134,7 +134,10 @@ namespace rnd {
     s32 start = 0;
     s32 end = rItemOverrides_Count - 1;
 #ifdef ENABLE_DEBUG
-    return rItemOverrides[1];
+    if (key.type != ItemOverride_Type::OVR_CHEST)
+      return rItemOverrides[1];
+    else
+      return (ItemOverride){0};
 #endif
     while (start <= end) {
       s32 midIdx = (start + end) / 2;
@@ -223,10 +226,6 @@ namespace rnd {
     rPendingOverrideQueue[2].value.all = 0;
   }
 
-  static void ItemOverride_AfterKeyReceived(ItemOverride_Key key) {
-    // TODO: Is this needed? We can have many types of trade items at once according to gear screen?
-  }
-
   static void ItemOverride_PopIceTrap(void) {
     ItemOverride_Key key = rPendingOverrideQueue[0].key;
     ItemOverride_Value value = rPendingOverrideQueue[0].value;
@@ -234,7 +233,6 @@ namespace rnd {
     if (value.getItemId == 0x12) {
       IceTrap_Push();
       ItemOverride_PopPendingOverride();
-      ItemOverride_AfterKeyReceived(key);
       SpoilerLog_UpdateIngameLog(key.type, key.scene, key.flag);
     }
   }
@@ -305,7 +303,6 @@ namespace rnd {
       return;
     }
     SetExtData();
-    ItemOverride_AfterKeyReceived(key);
     SpoilerLog_UpdateIngameLog(key.type, key.scene, key.flag);
     // #if ENABLE_DEBUG || DEBUG_PRINT
     //  util::Print(
@@ -658,6 +655,29 @@ namespace rnd {
     default:
       return false;
     }
+  }
+
+  s16 ItemOverride_GetFairyGetItemFromScene(game::SceneId scene) {
+    s16 getItemId = (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN;
+    switch (scene) {
+    case game::SceneId::WoodfallTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_WOODFALL;
+      break;
+    case game::SceneId::SnowheadTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_SNOWHEAD;
+      break;
+    case game::SceneId::GreatBayTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_GREAT_BAY;
+      break;
+    case game::SceneId::StoneTowerTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER;
+      break;
+    case game::SceneId::StoneTowerTempleInverted:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER;
+    default:
+      break;
+    }
+    return getItemId;
   }
 
   extern "C" {
@@ -1146,15 +1166,18 @@ namespace rnd {
 
   u8 ItemOverride_OverrideStrayFairy(game::act::Actor* actor) {
     game::GlobalContext* gctx = GetContext().gctx;
+    s16 getItemId = (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN;  // Default case.
     ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN);
     if (override.key.all == 0) {
       return false;
     }
 
-    u16 resolvedItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
-    ItemRow* itemRow = ItemTable_GetItemRow(resolvedItemId);
-    ItemTable_CallEffect(itemRow);
-    return true;
+    getItemId = ItemOverride_GetFairyGetItemFromScene(gctx->scene);
+    ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
+    if (rActiveItemRow != NULL) {
+      return true;
+    }
+    return false;
   }
 
   u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor* actor) {
@@ -1165,6 +1188,8 @@ namespace rnd {
     }
 
     u16 resolvedItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
+    rStoredTextId = ItemTable_GetItemRow(resolvedItemId)->textId;
+    ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
     return ItemTable_GetItemRow(resolvedItemId)->textId;
   }
 

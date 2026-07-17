@@ -23,6 +23,10 @@ OverrideGreatFairySpawn_patch:
 patch_EnElfOrgTreasureSwitchSet:
     bl hook_EnElforgUpdateFairyBitsTwo
 
+.section .patch_EnElfOrgChestCollect
+.global patch_EnElfOrgChestCollect
+patch_EnElfOrgChestCollect:
+    bl hook_EnElfOrgChestCollect
 
 @TODO: Break out Chest patches into separate chest file.
 .section .patch_EnBoxCheckIfFairyObtained

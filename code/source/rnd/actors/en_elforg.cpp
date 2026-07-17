@@ -25,14 +25,7 @@ namespace rnd {
     int bitIndex = ((actor->params << 0x10) >> 0x19);
     int fairyIdx = En_Elforg_getFairyIndex(gctx->scene);
     bool isFlagSet = (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (bitIndex & 0x1F));
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Fairy index is %u bit index is %#04x fairy type is %#04x and are we set? %u\n", __func__,
-                     fairyIdx, bitIndex, fairyType, isFlagSet);
-#endif
     if (fairyIdx != -1) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: Fairy type is %u\n", __func__, fairyType);
-#endif
       switch (fairyType) {
       default:  // Regular switch flag
         if (isFlagSet)
@@ -44,15 +37,8 @@ namespace rnd {
       case 8:
         break;
       case 6:  // Treasure flag
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("%s: CASE 6, LOOKING AT FLAG SET?\n", __func__);
-#endif
         if (isFlagSet) {
           util::GetPointer<void(game::GlobalContext*, int)>(0x4C6D58)(gctx, bitIndex);  // Set Treasure
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-          rnd::util::Print("%s: Set treasure bit, flag was true %u bitIdx is %#04x\n", __func__,
-                           (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (bitIndex & 0x1F)), bitIndex);
-#endif
         }
 
         break;
@@ -75,11 +61,17 @@ namespace rnd {
     }
   }
 
+  void En_Elforg_Calc(game::act::Actor* actor, game::GlobalContext* gctx) {
+    // Fix for TrappedByEnemy - avoids going down a hard-coded path for drawing
+    // once and enemy is destroyed and the fairy spawns.
+    if (actor->draw_fn != NULL && actor->draw_fn != En_Elforg_Draw) {
+      actor->draw_fn = En_Elforg_Draw;
+    }
+    util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x424BF0)(actor, gctx);
+  }
+
   extern "C" {
   void En_Elforg_UpdateExtFairyBits(game::act::Actor* actor, game::GlobalContext* gctx) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: SETTTTTTTING\n", __func__);
-#endif
     int bitIndex = ((actor->params << 0x10) >> 0x19);
     int fairyIdx = En_Elforg_getFairyIndex(gctx->scene);
     if (fairyIdx != -1) {
@@ -94,10 +86,6 @@ namespace rnd {
   bool En_Elforg_Chest_IsFairyObtained(u32 param, game::GlobalContext* gctx) {
     int bitIndex = ((param << 0x10) >> 0x19);
     int fairyIdx = En_Elforg_getFairyIndex(gctx->scene);
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Fair idx %u bitfield is %#08x\n", __func__, fairyIdx,
-                     (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (bitIndex & 0x1F)));
-#endif
     if (fairyIdx != -1)
       return (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (bitIndex & 0x1F));
     return false;

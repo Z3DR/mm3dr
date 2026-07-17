@@ -48,6 +48,23 @@ hook_EnElforgUpdateFairyBitsTwo:
     cpy r0,r8
     bx lr
 
+.global hook_EnElfOrgChestCollect
+hook_EnElfOrgChestCollect:
+    push {r0-r12, lr}
+    cpy r0,r4
+    bl ItemOverride_OverrideStrayFairy
+    cmp r0, #0x0
+    pop {r0-r12, lr}
+    bne enElfOrgChestCollectSkip
+    ldrh r0,[r9, #0x54]
+    b 0x3CDE10
+enElfOrgChestCollectSkip:
+    ldr r1,=0x670
+    ldrh r0,[r4, r1]
+    orr r0,r0, #0x10
+    strh r0,[r4, r1]
+    b 0x3CDE3C
+
 .global hook_EnBoxCheckIfFairyObtained
 hook_EnBoxCheckIfFairyObtained:
     orr r1,r3,r1, lsl #0x9
@@ -100,6 +117,7 @@ strayFairyMessageOverride:
     cpy r0,r4
     bl ItemOverride_GetStrayFairyMessageId
     cpy r1,r0
+    bl ItemOverride_RemoveTextId
     pop {r0,r2,r3,r12,lr}
     vpop {d8}
     cpy r0,r5

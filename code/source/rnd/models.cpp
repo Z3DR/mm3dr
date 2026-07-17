@@ -425,6 +425,7 @@ namespace rnd {
     overlayTable[0x145].info->init_fn = En_Elforg_Init;
     overlayTable[0x145].info->draw_fn = En_Elforg_Draw;
     overlayTable[0x145].info->deinit_fn = En_Elforg_Destroy;
+    overlayTable[0x145].info->calc_fn = En_Elforg_Calc;
 
     overlayTable[0x166].info->init_fn = En_Pm_Init;
     overlayTable[0x166].info->deinit_fn = En_Pm_Destroy;
