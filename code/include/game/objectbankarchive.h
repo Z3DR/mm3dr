@@ -77,8 +77,7 @@ namespace game::ObjectBank {
   static_assert(sizeof(ObjectBankArchive) == 0x9C);
 
   void init(ObjectBankArchive*, u32, ResArchiveHeader*, int, char);
-  void* getCMBFileByIndex(ObjectBankArchive*, u32, u32);
+  void* getCMBManByIndex(ObjectBankArchive*, u32, u32);
   void free(ObjectBankArchive*);
   ObjectBankArchive* freeAndCleanup(ObjectBankArchive*);
-  CmbMan* ObjectArchive_GetCmbManByIndex(game::ObjectBank::ObjectBankArchive*, u32);
 }  // namespace game::ObjectBank

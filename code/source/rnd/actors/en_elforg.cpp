@@ -118,8 +118,8 @@ namespace rnd {
 
   void En_Elforg_InitItemModel(Model* model, game::GlobalContext* gctx,
                                game::ActorResource::ActorResource* objectEntry) {
-    game::ObjectBank::CmbMan* cmbMan =
-        ObjectArchive_GetCmbManByIndex(&objectEntry->archive, model->itemRow->objectModelIdx);
+    game::ObjectBank::CmbMan* cmbMan = reinterpret_cast<game::ObjectBank::CmbMan*>(
+        getCMBManByIndex(&objectEntry->archive, model->itemRow->objectModelIdx, 1));
     if (cmbMan == NULL) {
       return;
     }
