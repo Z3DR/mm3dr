@@ -80,5 +80,4 @@ namespace game::ObjectBank {
   void* getCMBManByIndex(ObjectBankArchive*, u32, u32);
   void free(ObjectBankArchive*);
   ObjectBankArchive* freeAndCleanup(ObjectBankArchive*);
-  CmbMan* ObjectArchive_GetCmbManByIndex(game::ObjectBank::ObjectBankArchive*, u32);
 }  // namespace game::ObjectBank
