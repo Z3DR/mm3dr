@@ -123,6 +123,22 @@ VarVal getVarVal(volatile const char* text) {
   if (is("SSH"))
     return (VarVal){VT_INT, (u32)game::GetCommonData().save.skulltulas_collected.swamp_count};
 
+  // Woodfall stray fairy count
+  if (is("WFF"))
+    return (VarVal){VT_INT, (u32)game::GetCommonData().save.inventory.woodfall_fairies};
+
+  // Snowhead stray fairy count
+  if (is("SHF"))
+    return (VarVal){VT_INT, (u32)game::GetCommonData().save.inventory.snowhead_fairies};
+
+  // Great Bay stray fairy count
+  if (is("GBF"))
+    return (VarVal){VT_INT, (u32)game::GetCommonData().save.inventory.great_bay_fairies};
+
+  // Stone Tower stray fairy count
+  if (is("STF"))
+    return (VarVal){VT_INT, (u32)game::GetCommonData().save.inventory.stone_tower_fairies};
+
 // Examples for adding a string or wstring value
 // if (is("TXT")) return (VarVal){ VT_STR, { .text = someCharStar } };
 // if (is("PLN")) return (VarVal){ VT_WSTR, { .text16 = game::GetCommonData().save.player.playerName } };
