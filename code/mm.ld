@@ -393,6 +393,10 @@ SECTIONS{
     *(.patch_StrayFairyCollectOverride)
   }
 
+  .patch_StrayFairyClockTownCollect 0x25A7A0 : {
+    *(.patch_StrayFairyClockTownCollect)
+  }
+
   .patch_EnOsnCheckSoHExtData 0x268030 : {
     *(.patch_EnOsnCheckSoHExtData)
   }

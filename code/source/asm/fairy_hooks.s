@@ -95,6 +95,27 @@ strayFairyCounterSkip:
     strh r0,[r4, r1]
     b 0x25A71C
 
+.global hook_StrayFairyClockTownCollect
+hook_StrayFairyClockTownCollect:
+    push {r0-r12, lr}
+    cpy r0,r4
+    bl ItemOverride_OverrideStrayFairy
+    cmp r0, #0x0
+    pop {r0-r12, lr}
+    beq strayFairyClockTownVanilla
+    ; This falls back to the CirclePlayer call.
+    ; This ensures that behaviour is kept the same
+    ; amongst all fairies, instead of doing the classic
+    ; freeze on this fairy.
+    ldr r1,=0x670
+    ldrh r0,[r4, r1]
+    orr r0,r0, #0x10
+    strh r0,[r4, r1]
+    b 0x25A71C
+strayFairyClockTownVanilla:
+    mov r2,#0x11c
+    b 0x25A7A4
+
 .global hook_ClockTownFairyCheck
 hook_ClockTownFairyCheck:
     push {r1-r12, lr}

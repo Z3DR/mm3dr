@@ -39,6 +39,11 @@ patch_EnBoxCheckIfFairyObtained:
 patch_StrayFairyCollectOverride:
     bl hook_StrayFairyCollectOverride
 
+.section .patch_StrayFairyClockTownCollect
+.global patch_StrayFairyClockTownCollect
+patch_StrayFairyClockTownCollect:
+    bl hook_StrayFairyClockTownCollect
+
 .section .patch_ClockTownFairyFountainCheck
 .global patch_ClockTownFairyFountainCheck
 patch_ClockTownFairyFountainCheck:
