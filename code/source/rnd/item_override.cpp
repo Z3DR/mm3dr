@@ -104,7 +104,7 @@ namespace rnd {
     } else if (actor->id == game::act::Id::EnElfOrg) {  // Stray Fairy
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_STRAY_FAIRY;
-      retKey.flag = actor->params & 0xFF;
+      retKey.flag = ((actor->params << 0x10) >> 0x19);
     } else if (scene == 0x14C0 && actor->id == (game::act::Id)0x0075) {  // Grotto Salesman
       retKey.scene = cdata.sub13s[8].data;
       retKey.type = ItemOverride_Type::OVR_GROTTO_SCRUB;
