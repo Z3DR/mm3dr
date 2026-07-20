@@ -103,10 +103,10 @@ hook_StrayFairyClockTownCollect:
     cmp r0, #0x0
     pop {r0-r12, lr}
     beq strayFairyClockTownVanilla
-    ; This falls back to the CirclePlayer call.
-    ; This ensures that behaviour is kept the same
-    ; amongst all fairies, instead of doing the classic
-    ; freeze on this fairy.
+    @ This falls back to the CirclePlayer call.
+    @ This ensures that behaviour is kept the same
+    @ amongst all fairies, instead of doing the classic
+    @ freeze on this fairy.
     ldr r1,=0x670
     ldrh r0,[r4, r1]
     orr r0,r0, #0x10
