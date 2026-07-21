@@ -387,7 +387,7 @@ namespace rnd {
       gExtSaveData.givenItemChecks.enNbGivenItem = 1;
     } else if (storedActorId == game::act::Id::NpcInvisibleGuard) {
       gExtSaveData.givenItemChecks.enStoneHeishiGivenItem = 1;
-    } else if (storedActorId == game::act::Id::NpcAroma) {
+    } else if (storedActorId == game::act::Id::NpcAroma && storedGetItemId == GetItemID::GI_MASK_KAFEIS) {
       gExtSaveData.givenItemChecks.enAlGivenItem = 1;
     } else if (storedActorId == game::act::Id::NpcEnGuruGuru) {
       gExtSaveData.givenItemChecks.enGuruGuruGivenItem = 1;
