@@ -5,6 +5,7 @@
 #include "rnd/custom_models.h"
 #include "rnd/item_override.h"
 #include "rnd/item_table.h"
+#include "rnd/models.h"
 #include "rnd/objects.h"
 #include "rnd/settings.h"
 #include "rnd/shops.h"
@@ -53,13 +54,15 @@ namespace rnd {
   static_assert(offsetof(En_GirlA, buy_function) == 0x268);
   static_assert(offsetof(En_GirlA, field_276) == 0x276);
 
+  void EnGirlA_Init(game::act::Actor*, game::GlobalContext*);
+  void EnGirlA_Draw(game::act::Actor*, game::GlobalContext*);
+  void EnGirlA_Destroy(game::act::Actor*, game::GlobalContext*);
+  
   extern "C" {
   void EnGirlA_Randomize(En_GirlA*, game::GlobalContext*);
   void EnGirlA_BuyOverriddenItem(game::GlobalContext*, En_GirlA*);
   s32 EnGirlA_CanBuyOverriddenItem(game::GlobalContext*);
   s32 EnGirlA_CanBuySoldOut(game::GlobalContext*);
-  void EnGirlA_ApplyItemScale(En_GirlA*, game::GlobalContext*);
-  void EnGirlA_AfterModelLoad(En_GirlA*, game::GlobalContext*);
   }
 
 }  // namespace rnd

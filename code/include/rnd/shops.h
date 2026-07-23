@@ -61,8 +61,4 @@ namespace rnd {
 
   s32 Shopsanity_GetSlot(game::SceneId, s16);
 
-  s32 Shopsanity_GetShopItemIndex(s32);
-
-  ShopObjectTableEntry* Shopsanity_GetObjectTableEntry(s16);
-
 }  // namespace rnd

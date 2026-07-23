@@ -431,10 +431,6 @@ SECTIONS{
     *(.patch_EnGirlA_Randomize)
   }
 
-  .patch_EnGirlA_AfterModelLoad 0x2B8248 : {
-    *(.patch_EnGirlA_AfterModelLoad)
-  }
-
   .patch_CheckIfLinkIsFD 0x2C91D4 : {
     *(.patch_CheckIfLinkIsFD)
   }
