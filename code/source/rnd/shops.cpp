@@ -35,8 +35,4 @@ namespace rnd {
     return kShopSlots[slot].shopItemIndex;
   }
 
-  ShopObjectTableEntry* Shopsanity_GetObjectTableEntry(s16 objIdx) {
-    return util::GetPointer<ShopObjectTableEntry>(0x622E38) + objIdx;
-  }
-
 }  // namespace rnd
