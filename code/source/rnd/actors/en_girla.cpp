@@ -42,6 +42,15 @@ namespace rnd {
     util::GetPointer<ActorOverlayFn>(0x39A840)(self, gctx);
   }
 
+  ItemRow* GetShopItemRow(En_GirlA* actor, game::GlobalContext* gctx) {
+    s32 slot = -1;
+    const ItemOverride ovr = GetShopOverride(actor, gctx, slot);
+    if (ovr.key.all == 0)
+      return nullptr;
+    const u16 displayId = (ovr.value.looksLikeItemId != 0) ? ovr.value.looksLikeItemId : ovr.value.getItemId;
+    return ItemTable_GetItemRow(ItemTable_ResolveUpgrades(displayId));
+  }
+
   extern "C" {
   void EnGirlA_Randomize(En_GirlA* actor, game::GlobalContext* gctx) {
     if (actor == nullptr || gctx == nullptr)
@@ -124,6 +133,34 @@ namespace rnd {
     // TODO: Add more guards to can buy sold out as well?
     (void)gctx;
     return 2;  // vanilla "you already have that" -- blocks the purchase
+  }
+
+  void EnGirlA_ApplyItemScale(En_GirlA* actor, game::GlobalContext* gctx) {
+    if (actor == nullptr || gctx == nullptr)
+      return;
+    const ItemRow* row = GetShopItemRow(actor, gctx);
+    if (row == nullptr)
+      return;
+
+    util::GetPointer<SetModelScaleFn>(0x21E30C)(actor, 0.25f);
+  }
+
+  void EnGirlA_AfterModelLoad(En_GirlA* actor, game::GlobalContext* gctx) {
+    if (actor == nullptr || gctx == nullptr || actor->skelAnimeModel == nullptr)
+      return;
+    const ItemRow* row = GetShopItemRow(actor, gctx);
+    if (row == nullptr)
+      return;
+
+    // Items whose colour is data-driven (songs/ocarinas pick a hue via the custom TEXANIM_SONG
+    // CMAB frame, small keys via material edits) can't be expressed by the object-table's plain
+    // cmabIndex, so apply the randomizer's own CMAB pass -- the same call models.cpp uses.
+    CustomModels_ApplyItemCMAB(actor->skelAnimeModel, row->objectId, row->special);
+
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    util::Print("%s: applied CMAB objectId=0x%X special=%d scale=%d/1000\n", __func__, (unsigned)row->objectId,
+                (int)row->special, (int)(row->scale * 1000.0f));
+#endif
   }
   }
 
