@@ -14,3 +14,12 @@ hook_EnGirlA_Randomize:
     ldr r0, =0x2b8270 @ replay: r0 = *(0x2b8270)
     ldr r0, [r0]
     b 0x2b8208
+
+.global hook_EnGirlA_AfterModelLoad
+hook_EnGirlA_AfterModelLoad:
+    push {r0-r12, lr}
+    cpy r0, r4
+    cpy r1, r7
+    bl EnGirlA_AfterModelLoad
+    pop {r0-r12, lr}
+    ldmia sp!,{r4,r5,r6,r7,r8,r9,r10,pc} @ replayed original return

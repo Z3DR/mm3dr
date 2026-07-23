@@ -4,6 +4,7 @@ namespace rnd {
 
   using GetItemHandlerFn = void(game::GlobalContext*, u32);
   using SubtractRupeesFn = void(int);
+  using SetModelScaleFn = void(game::act::Actor*, f32);
 
   // Resolve the shopsanity override for this shop actor (scene + EnGirlA param). Returns {} if
   // this slot is not a shuffled shop item. `slot` receives the price/override slot (= param).
@@ -24,12 +25,21 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (scene == 52 && actor->params == 10) {
       ovr.key = key;
-      ovr.value.getItemId = 0x37;
-      ovr.value.looksLikeItemId = 0x37;
+      ovr.value.getItemId = 0xBD;
+      ovr.value.looksLikeItemId = 0xBD;
       rShopsanityPrices[slot] = 20;  // TEST price (debug only)
     }
 #endif
     return ovr;
+  }
+
+  ItemRow* GetShopItemRow(En_GirlA* actor, game::GlobalContext* gctx) {
+    s32 slot = -1;
+    const ItemOverride ovr = GetShopOverride(actor, gctx, slot);
+    if (ovr.key.all == 0)
+      return nullptr;
+    const u16 displayId = (ovr.value.looksLikeItemId != 0) ? ovr.value.looksLikeItemId : ovr.value.getItemId;
+    return ItemTable_GetItemRow(ItemTable_ResolveUpgrades(displayId));
   }
 
   extern "C" {
@@ -61,6 +71,7 @@ namespace rnd {
     actor->get_item_id = static_cast<GetItemID>(ovr.value.getItemId);
     actor->buy_function = &EnGirlA_BuyOverriddenItem;
     actor->can_buy_function = &EnGirlA_CanBuyOverriddenItem;
+    actor->field_238 = &EnGirlA_ApplyItemScale;
 
     const u16 displayId = (ovr.value.looksLikeItemId != 0) ? ovr.value.looksLikeItemId : ovr.value.getItemId;
     ItemRow* row = ItemTable_GetItemRow(ItemTable_ResolveUpgrades(displayId));
@@ -137,6 +148,34 @@ namespace rnd {
   s32 EnGirlA_CanBuySoldOut(game::GlobalContext* gctx) {
     (void)gctx;
     return 2;  // vanilla "you already have that" -- blocks the purchase
+  }
+
+  void EnGirlA_ApplyItemScale(En_GirlA* actor, game::GlobalContext* gctx) {
+    if (actor == nullptr || gctx == nullptr)
+      return;
+    const ItemRow* row = GetShopItemRow(actor, gctx);
+    if (row == nullptr)
+      return;
+
+    util::GetPointer<SetModelScaleFn>(0x21E30C)(actor, 0.25f);
+  }
+
+  void EnGirlA_AfterModelLoad(En_GirlA* actor, game::GlobalContext* gctx) {
+    if (actor == nullptr || gctx == nullptr || actor->skelAnimeModel == nullptr)
+      return;
+    const ItemRow* row = GetShopItemRow(actor, gctx);
+    if (row == nullptr)
+      return;
+
+    // Items whose colour is data-driven (songs/ocarinas pick a hue via the custom TEXANIM_SONG
+    // CMAB frame, small keys via material edits) can't be expressed by the object-table's plain
+    // cmabIndex, so apply the randomizer's own CMAB pass -- the same call models.cpp uses.
+    CustomModels_ApplyItemCMAB(actor->skelAnimeModel, row->objectId, row->special);
+
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    util::Print("%s: applied CMAB objectId=0x%X special=%d scale=%d/1000\n", __func__, (unsigned)row->objectId,
+                (int)row->special, (int)(row->scale * 1000.0f));
+#endif
   }
   }
 

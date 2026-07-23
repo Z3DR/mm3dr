@@ -23,10 +23,6 @@ namespace rnd {
   s32 Shopsanity_GetSlot(game::SceneId scene, s16 param) {
     for (u32 i = 0; i < SHOPSANITY_SLOT_COUNT; ++i) {
       if (kShopSlots[i].scene == scene && kShopSlots[i].param == param) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("%s: scene=0x%X param=%d -> slot %u (shop item %u)\n", __func__, (unsigned)scene, (int)param,
-                         i, (unsigned)kShopSlots[i].shopItemIndex);
-#endif
         return static_cast<s32>(i);
       }
     }

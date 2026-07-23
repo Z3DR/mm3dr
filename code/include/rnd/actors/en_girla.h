@@ -2,6 +2,7 @@
 
 #include "common/advanced_context.h"
 #include "game/context.h"
+#include "rnd/custom_models.h"
 #include "rnd/item_override.h"
 #include "rnd/item_table.h"
 #include "rnd/objects.h"
@@ -19,10 +20,11 @@ namespace rnd {
 
   using BuyFunc = void(game::GlobalContext* gctx, En_GirlA* actor);
   using CanBuyFunc = s32(game::GlobalContext* gctx);
+  using ActorFrameFunc = void(En_GirlA* actor, game::GlobalContext* gctx);
 
   struct En_GirlA : public game::act::Actor {
     u8 gap_1f8[64];
-    void* field_238;
+    ActorFrameFunc* field_238;
     s32 objectId;
     void* next_fn;
     s32 field_244;
@@ -56,6 +58,8 @@ namespace rnd {
   void EnGirlA_BuyOverriddenItem(game::GlobalContext*, En_GirlA*);
   s32 EnGirlA_CanBuyOverriddenItem(game::GlobalContext*);
   s32 EnGirlA_CanBuySoldOut(game::GlobalContext*);
+  void EnGirlA_ApplyItemScale(En_GirlA*, game::GlobalContext*);
+  void EnGirlA_AfterModelLoad(En_GirlA*, game::GlobalContext*);
   }
 
 }  // namespace rnd
