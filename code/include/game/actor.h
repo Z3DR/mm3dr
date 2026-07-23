@@ -30,6 +30,8 @@ namespace game::act {
   enum class Id : u16 {
     // [2] Player actor
     Player = 0x0000,
+    // Shop Item
+    EnGirlA = 0x0002,
     // Arrow
     Arrow = 0x000F,
     // DayTimer

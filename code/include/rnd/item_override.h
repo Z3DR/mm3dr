@@ -398,6 +398,7 @@ namespace rnd {
     OVR_DELAYED = 5,
     OVR_TEMPLE = 6,
     OVR_STRAY_FAIRY = 7,
+    OVR_SHOP = 8,
   };
 
   typedef union ItemOverride_Key {
