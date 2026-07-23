@@ -75,6 +75,11 @@ namespace rnd {
     SHOPSANITY_RANDOM,
   };
 
+  enum class ShopsanityPriceSetting : u8 {
+    SHOPSANITY_PRICE_RANDOM,
+    SHOPSANITY_PRICE_AFFORDABLE,
+  };
+
   /*enum class TokensanitySetting : u8 {
     TOKENSANITY_OFF,
     TOKENSANITY_DUNGEONS,
@@ -484,6 +489,7 @@ namespace rnd {
     u8 muteBackgroundMusic = 0;
     u8 shuffleMusic = 0;
     u8 shuffleSFX = 0;
+    u8 shopsanityPrices;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;

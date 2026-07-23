@@ -427,6 +427,10 @@ SECTIONS{
     *(.patch_GiveTempSwordForHandD)
   }
 
+  .patch_EnGirlA_Randomize 0x2B8204 : {
+    *(.patch_EnGirlA_Randomize)
+  }
+
   .patch_CheckIfLinkIsFD 0x2C91D4 : {
     *(.patch_CheckIfLinkIsFD)
   }

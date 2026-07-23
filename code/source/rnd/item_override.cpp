@@ -128,6 +128,10 @@ namespace rnd {
       if (!En_Cow_FillSearchKey(actor, (game::SceneId)scene, &retKey)) {
         return (ItemOverride_Key){.all = 0};
       }
+    } else if (actor->id == game::act::Id::EnGirlA) {
+      retKey.scene = scene;
+      retKey.type = ItemOverride_Type::OVR_SHOP;
+      retKey.flag = actor->params;
     } else {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_BASE_ITEM;
