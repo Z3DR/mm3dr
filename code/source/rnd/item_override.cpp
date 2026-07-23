@@ -54,6 +54,9 @@ namespace rnd {
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
     rItemOverrides[1].value.getItemId = 0x70;
     rItemOverrides[1].value.looksLikeItemId = 0x70;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_SHOP;
+    rItemOverrides[1].value.getItemId = 0x56;
+    rItemOverrides[1].value.looksLikeItemId = 0x56;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -119,6 +122,10 @@ namespace rnd {
       if (!En_Cow_FillSearchKey(actor, (game::SceneId)scene, &retKey)) {
         return (ItemOverride_Key){.all = 0};
       }
+    } else if (actor->id == game::act::Id::EnGirlA) {
+      retKey.scene = scene;
+      retKey.type = ItemOverride_Type::OVR_SHOP;
+      retKey.flag = actor->params;
     } else {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_BASE_ITEM;

@@ -75,6 +75,11 @@ namespace rnd {
     SHOPSANITY_RANDOM,
   };
 
+  enum class ShopsanityPriceSetting : u8 {
+    SHOPSANITY_PRICE_RANDOM,
+    SHOPSANITY_PRICE_AFFORDABLE,
+  };
+
   /*enum class TokensanitySetting : u8 {
     TOKENSANITY_OFF,
     TOKENSANITY_DUNGEONS,
@@ -458,6 +463,8 @@ namespace rnd {
     u8 useFierceDeityAnywhere = 0;
 
     u8 showPostmanItem;
+
+    u8 shopsanityPrices;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;
