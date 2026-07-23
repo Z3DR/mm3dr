@@ -63,8 +63,6 @@ namespace rnd {
   void EnGirlA_BuyOverriddenItem(game::GlobalContext*, En_GirlA*);
   s32 EnGirlA_CanBuyOverriddenItem(game::GlobalContext*);
   s32 EnGirlA_CanBuySoldOut(game::GlobalContext*);
-  void EnGirlA_ApplyItemScale(En_GirlA*, game::GlobalContext*);
-  void EnGirlA_AfterModelLoad(En_GirlA*, game::GlobalContext*);
   }
 
 }  // namespace rnd

@@ -42,13 +42,42 @@ namespace rnd {
     util::GetPointer<ActorOverlayFn>(0x39A840)(self, gctx);
   }
 
-  ItemRow* GetShopItemRow(En_GirlA* actor, game::GlobalContext* gctx) {
+  void EnGirlA_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
+    util::GetPointer<ActorOverlayFn>(0x39A7E0)(actor, gctx);  // vanilla EnGirlA::Init
+
+    const bool shopsanityOn = gSettingsContext.shopsanity != static_cast<u8>(ShopsanitySetting::SHOPSANITY_OFF);
+#if !defined ENABLE_DEBUG && !defined DEBUG_PRINT
+    if (!shopsanityOn)
+      return;
+#else
+    (void)shopsanityOn;
+#endif
+
     s32 slot = -1;
-    const ItemOverride ovr = GetShopOverride(actor, gctx, slot);
+    const ItemOverride ovr = GetShopOverride(reinterpret_cast<En_GirlA*>(actor), gctx, slot);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    util::Print("%s: RAN scene=%u param=%d slot=%d ovr.all=0x%X getItemId=0x%X\n", __func__,
+                (unsigned)static_cast<u8>(gctx->scene), (int)actor->params, (int)slot, (unsigned)ovr.key.all,
+                (unsigned)ovr.value.getItemId);
+#endif
     if (ovr.key.all == 0)
-      return nullptr;
-    const u16 displayId = (ovr.value.looksLikeItemId != 0) ? ovr.value.looksLikeItemId : ovr.value.getItemId;
-    return ItemTable_GetItemRow(ItemTable_ResolveUpgrades(displayId));
+      return;  // not shuffled: leave the vanilla shelf model in place
+
+    Model_SpawnByActorFromOverride(actor, gctx, ovr, ovr.value.getItemId);
+  }
+  void EnGirlA_Draw(game::act::Actor* actor, game::GlobalContext* gctx) {
+    // This is kind of a weird edge case.
+    // Since we control assigning the draw function in the init call,
+    // we know that the model is actually present and there is no vanilla override.
+    // However, we can use this as a safeguard to ensure the vanilla item is drawn instead.
+    if (!Model_DrawByActor(actor)) {
+      util::GetPointer<ActorOverlayFn>(0x3FAAC4)(actor, gctx);
+    }
+  }
+
+  void EnGirlA_Destroy(game::act::Actor* self, game::GlobalContext* gctx) {
+    Model_DestroyByActor(self);
+    util::GetPointer<ActorOverlayFn>(0x39A840)(self, gctx);
   }
 
   extern "C" {
