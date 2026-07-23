@@ -3,6 +3,7 @@
 #include "rnd/actors/dm_char05.h"
 #include "rnd/actors/dm_hina.h"
 #include "rnd/actors/en_elforg.h"
+#include "rnd/actors/en_girla.h"
 #include "rnd/actors/en_mag.h"
 #include "rnd/actors/en_pm.h"
 #include "rnd/actors/en_si.h"
@@ -157,6 +158,11 @@ namespace rnd {
     // Get model coordinates
     z3dVec3f actorPos = model->actor->pos.pos;
     f32 modelPosY = actorPos.y + (model->actor->model_scale.y * model->actor->actor_shape.y_offset);
+
+    if (model->actor->id == game::act::Id::EnGirlA) {
+      static constexpr f32 kShopShelfYOffset = 3.0f;
+      modelPosY += kShopShelfYOffset;
+    }
 
     if (model->hardcodedMtx != NULL) {
       // Use the hardcoded matrix if present
@@ -371,6 +377,26 @@ namespace rnd {
     }
   }
 
+  void Model_SpawnByActorFromOverride(game::act::Actor* actor, game::GlobalContext* globalCtx, ItemOverride override,
+                                      u16 baseItemId) {
+    Model model = {0};
+
+    if (override.key.all != 0) {
+      Model_LookupByOverride(&model, override);  // resolves progressive items -> itemRow
+      Model_GetObjectBankIndex(&model, actor, globalCtx);
+    }
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    util::Print("%s: ovr.all=0x%X itemRow=%p objBankIdx=%d objectId=0x%X\n", __func__, (unsigned) override.key.all,
+                (void*)model.itemRow, (int)model.objectBankIdx,
+                (unsigned)(model.itemRow ? model.itemRow->objectId : 0));
+#endif
+    if (model.itemRow != NULL) {
+      model.actor = actor;
+      model.baseItemId = baseItemId;
+      Model_Create(&model, globalCtx);
+    }
+  }
+
   void Model_DestroyByActor(game::act::Actor* actor) {
     for (s32 i = 0; i < LOADEDMODELS_MAX; ++i) {
       if (ModelContext[i].actor == actor) {
@@ -404,6 +430,10 @@ namespace rnd {
   void Actor_Init() {
     game::act::ActorOverlayInfo* overlayTable = game::act::GetActorOverlayInfoTable();
     game::ActorResource::ActorResourcePath* resourcePathTable = game::ActorResource::GetActorResourcePathTable();
+
+    overlayTable[0x02].info->init_fn = EnGirlA_Init;
+    overlayTable[0x02].info->deinit_fn = EnGirlA_Destroy;
+
     // Setup destroy and init functions at this point instead of creating a ton of ASM patches.
     // Use this only if the drwaing for the actor is not complex. Otherwise ASM patches are better.
     overlayTable[0x0E].info->deinit_fn = EnItem00_rDestroy;
