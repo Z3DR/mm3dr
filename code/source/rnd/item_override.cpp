@@ -115,6 +115,10 @@ namespace rnd {
       retKey.scene = cdata.sub13s[8].data;
       retKey.type = ItemOverride_Type::OVR_GROTTO_SCRUB;
       retKey.flag = getItemId;
+    } else if (actor->id == game::act::Id::EnGirlA) {
+      retKey.scene = scene;
+      retKey.type = ItemOverride_Type::OVR_SHOP;
+      retKey.flag = actor->params;
     } else if (actor->id == game::act::Id::EnCow) {  // Cow
       if (!En_Cow_FillSearchKey(actor, (game::SceneId)scene, &retKey)) {
         return (ItemOverride_Key){.all = 0};
