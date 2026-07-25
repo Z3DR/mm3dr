@@ -105,8 +105,10 @@ namespace rnd {
     const u16 displayId = (ovr.value.looksLikeItemId != 0) ? ovr.value.looksLikeItemId : ovr.value.getItemId;
     ItemRow* row = ItemTable_GetItemRow(ItemTable_ResolveUpgrades(displayId));
     // TODO: Change this to custom shopsanity text.
-    // if (row != nullptr)
-    //  actor->choice_text_id = row->textId;
+    // if (row != nullptr){
+    //  actor->choice_text_id = 0x614A + slot;
+    //  actor->text_id_maybe = 0x614A + slot + 1;
+    // }
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: slot=%d -> getItemId=0x%X price=%d\n", __func__, (int)slot, (unsigned)ovr.value.getItemId,
                 (int)Shopsanity_GetPrice((u32)slot));
