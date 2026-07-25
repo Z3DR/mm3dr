@@ -10,53 +10,51 @@ namespace rnd {
 
   typedef struct {
     ItemOverride_Type type;
-    u8                flag;
-    const u8*         scenes;
-    u8                numScenes;
+    u8 flag;
+    const u8* scenes;
+    u8 numScenes;
   } MultiLocGroup;
-  #define MULTI_LOC(t, f, ...) (MultiLocGroup){ \
-    .type = t, \
-    .flag = f, \
-    .scenes = (const u8[])__VA_ARGS__, \
-    .numScenes = sizeof((u8[])__VA_ARGS__) / sizeof(u8) \
+#define MULTI_LOC(t, f, ...)                                                                                           \
+  (MultiLocGroup) {                                                                                                    \
+    .type = t, .flag = f, .scenes = (const u8[])__VA_ARGS__, .numScenes = sizeof((u8[])__VA_ARGS__) / sizeof(u8)       \
   }
   const MultiLocGroup multiLocs[] = {
-    // Koume
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x59, { 0x0A, 0x64 }),
-    // Postboxes
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xBA, { 0x6C, 0x6E, 0x6F }),
-    // Tingle Clocktown Map
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB4, { 0x13, 0x6E }),
-    // Tingle Woodfall Map
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB5, { 0x40, 0x6E }),
-    // Tingle Snowhead Map
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB6, { 0x40, 0x5D, 0x5E }),
-    // Tingle Ranch Map
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB7, { 0x22, 0x5D, 0x5E }),
-    // Tingle Great Bay Map
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB8, { 0x22, 0x37 }),
-    // Tingle Stone Tower Map
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB9, { 0x13, 0x37 }),
-    // Keaton
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x03, { 0x22, 0x5A, 0x6E }),
-    // GV Powder Keg Challenge
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x34, { 0x48, 0x4D }),
-    // GV Deku Merchant Purchase
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x1D, { 0x48, 0x4D }),
-    // GV Deku Merchant Trade
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x99, { 0x48, 0x4D }),
-    // GV Ledge Heart Piece
-    MULTI_LOC(ItemOverride_Type::OVR_COLLECTABLE, 0x00, { 0x48, 0x4D }),
-    // SS Deku Merchant Purchase
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x35, { 0x00, 0x45 }),
-    // SS Deku Merchant Trade
-    MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x98, { 0x00, 0x45 }),
-    // SS Tourist Center Roof HP
-    MULTI_LOC(ItemOverride_Type::OVR_COLLECTABLE, 0x00, { 0x00, 0x45 }),
-    // STT Death Armos Chest
-    MULTI_LOC(ItemOverride_Type::OVR_CHEST, 0x05, { 0x16, 0x18 }),
+      // Koume
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x59, {0x0A, 0x64}),
+      // Postboxes
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xBA, {0x6C, 0x6E, 0x6F}),
+      // Tingle Clocktown Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB4, {0x13, 0x6E}),
+      // Tingle Woodfall Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB5, {0x40, 0x6E}),
+      // Tingle Snowhead Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB6, {0x40, 0x5D, 0x5E}),
+      // Tingle Ranch Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB7, {0x22, 0x5D, 0x5E}),
+      // Tingle Great Bay Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB8, {0x22, 0x37}),
+      // Tingle Stone Tower Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB9, {0x13, 0x37}),
+      // Keaton
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x03, {0x22, 0x5A, 0x6E}),
+      // GV Powder Keg Challenge
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x34, {0x48, 0x4D}),
+      // GV Deku Merchant Purchase
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x1D, {0x48, 0x4D}),
+      // GV Deku Merchant Trade
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x99, {0x48, 0x4D}),
+      // GV Ledge Heart Piece
+      MULTI_LOC(ItemOverride_Type::OVR_COLLECTABLE, 0x00, {0x48, 0x4D}),
+      // SS Deku Merchant Purchase
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x35, {0x00, 0x45}),
+      // SS Deku Merchant Trade
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x98, {0x00, 0x45}),
+      // SS Tourist Center Roof HP
+      MULTI_LOC(ItemOverride_Type::OVR_COLLECTABLE, 0x00, {0x00, 0x45}),
+      // STT Death Armos Chest
+      MULTI_LOC(ItemOverride_Type::OVR_CHEST, 0x05, {0x16, 0x18}),
   };
-  #undef MULTI_LOC
+#undef MULTI_LOC
 
   SpoilerItemLocation* SpoilerData_ItemLoc(u16 itemIndex) {
     return &gSpoilerDataLocs[itemIndex / SPOILER_ITEMS_MAX].ItemLocations[itemIndex % SPOILER_ITEMS_MAX];
@@ -76,8 +74,7 @@ namespace rnd {
     // Ensure itemIndex does not match any of the multi locations' alternate scenes
     for (size_t idx = 0; idx < sizeof(multiLocs) / sizeof(MultiLocGroup); idx++) {
       if (gSpoilerData.ItemLocations[itemIndex].OverrideType == multiLocs[idx].type &&
-          gSpoilerData.ItemLocations[itemIndex].LocationFlag == multiLocs[idx].flag
-      ) {
+          gSpoilerData.ItemLocations[itemIndex].LocationFlag == multiLocs[idx].flag) {
         // Treat first scene in multi group as unique -> start checking from index 1
         for (u8 sceneIdx = 1; sceneIdx < multiLocs[idx].numScenes; sceneIdx++) {
           if (gSpoilerData.ItemLocations[itemIndex].LocationScene == multiLocs[idx].scenes[sceneIdx]) {
