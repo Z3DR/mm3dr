@@ -2,6 +2,7 @@
 
 #include "common/types.h"
 #include "game/scene.h"
+#include "rnd/item_override.h"
 
 namespace rnd {
 
@@ -45,6 +46,23 @@ namespace rnd {
   };
   static_assert(sizeof(kShopSlots) / sizeof(kShopSlots[0]) == SHOPSANITY_SLOT_COUNT);
 
+  struct ShopItemEntry {
+    s16 objectId;
+    s16 objectTableIndex;
+    s16 itemCount;
+    u16 textId;        // description shown while the item is highlighted
+    u16 choiceTextId;  // "Buy / Don't buy" prompt
+    u16 pad_0a;
+    GetItemID getItemId;
+    void* canBuyFunction;  // CanBuyFunc*, typed in en_girla.h
+    void* buyFunction;     // BuyFunc*
+    void* buyFanfareFunction;
+  };
+  static_assert(sizeof(ShopItemEntry) == 0x1C);
+  static_assert(offsetof(ShopItemEntry, textId) == 0x06);
+  static_assert(offsetof(ShopItemEntry, getItemId) == 0x0C);
+  static_assert(offsetof(ShopItemEntry, buyFunction) == 0x14);
+
   struct ShopObjectModel {
     u8 cmbIndex;   // 0xFF = none
     u8 cmabIndex;  // 0xFF = none
@@ -60,5 +78,9 @@ namespace rnd {
   s32 Shopsanity_GetPrice(u32);
 
   s32 Shopsanity_GetSlot(game::SceneId, s16);
+
+  s32 Shopsanity_GetShopItemIndex(s32);
+
+  const ShopItemEntry* Shopsanity_GetVanillaEntry(s16);
 
 }  // namespace rnd

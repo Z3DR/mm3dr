@@ -35,4 +35,11 @@ namespace rnd {
     return kShopSlots[slot].shopItemIndex;
   }
 
+  const ShopItemEntry* Shopsanity_GetVanillaEntry(s16 param) {
+    // Generous bound: the highest param in kShopSlots is 43.
+    if (param < 0 || param >= 0x40)
+      return nullptr;
+    return &util::GetPointer<ShopItemEntry>(0x676EF4)[param];  // sShopItemEntries
+  }
+
 }  // namespace rnd

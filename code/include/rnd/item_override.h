@@ -451,6 +451,8 @@ namespace rnd {
   u32 ItemOverride_GetOshExtData();
   u8 ItemOverride_OverrideSkullToken(game::act::Actor*);
   u8 ItemOverride_OverrideStrayFairy(game::act::Actor*);
+  ItemOverride ItemOverride_LookupShopItem(game::act::Actor*, game::GlobalContext*);
+  bool ItemOverride_GiveShopItem(game::act::Actor*, game::GlobalContext*);
   u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor*);
   u8 ItemOverride_GetClockTownFairyGiven();
   u8 ItemOverride_CheckBossStatus();
