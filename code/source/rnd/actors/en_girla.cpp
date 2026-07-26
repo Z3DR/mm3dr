@@ -2,36 +2,8 @@
 
 namespace rnd {
 
-  using GetItemHandlerFn = void(game::GlobalContext*, u32);
   using SubtractRupeesFn = void(int);
   using ActorOverlayFn = void(game::act::Actor*, game::GlobalContext*);
-
-  // Resolve the shopsanity override for this shop actor (scene + EnGirlA param). Returns {} if
-  // this slot is not a shuffled shop item. `slot` receives the price/override slot (= param).
-  ItemOverride GetShopOverride(En_GirlA* actor, game::GlobalContext* gctx, s32& slot) {
-    slot = -1;
-    const u8 scene = static_cast<u8>(gctx->scene);
-
-    slot = Shopsanity_GetSlot(gctx->scene, actor->params);
-    if (slot < 0)
-      return ItemOverride{};
-
-    ItemOverride_Key key = {};
-    key.scene = scene;
-    key.type = ItemOverride_Type::OVR_SHOP;
-    key.flag = static_cast<u8>(slot);
-    ItemOverride ovr = ItemOverride_LookupByKey(key);
-
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    if (scene == 52 && actor->params == 10) {
-      ovr.key = key;
-      ovr.value.getItemId = 0x54;
-      ovr.value.looksLikeItemId = 0x54;
-      rShopsanityPrices[slot] = 20;  // TEST price (debug only)
-    }
-#endif
-    return ovr;
-  }
 
   void EnGirlA_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
     util::GetPointer<ActorOverlayFn>(0x39A7E0)(actor, gctx);  // vanilla EnGirlA::Init
@@ -44,11 +16,10 @@ namespace rnd {
     (void)shopsanityOn;
 #endif
 
-    s32 slot = -1;
-    const ItemOverride ovr = GetShopOverride(reinterpret_cast<En_GirlA*>(actor), gctx, slot);
+    const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: RAN scene=%u param=%d slot=%d ovr.all=0x%X getItemId=0x%X\n", __func__,
-                (unsigned)static_cast<u8>(gctx->scene), (int)actor->params, (int)slot, (unsigned)ovr.key.all,
+                (unsigned)static_cast<u8>(gctx->scene), (int)actor->params, (int)ovr.key.flag, (unsigned)ovr.key.all,
                 (unsigned)ovr.value.getItemId);
 #endif
     if (ovr.key.all == 0)
@@ -91,10 +62,9 @@ namespace rnd {
     (void)shopsanityOn;
 #endif
 
-    s32 slot = -1;
-    const ItemOverride ovr = GetShopOverride(actor, gctx, slot);
+    const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
     if (ovr.key.all == 0)
-      return;  // this slot is not a shuffled shop item
+      return;
 
     // Swap the sold item and redirect the buy handler so the placed item is granted on purchase.
     actor->get_item_id = static_cast<GetItemID>(ovr.value.getItemId);
@@ -102,16 +72,15 @@ namespace rnd {
     actor->can_buy_function = &EnGirlA_CanBuyOverriddenItem;
     actor->draw_fn = &EnGirlA_Draw;
 
-    const u16 displayId = (ovr.value.looksLikeItemId != 0) ? ovr.value.looksLikeItemId : ovr.value.getItemId;
-    ItemRow* row = ItemTable_GetItemRow(ItemTable_ResolveUpgrades(displayId));
     // TODO: Change this to custom shopsanity text.
+    // ItemRow* row = ItemTable_GetItemRow(ItemOverride_SetProgressiveItemDraw(ovr));
     // if (row != nullptr){
     //  actor->choice_text_id = 0x614A + slot;
     //  actor->text_id_maybe = 0x614A + slot + 1;
     // }
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    util::Print("%s: slot=%d -> getItemId=0x%X price=%d\n", __func__, (int)slot, (unsigned)ovr.value.getItemId,
-                (int)Shopsanity_GetPrice((u32)slot));
+    util::Print("%s: slot=%d -> getItemId=0x%X price=%d\n", __func__, (int)ovr.key.flag, (unsigned)ovr.value.getItemId,
+                (int)Shopsanity_GetPrice(ovr.key.flag));
 #endif
   }
 
@@ -119,30 +88,28 @@ namespace rnd {
     if (actor == nullptr || gctx == nullptr)
       return;
 
-    s32 slot = -1;
-    const ItemOverride ovr = GetShopOverride(actor, gctx, slot);
+    const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
+    if (ovr.key.all == 0)
+      return;
 
-    // Grant the placed item (resolving progressive upgrades, like ItemOverride_Activate does).
-    if (ovr.key.all != 0 && ovr.value.getItemId != 0) {
-      const u16 resolved = ItemTable_ResolveUpgrades(ovr.value.getItemId);
-      if (resolved != 0)
-        util::GetPointer<GetItemHandlerFn>(0x233BEC)(gctx, resolved);
-    }
+    ItemOverride_GiveShopItem(actor, gctx);
 
     actor->can_buy_function = &EnGirlA_CanBuySoldOut;
 
     // Charge the shopsanity price.
-    const s32 price = (slot >= 0) ? Shopsanity_GetPrice(static_cast<u32>(slot)) : 0;
+    const s32 price = Shopsanity_GetPrice(ovr.key.flag);
     gctx->msg_context.item_cost = price;
-    util::GetPointer<SubtractRupeesFn>(0x2C1634)(-20);
+    util::GetPointer<SubtractRupeesFn>(0x2C1634)(-20/*price*/);
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    util::Print("%s: granted getItemId=0x%X, charged %d ovr key flag is %u\n", __func__,
-                (unsigned)(ovr.key.all != 0 ? ovr.value.getItemId : 0), (int)price, ovr.key.flag);
+    util::Print("%s: granted getItemId=0x%X, charged %d ovr key flag is %u\n", __func__, (unsigned)ovr.value.getItemId,
+                (int)price, ovr.key.flag);
 #endif
   }
 
   s32 EnGirlA_CanBuyOverriddenItem(game::GlobalContext* gctx) {
+    // TODO: More cases will need to be added such as no bottle available for liquids
+    // Or shields that are already obtained.
     if (gctx == nullptr)
       return 0;
 
@@ -154,11 +121,9 @@ namespace rnd {
   }
 
   s32 EnGirlA_CanBuySoldOut(game::GlobalContext* gctx) {
-    const ItemOverride ovr = GetShopOverride(actor, gctx, slot);
-    const bool alreadyOwned = ItemOverride_IsItemObtainedOrEmptyBottle(ovr);
-    if (alreadyOwned)
-      return 2;  // vanilla "you already have that" -- blocks the purchase
-    return 0;
+    // TODO: Add more guards to can buy sold out as well?
+    (void)gctx;
+    return 2;  // vanilla "you already have that" -- blocks the purchase
   }
   }
 
