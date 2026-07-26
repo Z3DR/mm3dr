@@ -1,8 +1,8 @@
 #pragma once
 
 #include "game/cmb.h"
-#include "z3d/z3DVec.h"
 #include "rnd/models.h"
+#include "z3d/z3DVec.h"
 
 namespace rnd {
   // Computes the bind-posed model-space AABB of a CMB by scanning the VATR position stream

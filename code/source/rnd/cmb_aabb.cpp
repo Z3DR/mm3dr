@@ -101,7 +101,7 @@ namespace rnd {
       m->data[2][1] = b.scale.y * (sx * cy);
       m->data[2][2] = b.scale.z * (cx * cy);
       m->data[2][3] = b.translation.z;
-    }    
+    }
 
     void Mtx34_Identity(z3d_nn_math_MTX34* m) {
       for (u32 i = 0; i < 3; ++i)

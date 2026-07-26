@@ -430,7 +430,7 @@ namespace game::cmb {
 
     u16 boneDimensionCount;
     u16 usedConstantFlags;  // Bitflags for when an attribute uses contants values
-    u16 prmsOffsets[];  // relative to the start of this SEPD chunk
+    u16 prmsOffsets[];      // relative to the start of this SEPD chunk
 
     bool HasAttribute(u32 n) const { return (vertFlags >> n) & 1; }
   };

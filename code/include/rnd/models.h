@@ -24,7 +24,7 @@ namespace rnd {
     z3dVec3f aabbMin;  // bind-posed model-space AABB of the object's CMB, valid when hasAabb is set
     z3dVec3f aabbMax;
     u8 hasAabb;
-    u8 clampGround;  // lift the final matrix so the AABB never dips below the actor's ground Y
+    u8 clampGround;                 // lift the final matrix so the AABB never dips below the actor's ground Y
     game::as::ActorUtil actorUtil;  // Used for actors such as fairies to control their CSAB.
     u8 useActorUtil;
     u8 texAnimCtrl[0x1F0];
