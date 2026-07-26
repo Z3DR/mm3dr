@@ -53,11 +53,10 @@ namespace rnd {
     (void)shopsanityOn;
 #endif
 
-    s32 slot = -1;
-    const ItemOverride ovr = GetShopOverride(reinterpret_cast<En_GirlA*>(actor), gctx, slot);
+    const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: RAN scene=%u param=%d slot=%d ovr.all=0x%X getItemId=0x%X\n", __func__,
-                (unsigned)static_cast<u8>(gctx->scene), (int)actor->params, (int)slot, (unsigned)ovr.key.all,
+                (unsigned)static_cast<u8>(gctx->scene), (int)actor->params, (int)ovr.key.flag, (unsigned)ovr.key.all,
                 (unsigned)ovr.value.getItemId);
 #endif
     if (ovr.key.all == 0)
