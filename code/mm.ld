@@ -389,6 +389,14 @@ SECTIONS{
     *(.patch_EnElforgUpdateFairyBits)
   }
 
+  .patch_StrayFairyCollectOverride 0x25A6E8 : {
+    *(.patch_StrayFairyCollectOverride)
+  }
+
+  .patch_StrayFairyClockTownCollect 0x25A7A0 : {
+    *(.patch_StrayFairyClockTownCollect)
+  }
+
   .patch_EnOsnCheckSoHExtData 0x268030 : {
     *(.patch_EnOsnCheckSoHExtData)
   }
@@ -593,8 +601,16 @@ SECTIONS{
     *(.patch_RemainsModelDraw)
   }
 
+  .patch_ClockTownFairyFountainCheck 0x3CD85C : {
+    *(.patch_ClockTownFairyFountainCheck)
+  }
+
   .patch_EnElfOrgTreasureSwitchSet 0x3CDDEC : {
     *(.patch_EnElfOrgTreasureSwitchSet)
+  }
+
+  .patch_EnElfOrgChestCollect 0x3CDE0C : {
+    *(.patch_EnElfOrgChestCollect)
   }
 
   .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
@@ -793,6 +809,11 @@ SECTIONS{
   .patch_SkulltulaOverrideTwo 0x52A044 : {
     *(.patch_SkulltulaOverrideTwo)
   }
+
+  .patch_StrayFairyCollectMessage 0x5410C0 : {
+    *(.patch_StrayFairyCollectMessage)
+  }
+
 
   .patch_EnGkCheckLullabyRewardGiven 0x546294 : {
     *(.patch_EnGkCheckLullabyRewardGiven)

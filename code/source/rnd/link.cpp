@@ -434,7 +434,7 @@ namespace rnd::link {
   }
 
   void** Link_EditAndRetrieveCMB(game::ObjectBank::ObjectBankArchive* archive, u32 objModelIdx) {
-    void** cmbMan = (void**)game::ObjectBank::getCMBFileByIndex(archive, objModelIdx, 1);
+    void** cmbMan = (void**)game::ObjectBank::getCMBManByIndex(archive, objModelIdx, 1);
     // void* cmb = *cmbMan;
 
     return cmbMan;

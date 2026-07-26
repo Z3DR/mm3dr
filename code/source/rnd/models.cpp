@@ -11,6 +11,7 @@
 #include "rnd/actors/item_b_heart.h"
 #include "rnd/actors/obj_moon_stone.h"
 #include "rnd/custom_models.h"
+#include "rnd/item_table.h"
 #define LOADEDMODELS_MAX 16
 
 namespace rnd {
@@ -53,6 +54,26 @@ namespace rnd {
   void SkeletonAnimationModel_Draw(void* model, int unk) {
     util::GetPointer<void(void*, int)>(0x20AAA8)(model, unk);
   }
+
+  void SkeletonAnimationModel_ShowMesh(void* model, s32 meshIdx) {
+    util::GetPointer<void(void*, s32)>(0x21AC14)(model, meshIdx);
+  }
+
+  void SkeletonAnimationModel_HideNextMesh(void* model) {
+    util::GetPointer<void(void*)>(0x21AC24)(model);
+  }
+
+  [[maybe_unused]] s32 SkeletonAnimationModel_GetMeshCount(void* model) {
+    return util::GetPointer<s32(void*)>(0x21B694)(model);
+  }
+
+  static bool Model_IsStrayFairyGraphic(DrawGraphicItemID graphicId) {
+    return graphicId >= DrawGraphicItemID::DI_STRAY_FAIRY_CLOCK_TOWN &&
+           graphicId <= DrawGraphicItemID::DI_STRAY_FAIRY_STONE_TOWER;
+  }
+
+  // Shared spin for freestanding fairy models, advanced once per frame.
+  static u16 sFairyItemSpinYaw = 0;
 
   void Model_SetScale(game::act::Actor* actor, float scale) {
     util::GetPointer<void(game::act::Actor*, float)>(0x21E30C)(actor, scale);
@@ -140,6 +161,13 @@ namespace rnd {
     if (model->hardcodedMtx != NULL) {
       // Use the hardcoded matrix if present
       SkeletonAnimationModel_CopyMtx(&model->saModel->mtx, model->hardcodedMtx);
+    } else if (model->useActorUtil) {
+      // Freestanding fairy models slowly rotate in place like classic freestanding items (the
+      // whole model spins as one, so head/body/glow always stay consistent with each other).
+      f32 tempRotY = model->actor->actor_shape.rot.y;
+      model->actor->actor_shape.rot.y = sFairyItemSpinYaw;
+      Actor_SetModelMatrix(actorPos.x, modelPosY, actorPos.z, &model->saModel->mtx, &model->actor->actor_shape);
+      model->actor->actor_shape.rot.y = tempRotY;
     } else {
       // Otherwise, compute model matrix from actor shape and given position.
       Actor_SetModelMatrix(actorPos.x, modelPosY, actorPos.z, &model->saModel->mtx, &model->actor->actor_shape);
@@ -176,14 +204,27 @@ namespace rnd {
     if (GARbuf != NULL)
       CustomModels_EditItemCMB(GARbuf, objectId, model->itemRow->special);
 
-    model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
+    model->useActorUtil = 0;
+    if (Model_IsStrayFairyGraphic(model->itemRow->graphicId) && En_Elforg_GetItemObjectId() != 0 &&
+        model->itemRow->objectId == En_Elforg_GetItemObjectId()) {
+      game::ActorResource::ActorResource* objectEntry = Object_GetEntry(model->objectBankIdx);
+      if (objectEntry != NULL) {
+        En_Elforg_InitItemModel(model, globalCtx, objectEntry);
+      }
+    }
 
-    SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
+    if (!model->useActorUtil) {
+      model->saModel = SkeletonAnimationModel_Spawn(model->actor, globalCtx, objectId, model->itemRow->objectModelIdx);
+    }
 
     CustomModels_ApplyItemCMAB(model->saModel, model->itemRow->objectId, model->itemRow->special);
 
-    if (model->itemRow->cmabIndex >= 0) {
+    if (!model->useActorUtil && model->itemRow->cmabIndex >= 0) {
       Model_SetAnim(model->saModel, model->itemRow->objectId, model->itemRow->cmabIndex);
+    }
+
+    if (!model->useActorUtil) {
+      SkeletonAnimationModel_SetMeshByDrawItemID(model->saModel, (s32)model->itemRow->graphicId - 1);
     }
 
     if (model->itemRow->objectModelIdx2 >= 0) {
@@ -198,6 +239,9 @@ namespace rnd {
   }
 
   void Model_Destroy(Model* model) {
+    if (model->useActorUtil) {
+      En_Elforg_DestroyItemModel(model);
+    }
     if (model->saModel != NULL) {
       SkeletonAnimationModel_Destroy(model->saModel);
       model->saModel = NULL;
@@ -216,6 +260,8 @@ namespace rnd {
 
   void Model_UpdateAll(game::GlobalContext* globalCtx) {
     Model* model;
+
+    sFairyItemSpinYaw += 0x200;
 
     Object_UpdateBank(&rExtendedObjectCtx);
 
@@ -238,6 +284,11 @@ namespace rnd {
         if (ExtendedObject_IsLoaded(&globalCtx->object_context, model->objectBankIdx)) {
           Model_Init(model, globalCtx);
         }
+      }
+
+      // Advance the skeletal animation (fairy wing flutter) like vanilla actors do each frame.
+      if (model->loaded && model->useActorUtil) {
+        En_Elforg_TickItemModel(model);
       }
     }
   }
@@ -294,6 +345,7 @@ namespace rnd {
       newModel->loaded = 0;
       newModel->saModel = NULL;
       newModel->saModel2 = NULL;
+      newModel->useActorUtil = 0;
       newModel->scale = model->itemRow->scale;
       newModel->objectBankIdx = model->objectBankIdx;
       newModel->baseItemId = model->baseItemId;
@@ -371,6 +423,9 @@ namespace rnd {
     overlayTable[0x12D].info->deinit_fn = Dm_Char05_Destroy;
 
     overlayTable[0x145].info->init_fn = En_Elforg_Init;
+    overlayTable[0x145].info->draw_fn = En_Elforg_Draw;
+    overlayTable[0x145].info->deinit_fn = En_Elforg_Destroy;
+    overlayTable[0x145].info->calc_fn = En_Elforg_Calc;
 
     overlayTable[0x166].info->init_fn = En_Pm_Init;
     overlayTable[0x166].info->deinit_fn = En_Pm_Destroy;
@@ -388,5 +443,9 @@ namespace rnd {
             0x34);
     strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_ASSETS)].path,
             "rom:/actors/zelda2_custom_data.gar.lzs", 0x34);
+
+    // Point the stray fairy item rows (0xBC-0xBF) at En_Elforg's object and record the object id
+    // that gates the fairy item-model path.
+    En_Elforg_ConfigureItemRows(overlayTable);
   }
 }  // namespace rnd

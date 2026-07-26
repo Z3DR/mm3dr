@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/actor.h"
+#include "game/as.h"
 #include "rnd/gfx.h"
 #include "rnd/item_table.h"
 #include "rnd/objects.h"
@@ -20,6 +21,10 @@ namespace rnd {
     z3d_nn_math_MTX34* hardcodedMtx;  // used for actors that draw their models in unusual ways
     f32 scale;
     z3dVec3f posOffset;
+    game::as::ActorUtil actorUtil;  // Used for actors such as fairies to control their CSAB.
+    u8 useActorUtil;
+    u8 texAnimCtrl[0x1F0];
+    game::as::BoneMatrix boneMtxBuf[16];
   } Model;
 
   game::act::SkeletonAnimationModel* SkeletonAnimationModel_Spawn(game::act::Actor*, game::GlobalContext*, s16, s32);
@@ -28,7 +33,9 @@ namespace rnd {
   void TexAnim_Spawn(game::act::SA_TextureAnimation*, void*);
   void SkeletonAnimationModel_SetMeshByDrawItemID(void* model, s32 drawItemId);
   void SkeletonAnimationModel_Draw(void*, int);
-
+  void SkeletonAnimationModel_ShowMesh(void*, s32);
+  void SkeletonAnimationModel_HideNextMesh(void*);
+  [[maybe_unused]] s32 SkeletonAnimationModel_GetMeshCount(void*);
   void Model_SetScale(game::act::Actor*, float);
   void Model_InvertMatrix(void* mtx);
   void Model_InvertMatrixByScale(void* mtx, float scale);

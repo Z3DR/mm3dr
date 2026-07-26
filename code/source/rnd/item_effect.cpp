@@ -90,6 +90,34 @@ namespace rnd {
     }
   }
 
+  void ItemEffect_GiveStrayFairy(game::CommonData* comData, s16 dungeonId, s16 arg2) {
+    switch (dungeonId) {
+    case 0:
+      if (comData->save.inventory.woodfall_fairies < 15)
+        comData->save.inventory.woodfall_fairies = comData->save.inventory.woodfall_fairies + 1;
+      break;
+    case 1:
+      if (comData->save.inventory.snowhead_fairies < 15)
+        comData->save.inventory.snowhead_fairies = comData->save.inventory.snowhead_fairies + 1;
+      break;
+    case 2:
+      if (comData->save.inventory.great_bay_fairies < 15)
+        comData->save.inventory.great_bay_fairies = comData->save.inventory.great_bay_fairies + 1;
+      break;
+    case 3:
+      if (comData->save.inventory.stone_tower_fairies < 15)
+        comData->save.inventory.stone_tower_fairies = comData->save.inventory.stone_tower_fairies + 1;
+      break;
+    case 4:
+      // Clock Town's fairy is not counted, use additional check to spawn great fairy instead
+      // to avoid the fairy disappearing after collection elsewhere.
+      gExtSaveData.givenItemChecks.clockTownFairyGiven = 1;
+      break;
+    default:
+      break;
+    }
+  }
+
   void ItemEffect_GiveGreatSpin(game::CommonData* comData, s16 arg1, s16 arg2) {
     comData->save.week_event_reg_23.WEEKEVENTREG_RECEIVED_GREAT_SPIN_ATTACK = 1;
   }

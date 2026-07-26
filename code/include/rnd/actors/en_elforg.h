@@ -11,6 +11,7 @@ extern "C" {
 }
 #endif
 namespace rnd {
+  extern u16 sElforgItemObjectId;
   struct En_Elforg : public game::act::Actor {
     game::as::ActorUtil actor_util;
     u8 gap_284[336];
@@ -30,13 +31,32 @@ namespace rnd {
     u32 field_68C;
   };
   static_assert(sizeof(En_Elforg) == 0x690);
+
+  struct ElforgColorData {
+    u16 dungeonAreas[10];
+    u16 overworldAreas[6];
+    u32 cmabIndexByArea[5];
+  };
+  static_assert(offsetof(ElforgColorData, overworldAreas) == 0x14);
+  static_assert(offsetof(ElforgColorData, cmabIndexByArea) == 0x20);
+  static_assert(sizeof(ElforgColorData) == 0x34);
+
   int En_Elforg_getFairyIndex(game::SceneId);
   void En_Elforg_Init(game::act::Actor*, game::GlobalContext*);
+  void En_Elforg_Draw(game::act::Actor*, game::GlobalContext*);
+  void En_Elforg_Calc(game::act::Actor*, game::GlobalContext*);
   extern "C" {
   s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
   void En_Elforg_UpdateExtFairyBits(game::act::Actor*, game::GlobalContext*);
   bool En_Elforg_Chest_IsFairyObtained(u32 param, game::GlobalContext*);
   }
   void En_Elforg_Destroy(game::act::Actor*, game::GlobalContext*);
+
+  void En_Elforg_ConfigureItemRows(game::act::ActorOverlayInfo* overlayTable);
+  u16 En_Elforg_GetItemObjectId();
+  void En_Elforg_InitItemModel(Model* model, game::GlobalContext* gctx,
+                               game::ActorResource::ActorResource* objectEntry);
+  void En_Elforg_TickItemModel(Model* model);
+  void En_Elforg_DestroyItemModel(Model* model);
 
 }  // namespace rnd

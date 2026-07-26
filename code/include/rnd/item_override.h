@@ -234,7 +234,11 @@ namespace rnd {
     /* 0xB8 */ GI_MAP_OF_GREAT_BAY,
     /* 0xB9 */ GI_MAP_OF_STONE_TOWER,
     /* 0xBA */ GI_FISHING_HOLE_PASS,
-    /* 0xBB */ GI_CUSTOM_STRAY_FAIRY,
+    /* 0xBB */ GI_STRAY_FAIRY_CLOCK_TOWN,  // Also used as the incoming id for fairy pickups
+    /* 0xBC */ GI_STRAY_FAIRY_WOODFALL,
+    /* 0xBD */ GI_STRAY_FAIRY_SNOWHEAD,
+    /* 0xBE */ GI_STRAY_FAIRY_GREAT_BAY,
+    /* 0xBF */ GI_STRAY_FAIRY_STONE_TOWER,
   };
 
   enum class DrawGraphicItemID : s32 {
@@ -393,6 +397,7 @@ namespace rnd {
     OVR_GROTTO_SCRUB = 4,
     OVR_DELAYED = 5,
     OVR_TEMPLE = 6,
+    OVR_STRAY_FAIRY = 7,
   };
 
   typedef union ItemOverride_Key {
@@ -444,6 +449,9 @@ namespace rnd {
   u32 ItemOverride_GetGaboraExtData();
   u32 ItemOverride_GetOshExtData();
   u8 ItemOverride_OverrideSkullToken(game::act::Actor*);
+  u8 ItemOverride_OverrideStrayFairy(game::act::Actor*);
+  u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor*);
+  u8 ItemOverride_GetClockTownFairyGiven();
   u8 ItemOverride_CheckBossStatus();
   u8 ItemOverride_ReceivedOcarinaFromSkt();
   u8 ItemOverride_ReceivedSongOverride(s16);

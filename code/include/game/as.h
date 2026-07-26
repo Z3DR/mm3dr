@@ -69,4 +69,14 @@ namespace game::as {
   static_assert(offsetof(ActorUtil, gap_64) == 0x64);
   static_assert(sizeof(ActorUtil) == 0x8C);
 
+  struct BoneMatrix {
+    z3d_nn_math_MTX34 mtx;
+    u32 field_30;
+  };
+  static_assert(sizeof(BoneMatrix) == 0x34);
+
+  void ActorUtil_Construct(game::ObjectBank::ObjectBankArchive*, game::GlobalContext*, game::as::ActorUtil*, void*, s32,
+                           void*);
+  void ActorUtil_Destroy(game::as::ActorUtil*);
+
 }  // namespace game::as

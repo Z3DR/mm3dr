@@ -23,9 +23,33 @@ OverrideGreatFairySpawn_patch:
 patch_EnElfOrgTreasureSwitchSet:
     bl hook_EnElforgUpdateFairyBitsTwo
 
+.section .patch_EnElfOrgChestCollect
+.global patch_EnElfOrgChestCollect
+patch_EnElfOrgChestCollect:
+    bl hook_EnElfOrgChestCollect
 
 @TODO: Break out Chest patches into separate chest file.
 .section .patch_EnBoxCheckIfFairyObtained
 .global patch_EnBoxCheckIfFairyObtained
 patch_EnBoxCheckIfFairyObtained:
     bl hook_EnBoxCheckIfFairyObtained
+
+.section .patch_StrayFairyCollectOverride
+.global patch_StrayFairyCollectOverride
+patch_StrayFairyCollectOverride:
+    bl hook_StrayFairyCollectOverride
+
+.section .patch_StrayFairyClockTownCollect
+.global patch_StrayFairyClockTownCollect
+patch_StrayFairyClockTownCollect:
+    bl hook_StrayFairyClockTownCollect
+
+.section .patch_ClockTownFairyFountainCheck
+.global patch_ClockTownFairyFountainCheck
+patch_ClockTownFairyFountainCheck:
+    bl hook_ClockTownFairyCheck
+
+.section .patch_StrayFairyCollectMessage
+.global patch_StrayFairyCollectMessage
+patch_StrayFairyCollectMessage:
+    bl hook_StrayFairyCollectMessage

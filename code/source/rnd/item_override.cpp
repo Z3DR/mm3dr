@@ -49,9 +49,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_SKULL;
-    rItemOverrides[1].value.getItemId = 0x06;
-    rItemOverrides[1].value.looksLikeItemId = 0x06;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
+    rItemOverrides[1].value.getItemId = 0xBF;
+    rItemOverrides[1].value.looksLikeItemId = 0xBF;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -101,6 +101,10 @@ namespace rnd {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_SKULL;
       retKey.flag = actor->params & 0xFF;
+    } else if (actor->id == game::act::Id::EnElfOrg) {  // Stray Fairy
+      retKey.scene = scene;
+      retKey.type = ItemOverride_Type::OVR_STRAY_FAIRY;
+      retKey.flag = ((actor->params << 0x10) >> 0x19);
     } else if (scene == 0x14C0 && actor->id == (game::act::Id)0x0075) {  // Grotto Salesman
       retKey.scene = cdata.sub13s[8].data;
       retKey.type = ItemOverride_Type::OVR_GROTTO_SCRUB;
@@ -130,7 +134,10 @@ namespace rnd {
     s32 start = 0;
     s32 end = rItemOverrides_Count - 1;
 #ifdef ENABLE_DEBUG
-    return rItemOverrides[1];
+    if (key.type != ItemOverride_Type::OVR_CHEST)
+      return rItemOverrides[1];
+    else
+      return (ItemOverride){0};
 #endif
     while (start <= end) {
       s32 midIdx = (start + end) / 2;
@@ -150,15 +157,21 @@ namespace rnd {
     u16 resolvedGetItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
 
     ItemRow* itemRow = ItemTable_GetItemRow(resolvedGetItemId);
+    if (itemRow == NULL) {
+      return;
+    }
     u8 looksLikeItemId = ItemOverride_SetProgressiveItemDraw(override);
+    ItemRow* looksLikeRow = ItemTable_GetItemRow(looksLikeItemId);
+    if (looksLikeRow == NULL) {
+      looksLikeRow = itemRow;
+    }
 
     rActiveItemOverride = override;
     rActiveItemRow = itemRow;
     rActiveItemActionId = itemRow->itemId;
     rActiveItemTextId = itemRow->textId;
     rActiveItemObjectId = itemRow->objectId;
-    rActiveItemGraphicId =
-        override.value.getItemId == 0x12 ? 0x77 : (u32)ItemTable_GetItemRow(looksLikeItemId)->graphicId;
+    rActiveItemGraphicId = override.value.getItemId == 0x12 ? 0x77 : (u32)looksLikeRow->graphicId;
     rActiveItemChestType = (u8)itemRow->chestType;
     isItemOverrideActive = true;
   }
@@ -213,10 +226,6 @@ namespace rnd {
     rPendingOverrideQueue[2].value.all = 0;
   }
 
-  static void ItemOverride_AfterKeyReceived(ItemOverride_Key key) {
-    // TODO: Is this needed? We can have many types of trade items at once according to gear screen?
-  }
-
   static void ItemOverride_PopIceTrap(void) {
     ItemOverride_Key key = rPendingOverrideQueue[0].key;
     ItemOverride_Value value = rPendingOverrideQueue[0].value;
@@ -224,7 +233,6 @@ namespace rnd {
     if (value.getItemId == 0x12) {
       IceTrap_Push();
       ItemOverride_PopPendingOverride();
-      ItemOverride_AfterKeyReceived(key);
       SpoilerLog_UpdateIngameLog(key.type, key.scene, key.flag);
     }
   }
@@ -295,7 +303,6 @@ namespace rnd {
       return;
     }
     SetExtData();
-    ItemOverride_AfterKeyReceived(key);
     SpoilerLog_UpdateIngameLog(key.type, key.scene, key.flag);
     // #if ENABLE_DEBUG || DEBUG_PRINT
     //  util::Print(
@@ -648,6 +655,29 @@ namespace rnd {
     default:
       return false;
     }
+  }
+
+  s16 ItemOverride_GetFairyGetItemFromScene(game::SceneId scene) {
+    s16 getItemId = (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN;
+    switch (scene) {
+    case game::SceneId::WoodfallTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_WOODFALL;
+      break;
+    case game::SceneId::SnowheadTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_SNOWHEAD;
+      break;
+    case game::SceneId::GreatBayTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_GREAT_BAY;
+      break;
+    case game::SceneId::StoneTowerTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER;
+      break;
+    case game::SceneId::StoneTowerTempleInverted:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER;
+    default:
+      break;
+    }
+    return getItemId;
   }
 
   extern "C" {
@@ -1132,6 +1162,42 @@ namespace rnd {
     }
 
     return false;
+  }
+
+  u8 ItemOverride_OverrideStrayFairy(game::act::Actor* actor) {
+    game::GlobalContext* gctx = GetContext().gctx;
+    s16 getItemId = (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN;  // Default case.
+    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN);
+    if (override.key.all == 0) {
+      return false;
+    }
+
+    getItemId = ItemOverride_GetFairyGetItemFromScene(gctx->scene);
+    ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
+    if (rActiveItemRow != NULL) {
+      return true;
+    }
+    return false;
+  }
+
+  u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor* actor) {
+    game::GlobalContext* gctx = GetContext().gctx;
+    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN);
+    if (override.key.all == 0) {
+      return 0x11;  // Vanilla "You found a Stray Fairy" text, as a safe fallback.
+    }
+
+    u16 resolvedItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
+    rStoredTextId = ItemTable_GetItemRow(resolvedItemId)->textId;
+    ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
+    return ItemTable_GetItemRow(resolvedItemId)->textId;
+  }
+
+  u8 ItemOverride_GetClockTownFairyGiven() {
+    if (gExtSaveData.givenItemChecks.clockTownFairyGiven == 1) {
+      return 1;
+    }
+    return game::GetCommonData().save.week_event_reg_08.WEEKEVENTREG_08_80 == 1 ? 1 : 0;
   }
 
   u8 ItemOverride_CheckBossStatus() {

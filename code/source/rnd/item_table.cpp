@@ -933,6 +933,31 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Fishing Pass
 
+      [0xBB] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::None, 0x6144, 0x00CB,
+                        0x00, 0x00, (s8)0xFF, (s8)0xFF, 0x04, DrawGraphicItemID::DI_STRAY_FAIRY_CLOCK_TOWN,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveStrayFairy, (s16)4, (s16)-1,
+                        1.00f),  // Stray Fairy (Clock Town)
+
+      [0xBC] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::None, 0x6145, 0x00CB,
+                        0x00, 0x02, (s8)0xFF, (s8)0xFF, 0x00, DrawGraphicItemID::DI_STRAY_FAIRY_WOODFALL,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveStrayFairy, (s16)0, (s16)-1,
+                        1.00f),  // Stray Fairy (Woodfall)
+
+      [0xBD] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::None, 0x6146, 0x00CB,
+                        0x00, 0x01, (s8)0xFF, (s8)0xFF, 0x01, DrawGraphicItemID::DI_STRAY_FAIRY_SNOWHEAD,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveStrayFairy, (s16)1, (s16)-1,
+                        1.00f),  // Stray Fairy (Snowhead)
+
+      [0xBE] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::None, 0x6147, 0x00CB,
+                        0x00, 0x03, (s8)0xFF, (s8)0xFF, 0x02, DrawGraphicItemID::DI_STRAY_FAIRY_GREAT_BAY,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveStrayFairy, (s16)2, (s16)-1,
+                        1.00f),  // Stray Fairy (Great Bay)
+
+      [0xBF] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::None, 0x6148, 0x00CB,
+                        0x00, 0x04, (s8)0xFF, (s8)0xFF, 0x03, DrawGraphicItemID::DI_STRAY_FAIRY_STONE_TOWER,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveStrayFairy, (s16)3, (s16)-1,
+                        1.00f),  // Stray Fairy (Stone Tower)
+
   };
 
   ItemRow* ItemTable_GetItemRow(u16 getItemId) {
@@ -959,6 +984,10 @@ namespace rnd {
     if (gSaveContext.has_completed_intro) {
       for (;;) {
         ItemRow* itemRow = ItemTable_GetItemRow(getItemId);
+        // Out-of-range or gap entry (e.g. 0xBB) - nothing to upgrade.
+        if (itemRow == NULL) {
+          return getItemId;
+        }
         u16 newItemId = (u16)itemRow->upgrade(&gSaveContext, (GetItemID)getItemId);
         if (newItemId == getItemId) {
           return getItemId;

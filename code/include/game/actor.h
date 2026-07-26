@@ -80,6 +80,8 @@ namespace game::act {
     DmChar05 = 0x012D,
     // Ice platform created using ice arrows.
     BgIcePlatform = 0x013E,
+    // Stray Fairy
+    EnElfOrg = 0x0145,
     // Npc For Curiosity Shop Owner
     NpcEnFsn = 0x0157,
     // Npc For Boat Photography
@@ -359,21 +361,26 @@ namespace game::act {
   };
   static_assert(sizeof(DayTimerActor) == 0x20C);
 
+  struct SA_TextureAnimation;
+
   struct TexAnim_Unk_00 {
     void* CMAB_man;
     void* field_04;
     s32 field_08;
     s32 field_0C;
-    s32 field_10;
-    u8 gap_14[14];
-    // Likely incomplete sizing.
+    void (*attach_cmab)(SA_TextureAnimation* texAnim, void* cmabMan);
+    u8 gap_14[12];
+    void (*set_active)(SA_TextureAnimation* texAnim, s32 active);
+    // Likely incomplete.
   };
+  static_assert(offsetof(TexAnim_Unk_00, attach_cmab) == 0x10);
+  static_assert(offsetof(TexAnim_Unk_00, set_active) == 0x20);
   static_assert(sizeof(TexAnim_Unk_00) == 0x24);
 
   struct TexAnim_Unk_10 {
     void* CMB_man;
     u8 gap_14[20];
-    // Likely incomplete sizing.
+    // Likely incomplete.
   };
   static_assert(sizeof(TexAnim_Unk_10) == 0x18);
 
@@ -388,7 +395,7 @@ namespace game::act {
     s8 anim_mode;
     // s8 field_1A;
     u8 gap_1b[139];
-    // Likely incomplete sizing.
+    // Likely incomplete.
   };
   static_assert(offsetof(SA_TextureAnimation, anim_mode) == 0x18);
   static_assert(offsetof(SA_TextureAnimation, field_08) == 0x08);

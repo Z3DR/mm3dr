@@ -157,3 +157,23 @@ struct Graphics {
   Framebuffer top2;
   Framebuffer bottom;
 };
+
+struct GspFramebufferInfo {
+  u32 activeFramebuf;         // 0 = framebuf0, 1 = framebuf1
+  u32* framebuf0Vaddr;        // top screen: left-eye image
+  u32* framebuf1Vaddr;        // top screen: right-eye image
+  u32 framebufWidthByteSize;  // stride
+  u32 format;
+  u32 framebufDispSelect;
+  u32 unk;
+};
+static_assert(sizeof(GspFramebufferInfo) == 0x1C);
+
+struct GspFramebufferInfoHeader {
+  u8 index;
+  u8 dirty;
+  u16 pad_02;
+  GspFramebufferInfo framebufInfo[2];
+};
+static_assert(offsetof(GspFramebufferInfoHeader, framebufInfo) == 0x04);
+static_assert(sizeof(GspFramebufferInfoHeader) == 0x3C);
