@@ -53,6 +53,8 @@ namespace rnd {
       MULTI_LOC(ItemOverride_Type::OVR_COLLECTABLE, 0x00, {0x00, 0x45}),
       // STT Death Armos Chest
       MULTI_LOC(ItemOverride_Type::OVR_CHEST, 0x05, {0x16, 0x18}),
+      // Clock Town Stray Fairy
+      MULTI_LOC(ItemOverride_Type::OVR_STRAY_FAIRY, 0xFF, {0x70, 0x6C}),
   };
 #undef MULTI_LOC
 
