@@ -9,6 +9,7 @@
 #include "rnd/item_table.h"
 #include "rnd/rheap.h"
 #include "rnd/savefile.h"
+#include "rnd/shops.h"
 #include "rnd/spoiler_data.h"
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
@@ -117,10 +118,14 @@ namespace rnd {
       retKey.type = ItemOverride_Type::OVR_GROTTO_SCRUB;
       retKey.flag = getItemId;
     } else if (actor->id == game::act::Id::EnGirlA) {
+      s32 slot = Shopsanity_GetSlot((game::SceneId)scene, actor->params);
+      if (slot < 0) {
+        return (ItemOverride_Key){.all = 0};
+      }
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_SHOP;
-      retKey.flag = actor->params;
-    } else if (actor->id == game::act::Id::EnCow) {  // Cow
+      retKey.flag = actor ? actor->params : slot;
+    } else if (actor && actor->id == game::act::Id::EnCow) {  // Cow
       if (!En_Cow_FillSearchKey(actor, (game::SceneId)scene, &retKey)) {
         return (ItemOverride_Key){.all = 0};
       }
@@ -1208,6 +1213,36 @@ namespace rnd {
       return true;
     }
     return false;
+  }
+
+  ItemOverride ItemOverride_LookupShopItem(game::act::Actor* actor, game::GlobalContext* gctx) {
+    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    if (gctx->scene == (game::SceneId)52 && actor->params == 10) {
+      override.key = ItemOverride_GetSearchKey(actor, (u16)gctx->scene, 0);
+      override.value.getItemId = 0xBD;
+      override.value.looksLikeItemId = 0xBD;
+      rShopsanityPrices[override.key.flag] = 20;
+    }
+#endif
+    return override;
+  }
+  bool ItemOverride_GiveShopItem(game::act::Actor* actor, game::GlobalContext* gctx) {
+    game::act::Player* player = gctx->GetPlayerActor();
+    const ShopItemEntry* vanillaEntry = Shopsanity_GetVanillaEntry(actor->params);
+    if (vanillaEntry == NULL) {
+      return false;
+    }
+    ItemOverride_GetItem(gctx, actor, player, (s16)vanillaEntry->getItemId);
+    if (rActiveItemRow == NULL) {
+      return false;
+    }
+    // The shop drives its own dialogue (EnGirlA_Randomize points text_id at the placed item), so
+    // suppress the pipeline's ShowMessage -- a non-zero rStoredTextId is the existing opt-out.
+    rStoredTextId = rActiveItemRow->textId;
+    ItemOverride_GetItemTextAndItemID(player);
+    ItemOverride_RemoveTextId();
+    return true;
   }
 
   u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor* actor) {
