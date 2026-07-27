@@ -7,7 +7,7 @@
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 19
+#define EXTSAVEDATA_VERSION 20
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
@@ -149,6 +149,19 @@ namespace rnd {
       BitField<6, 2, u8> unused;
     };
     TingleCollectRegister tingleMaps;
+    union CowMilkedRegister {
+      u8 raw;
+
+      BitField<0, 1, u8> romani_ranch_one_milked;
+      BitField<1, 1, u8> romani_ranch_two_milked;
+      BitField<2, 1, u8> romani_ranch_three_milked;
+      BitField<3, 1, u8> beneath_the_well_milked;
+      BitField<4, 1, u8> termina_field_one_milked;
+      BitField<5, 1, u8> termina_field_two_milked;
+      BitField<6, 1, u8> great_bay_coast_one_milked;
+      BitField<7, 1, u8> great_bay_coast_two_milked;
+    };
+    CowMilkedRegister cowMilked;
     u32 scenesDiscovered[SAVEFILE_SCENES_DISCOVERED_IDX_COUNT];
     u8 itemCollected[SAVEFILE_SPOILER_ITEM_MAX];
     u8 chestRewarded[116][32];  // Reward table that's stored by scene and chest param/flag.

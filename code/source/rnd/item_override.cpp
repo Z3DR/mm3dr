@@ -1,5 +1,6 @@
 #include "rnd/item_override.h"
 #include "game/actors/great_fairy.h"
+#include "rnd/actors/en_cow.h"
 #include "rnd/actors/en_si.h"
 #include "rnd/custom_models.h"
 #include "rnd/extdata.h"
@@ -49,7 +50,7 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COW;
     rItemOverrides[1].value.getItemId = 0xBF;
     rItemOverrides[1].value.looksLikeItemId = 0xBF;
     rItemOverrides[2].key.scene = 0x12;
@@ -71,6 +72,10 @@ namespace rnd {
     game::CommonData& cdata = game::GetCommonData();
     ItemOverride_Key retKey;
     retKey.all = 0;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Retrieving search key for actor type %#04x and ID is %#04x\n", __func__, actor->actor_type,
+                     actor->id);
+#endif
     if (actor->actor_type == game::act::Type::Chest) {
       // XXX: Any games like H&D or chest game to not swap?
       // Don't override WINNER purple rupee in the chest minigame scene
@@ -109,6 +114,10 @@ namespace rnd {
       retKey.scene = cdata.sub13s[8].data;
       retKey.type = ItemOverride_Type::OVR_GROTTO_SCRUB;
       retKey.flag = getItemId;
+    } else if (actor->id == game::act::Id::EnCow) {  // Cow
+      if (!En_Cow_FillSearchKey(actor, (game::SceneId)scene, &retKey)) {
+        return (ItemOverride_Key){.all = 0};
+      }
     } else {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_BASE_ITEM;
@@ -301,6 +310,9 @@ namespace rnd {
     ItemOverride_Key key = rActiveItemOverride.key;
     if (key.all == 0) {
       return;
+    }
+    if (key.type == ItemOverride_Type::OVR_COW) {
+      En_Cow_SetMilked(key.flag);
     }
     SetExtData();
     SpoilerLog_UpdateIngameLog(key.type, key.scene, key.flag);
@@ -774,6 +786,9 @@ namespace rnd {
     } else if (override.key.type == ItemOverride_Type::OVR_SKULL &&
                (gctx->scene == game::SceneId::SwampSpiderHouse || gctx->scene == game::SceneId::OceansideSpiderHouse) &&
                En_Si_IsTokenCollectedAndNonRepeatable(fromActor, gctx->scene, &override)) {
+      override.value.getItemId = 0x02;
+      override.value.looksLikeItemId = 0x02;
+    } else if (override.key.type == ItemOverride_Type::OVR_COW && En_Cow_IsMilkedAndNonRepeatable(&override)) {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
     }

@@ -50,6 +50,8 @@ namespace game::act {
     EnSsh = 0x0090,
     // Gold Skullutla
     EnSi = 0x0099,
+    // Cow
+    EnCow = 0x00A4,
     // Powder Keg Trial Goron
     EnGo = 0x00D5,
     // [1] Deku Palace / Woodfall Temple moving platforms (after player lands on them)

@@ -818,14 +818,14 @@ namespace rnd {
     gExtSaveData.version = EXTSAVEDATA_VERSION;  // Do not change this line
     gExtSaveData.isNewFile = 1;
     // TODO: BitField for event flags instead?
-    // memset(&gExtSaveData.extInf, 0, sizeof(gExtSaveData.extInf));
-    gExtSaveData.givenItemChecks.raw = 0;
+    memset((void*)&gExtSaveData, 0, sizeof(gExtSaveData));
+    /*gExtSaveData.givenItemChecks.raw = 0;
     gExtSaveData.fairyRewards.raw = 0;
     gExtSaveData.tingleMaps.raw = 0;
     gExtSaveData.playtimeSeconds = 0;
     memset(&gExtSaveData.chestRewarded, 0, sizeof(gExtSaveData.chestRewarded));
     memset(&gExtSaveData.scenesDiscovered, 0, sizeof(gExtSaveData.scenesDiscovered));
-    memset(&gExtSaveData.itemCollected, 0, sizeof(gExtSaveData.itemCollected));
+    memset(&gExtSaveData.itemCollected, 0, sizeof(gExtSaveData.itemCollected));*/
 #ifdef ENABLE_DEBUG
     gExtSaveData.collectedTradeItems[0] = game::ItemId::MoonTear;
     gExtSaveData.collectedTradeItems[1] = game::ItemId::LandTitleDeed;
