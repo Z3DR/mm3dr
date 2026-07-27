@@ -1,7 +1,21 @@
 #include "rnd/actors/en_cow.h"
 
 namespace rnd {
+  // TODO: Back entrances will need to be adjusted eventually for entrance randomization, as we will not be able to tell
+  // which grotto we are coming from.
+  static const CowEntry cowTable[] = {
+      {(u8)game::SceneId::Barn, 0x00, COW_ANY_ENTRANCE, -311, 0, -97, (u8)game::SceneId::Barn, 0},
+      {(u8)game::SceneId::Barn, 0x00, COW_ANY_ENTRANCE, -82, 0, -127, (u8)game::SceneId::Barn, 1},
+      {(u8)game::SceneId::Barn, 0x00, COW_ANY_ENTRANCE, -83, 0, -32, (u8)game::SceneId::Barn, 2},
+      {(u8)game::SceneId::BeneathTheWell, 0x09, COW_ANY_ENTRANCE, 2890, 0, -195, (u8)game::SceneId::BeneathTheWell, 3},
+      {(u8)game::SceneId::Grottos, 0x0A, 0x5400, 2394, 0, 907, (u8)game::SceneId::TerminaField, 4},
+      {(u8)game::SceneId::Grottos, 0x0A, 0x5400, 2466, 0, 952, (u8)game::SceneId::TerminaField, 5},
+      {(u8)game::SceneId::Grottos, 0x0A, 0x6800, 2394, 0, 907, (u8)game::SceneId::GreatBayCoast, 6},
+      {(u8)game::SceneId::Grottos, 0x0A, 0x6800, 2466, 0, 952, (u8)game::SceneId::GreatBayCoast, 7},
+  };
+  static_assert(sizeof(cowTable) / sizeof(CowEntry) <= 8, "cowTable outgrew CowMilkedRegister");
 
+  static const u8 cowTableCount = sizeof(cowTable) / sizeof(CowEntry);
   static const CowEntry* En_Cow_FindEntry(game::act::Actor* actor, game::SceneId scene) {
     if (actor == NULL || actor->id != game::act::Id::EnCow)
       return NULL;
