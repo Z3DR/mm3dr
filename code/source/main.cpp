@@ -154,7 +154,7 @@ namespace rnd {
   }
   void _start(void) {
     // Just in case something needs to be dynamically allocated...
-    static char s_fake_heap[0x80000];
+    static char s_fake_heap[0x10000];
 
     fake_heap_start = &s_fake_heap[0];
     fake_heap_end = &s_fake_heap[sizeof(s_fake_heap)];
