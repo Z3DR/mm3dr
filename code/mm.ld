@@ -725,6 +725,18 @@ SECTIONS{
     *(.patch_GibdoMaskGiveItem)
   }
 
+  .patch_BankTierTwoCurrent 0x426AD0 : {
+    *(.patch_BankTierTwoCurrent)
+  }
+
+  .patch_BankTierTwoPrevious 0x426AE0 : {
+    *(.patch_BankTierTwoPrevious)
+  }
+
+  .patch_BankTierThreeThreshold 0x426AF4 : {
+    *(.patch_BankTierThreeThreshold)
+  }
+
   .patch_OverrideItem00Draw 0x42886C : {
     *(.patch_OverrideItem00Draw)
   }
