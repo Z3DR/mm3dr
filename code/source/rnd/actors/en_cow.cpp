@@ -40,9 +40,9 @@ namespace rnd {
     const CowEntry* entry = En_Cow_FindEntry(actor, scene);
     if (entry == NULL)
       return false;
-    #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: Cow index is %u\n", __func__, entry->index);	
-    #endif
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Cow index is %u\n", __func__, entry->index);
+#endif
     key->scene = entry->keyScene;
     key->type = ItemOverride_Type::OVR_COW;
     key->flag = entry->index;
