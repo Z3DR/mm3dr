@@ -189,8 +189,8 @@ SECTIONS{
     *(.patch_OcarinaDive)
   }
 
-  .patch_ByPassMaskEquipmentChecks 0x1E770C : {
-    *(.patch_ByPassMaskEquipmentChecks)
+  .patch_BypassMaskEquipmentChecks 0x1E770C : {
+    *(.patch_BypassMaskEquipmentChecks)
   }
 
   .patch_SpawnFastElegyStatues 0x1E9FB8 : {
@@ -439,8 +439,8 @@ SECTIONS{
     *(.patch_DoNotRemoveSwordGaboraTwo)
   }
 
-  .patch_DmSktOcarinaAnimationpatchOne 0x2CC87C : {
-    *(.patch_DmSktOcarinaAnimationpatchOne)
+  .patch_DmSktOcarinaAnimationPatchOne 0x2CC87C : {
+    *(.patch_DmSktOcarinaAnimationPatchOne)
   }
 
   .patch_DmSktOcarinaAnimationPatchTwo 0x2CC8B0 : {
@@ -742,7 +742,7 @@ SECTIONS{
   }
 
   .patch_CheckMasksOnMoon 0x46AA48 : {
-    *(.patch_CheckMasksOnMoonOne)
+    *(.patch_CheckMasksOnMoon)
   }
 
   .patch_CouplesMaskGiveItem 0x46E228 : {
