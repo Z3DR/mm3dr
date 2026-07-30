@@ -600,6 +600,21 @@ public:
       }
     }
 
+  // Add mysterious control character to applicable textboxes if necessary(?).
+  // Pretty hacky but works for now.
+  switch (msg->id) {
+    case 0x44d:
+    case 0x1631:
+      addCom(0x2B, 0x01);
+      break;
+    case 0x45c:
+    case 0x45d:
+    case 0x1240:
+    case 0x1242:
+      addCom(0x2B, 0x00);
+      break;
+  }
+
 // Add debug message if the last colour didn't have an end marker
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (inCol)
