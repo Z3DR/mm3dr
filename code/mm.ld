@@ -515,10 +515,6 @@ SECTIONS{
     *(.patch_EnJsSoftlockOnCustomText)
   }
 
-  .patch_EnJsAutoPressAOnEmptyText 0x30FACC : {
-    *(.patch_EnJsAutoPressAOnEmptyText)
-  }
-
   .patch_SaveExtDataOnOwl 0x317004 : {
     *(.patch_SaveExtDataOnOwl)
   }

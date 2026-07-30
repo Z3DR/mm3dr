@@ -17,6 +17,6 @@ namespace rnd {
   extern "C" {
   u16 En_Js_CurrentMasksInInventory();
   u16 En_Js_CheckVictoryRequirements();
-  void En_Js_CheckTextValues(game::GlobalContext*);
+  bool En_Js_IsCustomTerminalText(game::GlobalContext*);
   }
 }  // namespace rnd
