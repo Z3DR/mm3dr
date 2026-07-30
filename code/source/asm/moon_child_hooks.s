@@ -22,21 +22,12 @@ hook_EnJsVictoryCheck:
 hook_EnJsSoftlockOnCustomText:
     push {r0-r12, lr}
     cpy r0,r6
-    bl En_Js_CheckTextValues
+    bl En_Js_IsCustomTerminalText
+    cmp r0,#0x1
     pop {r0-r12,lr}
+    beq forceDispatch
     cmp r0,#0x5
     bx lr
-
-.global hook_EnJsAutoPressAOnEmptyText
-hook_EnJsAutoPressAOnEmptyText:
-    push {r0-r12,lr}
-    cpy r0,r6
-    bl En_Js_AutoPressEmptyText
-    cmp r0,#0x1
-    pop {r0-r12,lr}
-    bne doNormalCmp
-    cmp r0,#0x1
-    bx lr
-doNormalCmp:
-    cmp r0,#0x0
+forceDispatch:
+    cmp r0,r0
     bx lr
