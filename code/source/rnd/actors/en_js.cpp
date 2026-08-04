@@ -62,7 +62,7 @@ namespace rnd {
   }
 
   bool En_Js_IsCustomTerminalText(game::GlobalContext* gctx) {
-    if (gctx->msg_context.current_text_id != 0x6144)  // En_Js_CheckVictoryRequirements
+    if (gctx->msg_context.current_text_id != 0x6149)  // En_Js_CheckVictoryRequirements
       return false;
     return util::GetPointer<int(game::GlobalContext*)>(0x1c5018)(gctx) == 6;
   }
