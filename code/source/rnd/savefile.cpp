@@ -137,6 +137,9 @@ namespace rnd {
     // TODO: Decomp event flags. Most likely in the large anonymous structs in the SaveData.
     u8 isNewFile = saveData.has_completed_intro;
     if (isNewFile == 0) {
+      #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+        rnd::util::Print("%s: NEW FILE< INITING EXT DATA\n", __func__);	
+      #endif
       SaveFile_InitExtSaveData(comData.save_idx);
       saveData.has_tatl = true;
       // Skips cutscenes with no item checks attached
@@ -815,10 +818,10 @@ namespace rnd {
   }
 
   void SaveFile_InitExtSaveData(u32 saveNumber) {
+    memset((void*)&gExtSaveData, 0, sizeof(gExtSaveData));
     gExtSaveData.version = EXTSAVEDATA_VERSION;  // Do not change this line
     gExtSaveData.isNewFile = 1;
     // TODO: BitField for event flags instead?
-    memset((void*)&gExtSaveData, 0, sizeof(gExtSaveData));
     /*gExtSaveData.givenItemChecks.raw = 0;
     gExtSaveData.fairyRewards.raw = 0;
     gExtSaveData.tingleMaps.raw = 0;
