@@ -137,9 +137,9 @@ namespace rnd {
     // TODO: Decomp event flags. Most likely in the large anonymous structs in the SaveData.
     u8 isNewFile = saveData.has_completed_intro;
     if (isNewFile == 0) {
-      #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("%s: NEW FILE< INITING EXT DATA\n", __func__);	
-      #endif
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: NEW FILE< INITING EXT DATA\n", __func__);
+#endif
       SaveFile_InitExtSaveData(comData.save_idx);
       saveData.has_tatl = true;
       // Skips cutscenes with no item checks attached
