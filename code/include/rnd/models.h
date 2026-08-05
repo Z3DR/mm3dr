@@ -23,7 +23,7 @@ namespace rnd {
     z3dVec3f posOffset;
     game::as::ActorUtil actorUtil;  // Used for actors such as fairies to control their CSAB.
     u8 useActorUtil;
-    u8 texAnimCtrl[0x1F0];
+    alignas(4) u8 texAnimCtrl[0x1F0];
     game::as::BoneMatrix boneMtxBuf[16];
   } Model;
 
