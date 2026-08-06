@@ -323,6 +323,9 @@ namespace rnd {
           En_Si_IsTokenCollectedAndNonRepeatable(actor, globalCtx->scene, &override)) {
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
+      } else if (En_Elforg_IsClockTownFairyCollectedAndNonRepeatable(&override)) {
+        override.value.getItemId = 0x02;
+        override.value.looksLikeItemId = 0x02;
       }
       Model_LookupByOverride(model, override);
       Model_GetObjectBankIndex(model, actor, globalCtx);

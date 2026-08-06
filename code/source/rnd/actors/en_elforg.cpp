@@ -70,6 +70,17 @@ namespace rnd {
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x424BF0)(actor, gctx);
   }
 
+  bool En_Elforg_IsClockTownFairyCollectedAndNonRepeatable(ItemOverride* override) {
+    if (override->key.type != ItemOverride_Type::OVR_STRAY_FAIRY)
+      return false;
+    if (override->key.scene != (u8)game::SceneId::LaundryPool &&
+        override->key.scene != (u8)game::SceneId::EastClockTown)
+      return false;
+    if (gExtSaveData.givenItemChecks.clockTownStrayFairyCollected == 0)
+      return false;
+    return ItemOverride_IsItemObtainedOrEmptyBottle(*override);
+  }
+
   extern "C" {
   void En_Elforg_UpdateExtFairyBits(game::act::Actor* actor, game::GlobalContext* gctx) {
     int bitIndex = ((actor->params << 0x10) >> 0x19);

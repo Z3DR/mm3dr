@@ -1,6 +1,7 @@
 #include "rnd/item_override.h"
 #include "game/actors/great_fairy.h"
 #include "rnd/actors/en_cow.h"
+#include "rnd/actors/en_elforg.h"
 #include "rnd/actors/en_si.h"
 #include "rnd/custom_models.h"
 #include "rnd/extdata.h"
@@ -49,10 +50,10 @@ namespace rnd {
     rItemOverrides[0].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
-    rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COW;
-    rItemOverrides[1].value.getItemId = 0xBF;
-    rItemOverrides[1].value.looksLikeItemId = 0xBF;
+    rItemOverrides[1].key.scene = 0x70;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
+    rItemOverrides[1].value.getItemId = 0x56;
+    rItemOverrides[1].value.looksLikeItemId = 0x56;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -313,6 +314,12 @@ namespace rnd {
     }
     if (key.type == ItemOverride_Type::OVR_COW) {
       En_Cow_SetMilked(key.flag);
+    }
+    if (key.type == ItemOverride_Type::OVR_STRAY_FAIRY &&
+        (key.scene == (u8)game::SceneId::LaundryPool || key.scene == (u8)game::SceneId::EastClockTown)) {
+      gExtSaveData.givenItemChecks.clockTownStrayFairyCollected = 1;
+      game::GetCommonData().save.week_event_reg_08.WEEKEVENTREG_08_80 =
+          1;  // Set fairy collected so it doesn't spawn anymore for the cycle.
     }
     SetExtData();
     SpoilerLog_UpdateIngameLog(key.type, key.scene, key.flag);
@@ -791,6 +798,9 @@ namespace rnd {
     } else if (override.key.type == ItemOverride_Type::OVR_COW && En_Cow_IsMilkedAndNonRepeatable(&override)) {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
+    } else if (En_Elforg_IsClockTownFairyCollectedAndNonRepeatable(&override)) {
+      override.value.getItemId = 0x02;
+      override.value.looksLikeItemId = 0x02;
     }
 
     // This check is mainly to ensure we do not have repeatable progressive items within these base items.
@@ -1202,15 +1212,17 @@ namespace rnd {
       return 0x11;  // Vanilla "You found a Stray Fairy" text, as a safe fallback.
     }
 
-    u16 resolvedItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
-    rStoredTextId = ItemTable_GetItemRow(resolvedItemId)->textId;
+    rStoredTextId = rActiveItemRow->textId;
     ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
-    return ItemTable_GetItemRow(resolvedItemId)->textId;
+    return rActiveItemRow->textId;
   }
 
   u8 ItemOverride_GetClockTownFairyGiven() {
     if (gExtSaveData.givenItemChecks.clockTownFairyGiven == 1) {
       return 1;
+    }
+    if (gExtSaveData.givenItemChecks.clockTownStrayFairyCollected == 1) {
+      return 0;
     }
     return game::GetCommonData().save.week_event_reg_08.WEEKEVENTREG_08_80 == 1 ? 1 : 0;
   }
