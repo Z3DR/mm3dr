@@ -106,7 +106,8 @@ namespace rnd {
       BitField<57, 1, u64> twinmoldDefeated;
       BitField<58, 1, u64> ocarinaOfTimeGiven;
       BitField<59, 1, u64> clockTownFairyGiven;
-      BitField<60, 4, u64> unused;
+      BitField<60, 1, u64> clockTownStrayFairyCollected;
+      BitField<61, 3, u64> unused;
     };
     GivenItemRegister givenItemChecks;
     union GivenSongRegister {
