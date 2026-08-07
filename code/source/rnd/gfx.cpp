@@ -351,6 +351,7 @@ namespace rnd {
         Draw_DrawFormattedString(188, yPos, straysTotalColor, "15");
       }
 
+>>>>>>> 88b7499 (Starting Strays)
       // Small Keys
       if (dungeonId <= DUNGEON_STONE_TOWER) {
         u8 keysHave = 0;
@@ -415,17 +416,51 @@ namespace rnd {
     // Skulltulas
     u8 swampTokensHave = saveData.skulltulas_collected.swamp_count;
     u8 oceanTokensHave = saveData.skulltulas_collected.ocean_count;
+    u32 swampSkullTotalColor = COLOR_WHITE;
+    u32 oceanSkullTotalColor = COLOR_WHITE;
+
     yPos += spacingY;
     Draw_DrawString(10, yPos, COLOR_TITLE, "Skulltula Tokens");
     Draw_DrawIcon(182, yPos, COLOR_YELLOW, ICON_SKULLTULA);
     yPos += spacingY;
     Draw_DrawString(24, yPos, COLOR_WHITE, "Swamp Skulltula Tokens");
     Draw_DrawFormattedString(170, yPos, swampTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", swampTokensHave);
-    Draw_DrawString(182, yPos, COLOR_WHITE, "/30");
+    if (swampTokensHave >= 30) {
+      swampSkullTotalColor = COLOR_GREEN;
+    } else if (swampTokensHave == 0) {
+      swampSkullTotalColor = COLOR_DARK_GRAY;
+    }
+    Draw_DrawString(182, yPos, COLOR_WHITE, "/");
+    Draw_DrawFormattedString(188, yPos, swampSkullTotalColor, "30");
     yPos += spacingY;
     Draw_DrawString(24, yPos, COLOR_WHITE, "Ocean Skulltula Tokens");
     Draw_DrawFormattedString(170, yPos, oceanTokensHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", oceanTokensHave);
-    Draw_DrawString(182, yPos, COLOR_WHITE, "/30");
+    if (oceanTokensHave >= 30) {
+      oceanSkullTotalColor = COLOR_GREEN;
+    } else if (oceanTokensHave == 0) {
+      oceanSkullTotalColor = COLOR_DARK_GRAY;
+    }
+    Draw_DrawString(182, yPos, COLOR_WHITE, "/");
+    Draw_DrawFormattedString(188, yPos, oceanSkullTotalColor, "30");
+
+    // Clock Town Fairy
+    u8 ctStrayHave = gExtSaveData.givenItemChecks.clockTownStrayFairyCollected.Value();
+    yPos += spacingY;
+    Draw_DrawString(10, yPos, COLOR_TITLE, "Clock Town Stray Fairy");
+    Draw_DrawIcon(182, yPos, COLOR_PINK, ICON_FAIRY);
+    yPos += spacingY;
+    Draw_DrawString(24, yPos, COLOR_WHITE, "Clock Town Stray Fairy");
+    Draw_DrawFormattedString(170, yPos, ctStrayHave > 0 ? COLOR_WHITE : COLOR_DARK_GRAY, "%02u", ctStrayHave);
+    Draw_DrawString(182, yPos, COLOR_WHITE, "/");
+    u32 ctStrayTotalColor = COLOR_WHITE;
+    if (ctStrayHave) {
+      ctStrayTotalColor = COLOR_GREEN;
+    } else {
+      ctStrayTotalColor = COLOR_DARK_GRAY;
+    }
+    Draw_DrawFormattedString(188, yPos, ctStrayTotalColor, "01");
+
+>>>>>>> 88b7499 (Starting Strays)
   }
 
   static void Gfx_DrawSpoilerData(void) {

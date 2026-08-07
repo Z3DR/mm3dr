@@ -725,6 +725,20 @@ namespace rnd {
     if (gSettingsContext.startingOceanTokens > 0) {
       saveData.skulltulas_collected.ocean_count = gSettingsContext.startingOceanTokens;
     }
+    if (gSettingsContext.startingWoodfallStrays > 0) {
+      saveData.inventory.woodfall_fairies = gSettingsContext.startingWoodfallStrays;
+    }
+    if (gSettingsContext.startingSnowheadStrays > 0) {
+      saveData.inventory.snowhead_fairies = gSettingsContext.startingSnowheadStrays;
+    }
+    if (gSettingsContext.startingGreatBayStrays > 0) {
+      saveData.inventory.great_bay_fairies = gSettingsContext.startingGreatBayStrays;
+    }
+    if (gSettingsContext.startingStoneTowerStrays > 0) {
+      saveData.inventory.stone_tower_fairies = gSettingsContext.startingStoneTowerStrays;
+    }
+
+>>>>>>> 88b7499 (Starting Strays)
 
     if (gSettingsContext.startingMagicMeter == 1) {
       equipmentData.data[3].item_btns[0] = game::ItemId::DekuNuts;
