@@ -444,6 +444,7 @@ namespace rnd {
     Draw_DrawFormattedString(188, yPos, oceanSkullTotalColor, "30");
 
     // Clock Town Fairy
+    yPos += spacingY;
     u8 ctStrayHave = gExtSaveData.givenItemChecks.clockTownStrayFairyCollected.Value();
     yPos += spacingY;
     Draw_DrawString(10, yPos, COLOR_TITLE, "Clock Town Stray Fairy");
@@ -459,8 +460,11 @@ namespace rnd {
       ctStrayTotalColor = COLOR_DARK_GRAY;
     }
     Draw_DrawFormattedString(188, yPos, ctStrayTotalColor, "01");
+<<<<<<< HEAD
 
 >>>>>>> 88b7499 (Starting Strays)
+=======
+>>>>>>> d1d1477 (Text Adj)
   }
 
   static void Gfx_DrawSpoilerData(void) {
