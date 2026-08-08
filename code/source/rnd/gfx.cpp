@@ -351,7 +351,10 @@ namespace rnd {
         Draw_DrawFormattedString(188, yPos, straysTotalColor, "15");
       }
 
+<<<<<<< HEAD
 >>>>>>> 88b7499 (Starting Strays)
+=======
+>>>>>>> acefddc (Update gfx.cpp)
       // Small Keys
       if (dungeonId <= DUNGEON_STONE_TOWER) {
         u8 keysHave = 0;
