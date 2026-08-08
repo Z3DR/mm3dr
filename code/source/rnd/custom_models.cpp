@@ -2,6 +2,7 @@
 #include <string.h>
 #include "game/cmb.h"
 #include "game/resarchiveheader.h"
+#include "rnd/cmb_aabb.h"
 
 #define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
 #define EDIT_U32(offset_, val_)                                                                                        \
@@ -114,6 +115,22 @@ namespace rnd {
     case ObjectId::OBJECT_CUSTOM_ASSETS:
       break;
     }
+  }
+
+  bool CustomModels_ComputeItemAabb(void* ZARBuf, z3dVec3f* outMin, z3dVec3f* outMax) {
+    void* cmb = game::ResArchive_GetFileByType(ZARBuf, game::ResFileType::CMB);
+    bool ok = CmbAabb_Compute(cmb, outMin, outMax);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    if (cmb != NULL) {
+      const char* name = ((game::cmb::CMB_HEAD*)cmb)->name;
+      if (ok)
+        rnd::util::Print("%s: %s aabb min(%.1f, %.1f, %.1f) max(%.1f, %.1f, %.1f)\n", __func__, name, outMin->x,
+                         outMin->y, outMin->z, outMax->x, outMax->y, outMax->z);
+      else
+        rnd::util::Print("%s: %s aabb FAILED validation\n", __func__, name);
+    }
+#endif
+    return ok;
   }
 
   void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel* model, u16 objectId, s8 special) {

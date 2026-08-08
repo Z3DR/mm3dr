@@ -17,11 +17,16 @@ namespace rnd {
 
   void Dm_Char05_Destroy(game::act::Actor* self, game::GlobalContext* gctx) {
     Model_DestroyByActor(self);
+    Model_ClearPoseBase(self);
     util::GetPointer<void(game::act::Actor*)>(0x3C6F90)(self);
   }
 
   // Used for all models drawn by this actor
   extern "C" s32 Dm_Char05_OverrideModelDraw(game::act::Actor* actor, z3d_nn_math_MTX34* modelMtx) {
     return Model_DrawByActor(actor, modelMtx);
+  }
+
+  extern "C" s32 Dm_Char05_OverrideAnimatedModelDraw(Dm_Char05* actor) {
+    return Model_DrawByActorWithPose(actor, &actor->actor_util, 0.2f);
   }
 }  // namespace rnd
