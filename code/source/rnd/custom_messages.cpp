@@ -333,8 +333,16 @@ public:
     addCom(0x31, 0x01);
     return addCom(0x02);
   }
-  MsgBuilder* end() {
-    addCom(0x31, 0x00);
+  MsgBuilder* end(bool promptType) {
+    addCom(0x31, promptType);
+    return addCom(0x00);
+  }
+  MsgBuilder* eventEnd(bool promptType) {
+    addCom(0x2B, promptType);
+    return addCom(0x00);
+  }
+  MsgBuilder* endlessEnd() {
+    addCom(0x2C);
     return addCom(0x00);
   }
   MsgBuilder* pseudoEnd() {
@@ -600,32 +608,36 @@ public:
       }
     }
 
-    // Add mysterious control character to applicable textboxes if necessary(?).
-    // Pretty hacky but works for now.
-    switch (msg->id) {
-    case 0x44d:
-    case 0x1631:
-      addCom(0x2B, 0x01);
-      break;
-    case 0x45c:
-    case 0x45d:
-    case 0x1240:
-    case 0x1242:
-      addCom(0x2B, 0x00);
-      break;
-    }
-
 // Add debug message if the last colour didn't have an end marker
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     if (inCol)
       rnd::util::Print("Warning formatting message, colour not closed: %s\n", text);
 #endif
-    if (msg->id >= 0x1D11 && msg->id <= 0x1D16)
-      addCom(0x00);
-    else if ((msg->flags & 0x01000000) == 0)
-      end();
-    else
+    switch ((msg->flags >> 24) & 0x7) {
+    case MESSAGE_END_NORMAL:
+      end(0);
+      break;
+    case MESSAGE_END_NEXT:
+      end(1);
+      break;
+    case MESSAGE_END_EVENT:
+      eventEnd(0);
+      break;
+    case MESSAGE_END_EVENTNEXT:
+      eventEnd(1);
+      break;
+    case MESSAGE_END_PSEUDO:
       pseudoEnd();
+      break;
+    case MESSAGE_END_NEWBOX:
+      newBox();
+      break;
+    case MESSAGE_END_ENDLESS:
+      endlessEnd();
+      break;
+    default:
+      addCom(0x00);
+    }
   }
 };
 

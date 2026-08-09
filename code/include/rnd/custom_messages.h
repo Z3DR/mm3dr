@@ -81,3 +81,14 @@ typedef enum {
   QM_BLACK,
   QM_DEFAULT,
 } colType;
+
+typedef enum {
+  MESSAGE_END_NORMAL,
+  MESSAGE_END_NEXT,       // Same as above with next icon
+  MESSAGE_END_EVENT,      // Textbox will attempt to trigger an event
+  MESSAGE_END_EVENTNEXT,  // Same as above with next icon
+  MESSAGE_END_PSEUDO,     // MESSAGE_END_NEXT with softer sound when proceeding
+  MESSAGE_END_NEWBOX,     // Same as above?
+  MESSAGE_END_ENDLESS,    // Textbox will wait to be closed by cutscene?
+  MESSAGE_END_NULL,       // Textbox doesn't need end command (e.g. closes after delay marker)
+} messageEndType;
