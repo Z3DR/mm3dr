@@ -738,8 +738,6 @@ namespace rnd {
       saveData.inventory.stone_tower_fairies = gSettingsContext.startingStoneTowerStrays;
     }
 
->>>>>>> 88b7499 (Starting Strays)
-
     if (gSettingsContext.startingMagicMeter == 1) {
       equipmentData.data[3].item_btns[0] = game::ItemId::DekuNuts;
       playerData.magic_size_type = 1;

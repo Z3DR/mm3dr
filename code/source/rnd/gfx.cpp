@@ -351,10 +351,6 @@ namespace rnd {
         Draw_DrawFormattedString(188, yPos, straysTotalColor, "15");
       }
 
-<<<<<<< HEAD
->>>>>>> 88b7499 (Starting Strays)
-=======
->>>>>>> acefddc (Update gfx.cpp)
       // Small Keys
       if (dungeonId <= DUNGEON_STONE_TOWER) {
         u8 keysHave = 0;
@@ -463,11 +459,6 @@ namespace rnd {
       ctStrayTotalColor = COLOR_DARK_GRAY;
     }
     Draw_DrawFormattedString(188, yPos, ctStrayTotalColor, "01");
-<<<<<<< HEAD
-
->>>>>>> 88b7499 (Starting Strays)
-=======
->>>>>>> d1d1477 (Text Adj)
   }
 
   static void Gfx_DrawSpoilerData(void) {
