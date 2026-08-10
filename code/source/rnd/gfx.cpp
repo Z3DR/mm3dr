@@ -444,7 +444,7 @@ namespace rnd {
 
     // Clock Town Fairy
     yPos += spacingY;
-    u8 ctStrayHave = gExtSaveData.givenItemChecks.clockTownStrayFairyCollected.Value();
+    u8 ctStrayHave = gExtSaveData.givenItemChecks.clockTownFairyGiven.Value();
     yPos += spacingY;
     Draw_DrawString(10, yPos, COLOR_TITLE, "Clock Town Stray Fairy");
     Draw_DrawIcon(182, yPos, COLOR_PINK, ICON_FAIRY);
