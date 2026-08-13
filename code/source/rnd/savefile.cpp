@@ -683,7 +683,24 @@ namespace rnd {
     if (gSettingsContext.startingTwinmoldRemains > 0) {
       saveData.inventory.collect_register.twinmolds_remains = 1;
     }
-
+    if (gSettingsContext.startingSwampTokens > 0) {
+      saveData.skulltulas_collected.swamp_count = gSettingsContext.startingSwampTokens;
+    }
+    if (gSettingsContext.startingOceanTokens > 0) {
+      saveData.skulltulas_collected.ocean_count = gSettingsContext.startingOceanTokens;
+    }
+    if (gSettingsContext.startingWoodfallStrays > 0) {
+      saveData.inventory.woodfall_fairies = gSettingsContext.startingWoodfallStrays;
+    }
+    if (gSettingsContext.startingSnowheadStrays > 0) {
+      saveData.inventory.snowhead_fairies = gSettingsContext.startingSnowheadStrays;
+    }
+    if (gSettingsContext.startingGreatBayStrays > 0) {
+      saveData.inventory.great_bay_fairies = gSettingsContext.startingGreatBayStrays;
+    }
+    if (gSettingsContext.startingStoneTowerStrays > 0) {
+      saveData.inventory.stone_tower_fairies = gSettingsContext.startingStoneTowerStrays;
+    }
     if (gSettingsContext.startingMagicMeter == 1) {
       equipmentData.data[3].item_btns[0] = game::ItemId::DekuNuts;
       playerData.magic_size_type = 1;
