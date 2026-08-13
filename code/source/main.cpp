@@ -113,7 +113,7 @@ namespace rnd {
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
                        save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
                        (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
-      save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE = 1;
+      game::GiveItem(game::ItemId::LetterToMama);
 
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,

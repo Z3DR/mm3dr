@@ -105,14 +105,6 @@ SECTIONS{
     *(.patch_KeepBowOnEpona)
   }
 
-  .patch_RemoveTradeItemFromSlot 0x1AFE94 : {
-    *(.patch_RemoveTradeItemFromSlot)
-  }
-
-  .patch_SwapTradeItemFromExtSlot 0x1AFEA8 : {
-    *(.patch_SwapTradeItemFromExtSlot)
-  }
-
   .patch_OverrideCutsceneNextEntrance 0x1B1834 : {
     *(.patch_OverrideCutsceneNextEntrance)
   }
@@ -221,14 +213,6 @@ SECTIONS{
     *(.patch_LinkGetCustomTunicCMAB)
   }
 
-  /* .patch_OverrideItemIDFour 0x1FBD10 : {
-    *(.patch_OverrideItemIdIndex)
-  } */
-
-  /* .patch_OverrideItemIDThree 0x1FF604 : {
-    *(.patch_OverrideItemIdIndex)
-  } */
-
   .patch_EditDrawGetItemBeforeModelSpawn 0x1FF044 : {
     *(.patch_EditDrawGetItemBeforeModelSpawn)
   }
@@ -312,10 +296,6 @@ SECTIONS{
   .patch_SecondZoraSwimCheck 0x2210DC : {
     *(.patch_SecondZoraSwimCheck)
   }
-
-  /* .patch_GetExtendedObjectStatus 0x222330 : {
-    *(.patch_GetExtendedObjectStatus)
-  } */
 
   .patch_RemoveRemainsStateCheck 0x22B7BC : {
     *(.patch_RemoveRemainsStateCheck)
@@ -637,10 +617,6 @@ SECTIONS{
     *(.patch_TingleCheckStoneTowerMapTwo)
   }
 
-  .patch_TradeItemDeleteMoonsTear 0x3B5214 : {
-    *(.patch_TradeItemDeleteMoonsTear)
-  }
-
   .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {
     *(.patch_OverrideWalletSpiderHouseTwo)
   }
@@ -677,6 +653,10 @@ SECTIONS{
     *(.patch_OverrideGreatFairySpawn)
   }
 
+  .patch_DoNotDeleteKafeiGearItem 0x3EC744 : {
+    *(.patch_DoNotDeleteKafeiGearItem)
+  }
+
   .patch_HMSGiveItem 0x41D018 : {
     *(.patch_HMSGiveItem)
   }
@@ -708,14 +688,6 @@ SECTIONS{
   .patch_ZoraMaskGiveItem 0x41DB80 : {
     *(.patch_ZoraMaskGiveItem)
   }
-
-  /* .patch_RemoveSoHMaskAppearing 0x41DB98 : {
-    *(.patch_RemoveSoHMaskAppearing)
-  } */
-
-  /* .patch_DmChar05GoronDraw 0x41D31C : {
-    *(.patch_DmChar05GoronDraw)
-  } */
 
   .patch_GibdoMaskGiveItem 0x41DC48 : {
     *(.patch_GibdoMaskGiveItem)
@@ -757,24 +729,12 @@ SECTIONS{
     *(.patch_CouplesMaskGiveItem)
   }
 
-  .patch_TradeItemDeleteLandTitleDeed 0x477710 : {
-    *(.patch_TradeItemDeleteLandTitleDeed)
-  }
-
-   .patch_TradeItemDeleteSwampTitleDeed 0x47771C : {
-    *(.patch_TradeItemDeleteSwampTitleDeed)
-  }
-
-  .patch_TradeItemDeleteMountainTitleDeed 0x477728 : {
-    *(.patch_TradeItemDeleteMountainTitleDeed)
+  .patch_DoNotDeleteOceanTitleDeed 0x477740 : {
+    *(.patch_DoNotDeleteOceanTitleDeed)
   }
 
   .patch_LoadExtData 0x48C760 : {
     *(.patch_LoadExtData)
-  }
-
-  .patch_RemoveKafeiItemFromExtSlot 0x4AD1B8 : {
-    *(.patch_RemoveKafeiItemFromExtSlot)
   }
 
   .patch_IncomingGetItemID 0x4B1394 : {
@@ -801,17 +761,12 @@ SECTIONS{
     *(.patch_AfterObjectListCommand)
   }
 
-  /* .patch_DmChar05GetObjectStatus 0x50F3DC : {
-    *(.patch_DmChar05GetObjectStatus)
-  } */
-
-  /* XXX: May need this in the future, but will have to steal object ID from table in function call. */
-  /* .patch_DmChar05GetObjectStatusTwo 0x504CA8 : {
-    *(.patch_DmChar05GetObjectStatusTwo)
-  } */
-
   .patch_SkulltulaOverrideOne 0x529F94 : {
     *(.patch_SkulltulaOverrideOne)
+  }
+
+  .patch_EnBjtDoNotRemoveTradeItem 0x530C90 : {
+    *(.patch_EnBjtDoNotRemoveTradeItem)
   }
 
   .patch_SkulltulaOverrideTwo 0x52A044 : {
