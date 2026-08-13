@@ -384,7 +384,7 @@ namespace rnd {
     u8 startingGaroMask;
     u8 startingCaptainsHat;
     u8 startingGiantsMask;
-    u8 startingFierceDeityMask;
+    u8 startingFierceDietyMask;
     u8 startingMaskOfTruth; 
     
     // Strays
