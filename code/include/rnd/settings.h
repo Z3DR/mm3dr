@@ -406,7 +406,13 @@ namespace rnd {
     u8 startingCaptainsHat;
     u8 startingGiantsMask;
     u8 startingFierceDeityMask;
-    u8 startingMaskOfTruth;
+    u8 startingMaskOfTruth; 
+    
+    // Strays
+    u8 startingWoodfallStrays;
+    u8 startingSnowheadStrays;
+    u8 startingGreatBayStrays;
+    u8 startingStoneTowerStrays;
 
     // TODO: Break out into individual bitfield values.
     u32 startingQuestItems;
