@@ -105,14 +105,6 @@ SECTIONS{
     *(.patch_KeepBowOnEpona)
   }
 
-  .patch_RemoveTradeItemFromSlot 0x1AFE94 : {
-    *(.patch_RemoveTradeItemFromSlot)
-  }
-
-  .patch_SwapTradeItemFromExtSlot 0x1AFEA8 : {
-    *(.patch_SwapTradeItemFromExtSlot)
-  }
-
   .patch_OverrideCutsceneNextEntrance 0x1B1834 : {
     *(.patch_OverrideCutsceneNextEntrance)
   }
@@ -637,10 +629,6 @@ SECTIONS{
     *(.patch_TingleCheckStoneTowerMapTwo)
   }
 
-  .patch_TradeItemDeleteMoonsTear 0x3B5214 : {
-    *(.patch_TradeItemDeleteMoonsTear)
-  }
-
   .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {
     *(.patch_OverrideWalletSpiderHouseTwo)
   }
@@ -675,6 +663,10 @@ SECTIONS{
 
   .patch_OverrideGreatFairySpawn 0x3BEC84 : {
     *(.patch_OverrideGreatFairySpawn)
+  }
+
+  .patch_DoNotDeleteKafeiGearItem 0x3EC744 : {
+    *(.patch_DoNotDeleteKafeiGearItem)
   }
 
   .patch_HMSGiveItem 0x41D018 : {
@@ -757,24 +749,12 @@ SECTIONS{
     *(.patch_CouplesMaskGiveItem)
   }
 
-  .patch_TradeItemDeleteLandTitleDeed 0x477710 : {
-    *(.patch_TradeItemDeleteLandTitleDeed)
-  }
-
-   .patch_TradeItemDeleteSwampTitleDeed 0x47771C : {
-    *(.patch_TradeItemDeleteSwampTitleDeed)
-  }
-
-  .patch_TradeItemDeleteMountainTitleDeed 0x477728 : {
-    *(.patch_TradeItemDeleteMountainTitleDeed)
+  .patch_DoNotDeleteOceanTitleDeed 0x477740 : {
+    *(.patch_DoNotDeleteOceanTitleDeed)
   }
 
   .patch_LoadExtData 0x48C760 : {
     *(.patch_LoadExtData)
-  }
-
-  .patch_RemoveKafeiItemFromExtSlot 0x4AD1B8 : {
-    *(.patch_RemoveKafeiItemFromExtSlot)
   }
 
   .patch_IncomingGetItemID 0x4B1394 : {
@@ -812,6 +792,10 @@ SECTIONS{
 
   .patch_SkulltulaOverrideOne 0x529F94 : {
     *(.patch_SkulltulaOverrideOne)
+  }
+
+  .patch_EnBjtDoNotRemoveTradeItem 0x530C90 : {
+    *(.patch_EnBjtDoNotRemoveTradeItem)
   }
 
   .patch_SkulltulaOverrideTwo 0x52A044 : {

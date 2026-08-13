@@ -34,10 +34,6 @@ namespace rnd {
   extern "C" {
   void SaveFile_Init(game::GlobalContext*, game::SaveFile*);
   void SaveFile_SaveExtSaveData();
-  void SaveFile_RemoveStoredTradeItem(u16, u8);
-  void SaveFile_RemoveTradeItemFromSlot(u16, u8);
-  u8 SaveFile_GetItemCurrentlyInSlot(u8);
-  void SaveFile_SetNextTradeSlotItem(u8);
   void SaveFile_UpdateBossExtData();
   }
 
