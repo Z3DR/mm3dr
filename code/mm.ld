@@ -213,14 +213,6 @@ SECTIONS{
     *(.patch_LinkGetCustomTunicCMAB)
   }
 
-  /* .patch_OverrideItemIDFour 0x1FBD10 : {
-    *(.patch_OverrideItemIdIndex)
-  } */
-
-  /* .patch_OverrideItemIDThree 0x1FF604 : {
-    *(.patch_OverrideItemIdIndex)
-  } */
-
   .patch_EditDrawGetItemBeforeModelSpawn 0x1FF044 : {
     *(.patch_EditDrawGetItemBeforeModelSpawn)
   }
@@ -304,10 +296,6 @@ SECTIONS{
   .patch_SecondZoraSwimCheck 0x2210DC : {
     *(.patch_SecondZoraSwimCheck)
   }
-
-  /* .patch_GetExtendedObjectStatus 0x222330 : {
-    *(.patch_GetExtendedObjectStatus)
-  } */
 
   .patch_RemoveRemainsStateCheck 0x22B7BC : {
     *(.patch_RemoveRemainsStateCheck)
@@ -701,14 +689,6 @@ SECTIONS{
     *(.patch_ZoraMaskGiveItem)
   }
 
-  /* .patch_RemoveSoHMaskAppearing 0x41DB98 : {
-    *(.patch_RemoveSoHMaskAppearing)
-  } */
-
-  /* .patch_DmChar05GoronDraw 0x41D31C : {
-    *(.patch_DmChar05GoronDraw)
-  } */
-
   .patch_GibdoMaskGiveItem 0x41DC48 : {
     *(.patch_GibdoMaskGiveItem)
   }
@@ -780,15 +760,6 @@ SECTIONS{
   .patch_AfterObjectListCommand 0x50E73C : {
     *(.patch_AfterObjectListCommand)
   }
-
-  /* .patch_DmChar05GetObjectStatus 0x50F3DC : {
-    *(.patch_DmChar05GetObjectStatus)
-  } */
-
-  /* XXX: May need this in the future, but will have to steal object ID from table in function call. */
-  /* .patch_DmChar05GetObjectStatusTwo 0x504CA8 : {
-    *(.patch_DmChar05GetObjectStatusTwo)
-  } */
 
   .patch_SkulltulaOverrideOne 0x529F94 : {
     *(.patch_SkulltulaOverrideOne)
