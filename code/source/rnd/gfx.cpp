@@ -414,7 +414,7 @@ namespace rnd {
 
     // Skulltulas
     u8 swampTokensHave = saveData.skulltulas_collected.swamp_count;
-    u8 oceanTokensHave = saveData.skulltulas_collected.ocean_count; 
+    u8 oceanTokensHave = saveData.skulltulas_collected.ocean_count;
     u32 swampSkullTotalColor = COLOR_WHITE;
     u32 oceanSkullTotalColor = COLOR_WHITE;
 
@@ -458,7 +458,8 @@ namespace rnd {
     } else {
       ctStrayTotalColor = COLOR_DARK_GRAY;
     }
-    Draw_DrawFormattedString(188, yPos, ctStrayTotalColor, "01");  }
+    Draw_DrawFormattedString(188, yPos, ctStrayTotalColor, "01");
+  }
 
   static void Gfx_DrawSpoilerData(void) {
     if (gSpoilerData.SphereCount > 0) {
