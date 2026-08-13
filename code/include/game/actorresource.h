@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_ACTOR_RESOURCE_H
-#define _GAME_ACTOR_RESOURCE_H
+#pragma once
 #define OBJECT_EXCHANGE_BANK_MAX 36
 
 #include "common/types.h"
@@ -35,17 +34,22 @@ namespace game::ActorResource {
   };
   static_assert(sizeof(ActorResources) == 0x10408);
 
+  struct ActorResourcePath {
+    char path[52];
+  };
+  static_assert(sizeof(ActorResourcePath) == 0x34);
+
   struct ObjectContext {
     u8 num;
-    char gap_01[7];
+    u8 numPersistent;
+    char gap_02[2];
     ActorResource status[OBJECT_EXCHANGE_BANK_MAX];
   };
-  static_assert(sizeof(ObjectContext) == 0x1838);
+  static_assert(sizeof(ObjectContext) == 0x1834);
 
   u32 find(ActorResources*, int);
   u32 loadActorResource(ActorResources*, u32);
   void freeActorResource(ActorResource*);
+  ActorResourcePath* GetActorResourcePathTable();
 
 }  // namespace game::ActorResource
-
-#endif

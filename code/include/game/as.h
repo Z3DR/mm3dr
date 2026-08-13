@@ -6,13 +6,13 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_ANIMATION_SEQ_H
-#define _GAME_ANIMATION_SEQ_H
+#pragma once
 
 // Animation sequence system.
 
 #include "common/types.h"
 #include "common/utils.h"
+#include "game/actor.h"
 
 namespace game::as {
 
@@ -52,7 +52,7 @@ namespace game::as {
     int field_28;
     int field_2C;
     int field_30;
-    int field_34;
+    game::act::SkeletonAnimationModel* field_34;
     int field_38;
     State state;
     u8 gap_64[24];
@@ -69,6 +69,14 @@ namespace game::as {
   static_assert(offsetof(ActorUtil, gap_64) == 0x64);
   static_assert(sizeof(ActorUtil) == 0x8C);
 
-}  // namespace game::as
+  struct BoneMatrix {
+    z3d_nn_math_MTX34 mtx;
+    u32 field_30;
+  };
+  static_assert(sizeof(BoneMatrix) == 0x34);
 
-#endif
+  void ActorUtil_Construct(game::ObjectBank::ObjectBankArchive*, game::GlobalContext*, game::as::ActorUtil*, void*, s32,
+                           void*);
+  void ActorUtil_Destroy(game::as::ActorUtil*);
+
+}  // namespace game::as

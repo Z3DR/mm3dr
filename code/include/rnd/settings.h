@@ -1,5 +1,4 @@
-#ifndef _RND_SETTINGS_H_
-#define _RND_SETTINGS_H_
+#pragma once
 
 #include "common/advanced_context.h"
 #include "game/common_data.h"
@@ -21,6 +20,12 @@ namespace rnd {
     LOGIC_NONE,
     LOGIC_VANILLA,
     LOGIC_GLITCHED,
+  };
+
+  enum class KnowSetting : u8 {
+    KNOW_BASIC,
+    KNOW_ADVANCED,
+    //    KNOW_COMPLETE,
   };
 
   enum class AmmoDropsSetting : u8 {
@@ -225,6 +230,12 @@ namespace rnd {
     SHUFFLECHESTS_VANILLA,
     SHUFFLECHESTS_RANDOM,
   };
+
+  enum class ChestAnimationsSetting : u8 {
+    CHESTANIMATIONS_ALWAYSFAST,
+    CHESTANIMATIONS_MATCHCONTENT,
+  };
+
   enum class StrayFairySanitySetting : u8 {
     STRAYFAIRYSANITY_VANILLA,
     STRAYFAIRYSANITY_ANYWHERE,
@@ -245,13 +256,20 @@ namespace rnd {
     PLAY_ON_CITRA,
   } PlayOption;
 
+  typedef enum {
+    REGION_NA,
+    REGION_EUR,
+  } Region;
+
   typedef struct {
     u8 hashIndexes[5];
 
     u8 playOption;
+    u8 region;
 
     u8 logic;
     u8 locationsReachable;
+    u8 knowTheGame;
 
     u8 shuffleDungeonEntrances;
     u8 bombchusInLogic;
@@ -313,6 +331,7 @@ namespace rnd {
 
     u8 startingConsumables;
     u8 startingMaxRupees;
+    u8 startingNotebook;
     u8 startingOcarina;
     u8 startingHerosBow;
     u8 startingFireArrows;
@@ -343,6 +362,8 @@ namespace rnd {
     u8 startingHealth;
 
     // Songs
+    u8 startingSongOfTime;
+    u8 startingGoronIntro;
     u8 startingOathToOrder;
     u8 startingEponasSong;
     u8 startingSongOfStorms;
@@ -408,11 +429,15 @@ namespace rnd {
     u8 enableFastMaskTransform;
     u8 enableFastOcarina;
     u8 enableFastArrowSwap;
+    u8 twinmoldRestoration;
+    u8 enableNoAnimationTransform;
+    u8 enableBomberAnimationSkipping;
 
     // Cutscene Skips
     u8 skipHMSCutscenes;
     u8 skipMikauCutscene;
     u8 skipDarmaniCutscene;
+    u8 skipGiantsCutscene;
 
     // Custom Buttons
     u32 customMapButton = 0;
@@ -420,13 +445,25 @@ namespace rnd {
     u32 customMaskButton = 0;
     u32 customNotebookButton = 0;
     u32 customIngameSpoilerButton = 0;
+
+    // Extra MM Settings
+    u8 blastMaskCooldown;
+
+    // Moon Settings
+    u8 masksNeededToEnterMoon;
+    u8 masksNeededForVictory;
+
+    u8 useFierceDeityAnywhere = 0;
+
+    u8 showPostmanItem;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;
   extern const char hashIconNames[62][25];
 
-  s32 Settings_ApplyDamageMultiplier(game::GlobalContext*, s32);
+  extern "C" s32 Settings_ApplyDamageMultiplier(game::GlobalContext*, s32);
+  bool Settings_MetMoonRequirements();
+  bool Settings_MetVictoryRequirements();
   u32 Hash(u32);
   u8 Bias(u32);
 }  // namespace rnd
-#endif

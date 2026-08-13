@@ -1,13 +1,3 @@
-#ifndef _GAME_PLAYER_H
-#define _GAME_PLAYER_H
-
-#include "common/flags.h"
-#include "common/types.h"
-#include "common/utils.h"
-#include "game/actor.h"
-#include "game/actorresource.h"
-#include "game/as.h"
-#include "game/context.h"
 /**
  * @file player.h
  * @author leoetlino (https://github.com/leoetlino/)
@@ -16,6 +6,15 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
+#pragma once
+#include "common/flags.h"
+#include "common/types.h"
+#include "common/utils.h"
+#include "game/actor.h"
+#include "game/actorresource.h"
+#include "game/as.h"
+#include "game/context.h"
+
 #include "game/items.h"
 #include "game/pad.h"
 #include "z3d/z3DVec.h"
@@ -207,7 +206,8 @@ namespace game::act {
     u8 gap_220[80];
     u32 field_270;
     game::ActorResource::ActorResource* actor_resource_file;
-    u8 gap_278[108];
+    game::ObjectBank::ObjectBankArchive* archive;
+    u8 gap_27c[104];
     u32 field_2E4;
     u8 gap_2E8[56];
     u32 field_320;
@@ -416,7 +416,8 @@ namespace game::act {
     u8 gap_11EC0[6];
     char field_11EC6;
     char field_11EC7;
-    u16 disable_b_if_255;
+    // u8 field_11EC8;
+    u16 blastMaskTimer;
     u16 zora_barrier_timer;
     u16 field_11ECC;
     char field_11ECE[1];
@@ -473,20 +474,46 @@ namespace game::act {
     u8 gap_120C8[160];
     u32 field_1168;
     u8 gap_116C[492];
-    u32 field_1358;
-    u8 gap_135C[160];
-    u32 field_13FC;
-    u8 gap_1400[160];
-    u32 field_14A0;
-    u8 gap_14A4[860];
-    int field_12800;
-    u8 gap_1804[436];
+    u8 playerGfxFns1[0xa4];
+    u8 playerGfxFns2[0xa4];
+    u8 playerGfxFns3[0xa4];
+    u8 gap_12544[116];
+    u16 field_125B8;
+    u16 field_125BA;
+    u16 field_125BC;
+    u16 field_125BE;
+    u8 gap_125C0[32];
+    u32 field_125E0;
+    u8 gap_125E4[32];
+    u32 field_12604;
+    u8 gap_12608[32];
+    u32 field_12628;
+    u8 gap_1262C[68];
+    u32 field_12670;
+    void* object_fn_common0;
+    void* object_fns;
+    u32 field_1267C;
+    void* object_fn_goron;
+    void* object_fn_goron2;
+    z3d_nn_math_MTX34 mtx;
+    u8 gap_126B8[768];
+    // u32 field_1358;
+    // u8 gap_135C[160];
+    // u32 field_13FC;
+    // u8 gap_1400[160];
+    // u32 field_14A0;
+    // u8 gap_14A4[860];
+    // int field_12800;
+    // u8 gap_1804[436];
     u32 field_19B8;
     u32 field_129BC;
     u8 gap_129C0[12];
 
     pad::ControllerInfo controller_info;
-    u8 gap_12A14[36];
+    // u8 gap_12A14[36];
+    u8 gap_12A14[20];
+    void* some_SkeletonAnimationModel_maybe;
+    u8 gap_12A28[12];
     u32 field_12A38;
     u8 gap_12A3C[4];
     u32 field_12A40;
@@ -519,6 +546,9 @@ namespace game::act {
   static_assert(offsetof(Player, field_12CCE) == 0x12CCE);
   static_assert(offsetof(Player, get_item_direction) == 0x0091E);
   static_assert(offsetof(Player, sword_active) == 0x11E3C);
+  static_assert(offsetof(Player, gap_12A14) == 0x12A14);
+  static_assert(offsetof(Player, gap_27c) == 0x0027C);
+  static_assert(offsetof(Player, some_SkeletonAnimationModel_maybe) == 0x12A28);
   // TODO: complete the struct and add a size assertion.
 
   enum class AllowExistingMagicUsage { No, Yes };
@@ -526,5 +556,3 @@ namespace game::act {
                              AllowExistingMagicUsage allow_existing_usage);
 
 }  // namespace game::act
-
-#endif

@@ -33,7 +33,7 @@ include $(DEVKITARM)/3ds_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source source/asm source/lib source/common source/game source/rnd
+SOURCES		:=	source source/asm source/asm/actors source/lib source/common source/game source/rnd source/game/ui/screens source/rnd/actors
 DATA		:=	data
 INCLUDES	:=	include
 GRAPHICS	:=	gfx
@@ -61,13 +61,13 @@ endif
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -mfpu=vfpv2
 
 CFLAGS	:=	-g -Wall -O2 -mword-relocations -D DEBUG \
-			-ffunction-sections \
+			-ffunction-sections -fomit-frame-pointer \
 			$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -D__3DS__ $(VERFLAGS)
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17 -Wno-invalid-offsetof \
-							-Wno-array-bounds 
+							-Wno-array-bounds
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	 -g $(ARCH) -Wl,-Map,$(notdir $*.map) -T $(TOPDIR)/$(LINK_SCRIPT)
@@ -193,11 +193,10 @@ ifneq ($(ROMFS),)
 	export _3DSXFLAGS += --romfs=$(CURDIR)/$(ROMFS)
 endif
 
-.PHONY: all clean
+.PHONY: all clean $(BUILD)
 
 #---------------------------------------------------------------------------------
 all: $(BUILD)
-	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
@@ -240,7 +239,7 @@ else
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-$(OUTPUT).elf	:	$(OFILES)
+$(OUTPUT).elf	:	$(OFILES) $(TOPDIR)/$(LINK_SCRIPT)
 #$(OUTPUT).3dsx	:	$(OUTPUT).elf $(_3DSXDEPS)
 
 #$(OFILES_SOURCES) : $(HFILES)

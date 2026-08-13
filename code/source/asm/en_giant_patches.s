@@ -1,0 +1,11 @@
+.arm
+
+.section .patch_DrawGiantAfterMoonCutscene
+.global patch_DrawGiantAfterMoonCutscene
+patch_DrawGiantAfterMoonCutscene:
+    b hook_DrawGiantAfterMoonCutscene
+
+.section .patch_EnGiantDrawGiantIfMoonRequirementsMet
+.global patch_EnGiantDrawGiantIfMoonRequirementsMet
+patch_EnGiantDrawGiantIfMoonRequirementsMet:
+    b hook_EnGiantDrawGiantIfMoonRequirementsMet

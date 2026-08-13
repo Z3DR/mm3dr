@@ -2,9 +2,7 @@
  * From n3rdswithgame, who may or may not have originally written this
  */
 
-#ifndef HID_H
-#define HID_H
-
+#pragma once
 #include <stdint.h>
 
 typedef union {
@@ -82,6 +80,15 @@ typedef struct {
 } hid_mem_t;
 
 typedef struct {
+  int16_t cp_x, cp_y;
+  int16_t cstick_x, cstick_y;
+  uint32_t held;
+  uint32_t released;
+  uint8_t cstick_active;
+  uint8_t cppConnected;
+} ir_pad_state_t;
+
+typedef struct {
   uint32_t field_00;
   struct hid_pad_t* hid_pad;
   uint32_t field_08;
@@ -99,6 +106,12 @@ typedef struct {
   uint32_t bool_44;
 } hid_ctx_t;
 
+#define real_ir_pad_addr 0x007C1490
+#define real_ir_pad (*(volatile ir_pad_state_t*)real_ir_pad_addr)
+
+// ZL | ZR | C-stick direction bits — the only bits raw HID can never supply.
+#define IR_PAD_EXTRA_MASK 0x0F00C000
+
 #define BUTTON_A (1 << 0)
 #define BUTTON_B (1 << 1)
 #define BUTTON_SELECT (1 << 2)
@@ -111,9 +124,13 @@ typedef struct {
 #define BUTTON_L1 (1 << 9)
 #define BUTTON_X (1 << 10)
 #define BUTTON_Y (1 << 11)
+#define BUTTON_ZL (1 << 14)
+#define BUTTON_ZR (1 << 15)
+#define CSTICK_RIGHT (1 << 24)
+#define CSTICK_LEFT (1 << 25)
+#define CSTICK_UP (1 << 26)
+#define CSTICK_DOWN (1 << 27)
 #define CPAD_RIGHT (1 << 28)
 #define CPAD_LEFT (1 << 29)
 #define CPAD_UP (1 << 30)
 #define CPAD_DOWN (1 << 31)
-
-#endif  // HID_H

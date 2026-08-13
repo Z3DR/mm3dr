@@ -1,5 +1,5 @@
-#ifndef _RND_ITEM_UPGRADES_H
-#define _RND_ITEM_UPGRADES_H
+#pragma once
+
 #include "game/common_data.h"
 #include "rnd/item_override.h"
 
@@ -14,7 +14,7 @@ namespace rnd {
   GetItemID ItemUpgrade_Sword(game::SaveData*, GetItemID);
   GetItemID ItemUpgrade_ArrowsToRupee(game::SaveData*, GetItemID);
   GetItemID ItemUpgrade_BombsToRupee(game::SaveData*, GetItemID);
-  // GetItemID ItemUpgrade_LetterToBottle(game::SaveData*, GetItemID);
+  GetItemID ItemUpgrade_RefillBottle(game::SaveData*, GetItemID);
+  GetItemID ItemUpgrade_CheckShield(game::SaveData*, GetItemID);
+  GetItemID ItemUpgrade_Lullaby(game::SaveData*, GetItemID);
 }  // namespace rnd
-
-#endif

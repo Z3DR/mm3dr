@@ -19,12 +19,12 @@ namespace rnd {
     const auto set_ocarina_fadeout = util::GetPointer<void(int zero, int duration)>(0x4FE0BC);
     set_ocarina_fadeout(0, fade_durations[u8(gctx->GetPlayerActor()->active_form)]);
 
-    const auto set_ocarina_mode = util::GetPointer<void(game::ui::MessageWindow*, int mode)>(0x1D1A18);
-    set_ocarina_mode(window, 1);
+    const auto set_ocarina_mode = util::GetPointer<void(game::ui::MessageWindow*, game::OcarinaMode mode)>(0x1D1A18);
+    set_ocarina_mode(window, game::OcarinaMode::OCARINA_MODE_ACTIVE);
 
     // Disable BGM fadeout
     util::Write(gctx, 0x8422, 1);
-    gctx->ocarina_state = game::OcarinaState::StoppedPlaying;
+    gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_END;
   }
 
   static bool IsElegyOfEmptinessAllowed() {
@@ -70,8 +70,8 @@ namespace rnd {
       EndOcarinaSession(self);
       auto* gctx = GetContext().gctx;
       game::sound::PlayEffect(game::sound::EffectId::NA_SE_SY_TRE_BOX_APPEAR);
-      gctx->ocarina_song = song;
-      gctx->ocarina_state = game::OcarinaState::PlayingAndReplayDone;
+      gctx->msg_context.lastPlayedSong = song;
+      gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_EVENT;
       self->song = u16(song);
       // This flag must always be false; otherwise the Song of Soaring handler will refuse
       // to show the map screen.
@@ -93,11 +93,11 @@ namespace rnd {
       auto* gctx = GetContext().gctx;
       if (IsElegyOfEmptinessAllowed()) {
         game::sound::PlayEffect(game::sound::EffectId::NA_SE_SY_TRE_BOX_APPEAR);
-        gctx->ocarina_song = game::OcarinaSong::ElegyOfEmptiness;
-        gctx->ocarina_state = game::OcarinaState::PlayingAndReplayDone;
+        gctx->msg_context.lastPlayedSong = game::OcarinaSong::ElegyOfEmptiness;
+        gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_EVENT;
       } else {
         gctx->ShowMessage(0x1B95, 0);  // "Your notes echoed far..."
-        gctx->ocarina_state = game::OcarinaState::StoppedPlaying;
+        gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_END;
         util::GetPointer<void(int)>(0x1D8C5C)(0);
       }
 

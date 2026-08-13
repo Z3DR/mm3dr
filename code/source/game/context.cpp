@@ -65,4 +65,13 @@ namespace game {
     rnd::util::GetPointer<void(GlobalContext*)>(0x230ec8)(this);
   }
 
+  // Grabs the persistent cycle flags for cycle reset.
+  PersistentSceneCycleFlags* GetPersistentCycleStruct() {
+    return rnd::util::GetPointer<PersistentSceneCycleFlags>(0x6A017C);
+  }
+
+  void KillAllActorsWithMissingObjects(game::GlobalContext* gctx) {
+    rnd::util::GetPointer<void(game::GlobalContext*, game::ActorLists*)>(0x4E0974)(gctx, &gctx->actors);
+  }
+
 }  // namespace game

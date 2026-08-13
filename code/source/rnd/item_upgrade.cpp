@@ -62,12 +62,16 @@ namespace rnd {
   GetItemID ItemUpgrade_Sword(game::SaveData* saveCtx, GetItemID GetItemId) {
     switch (saveCtx->equipment.sword_shield.sword) {
     case game::SwordType::NoSword:
+      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 1;
       return GetItemID::GI_KOKIRI_SWORD;  // Stolen sword?
     case game::SwordType::KokiriSword:
+      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 2;
       return GetItemID::GI_RAZOR_SWORD;  // Razor sword
     case game::SwordType::RazorSword:
+      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 3;
       return GetItemID::GI_GILDED_SWORD;  // Gilded sword
     default:
+      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 3;
       return GetItemID::GI_GILDED_SWORD;  // Restore stolen sword?
     }
   }
@@ -84,14 +88,67 @@ namespace rnd {
                getItemId;
   }
 
-  // TODO: Trade quest items.
-  /*
-  game::ItemId ItemUpgrade_LetterToBottle(game::SaveData *saveCtx, GetItemId GetItemId) {
-    if (saveCtx->eventChkInf[3] & 0x0008) // "King Zora Moved Aside" //TODO: check this
-      return 0xC8;                        // Redundant Letter Bottle
-    if (saveCtx->items[SLOT_BOTTLE_1] == ITEM_LETTER_RUTO || saveCtx->items[SLOT_BOTTLE_2] ==
-  ITEM_LETTER_RUTO || saveCtx->items[SLOT_BOTTLE_3] == ITEM_LETTER_RUTO ||
-  saveCtx->items[SLOT_BOTTLE_4] == ITEM_LETTER_RUTO) return 0xC8;
-  // Redundant Letter Bottle return itemId;
-  }*/
+  GetItemID ItemUpgrade_RefillBottle(game::SaveData* saveCtx, GetItemID getItemId) {
+    // As you can see mystery milk avoids this check since it's wiped from your inventory
+    // on cycle reset. It also happens to remove whichever bottle the milk is in,
+    // so we should avoid refills and just give the bottle until a user can get that
+    // side quest fulfilled.
+    switch (getItemId) {
+    case GetItemID::GI_BOTTLE_POTION_RED:
+      if (gExtSaveData.givenItemChecks.bottleRedPotionGiven == 1) {
+        return GetItemID::GI_POTION_RED;
+      }
+      break;
+    case GetItemID::GI_BOTTLE_MILK:
+      if (gExtSaveData.givenItemChecks.bottleMilkGiven == 1) {
+        return GetItemID::GI_BOTTLE_MILK_REFILL;
+      }
+      break;
+    case GetItemID::GI_BOTTLE_GOLD_DUST:
+      if (gExtSaveData.givenItemChecks.bottleGoldDustGiven == 1) {
+        return GetItemID::GI_BOTTLE_GOLD_DUST_REFILL;
+      }
+      break;
+    case GetItemID::GI_BOTTLE_CHATEAU_ROMANI:
+      if (gExtSaveData.givenItemChecks.bottleChateuGiven == 1) {
+        return GetItemID::GI_BOTTLE_CHATEAU_ROMANI_REFILL;
+      }
+      break;
+    case GetItemID::GI_BOTTLE_MYSTERY_MILK:
+      if (gExtSaveData.givenItemChecks.bottleMysteryGivenToEnGm == 1) {
+        return GetItemID::GI_RUPEE_RED;
+      }
+    default:
+      return getItemId;
+    }
+    return getItemId;
+  }
+
+  GetItemID ItemUpgrade_CheckShield(game::SaveData* saveCtx, GetItemID getItemId) {
+    switch (saveCtx->equipment.sword_shield.shield) {
+    case game::ShieldType::NoShield:
+      return getItemId;
+    case game::ShieldType::HeroShield:
+      return getItemId;
+    case game::ShieldType::MirrorShield:
+      if (getItemId == GetItemID::GI_SHIELD_HERO)
+        return GetItemID::GI_RUPEE_SILVER;  // Give siler rupee, close enough to same cost.
+      else
+        return getItemId;
+    default:
+      return getItemId;
+    }
+  }
+
+  GetItemID ItemUpgrade_Lullaby(game::SaveData* saveCtx, GetItemID GetItemId) {
+    switch (saveCtx->inventory.collect_register.lullaby_intro.Value()) {
+    case 0:
+      return GetItemID::GI_GORON_LULLABY_INTRO;  // Intro not yet received
+    case 1:
+      return GetItemID::GI_GORON_LULLABY;  // Full lullaby
+    default:
+      return GetItemID::GI_GORON_LULLABY;  // Should not hit.
+    }
+  }
+
 }  // namespace rnd

@@ -6,11 +6,16 @@
 #include "game/sound.h"
 #include "game/states/state.h"
 #include "game/ui.h"
+#include "game/ui/screens/gearscreen.h"
+#include "rnd/boss.h"
+#include "rnd/custom_entrances.h"
 #include "rnd/extdata.h"
 #include "rnd/icetrap.h"
 #include "rnd/input.h"
 #include "rnd/item_override.h"
 #include "rnd/link.h"
+#include "rnd/models.h"
+#include "rnd/objects.h"
 #include "rnd/rheap.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
@@ -29,9 +34,11 @@ namespace rnd {
 
     rHeap_Init();
     ItemOverride_Init();
+    Actor_Init();
     // SaveFile_LoadExtSaveData(1);
     //  TODO: Maybe make this an option?
     link::FixSpeedIssues();
+    ForceTempleFlags();
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("MM3DR Initialized (" __DATE__ " " __TIME__ ")\n");
     game::sound::PlayEffect(game::sound::EffectId::NA_SE_SY_CHAT_ALLERT);
@@ -79,6 +86,7 @@ namespace rnd {
       ItemOverride_Update();
       link::HandleFastOcarina(context.gctx);
       link::HandleFastArrowSwitch(context.gctx->GetPlayerActor());
+      link::FixFreeCameraReset();
       // May need this for further button presses and checks if we're swimming or not.
       if (context.gctx->GetPlayerActor()->flags1.IsSet(game::act::Player::Flag1::InWater) &&
           !context.gctx->GetPlayerActor()->flags_94.IsSet(game::act::Actor::Flag94::Grounded)) {
@@ -86,6 +94,7 @@ namespace rnd {
       } else {
         context.is_swimming = false;
       }
+      Model_UpdateAll(context.gctx);
     }
 
     return;
@@ -97,7 +106,28 @@ namespace rnd {
       return;
 
     const u32 pressedButtons = gctx->pad_state.input.buttons.flags;
-    const u32 newButtons = gctx->pad_state.input.new_buttons.flags;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    auto& cdata = game::GetCommonData();
+    auto& save = cdata.save;
+    if (pressedButtons == (u32)game::pad::Button::ZR) {
+      rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
+                       save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
+                       (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
+      save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE = 1;
+
+    } else if (pressedButtons == (u32)game::pad::Button::ZL) {
+      rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
+                       save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
+                       (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
+      save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE = 0;
+      /*save.inventory.woodfall_temple_keys = 2;
+      save.inventory.snowhead_temple_keys = 5;
+      save.inventory.great_bay_temple_keys = 5;
+      save.inventory.stone_tower_temple_keys = 5;
+      save.inventory.stone_tower_dungeon_items.map = 1;*/
+      // save.week_event_reg_01.WEEKEVENTREG_ENTERED_WOODFALL_TEMPLE = 0;
+    }
+#endif
     if (gSettingsContext.customMaskButton != 0 && pressedButtons == gSettingsContext.customMaskButton) {
       game::ui::OpenScreen(game::ui::ScreenType::Masks);
     } else if (gSettingsContext.customItemButton != 0 && pressedButtons == gSettingsContext.customItemButton) {
@@ -113,8 +143,8 @@ namespace rnd {
       game::ui::OpenScreen(game::ui::ScreenType::Map);
       gctx->pad_state.input.buttons.Clear(game::pad::Button::Select);
       gctx->pad_state.input.new_buttons.Clear(game::pad::Button::Select);
-    } else if ((gSettingsContext.customIngameSpoilerButton != 4 && newButtons == (u32)game::pad::Button::Select) ||
-               (gSettingsContext.customIngameSpoilerButton != 8 && newButtons == (u32)game::pad::Button::Start)) {
+    } else if ((gSettingsContext.customIngameSpoilerButton != 4 && pressedButtons == (u32)game::pad::Button::Select) ||
+               (gSettingsContext.customIngameSpoilerButton != 8 && pressedButtons == (u32)game::pad::Button::Start)) {
       if (game::GetCommonData().save.inventory.collect_register.bombers_notebook != 0)
         game::ui::OpenScreen(game::ui::ScreenType::Schedule);
       else
@@ -124,13 +154,17 @@ namespace rnd {
   }
   void _start(void) {
     // Just in case something needs to be dynamically allocated...
-    static char s_fake_heap[0x80000];
+    static char s_fake_heap[0x10000];
 
     fake_heap_start = &s_fake_heap[0];
     fake_heap_end = &s_fake_heap[sizeof(s_fake_heap)];
     for (size_t i = 0; i < size_t(__init_array_end - __init_array_start); i++) {
       __init_array_start[i]();
     }
+  }
+
+  void PostActorCalc() {
+    FixBosses();
   }
   }
 

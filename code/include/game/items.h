@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Modified for more items.
  */
-#ifndef _GAME_ITEMS_H
-#define _GAME_ITEMS_H
+#pragma once
 
 #include <array>
 
@@ -148,7 +147,7 @@ namespace game {
 
     InvertedSongOfTime = 0x71,
     SongOfDoubleTime = 0x72,
-    X73 = 0x73,
+    GoronLullabyIntro = 0x73,
 
     BossKey = 0x74,
     Compass = 0x75,
@@ -277,6 +276,7 @@ namespace game {
 
   // Mask IDs are action IDs - 0x3b
   enum class MaskId : u8 {
+    None = 0x00,
     MaskOfTruth = 0x01,
     BunnyHood = 0x04,
     BlastMask = 0x12,
@@ -313,5 +313,3 @@ namespace game {
   void GiveItemWithEffect(u32);
 
 }  // namespace game
-
-#endif

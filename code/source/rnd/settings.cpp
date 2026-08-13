@@ -54,6 +54,32 @@ namespace rnd {
 
     return modifiedChangeHealth;
   }
+
+  u16 Settings_CountRemainsCollected() {
+    game::InventoryData::CollectRegister& collect_register = game::GetCommonData().save.inventory.collect_register;
+    u16 remainsCollected = 0;
+    if (collect_register.odolwas_remains == 1)
+      remainsCollected++;
+    if (collect_register.gohts_remains == 1)
+      remainsCollected++;
+    if (collect_register.gyorgs_remains == 1)
+      remainsCollected++;
+    if (collect_register.twinmolds_remains == 1)
+      remainsCollected++;
+
+    return remainsCollected;
+  }
+
+  bool Settings_MetMoonRequirements() {
+    u16 remainsCollected = Settings_CountRemainsCollected();
+    return remainsCollected >= gSettingsContext.masksNeededToEnterMoon;
+  }
+
+  bool Settings_MetVictoryRequirements() {
+    u16 remainsCollected = Settings_CountRemainsCollected();
+    return remainsCollected >= gSettingsContext.masksNeededForVictory;
+  }
+
   // With the No Health Refill option on, full health refills from health upgrades and Bombchu
   // Bowling are turned off, and fairies restore 3 hearts Otherwise, they grant a full heal, and the
   // default effect applies (full heal from bottle, 8 hearts on contact)
@@ -113,17 +139,24 @@ namespace rnd {
       return gSettingsContext.enableFastMaskTransform;
     } else if (gSettingsContext.enableFastMaskTransform &&
                player->flags1.IsSet(game::act::Player::Flag1::FirstPersonMode) &&
-               (player->held_item >= game::ItemId::Arrow && player->held_item <= game::ItemId::LightArrow)) {
+               (player->held_item >= game::ItemId::Arrow && player->held_item <= game::ItemId::LightArrow))
       return 0x00;
-    } else {
+    else {
       return gSettingsContext.enableFastMaskTransform;
     }
+  }
+
+  u8 SettingsNoAnimationCheck() {
+    return gSettingsContext.enableNoAnimationTransform;
+  }
+  u8 SettingsBomberAnimationCheck() {
+    return gSettingsContext.enableBomberAnimationSkipping;
   }
   }
   // TODO: Change the addr
   /* typedef void (*Health_ChangeBy_proc)(GlobalContext *arg1, u32 arg2);
- #define Health_ChangeBy_addr 0x352dbc
- #define Health_ChangeBy ((Health_ChangeBy_proc)Health_ChangeBy_addr)
+  #define Health_ChangeBy_addr 0x352dbc
+  #define Health_ChangeBy ((Health_ChangeBy_proc)Health_ChangeBy_addr)
    void FairyPickupHealAmount(void) {
      if (gSettingsContext.heartDropRefill == HeartDropRefillSetting::HEARTDROPREFILL_NOREFILL \
      || gSettingsContext.heartDropRefill == HeartDropRefillSetting::HEARTDROPREFILL_NODROPREFILL) {
@@ -213,7 +246,7 @@ namespace rnd {
       "Bunny Hood",
       "Keaton Mask",
       "Garo Mask",
-      "ROmani Mask",
+      "Romani Mask",
       "Circus Leader's Mask",
       "Postman Hat",
       "Couple's Mask",

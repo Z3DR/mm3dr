@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries (context.h). Edited to adjust for the randomizer.
  */
-#ifndef _COMMON_ADVANCED_CONTEXT_H
-#define _COMMON_ADVANCED_CONTEXT_H
+#pragma once
 #include "z3d/z3DVec.h"
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
 extern "C" {
@@ -34,4 +33,3 @@ namespace rnd {
   Context& GetContext();
 
 }  // namespace rnd
-#endif

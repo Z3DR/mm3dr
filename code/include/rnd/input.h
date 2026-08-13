@@ -1,5 +1,4 @@
-#ifndef _RND_INPUT_H
-#define _RND_INPUT_H
+#pragma once
 
 #include "hid.h"
 #include "z3d/z3DVec.h"
@@ -10,6 +9,7 @@ namespace rnd {
     btn_t up;
     btn_t pressed;
     btn_t old;
+    cp_t cp_curr;
   } InputContext;
 
   void Input_Update(void);
@@ -23,4 +23,3 @@ namespace rnd {
   extern "C" InputContext rInputCtx;
 
 }  // namespace rnd
-#endif

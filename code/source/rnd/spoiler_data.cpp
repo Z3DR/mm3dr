@@ -8,12 +8,86 @@ namespace rnd {
   SpoilerData gSpoilerData = {0};
   SpoilerDataLocs gSpoilerDataLocs[SPOILER_LOCDATS] = {0};
 
+  typedef struct {
+    ItemOverride_Type type;
+    u8 flag;
+    const u8* scenes;
+    u8 numScenes;
+  } MultiLocGroup;
+#define MULTI_LOC(t, f, ...)                                                                                           \
+  (MultiLocGroup) {                                                                                                    \
+    .type = t, .flag = f, .scenes = (const u8[])__VA_ARGS__, .numScenes = sizeof((u8[])__VA_ARGS__) / sizeof(u8)       \
+  }
+  const MultiLocGroup multiLocs[] = {
+      // Koume
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x59, {0x0A, 0x64}),
+      // Postboxes
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xBA, {0x6C, 0x6E, 0x6F}),
+      // Tingle Clocktown Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB4, {0x13, 0x6E}),
+      // Tingle Woodfall Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB5, {0x40, 0x6E}),
+      // Tingle Snowhead Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB6, {0x40, 0x5D, 0x5E}),
+      // Tingle Ranch Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB7, {0x22, 0x5D, 0x5E}),
+      // Tingle Great Bay Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB8, {0x22, 0x37}),
+      // Tingle Stone Tower Map
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0xB9, {0x13, 0x37}),
+      // Keaton
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x03, {0x22, 0x5A, 0x6E}),
+      // GV Powder Keg Challenge
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x34, {0x48, 0x4D}),
+      // GV Deku Merchant Purchase
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x1D, {0x48, 0x4D}),
+      // GV Deku Merchant Trade
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x99, {0x48, 0x4D}),
+      // GV Ledge Heart Piece
+      MULTI_LOC(ItemOverride_Type::OVR_COLLECTABLE, 0x00, {0x48, 0x4D}),
+      // SS Deku Merchant Purchase
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x35, {0x00, 0x45}),
+      // SS Deku Merchant Trade
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x98, {0x00, 0x45}),
+      // SS Tourist Center Roof HP
+      MULTI_LOC(ItemOverride_Type::OVR_COLLECTABLE, 0x00, {0x00, 0x45}),
+      // STT Death Armos Chest
+      MULTI_LOC(ItemOverride_Type::OVR_CHEST, 0x05, {0x16, 0x18}),
+      // Clock Town Stray Fairy
+      MULTI_LOC(ItemOverride_Type::OVR_STRAY_FAIRY, 0xFF, {0x70, 0x6C}),
+  };
+#undef MULTI_LOC
+
   SpoilerItemLocation* SpoilerData_ItemLoc(u16 itemIndex) {
     return &gSpoilerDataLocs[itemIndex / SPOILER_ITEMS_MAX].ItemLocations[itemIndex % SPOILER_ITEMS_MAX];
   }
 
   SpoilerItemCollectType SpoilerData_CollectType(u16 itemIndex) {
     return gSpoilerData.ItemLocations[itemIndex].CollectType;
+  }
+
+  bool SpoilerData_IndexIs(int itemIndex, ItemOverride_Type type, u8 scene, u8 flag) {
+    return gSpoilerData.ItemLocations[itemIndex].LocationScene == scene &&
+           gSpoilerData.ItemLocations[itemIndex].OverrideType == type &&
+           gSpoilerData.ItemLocations[itemIndex].LocationFlag == flag;
+  }
+
+  bool SpoilerData_IsUniqueLocation(u16 itemIndex) {
+    // Ensure itemIndex does not match any of the multi locations' alternate scenes
+    for (size_t idx = 0; idx < sizeof(multiLocs) / sizeof(MultiLocGroup); idx++) {
+      if (gSpoilerData.ItemLocations[itemIndex].OverrideType == multiLocs[idx].type &&
+          gSpoilerData.ItemLocations[itemIndex].LocationFlag == multiLocs[idx].flag) {
+        // Treat first scene in multi group as unique -> start checking from index 1
+        for (u8 sceneIdx = 1; sceneIdx < multiLocs[idx].numScenes; sceneIdx++) {
+          if (gSpoilerData.ItemLocations[itemIndex].LocationScene == multiLocs[idx].scenes[sceneIdx]) {
+            return false;
+          }
+        }
+      }
+    }
+
+    // Didn't match any, location is unique
+    return true;
   }
 
   char* SpoilerData_StringData(u16 itemIndex) {
@@ -40,14 +114,56 @@ namespace rnd {
   u8 SpoilerLog_UpdateIngameLog(ItemOverride_Type type, u8 scene, u8 flag) {
     // SpoilerData currentCheck = {0};
     for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
-      if (gSpoilerData.ItemLocations[i].LocationScene == scene && gSpoilerData.ItemLocations[i].OverrideType == type &&
-          gSpoilerData.ItemLocations[i].LocationFlag == flag) {
+      if (SpoilerData_IndexIs(i, type, scene, flag)) {
         gSpoilerData.ItemLocations[i].Collected = true;
+        // Since it's not saved here, we need to return
+        gExtSaveData.itemCollected[i] = 1;
+        break;  // stop searching
+      }
+    }
+    SpoilerLog_CheckMultiLocationItems(type, scene, flag);
+    return -1;
+  }
+  u8 SpoilerLog_CheckMultiLocationItems(ItemOverride_Type type, u8 scene, u8 flag) {
+    //#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    //    rnd::util::Print(
+    //        "%s: CheckMultiLocationItems passed values:\nActor Type %d\nScene: %d\nFlag: %d\n",
+    //        __func__, type, scene, flag);
+    //#endif
+    //#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    //    rnd::util::Print("%s: passed the scene check for %d\n", __func__,scene);
+    //#endif
+    for (size_t idx = 0; idx < sizeof(multiLocs) / sizeof(MultiLocGroup); idx++) {
+      if (type == multiLocs[idx].type && flag == multiLocs[idx].flag) {
+        bool match = false;
+        for (u8 sceneIdx = 0; sceneIdx < multiLocs[idx].numScenes; sceneIdx++) {
+          if (scene == multiLocs[idx].scenes[sceneIdx]) {
+            match = true;
+            break;
+          }
+        }
+
+        if (match) {
+          for (u8 sceneIdx = 0; sceneIdx < multiLocs[idx].numScenes; sceneIdx++) {
+            if (scene != multiLocs[idx].scenes[sceneIdx]) {
+              SpoilerData_UpdateMultiLocations(type, multiLocs[idx].scenes[sceneIdx], flag);
+            }
+          }
+        }
       }
     }
     return -1;
   }
-
+  void SpoilerData_UpdateMultiLocations(ItemOverride_Type type, u8 newScene, u8 flag) {
+    for (int i = 0; i < gSpoilerData.ItemLocationsCount; i++) {
+      if (SpoilerData_IndexIs(i, type, newScene, flag)) {
+        gSpoilerData.ItemLocations[i].Collected = true;
+        // Since it's not saved here, we need to return
+        gExtSaveData.itemCollected[i] = 1;
+        break;
+      }
+    }
+  }
   u8 SpoilerData_CollectableCheck(SpoilerItemLocation itemLoc) {
     // TODO: Implement Collectable Checking. no need to use bits as we have
     // builtin BitField classes.
@@ -121,6 +237,8 @@ namespace rnd {
 
     SpoilerItemLocation itemLoc = gSpoilerData.ItemLocations[itemIndex];
     if (itemLoc.Collected == true) {
+      return 1;
+    } else if (gExtSaveData.itemCollected[itemIndex] == 1) {
       return 1;
     }
     if (itemLoc.CollectionCheckType == SPOILER_CHK_ALWAYS_COLLECTED) {

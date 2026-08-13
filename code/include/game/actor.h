@@ -6,19 +6,22 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_ACTOR_H
-#define _GAME_ACTOR_H
+#pragma once
 
 #include "common/bitfield.h"
 #include "common/flags.h"
 #include "common/types.h"
 #include "common/utils.h"
+#include "game/objectbankarchive.h"
 #include "game/sound.h"
 #include "z3d/z3DVec.h"
 
 namespace game {
   struct GlobalContext;
-}
+  namespace ActorResource {
+    struct ActorResource;
+  }
+}  // namespace game
 
 namespace game::act {
 
@@ -33,14 +36,24 @@ namespace game::act {
     DayTimer = 0x00F5,
     // Elegy of Emptiness statue
     ObjElegyStatue = 0x001F,
-    // En_Gm - Gorman Bros Race
+    // En_Im - Gorman Bros Race - Ingo
     EnIn = 0x004D,
     // Clear Tag (?)
     ClearTag = 0x0073,
+    // Gorman
+    EnGm = 0x0074,
     // En_Hs - Grog The Chicken Man
     EnHs = 0x0076,
+    // En_Js - Moon Children
+    EnJs = 0x0085,
     // Cursed Man Spider House
     EnSsh = 0x0090,
+    // Gold Skullutla
+    EnSi = 0x0099,
+    // Cow
+    EnCow = 0x00A4,
+    // Powder Keg Trial Goron
+    EnGo = 0x00D5,
     // [1] Deku Palace / Woodfall Temple moving platforms (after player lands on them)
     ObjRailLift = 0x00D8,
     // Shooting Gallery - Man
@@ -53,6 +66,8 @@ namespace game::act {
     BossGyorg = 0x00CD,
     // Great Fairy
     NpcGreatFairy = 0x00D2,
+    // Boss Remains
+    DmHina = 0x00DC,
     // [4] Kafei
     NpcKafei = 0x00F4,
     // Koume (Boat Lady)
@@ -61,14 +76,22 @@ namespace game::act {
     EnGinkoMan = 0x010F,
     // Deku Butler
     EnDno = 0x0117,
+    // Happy Mask Salesman (Cutscenes)
+    DmChar03 = 0x12B,
+    // Masks (Cutscenes)
+    DmChar05 = 0x012D,
     // Ice platform created using ice arrows.
     BgIcePlatform = 0x013E,
+    // Stray Fairy
+    EnElfOrg = 0x0145,
     // Npc For Curiosity Shop Owner
     NpcEnFsn = 0x0157,
     // Npc For Boat Photography
-    NpcSwampPhotographer = 0x0158,
+    EnShn = 0x0158,
     // NPC Postman
     NpcEnPm = 0x0166,
+    // Fish Heart Piece
+    FishHeart = 0x016A,
     // Goht
     BossGoht = 0x016E,
     // Postbox
@@ -79,6 +102,8 @@ namespace game::act {
     EnMaYto = 0x01AF,
     // [7] Owl statue
     ObjOwlStatue = 0x01B2,
+    // Gabora
+    EnKgy = 0x018F,
     // [4] Old Lady from Bomb Shop
     NpcEnBaba = 0x01C5,
     // Granny
@@ -103,6 +128,10 @@ namespace game::act {
     NpcEnBjt = 0x020C,
     // [4] Bombers
     NpcBombers = 0x020F,
+    // Moon Stone
+    ObjMoonStone = 0x0212,
+    // Keaton
+    EnKitan = 0x021B,
     // [6] Sheikah Hint Stone (MM3D)
     NpcHintStone = 0x0241,
     // [6] New in MM3D. Shows up as sparkles and spawns an ice platform (actor 0x13E) when hit.
@@ -186,6 +215,21 @@ namespace game::act {
   };
   static_assert(sizeof(PosRot) == 0x14);
 
+  using ActorShadowFunc = void(Actor* self, void* lightMapper, GlobalContext* gctx);
+  struct ActorShape {
+    z3dVec3s rot;
+    s16 face;
+    float y_offset;
+    ActorShadowFunc* shadow_draw;
+    float shadow_scale;
+    u8 shadow_alpha;
+    u8 feet_floor_flags;
+    u8 field_16;
+    u8 field_17;
+    z3dVec3f feet_pos[2];
+  };
+  static_assert(sizeof(ActorShape) == 0x30);
+
   struct Actor {
     enum class Flag : u32 {
       Targetable = 0x1,
@@ -251,16 +295,7 @@ namespace game::act {
     DamageType damage_type;
     u8 field_BE;
     u8 field_BF;
-    // u16 field_C0;
-    // u16 angle;
-    z3dVec3s angle;
-    // u16 field_C4;
-    u8 gap_C6[2];
-    float field_C8;
-    u32 field_CC;
-    float field_D0;
-    u8 field_D4;
-    u8 gap_D5[27];
+    ActorShape actor_shape;
     z3dVec3f field_F0;
     u32 field_FC;
     z3dVec3f field_100;
@@ -284,19 +319,8 @@ namespace game::act {
     MainFunc* calc_fn;
     MainFunc* draw_fn;
     ActorOverlayInfo* overlay_info;
-    float field_14C;
-    float field_150;
-    float field_154;
-    int field_158;
-    float field_15C;
-    float field_160;
-    float field_164;
-    int field_168;
-    float field_16C;
-    float field_170;
-    float field_174;
-    int field_178;
-    void* field_17C;
+    float mtx[3][4];
+    game::ActorResource::ActorResource* field_17C;
     char field_180[80];
     int field_1D0;
     u8 field_1D4;
@@ -317,14 +341,14 @@ namespace game::act {
 
   // Name courtesy of the OoT decomp project.
   struct DynaPolyActor : Actor {
-    u32 dyna_poly_id;
-    float field_1FC;
+    u32 bg_id;
+    float push_force;
     float field_200;
-    u16 field_204;
-    u8 field_206;
-    u32 dyna_poly_flags;
+    s16 y_rotation;
+    u32 transform_flags;
+    u8 interact_flags;
   };
-  static_assert(sizeof(DynaPolyActor) == 0x20C);
+  static_assert(sizeof(DynaPolyActor) == 0x210);
 
   struct DayTimerActor {
     Actor common_actor;
@@ -339,8 +363,60 @@ namespace game::act {
   };
   static_assert(sizeof(DayTimerActor) == 0x20C);
 
+  struct SA_TextureAnimation;
+
+  struct TexAnim_Unk_00 {
+    void* CMAB_man;
+    void* field_04;
+    s32 field_08;
+    s32 field_0C;
+    void (*attach_cmab)(SA_TextureAnimation* texAnim, void* cmabMan);
+    u8 gap_14[12];
+    void (*set_active)(SA_TextureAnimation* texAnim, s32 active);
+    // Likely incomplete.
+  };
+  static_assert(offsetof(TexAnim_Unk_00, attach_cmab) == 0x10);
+  static_assert(offsetof(TexAnim_Unk_00, set_active) == 0x20);
+  static_assert(sizeof(TexAnim_Unk_00) == 0x24);
+
+  struct TexAnim_Unk_10 {
+    void* CMB_man;
+    u8 gap_14[20];
+    // Likely incomplete.
+  };
+  static_assert(sizeof(TexAnim_Unk_10) == 0x18);
+
+  struct SA_TextureAnimation {
+    TexAnim_Unk_00* field_00;
+    game::ObjectBank::CmabMan* CMAB_man;
+    TexAnim_Unk_10* field_08;
+    void* cmab_chunk;
+    // u8 gap_10[4];
+    f32 cur_frame;
+    f32 anim_speed;
+    s8 anim_mode;
+    // s8 field_1A;
+    u8 gap_1b[139];
+    // Likely incomplete.
+  };
+  static_assert(offsetof(SA_TextureAnimation, anim_mode) == 0x18);
+  static_assert(offsetof(SA_TextureAnimation, field_08) == 0x08);
+  static_assert(sizeof(SA_TextureAnimation) == 0xA4);
+
+  struct SkeletonAnimationModel {
+    void* field_00;
+    void* field_04;
+    float field_08;
+    int field_0c;
+    float field_10;
+    float field_14;
+    z3d_nn_math_MTX34 mtx;
+    u8 gap_48[0x50];
+    SA_TextureAnimation* texAnim;
+    u8 gap_9C[0x38];
+  };
+  static_assert(sizeof(SkeletonAnimationModel) == 0xD4);
+
   ActorOverlayInfo* GetActorOverlayInfoTable();
 
 }  // namespace game::act
-
-#endif

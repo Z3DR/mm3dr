@@ -98,7 +98,9 @@ typedef enum {
   ICON_BUTTON_FACEH,
   ICON_BUTTON_FACEV,
   ICON_BUTTON_JOYSTICK,
-  ICONS_COUNT
+  ICON_SKULLTULA,
+  ICON_FAIRY,
+  ICON_COUNT
 } Draw_IconType;
 
 void Draw_Lock(void);
@@ -124,6 +126,7 @@ void Draw_ClearBackbuffer(void);
 void Draw_CopyBackBuffer(void);
 void Draw_FlushFramebuffer(void);
 void Draw_FlushFramebufferTop(void);
+void Draw_SetTopScreenDirty(void);
 
 struct FramebufferAddress {
   u8* a;
@@ -154,3 +157,23 @@ struct Graphics {
   Framebuffer top2;
   Framebuffer bottom;
 };
+
+struct GspFramebufferInfo {
+  u32 activeFramebuf;         // 0 = framebuf0, 1 = framebuf1
+  u32* framebuf0Vaddr;        // top screen: left-eye image
+  u32* framebuf1Vaddr;        // top screen: right-eye image
+  u32 framebufWidthByteSize;  // stride
+  u32 format;
+  u32 framebufDispSelect;
+  u32 unk;
+};
+static_assert(sizeof(GspFramebufferInfo) == 0x1C);
+
+struct GspFramebufferInfoHeader {
+  u8 index;
+  u8 dirty;
+  u16 pad_02;
+  GspFramebufferInfo framebufInfo[2];
+};
+static_assert(offsetof(GspFramebufferInfoHeader, framebufInfo) == 0x04);
+static_assert(sizeof(GspFramebufferInfoHeader) == 0x3C);

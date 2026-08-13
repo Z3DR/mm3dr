@@ -44,8 +44,8 @@ namespace game::act {
 
     if (active_form == Player::Form::Deku) {
       // Playing the Honey and Darling shooting minigame as Deku Link.
-      info.can_use =
-          cdata.save.player.magic >= 2 || ((cdata.save.anonymous_72 & 1) && gctx->scene == SceneId::HoneyAndDarling);
+      info.can_use = cdata.save.player.magic >= 2 || ((cdata.save.week_event_reg_08.WEEKEVENTREG_08_01 == 1) &&
+                                                      gctx->scene == SceneId::HoneyAndDarling);
     } else {
       info.can_use = flags3.IsSet(Flag3::DekuStuffMaybe) || (cdata.field_3696 == 1 && gctx->hud_state.field_244) ||
                      gctx->field_C531 || rnd::util::GetPointer<bool(ItemId)>(0x224EF8)(info.item_id);
@@ -73,8 +73,8 @@ namespace game::act {
 
   extern "C" {
   bool PlayerStateSpawningElegyStatue(Player* player, GlobalContext* gctx) {
-    if (!rnd::gSettingsContext.enableFastElegyStatues)
-      return false;
+    // if (!rnd::gSettingsContext.enableFastElegyStatues)
+    //   return false;
     auto& pad = gctx->pad_state;
     player->controller_info.state = &pad;
 
@@ -84,15 +84,15 @@ namespace game::act {
     if (player->timer == 1) {
       auto spawn_elegy_statue = rnd::util::GetPointer<void(GlobalContext*, Player*)>(0x1F0758);
       spawn_elegy_statue(gctx, player);
-      auto* statue = gctx->elegy_statues[u8(player->active_form)];
+      auto* statue = gctx->actors.elegy_statues[u8(player->active_form)];
       statue->timer = 0;
     } else if (player->timer > 5) {
-      auto* statue = gctx->elegy_statues[u8(player->active_form)];
+      auto* statue = gctx->actors.elegy_statues[u8(player->active_form)];
       const bool statue_ready =
           !statue || (statue->pos.pos.x == player->pos.pos.x && statue->pos.pos.y == player->pos.pos.y &&
                       statue->pos.pos.z == player->pos.pos.z);
       if (player->timer > 135 || statue_ready) {
-        gctx->ocarina_state = OcarinaState::StoppedPlaying;
+        gctx->msg_context.ocarinaMode = OcarinaMode::OCARINA_MODE_END;
         PlayerChangeStateToStill(player, gctx);
       } else if (statue && !statue_ready) {
         // Speed up the statue fadeout. (0x18 + 8 = 0x20 per game tick)

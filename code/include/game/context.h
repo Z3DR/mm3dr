@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_CONTEXT_H
-#define _GAME_CONTEXT_H
+#pragma once
 
 #include <cstddef>
 
@@ -51,42 +50,198 @@ namespace game {
   };
   static_assert(sizeof(ActorList) == 0xc);
 
+  struct ActorContextSceneFlags {
+    u32 switches[4];  // First 0x40 are permanent, second 0x40 are temporary
+    u32 chest;
+    u32 clearedRoom;
+    u32 clearedRoomTemp;
+    u32 collectible[4];  // bitfield of 128 bits
+  };
+  static_assert(sizeof(ActorContextSceneFlags) == 0x2C);
+
+  struct PlayerImpact {
+    u8 timer;
+    u8 type;
+    float dist;
+    z3dVec3f pos;
+  };
+  static_assert(sizeof(PlayerImpact) == 0x14);
+
+  struct TitleCardContext {
+    void* texturePtr;
+    s16 x;
+    s16 y;
+    u8 width;
+    u8 height;
+    u8 durationTimer;
+    u8 delayTimer;
+    u8 alpha;
+    u8 intensity;
+    u16 field_e;
+    u16 field_10;
+  };
+  static_assert(sizeof(TitleCardContext) == 0x14);
+
   struct ActorLists {
     ActorList& GetList(act::Type type) { return lists[u8(type)]; }
     const ActorList& GetList(act::Type type) const { return lists[u8(type)]; }
-    u8 gap_0[4];
-    u8 field_4;
-    u8 field_5;
+    u8 freeze_flash_timer;
+    u8 pad1;
+    u8 field_2;
+    u8 lens_active;
+    u8 lens_mask_size;
+    u8 flag;
     u8 gap_6[6];
     u8 num_actors;
     std::array<ActorList, 12> lists;
+    u8 gap_2150[128];
+    z3dVec3f field_21D0;
+    u8 gap_21DC[280];
+    ActorContextSceneFlags actor_ctx_scene_flags;
+    TitleCardContext title_card_ctx;
+    PlayerImpact player_impact;
+    u8 gap_2348[72];
+    void* absolute_space;
+    std::array<act::ObjElegyStatue*, 5> elegy_statues;
+    char field_23A8;
+    u8 gap_23A9[3];
+    pad::State pad_state_copy;
+    u8 gap_2418[12];
   };
-  static_assert(sizeof(ActorLists) == 0xa0);
+  static_assert(sizeof(ActorLists) == 0x374);
+  static_assert(offsetof(ActorLists, gap_6) == 0x06);
 
-  enum class OcarinaState : u16 {
-    NotOpened = 0,
-    Playing = 1,
-    PlayingAndReplayDone = 3,
-    StoppedPlaying = 4,
-    PlayedSongOfTime = 0x12,
-    PlayedInvertedSongOfTime = 0x13,
-    GoingBackInTime = 0x16,
-    RestoringTimeToNormalSpeed = 0x18,
-    SlowingTime = 0x19,
-    JumpingForwardInTime = 0x1a,
-    WarpingToGreatBayCoast = 0x1c,
-    WarpingToZoraCape = 0x1d,
-    WarpingToSnowhead = 0x1e,
-    WarpingToMountainVillage = 0x1f,
-    WarpingToClockTown = 0x20,
-    WarpingToMilkRoad = 0x21,
-    WarpingToWoodfall = 0x22,
-    WarpingToSouthernSwamp = 0x23,
-    WarpingToIkanaCanyon = 0x24,
-    WarpingToStoneTower = 0x25,
+  enum class OcarinaMode : u16 {
+    OCARINA_MODE_NONE = 0,
+    OCARINA_MODE_ACTIVE = 1,
+    OCARINA_MODE_WARP = 2,
+    OCARINA_MODE_EVENT = 3,
+    OCARINA_MODE_END = 4,
+    OCARINA_MODE_PLAYED_TIME = 5,
+    OCARINA_MODE_PLAYED_HEALING = 6,
+    OCARINA_MODE_PLAYED_EPONAS = 7,
+    OCARINA_MODE_PLAYED_SOARING = 8,
+    OCARINA_MODE_PLAYED_STORMS = 9,
+    OCARINA_MODE_PLAYED_SUNS = 10,
+    OCARINA_MODE_PLAYED_INVERTED_TIME = 11,
+    OCARINA_MODE_PLAYED_DOUBLE_TIME = 12,
+    OCARINA_MODE_PLAYED_SCARECROW_SPAWN = 13,
+    OCARINA_MODE_E = 14,
+    OCARINA_MODE_F = 15,
+    OCARINA_MODE_10 = 16,
+    OCARINA_MODE_11 = 17,
+    OCARINA_MODE_PROCESS_SOT = 18,
+    OCARINA_MODE_PROCESS_INVERTED_TIME = 19,
+    OCARINA_MODE_14 = 20,
+    OCARINA_MODE_PROCESS_DOUBLE_TIME = 21,
+    OCARINA_MODE_APPLY_SOT = 22,
+    OCARINA_MODE_17 = 23,
+    OCARINA_MODE_APPLY_INV_SOT_FAST = 24,
+    OCARINA_MODE_APPLY_INV_SOT_SLOW = 25,
+    OCARINA_MODE_APPLY_DOUBLE_SOT = 26,
+    OCARINA_MODE_1B = 27,
+    OCARINA_MODE_WARP_TO_GREAT_BAY_COAST = 28,
+    OCARINA_MODE_WARP_TO_ZORA_CAPE = 29,
+    OCARINA_MODE_WARP_TO_SNOWHEAD = 30,
+    OCARINA_MODE_WARP_TO_MOUNTAIN_VILLAGE = 31,
+    OCARINA_MODE_WARP_TO_SOUTH_CLOCK_TOWN = 32,
+    OCARINA_MODE_WARP_TO_MILK_ROAD = 33,
+    OCARINA_MODE_WARP_TO_WOODFALL = 34,
+    OCARINA_MODE_WARP_TO_SOUTHERN_SWAMP = 35,
+    OCARINA_MODE_WARP_TO_IKANA_CANYON = 36,
+    OCARINA_MODE_WARP_TO_STONE_TOWER = 37,
+    OCARINA_MODE_WARP_TO_ENTRANCE = 38,
+    OCARINA_MODE_PROCESS_RESTRICTED_SONG = 39,
+    OCARINA_MODE_28 = 40,
+    OCARINA_MODE_29 = 41,
+    OCARINA_MODE_PLAYED_FULL_EVAN_SONG = 42
   };
 
-  // Incomplete
+  enum class OcarinaSongActionId : u16 {
+    OCARINA_ACTION_0 = 0,
+    OCARINA_ACTION_FREE_PLAY = 1,
+    OCARINA_ACTION_DEMONSTRATE_SONATA = 2,
+    OCARINA_ACTION_DEMONSTRATE_GORON_LULLABY = 3,
+    OCARINA_ACTION_DEMONSTRATE_NEW_WAVE = 4,
+    OCARINA_ACTION_DEMONSTRATE_ELEGY = 5,
+    OCARINA_ACTION_DEMONSTRATE_OATH = 6,
+    OCARINA_ACTION_DEMONSTRATE_SARIAS = 7,
+    OCARINA_ACTION_DEMONSTRATE_TIME = 8,
+    OCARINA_ACTION_DEMONSTRATE_HEALING = 9,
+    OCARINA_ACTION_DEMONSTRATE_EPONAS = 10,
+    OCARINA_ACTION_DEMONSTRATE_SOARING = 11,
+    OCARINA_ACTION_DEMONSTRATE_STORMS = 12,
+    OCARINA_ACTION_DEMONSTRATE_SUNS = 13,
+    OCARINA_ACTION_DEMONSTRATE_INVERTED_TIME = 14,
+    OCARINA_ACTION_DEMONSTRATE_DOUBLE_TIME = 15,
+    OCARINA_ACTION_DEMONSTRATE_GORON_LULLABY_INTRO = 16,
+    OCARINA_ACTION_11 = 17,
+    OCARINA_ACTION_PROMPT_SONATA = 18,
+    OCARINA_ACTION_PROMPT_GORON_LULLABY = 19,
+    OCARINA_ACTION_PROMPT_NEW_WAVE = 20,
+    OCARINA_ACTION_PROMPT_ELEGY = 21,
+    OCARINA_ACTION_PROMPT_OATH = 22,
+    OCARINA_ACTION_PROMPT_SARIAS = 23,
+    OCARINA_ACTION_PROMPT_TIME = 24,
+    OCARINA_ACTION_PROMPT_HEALING = 25,
+    OCARINA_ACTION_PROMPT_EPONAS = 26,
+    OCARINA_ACTION_PROMPT_SOARING = 27,
+    OCARINA_ACTION_PROMPT_STORMS = 28,
+    OCARINA_ACTION_PROMPT_SUNS = 29,
+    OCARINA_ACTION_PROMPT_INVERTED_TIME = 30,
+    OCARINA_ACTION_PROMPT_DOUBLE_TIME = 31,
+    OCARINA_ACTION_PROMPT_GORON_LULLABY_INTRO = 32,
+    OCARINA_ACTION_21 = 33,
+    OCARINA_ACTION_CHECK_SONATA = 34,
+    OCARINA_ACTION_CHECK_GORON_LULLABY = 35,
+    OCARINA_ACTION_CHECK_NEW_WAVE = 36,
+    OCARINA_ACTION_CHECK_ELEGY = 37,
+    OCARINA_ACTION_CHECK_OATH = 38,
+    OCARINA_ACTION_CHECK_SARIAS = 39,
+    OCARINA_ACTION_CHECK_TIME = 40,
+    OCARINA_ACTION_CHECK_HEALING = 41,
+    OCARINA_ACTION_CHECK_EPONAS = 42,
+    OCARINA_ACTION_CHECK_SOARING = 43,
+    OCARINA_ACTION_CHECK_STORMS = 44,
+    OCARINA_ACTION_CHECK_SUNS = 45,
+    OCARINA_ACTION_CHECK_INVERTED_TIME = 46,
+    OCARINA_ACTION_CHECK_DOUBLE_TIME = 47,
+    OCARINA_ACTION_CHECK_GORON_LULLABY_INTRO = 48,
+    OCARINA_ACTION_CHECK_SCARECROW_SPAWN = 49,
+    OCARINA_ACTION_FREE_PLAY_DONE = 50,
+    OCARINA_ACTION_SCARECROW_LONG_RECORDING = 51,
+    OCARINA_ACTION_SCARECROW_LONG_DEMONSTRATION = 52,
+    OCARINA_ACTION_SCARECROW_SPAWN_RECORDING = 53,
+    OCARINA_ACTION_SCARECROW_SPAWN_DEMONSTRATION = 54,
+    OCARINA_ACTION_37 = 55,
+    OCARINA_ACTION_CHECK_NOTIME = 56,
+    OCARINA_ACTION_CHECK_NOTIME_DONE = 57,
+    OCARINA_ACTION_3A = 58,
+    OCARINA_ACTION_3B = 59,
+    OCARINA_ACTION_3C = 60,
+    OCARINA_ACTION_DEMONSTRATE_EVAN_PART1_FIRST_HALF = 61,
+    OCARINA_ACTION_DEMONSTRATE_EVAN_PART2_FIRST_HALF = 62,
+    OCARINA_ACTION_DEMONSTRATE_EVAN_PART1_SECOND_HALF = 63,
+    OCARINA_ACTION_DEMONSTRATE_EVAN_PART2_SECOND_HALF = 64,
+    OCARINA_ACTION_PROMPT_EVAN_PART1_SECOND_HALF = 65,
+    OCARINA_ACTION_PROMPT_EVAN_PART2_SECOND_HALF = 66,
+    OCARINA_ACTION_PROMPT_WIND_FISH_HUMAN = 67,
+    OCARINA_ACTION_PROMPT_WIND_FISH_GORON = 68,
+    OCARINA_ACTION_PROMPT_WIND_FISH_ZORA = 69,
+    OCARINA_ACTION_PROMPT_WIND_FISH_DEKU = 70,
+    OCARINA_ACTION_TIMED_PROMPT_SONATA = 71,
+    OCARINA_ACTION_TIMED_PROMPT_GORON_LULLABY = 72,
+    OCARINA_ACTION_TIMED_PROMPT_NEW_WAVE = 73,
+    OCARINA_ACTION_TIMED_PROMPT_ELEGY = 74,
+    OCARINA_ACTION_TIMED_PROMPT_OATH = 75,
+    OCARINA_ACTION_TIMED_PROMPT_SARIAS = 76,
+    OCARINA_ACTION_TIMED_PROMPT_TIME = 77,
+    OCARINA_ACTION_TIMED_PROMPT_HEALING = 78,
+    OCARINA_ACTION_TIMED_PROMPT_EPONAS = 79,
+    OCARINA_ACTION_TIMED_PROMPT_SOARING = 80,
+    OCARINA_ACTION_TIMED_PROMPT_STORMS = 81
+  };
+
   enum class OcarinaSong : u16 {
     SonataOfAwakening = 0,
     GoronLullaby = 1,
@@ -98,12 +253,29 @@ namespace game {
     EponaSong = 8,
     SongOfSoaring = 9,
     SongOfStorms = 10,
+    SunsSong = 11,
     InvertedSongOfTime = 12,
     SongOfDoubleTime = 13,
-    ScarecrowSong = 21,
+    GoronLullablyIntro = 14,
+    WindFishHuman = 15,
+    WindFishGoron = 16,
+    WindFishZora = 17,
+    WindFishDeku = 18,
+    EvansSongPart1 = 19,
+    EvansSongPart2 = 20,
+    ZeldasLullaby = 21,
+    ScarecrowSong = 22,
+    TerminaWallSong = 23,
+    SongMax = 24,
 
     InvalidDetecting = 0xfe,
     Invalid = 0xff,
+  };
+
+  struct OcarinaStaff {
+    u8 buttonIndex;
+    u8 song;
+    u8 pos;
   };
 
   struct HudState {
@@ -160,6 +332,60 @@ namespace game {
   };
   static_assert(sizeof(HudState) == 0x280);
 
+  struct MessageContext {
+    void* notebook_stuff;
+    u8 gap_8024[536];
+    OcarinaStaff* ocarinaStaff_maybe;
+    u16 current_text_id;
+    u8 gap_8222[10];
+    int field_822C;
+    u16 field_8230;
+    u16 field_8232;
+    u8 gap_8234[10];
+    u8 hide_hud;
+    u8 field_823F;
+    u8 gap_8240[160];
+    u32 field_82E0;
+    u8 gap_82E4[28];
+    int field_8300;
+    u8 gap_8304[28];
+    int field_8320;
+    u8 gap_8324[27];
+    u8 text_delay_timer;
+    s16 state_timer;
+    u8 gap_8343[4];
+    OcarinaMode ocarinaMode;
+    OcarinaSongActionId ocarinaSongActionId;
+    OcarinaSong lastPlayedSong;
+    u8 gap_834A[16];
+    game::act::Actor* talk_actor;
+    u16 field_8360;
+    u16 field_8362;
+    OcarinaSong ocarina_song2;
+    OcarinaMode ocarina_state;
+    OcarinaMode ocarina_state2;
+    OcarinaSong ocarina_song;
+    u16 field_836C;
+    u8 field_836E;
+    u8 field_836F;
+    int field_8370;
+    int field_8374;
+    int field_8378;
+    game::act::Actor* message_actor;
+    u16 field_8380;
+    u16 field_8382;
+    u8 gap_8384[4]; /* ocaEff Spawned here? */
+    int item_cost;
+    int item_cost_two;
+    u8 gap_8390[61];
+    u8 bombers_notebook_event_queue_count;
+    u8 gap_83CE[58];
+  };
+  static_assert(offsetof(MessageContext, field_8232) == 0x232);
+  static_assert(offsetof(MessageContext, ocarinaStaff_maybe) == 0x21c);
+  static_assert(offsetof(MessageContext, gap_8324) == 0x324);
+  static_assert(sizeof(MessageContext) == 0x408);
+
   // Likely incomplete.
   struct GlobalContext : State {
     bool IsPaused() const { return pause_flags.IsOneSet(PauseFlag::PauseCalc, PauseFlag::PauseDraw); }
@@ -204,7 +430,9 @@ namespace game {
     float field_2A4;
     u8 gap_2A8[228];
     u8 field_38C;
-    u8 gap_38D[123];
+    u8 gap_38D[71];
+    z3d_nn_math_MTX34 some_global_mtx;
+    u8 gap_404[4];
     Camera main_camera;
     Camera other_cameras[3];
     Camera* cameras[4];
@@ -221,25 +449,20 @@ namespace game {
     u32 field_2000;
     u8 gap_2004[172];
     ActorLists actors;
-    u8 gap_2150[128];
+    /*u8 gap_2150[128];
     z3dVec3f field_21D0;
-    u8 gap_21DC[284];
-    int field_22f3;
-    int field_22FC;
-    u8 gap_2300[8];
-    int room_number_mask;
-    u8 gap_230C[4];
-    u8 field_2310;
-    u8 gap_2311[3];
-    int field_2314;
-    int field_2318;
-    int field_231C;
-    u8 gap_2320[116];
+    u8 gap_21DC[280];
+    ActorContextSceneFlags actor_ctx_scene_flags;
+    TitleCardContext title_card_ctx;
+    PlayerImpact player_impact;
+    u8 gap_2348[72];
+    void* absolute_space;
     std::array<act::ObjElegyStatue*, 5> elegy_statues;
     char field_23A8;
     u8 gap_23A9[3];
     pad::State pad_state_copy;
-    u8 gap_2418[16];
+    u8 gap_2418[12];*/
+    int field_2424;
     u32 field_2428;
     u8 gap_242C[604];
     u32 field_2688;
@@ -257,54 +480,11 @@ namespace game {
     u8 gap_3DFE[16898];
     u32 field_8000;
     u8 gap_8004[28];
-    void* notebook_stuff;
-    u8 gap_8024[536];
-    void* ocarinaData;
-    u16 field_8220;
-    u8 gap_8222[10];
-    int field_822C;
-    u8 gap_8230[2];
-    u16 field_8232;
-    u8 gap_8234[10];
-    u8 hide_hud;
-    u8 field_823F;
-    u8 gap_8240[160];
-    u32 field_8300;
-    u8 gap_8304[28];
-    int field_8320;
-    u8 gap_8324[59];
-    u8 some_ocarina_timer;
-    u16 field_8360;
-    u16 field_8362;
-    OcarinaSong ocarina_song2;
-    OcarinaState ocarina_state;
-    OcarinaState ocarina_state2;
-    OcarinaSong ocarina_song;
-    u16 field_836C;
-    char field_836E;
-    char field_836F;
-    int field_8370;
-    int field_8374;
-    int field_8378;
-    act::Actor* messageActor;
-    u16 field_8380;
-    u16 field_8382;
-    u8 gap_8384[4];  // ocaeffSpawned in here.
-    int item_cost;
-    int another_item_cost_maybe;
-    u8 gap_8390[62];
-    u16 field_83CE;  // frame counter for notebook?
-    u8 field_83CD;
-    u8 gap_83D0[10];
-    u32 field_83DE;  // Checks during song
-    u16 field_83E0;
-    u16 field_83E2;  // Stored message ID for after notebook collection. Mainly used for fishing
-                     // pass/PoH/rupee text.
-    u8 gap_83E0[68];
+    MessageContext msg_context;
     HudState hud_state;
     u8 gap_86A8[4];
     u16 field_86AC;
-    __attribute__((aligned(4))) u8 gap_86B0[272];
+    u8 gap_86B0[272];
     u32 field_87C0;
     u8 gap_87C4[59];
     u8 field_87FF;
@@ -312,10 +492,10 @@ namespace game {
     u8 field_883A;
     __attribute__((aligned(2))) u8 gap_883C[2];
     u8 field_883E;
-    __attribute__((aligned(2))) u8 gap_8840[3064];
+    __attribute__((aligned(2))) u8 gap_8840[3060];
     game::ActorResource::ActorResources* actors_spawn_stuff;
     game::ActorResource::ObjectContext object_context;
-    u8 gap_AC74[5004];
+    u8 gap_AC6C[5012];
     u32 field_C000;
     u8 gap_C004[604];
     u8 room_number;
@@ -357,7 +537,11 @@ namespace game {
     u8 field_C530;
     u8 field_C531;
     u8 field_C532;
-    u8 gap_C533[5];
+    // u8 gap_C533[5];
+    u8 gap_C533;
+    u8 transitionType;
+    u8 field_C535;
+    u16 field_C536;
     int field_C538;
     u8 gap_C53C[798];
     u8 field_C85A;
@@ -456,18 +640,99 @@ namespace game {
   };
   static_assert(offsetof(GlobalContext, main_camera) == 0x408);
   static_assert(offsetof(GlobalContext, pause_flags) == 0xAAC);
-  static_assert(offsetof(GlobalContext, elegy_statues) == 0x2394);
+  static_assert(offsetof(GlobalContext, actors.elegy_statues) == 0x2394);
+  static_assert(offsetof(GlobalContext, actors.gap_2348) == 0x2348);
   static_assert(offsetof(GlobalContext, field_C000) == 0xc000);
-  static_assert(offsetof(GlobalContext, ocarina_state) == 0x8366);
-  static_assert(offsetof(GlobalContext, ocarina_song) == 0x836A);
-  static_assert(offsetof(GlobalContext, hide_hud) == 0x825E);
-  static_assert(offsetof(GlobalContext, field_836E) == 0x836E);
-  static_assert(offsetof(GlobalContext, gap_8390) == 0x8390);
   static_assert(offsetof(GlobalContext, field_C4C8) == 0xC4C8);
-  static_assert(offsetof(GlobalContext, field_83CE) == 0x83CE);
-  static_assert(offsetof(GlobalContext, gap_8384) == 0x8384);
+  static_assert(offsetof(GlobalContext, gap_AC6C) == 0xAC6C);
+  static_assert(offsetof(GlobalContext, msg_context) == 0x8020);
+  static_assert(offsetof(GlobalContext, msg_context.ocarinaMode) == 0x8366);
+  static_assert(offsetof(GlobalContext, gap_404) == 0x0404);
+  static_assert(offsetof(GlobalContext, object_context) == 0x9438);
+  static_assert(offsetof(GlobalContext, transitionType) == 0xC534);
+  static_assert(offsetof(GlobalContext, field_C538) == 0xC538);
   static_assert(sizeof(GlobalContext) == 0x11030);
 
-}  // namespace game
+  struct PersistentSceneCycleFlags {
+    union switches0 {
+      u32 raw;
 
-#endif
+      BitField<0, 1, u32> unk0;
+      BitField<1, 1, u32> unk1;
+      BitField<2, 1, u32> unk2;
+      BitField<3, 1, u32> unk3;
+      BitField<4, 1, u32> unk4;
+      BitField<5, 1, u32> unk5;
+      BitField<6, 1, u32> unk6;
+      BitField<7, 1, u32> unk7;
+      BitField<8, 1, u32> unk8;
+      BitField<9, 1, u32> unk9;
+      BitField<10, 1, u32> unk10;
+      BitField<11, 1, u32> unk11;
+      BitField<12, 1, u32> unk12;
+      BitField<13, 1, u32> unk13;
+      BitField<14, 1, u32> unk14;
+      BitField<15, 1, u32> unk15;
+      BitField<16, 1, u32> unk16;
+      BitField<17, 1, u32> unk17;
+      BitField<18, 1, u32> unk18;
+      BitField<19, 1, u32> unk19;
+      BitField<20, 1, u32> unk20;
+      BitField<21, 1, u32> unk21;
+      BitField<22, 1, u32> unk22;
+      BitField<23, 1, u32> unk23;
+      BitField<24, 1, u32> unk24;
+      BitField<25, 1, u32> unk25;
+      BitField<26, 1, u32> unk26;
+      BitField<27, 1, u32> unk27;
+      BitField<28, 1, u32> unk28;
+      BitField<29, 1, u32> unk29;
+      BitField<30, 1, u32> unk30;
+      BitField<31, 1, u32> unk31;
+    };
+    switches0 switch0;
+    union switches1 {
+      u32 raw;
+
+      BitField<0, 1, u32> unk0;
+      BitField<1, 1, u32> unk1;
+      BitField<2, 1, u32> unk2;
+      BitField<3, 1, u32> unk3;
+      BitField<4, 1, u32> unk4;
+      BitField<5, 1, u32> unk5;
+      BitField<6, 1, u32> unk6;
+      BitField<7, 1, u32> unk7;
+      BitField<8, 1, u32> unk8;
+      BitField<9, 1, u32> unk9;
+      BitField<10, 1, u32> unk10;
+      BitField<11, 1, u32> unk11;
+      BitField<12, 1, u32> unk12;
+      BitField<13, 1, u32> unk13;
+      BitField<14, 1, u32> unk14;
+      BitField<15, 1, u32> unk15;
+      BitField<16, 1, u32> unk16;
+      BitField<17, 1, u32> unk17;
+      BitField<18, 1, u32> unk18;
+      BitField<19, 1, u32> unk19;
+      BitField<20, 1, u32> unk20;
+      BitField<21, 1, u32> unk21;
+      BitField<22, 1, u32> unk22;
+      BitField<23, 1, u32> unk23;
+      BitField<24, 1, u32> unk24;
+      BitField<25, 1, u32> unk25;
+      BitField<26, 1, u32> unk26;
+      BitField<27, 1, u32> unk27;
+      BitField<28, 1, u32> unk28;
+      BitField<29, 1, u32> unk29;
+      BitField<30, 1, u32> unk30;
+      BitField<31, 1, u32> unk31;
+    };
+    switches1 switch1;
+    u32 chest;
+    u32 collectible;
+  };
+  static_assert(sizeof(PersistentSceneCycleFlags) == 0x10);
+
+  PersistentSceneCycleFlags* GetPersistentCycleStruct();
+  void KillAllActorsWithMissingObjects(game::GlobalContext*);
+}  // namespace game

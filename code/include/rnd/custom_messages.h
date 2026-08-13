@@ -1,11 +1,7 @@
-#ifndef _RND_CUSTOM_MESSAGES_H_
-#define _RND_CUSTOM_MESSAGES_H_
+#pragma once
 
 #include "common/utils.h"
 #include "game/message.h"
-
-#define MAX_MSG_SIZE 512
-#define MAX_UNFORMATTED_SIZE 354
 
 bool SetCustomMessage(u16, game::MessageResEntry*);
 
@@ -14,10 +10,7 @@ typedef struct {
   u16 field_2;
   u32 field_4;
   u32 flags;
-  char text[MAX_UNFORMATTED_SIZE];
-  char cols[4];
-  char icons[6];
-  char delays[6];
+  u32 offsets[6];
   u16 sfxAndFlags;
 } UnformattedMessage;
 
@@ -89,4 +82,13 @@ typedef enum {
   QM_DEFAULT,
 } colType;
 
-#endif
+typedef enum {
+  MESSAGE_END_NORMAL,
+  MESSAGE_END_NEXT,       // Same as above with next icon
+  MESSAGE_END_EVENT,      // Textbox will attempt to trigger an event
+  MESSAGE_END_EVENTNEXT,  // Same as above with next icon
+  MESSAGE_END_PSEUDO,     // MESSAGE_END_NEXT with softer sound when proceeding
+  MESSAGE_END_NEWBOX,     // Same as above?
+  MESSAGE_END_ENDLESS,    // Textbox will wait to be closed by cutscene?
+  MESSAGE_END_NULL,       // Textbox doesn't need end command (e.g. closes after delay marker)
+} messageEndType;

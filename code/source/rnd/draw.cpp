@@ -361,3 +361,32 @@ void Draw_FlushFramebufferTop(void) {
   svcFlushProcessDataCache(CUR_PROCESS_HANDLE, u32(FRAMEBUFFER[4]), FB_TOP_SIZE);
   svcFlushProcessDataCache(CUR_PROCESS_HANDLE, u32(FRAMEBUFFER[5]), FB_TOP_SIZE);
 }
+
+void Draw_SetTopScreenDirty(void) {
+  // Due to a new feature in Azahar 2126, we need to refresh the top screen
+  // with a dirty bit in order to avoid frame generation ignoring the
+  // custom menu.
+  u32 frameBufTopScreenAddr = *rnd::util::GetPointer<u32>(0x64E5DC);
+  if (frameBufTopScreenAddr == 0)
+    return;
+  volatile GspFramebufferInfoHeader* header = (volatile GspFramebufferInfoHeader*)frameBufTopScreenAddr;
+  const u32 prevIdx = header->index & 1;
+  const u32 liveIdx = prevIdx ^ 1;
+
+  // Raising the dirty bit re-presents whatever sits in the previous slot, and the game alternates
+  // its two top display buffers every frame -- so on its own the flip publishes the frame before
+  // last and the top screen ping-pongs between the two buffers. Carry the live record into the
+  // previous slot first, so the flip re-presents the current frame instead of an older one.
+  volatile GspFramebufferInfo& live = header->framebufInfo[liveIdx];
+  volatile GspFramebufferInfo& prev = header->framebufInfo[prevIdx];
+  prev.activeFramebuf = live.activeFramebuf;
+  prev.framebuf0Vaddr = live.framebuf0Vaddr;
+  prev.framebuf1Vaddr = live.framebuf1Vaddr;
+  prev.framebufWidthByteSize = live.framebufWidthByteSize;
+  prev.format = live.format;
+  prev.framebufDispSelect = live.framebufDispSelect;
+  prev.unk = live.unk;
+
+  header->index = (u8)liveIdx;
+  header->dirty = 1;
+}

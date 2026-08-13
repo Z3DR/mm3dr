@@ -1,83 +1,142 @@
 #include "rnd/custom_models.h"
 #include <string.h>
-#include "z3d/z3DVec.h"
+#include "game/cmb.h"
+#include "game/resarchiveheader.h"
 
 #define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
+#define EDIT_U32(offset_, val_)                                                                                        \
+  (EDIT_BYTE((offset_) + 0, (val_) >> 24), EDIT_BYTE((offset_) + 1, (val_) >> 16),                                     \
+   EDIT_BYTE((offset_) + 2, (val_) >> 8), EDIT_BYTE((offset_) + 3, (val_)))
+namespace rnd {
+  static constexpr game::cmb::RGBA OpaqueBlack{0, 0, 0, 255};
+  static constexpr game::cmb::RGBA OpaqueWhite{255, 255, 255, 255};
 
-// TODO: Change this for MM3D.
-void CustomModel_EditTitleScreenLogo(void* titleScreenZAR) {
-  char* BASE_ = (char*)titleScreenZAR;
+  struct KeyColorData {
+    u32 emission;
+    u32 ambient;
+    u32 diffuse;
+  };
 
-  // copy_nintendo.cmb:
-  EDIT_BYTE(0x4F3, 0x40);
-  EDIT_BYTE(0x5905, 0x00);
-  EDIT_BYTE(0x5906, 0x01);  // Change texture dataLength
-  EDIT_BYTE(0x590A, 0x01);  // IsETC1 = true
-  EDIT_BYTE(0x590D, 0x02);  // Width  = 512
-  EDIT_BYTE(0x590E, 0x80);  // Height = 128
-  EDIT_BYTE(0x5910, 0x5B);  // ETC1a4
-  // Edit positionOffset of each shape
-  EDIT_BYTE(0x597A, 0x80);
-  EDIT_BYTE(0x597B, 0x3F);
-  EDIT_BYTE(0x597C, 0x33);
-  EDIT_BYTE(0x597D, 0x33);
-  EDIT_BYTE(0x597E, 0x33);
-  EDIT_BYTE(0x597F, 0x40);
-  // Edit vertices/UVs
-  EDIT_BYTE(0x5AFE, 0xA0);
-  EDIT_BYTE(0x5B02, 0xA0);
-  EDIT_BYTE(0x5B0A, 0xA0);
-  EDIT_BYTE(0x5B0E, 0xA0);
-  EDIT_BYTE(0x5B16, 0xA0);
-  EDIT_BYTE(0x5B1A, 0xA0);
-  EDIT_BYTE(0x5B22, 0xA0);
-  EDIT_BYTE(0x5B26, 0xA0);
+  KeyColorData SmallKeyData[] = {
+      {0x00000000, 0x00800000, 0x00CC0000},  // Woodfall
+      {0xFFFFFF00, 0xFFFFFF00, 0x7F7FFFFF},  // Snowhead
+      {0x00000000, 0x0000DA00, 0x0000FFFF},  // Great Bay
+      {0x00000000, 0x80550000, 0xFFAA0000},  // Stone Tower
+  };
 
-  // title_logo_us.cmb: Edit positionOffset of each shape
-  EDIT_BYTE(0x36BF3, 0x40);
-  EDIT_BYTE(0x36D33, 0x40);
-  EDIT_BYTE(0x36E73, 0x40);
-  EDIT_BYTE(0x36FB3, 0x40);
-  EDIT_BYTE(0x370F3, 0x40);
-  EDIT_BYTE(0x37233, 0x40);
-  EDIT_BYTE(0x37373, 0x40);
-  EDIT_BYTE(0x374B3, 0x40);
-  EDIT_BYTE(0x375F3, 0x40);
-  EDIT_BYTE(0x37733, 0x40);
-  EDIT_BYTE(0x37873, 0x40);
-  EDIT_BYTE(0x379B3, 0x40);
-  EDIT_BYTE(0x37AF3, 0x40);
-  EDIT_BYTE(0x37C33, 0x40);
-  EDIT_BYTE(0x37D73, 0x40);
-  EDIT_BYTE(0x37EB3, 0x40);
-  EDIT_BYTE(0x37FF3, 0x40);
-  EDIT_BYTE(0x38133, 0x40);
-  EDIT_BYTE(0x38273, 0x40);
-  EDIT_BYTE(0x383B3, 0x40);
-  EDIT_BYTE(0x384F3, 0x40);
-  EDIT_BYTE(0x38633, 0x40);
+  game::cmb::RGBA SongColors[] = {
+      0xFF0000FF,  // Goron
+      0x00FF00FF,  // Elegy
+      0x800080FF,  // Oath
+      0xFFFF00FF,  // Sonata
+      0xFFA500FF,  // Epona
+      0x00008BFF,  // NWBN
+      0xFFFFFFFF,  // Soaring
+      0x65809FFF,  // Storms
+      0xFF96B0FF,  // Healing
+  };
 
-  // g_title_fire.cmab
-  EDIT_BYTE(0x5E570, 0x01);  // Change keyframe count to 1 so we only have to change one keyframe
-  EDIT_BYTE(0x5E580, 0x0A);
-  EDIT_BYTE(0x5E581, 0xD7);
-  EDIT_BYTE(0x5E582, 0x23);
-  EDIT_BYTE(0x5E583, 0x3D);  // Red to 0.04
-  EDIT_BYTE(0x5E660, 0x01);
-  EDIT_BYTE(0x5E670, 0x91);
-  EDIT_BYTE(0x5E671, 0xED);
-  EDIT_BYTE(0x5E672, 0x5C);
-  EDIT_BYTE(0x5E673, 0x3F);  // Green 0.863
+  static u8 Clamp8(u8 v) {
+    return static_cast<u8>(v < 0 ? 0 : (v > 255 ? 255 : v));
+  }
 
-  // g_title_fire_ura.cmab
-  EDIT_BYTE(0x5EA80, 0x01);
-  EDIT_BYTE(0x5EA90, 0x0A);
-  EDIT_BYTE(0x5E581, 0xD7);
-  EDIT_BYTE(0x5E582, 0x23);
-  EDIT_BYTE(0x5E583, 0x3D);
-  EDIT_BYTE(0x5EB70, 0x01);
-  EDIT_BYTE(0x5EB80, 0x91);
-  EDIT_BYTE(0x5EB81, 0xED);
-  EDIT_BYTE(0x5EB82, 0x5C);
-  EDIT_BYTE(0x5EB83, 0x3F);
-}
+  static u8 Lerp(u8 a, u8 b, float t) {
+    return Clamp8(static_cast<int>(a + (int(b) - int(a)) * t));
+  }
+
+  static game::cmb::RGBA LerpRGB(game::cmb::RGBA& dst, game::cmb::RGBA a, game::cmb::RGBA b, float t) {
+    dst.R = Lerp(a.R, b.R, t);
+    dst.G = Lerp(a.G, b.G, t);
+    dst.B = Lerp(a.B, b.B, t);
+    return dst;
+  }
+
+  [[maybe_unused]] static game::cmb::RGBA LerpRGBA(game::cmb::RGBA& dst, game::cmb::RGBA a, game::cmb::RGBA b,
+                                                   float t) {
+    LerpRGB(dst, a, b, t);
+    dst.A = Lerp(a.A, b.A, t);
+    return dst;
+  }
+
+  static void CustomModel_ApplyColorEditsToSmallKey(void* smallKeyCMB, s32 keyType) {
+    const KeyColorData& c = SmallKeyData[keyType];
+    game::cmb::Material* material = game::cmb::Cmb_GetMaterial(smallKeyCMB, 0);
+
+    if (material == nullptr)
+      return;
+
+    material->emissionColor = c.emission;
+    material->ambientColor = c.ambient;
+    material->diffuse = c.diffuse;
+  }
+
+  static void CustomModel_ApplyColorEditsToOcarina(void* cmb, s32 songType) {
+    game::cmb::Material* baseMaterial = game::cmb::Cmb_GetMaterial(cmb, 0);
+    game::cmb::Material* triforceMaterial = game::cmb::Cmb_GetMaterial(cmb, 1);
+
+    if (baseMaterial == nullptr || triforceMaterial == nullptr)
+      return;
+
+    if ((songType >= 0 && songType < 9)) {
+      auto songColor = SongColors[songType];
+
+      baseMaterial->diffuse = SongColors[songType];
+      LerpRGB(baseMaterial->ambientColor, songColor, OpaqueBlack, 0.55f);
+      LerpRGB(baseMaterial->specular0, songColor, OpaqueWhite, 0.35f);
+
+      triforceMaterial->specular0 = baseMaterial->specular0;
+    } else {
+      baseMaterial->diffuse = 0x3B39FFFF;
+      baseMaterial->specular0 = 0x592AB200;
+    }
+  }
+
+  void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {
+    void* cmb = game::ResArchive_GetFileByType(ZARBuf, game::ResFileType::CMB);
+    if (cmb == nullptr)
+      return;
+
+    switch ((ObjectId)objectId) {
+    case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      // Always apply as basepatch for testing.
+      CustomModel_ApplyColorEditsToSmallKey(cmb, special);
+#else
+      if (gSettingsContext.coloredKeys == 1) {
+        CustomModel_ApplyColorEditsToSmallKey(cmb, special);
+      }
+#endif
+
+      break;
+    case ObjectId::OBJECT_CUSTOM_SONGS:
+      CustomModel_ApplyColorEditsToOcarina(cmb, special);
+      break;
+    case ObjectId::OBJECT_CUSTOM_ASSETS:
+      break;
+    }
+  }
+
+  void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel* model, u16 objectId, s8 special) {
+    void* cmabMan;
+
+    switch ((ObjectId)objectId) {
+    case ObjectId::OBJECT_CUSTOM_SONGS:
+      cmabMan = ExtendedObject_GetCMABByIndex(static_cast<s16>(ObjectId::OBJECT_CUSTOM_ASSETS),
+                                              static_cast<u32>(TexAnimCustomAssets::TEXANIM_SONG));
+
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: Special is %u\n", __func__, special);
+#endif
+      TexAnim_Spawn(model->texAnim, cmabMan);
+      model->texAnim->anim_speed = 0.00f;
+      model->texAnim->anim_mode = 0;
+      model->texAnim->cur_frame = special;
+      break;
+    case ObjectId::OBJECT_CUSTOM_ASSETS:
+      break;
+    case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
+      break;
+    }
+  }
+
+}  // namespace rnd

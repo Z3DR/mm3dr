@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_STATES_STATE_H
-#define _GAME_STATES_STATE_H
+#pragma once
 
 #include "common/types.h"
 #include "game/pad.h"
@@ -133,5 +132,3 @@ namespace game {
   static_assert(sizeof(SaveFile) == 0x14);
 
 }  // namespace game
-
-#endif

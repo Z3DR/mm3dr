@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_CAMERA_H
-#define _GAME_CAMERA_H
+#pragma once
 
 #include "common/flags.h"
 #include "common/types.h"
@@ -253,9 +252,7 @@ namespace game {
     u16 field_148;
     u16 field_14A;
     u16 field_14C;
-    __attribute__((packed)) __attribute__((aligned(1))) int field_14E;
-    u16 field_152;
-    u16 field_154;
+    z3dVec3s cam_dir;
     CameraState state;
     CameraMode mode;
     u16 field_15A;
@@ -302,5 +299,3 @@ namespace game {
   static_assert(sizeof(CameraStateInfo) == 0xc);
 
 }  // namespace game
-
-#endif

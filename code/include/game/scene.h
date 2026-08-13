@@ -6,8 +6,7 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_SCENE_H
-#define _GAME_SCENE_H
+#pragma once
 
 #include "common/types.h"
 
@@ -151,5 +150,3 @@ namespace game {
   static_assert(sizeof(SceneInfo) == 0x70);
 
 }  // namespace game
-
-#endif

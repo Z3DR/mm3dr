@@ -25,4 +25,16 @@ namespace game::as {
     return rnd::util::GetPointer<int(ActorUtil*, u32)>(0x240DD8)(this, id);
   }
 
+  void ActorUtil_Construct(game::ObjectBank::ObjectBankArchive* archive, game::GlobalContext* gctx,
+                           game::as::ActorUtil* actorUtil, void* cmbMan, s32 animId, void* boneMtxBuf) {
+    rnd::util::GetPointer<int(game::ObjectBank::ObjectBankArchive*, game::GlobalContext*, game::as::ActorUtil*, void*,
+                              void*, s32, void*, void*, int)>(0x4C3A40)(archive, gctx, actorUtil, cmbMan,
+                                                                        /*actorResource*/ NULL, animId, boneMtxBuf,
+                                                                        boneMtxBuf, 8);
+  }
+
+  void ActorUtil_Destroy(game::as::ActorUtil* actorUtil) {
+    rnd::util::GetPointer<void(game::as::ActorUtil*)>(0x1FD358)(actorUtil);
+  }
+
 }  // namespace game::as

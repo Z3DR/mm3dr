@@ -85,6 +85,10 @@ namespace rnd {
     u8 keyDataIndex[DUNGEON_STONE_TOWER + 1] = {0};
 
     for (size_t item = 0; item < gSpoilerData.ItemLocationsCount; item++) {
+      if (!SpoilerData_IsUniqueLocation(item)) {
+        continue;
+      }
+
       for (u32 dungeonId = DUNGEON_WOODFALL; dungeonId <= DUNGEON_STONE_TOWER; dungeonId++) {
         if (dungeonId == DUNGEON_PIRATE_FORTRESS || dungeonId == DUNGEON_BENEATH_THE_WELL ||
             dungeonId == DUNGEON_IKANA_CASTLE || dungeonId == DUNGEON_SECRET_SHRINE || dungeonId == DUNGEON_THE_MOON ||

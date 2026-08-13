@@ -1,5 +1,4 @@
-#ifndef _RND_GFX_H_
-#define _RND_GFX_H_
+#pragma once
 
 #include "common/types.h"
 #include "hid.h"
@@ -11,7 +10,6 @@
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
 #include "rnd/spoiler_data.h"
-#include "rnd/title_screen.h"
 extern "C" {
 #include <3ds/svc.h>
 }
@@ -57,11 +55,9 @@ namespace rnd {
   } GfxPage;
 
   void Gfx_Init(void);
-  static u8 openingButton();
   extern "C" void Gfx_Update();
   extern "C" void Gfx_SleepQueryCallback();
   extern "C" void Gfx_AwakeCallback();
+  void* getExpHeapPtr();
 
 }  // namespace rnd
-
-#endif  //_RND_GFX_H_

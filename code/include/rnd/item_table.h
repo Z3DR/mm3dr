@@ -1,8 +1,7 @@
-#ifndef _RND_ITEM_TABLE_H_
-#define _RND_ITEM_TABLE_H_
+#pragma once
 
 #include "game/common_data.h"
-#include "rnd/chest.h"
+#include "rnd/actors/en_box.h"
 #include "rnd/item_override.h"
 
 namespace rnd {
@@ -16,7 +15,7 @@ namespace rnd {
     u16 textId;
 
     u16 objectId;
-    s8 objectModelIdx;
+    u16 objectModelIdx;
     s8 cmabIndex;        // 0xFF if none
     s8 objectModelIdx2;  // 0xFF if none
     s8 cmabIndex2;       // 0xFF if none
@@ -25,19 +24,22 @@ namespace rnd {
                                  TexAnim frame for songs
                                  key ID for small keys */
 
-    s32 graphicId;
+    DrawGraphicItemID graphicId;
 
     upgradeFunc upgrade;
 
     effectFunc effect;
     s16 effectArg1;
     s16 effectArg2;
+    u8 flipObj;
+    f32 scale;
   } ItemRow;
 
   extern "C" ItemRow rItemTable[];
   extern "C" ItemRow* rActiveItemRow;
+  extern "C" u8 rActiveItemChestType;
   extern "C" u32 rActiveItemTextId;
-  extern "C" u16 rCustomDungeonItemRetrieved;
+  extern "C" u32 rCustomDungeonItemRetrieved;
   u16 ItemTable_ResolveUpgrades(u16 itemId);
   ItemRow* ItemTable_GetItemRow(u16 itemId);
   ItemRow* ItemTable_GetItemRowFromIndex(u8 rowIndex);
@@ -45,5 +47,3 @@ namespace rnd {
   void ItemTable_CallEffect(ItemRow* itemRow);
 
 }  // namespace rnd
-
-#endif  //_ITEM_TABLE_H_

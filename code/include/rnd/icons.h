@@ -1,5 +1,3 @@
-#ifndef _RND_ICONS_H_
-#define _RND_ICONS_H_
 /**
  * @file icons.h
  * @author Giometric (https://github.com/Giometric)
@@ -8,6 +6,7 @@
  *
  * Brought in from the OoT3DR libraries.
  */
+#pragma once
 #define ICON_WIDTH 8
 #define ICON_HEIGHT 8
 
@@ -285,5 +284,26 @@ static const unsigned char rIcons[][ICON_HEIGHT] = {{
                                                         0x44, /* 01000100 */
                                                         0x38, /* 00111000 */
                                                         0x00, /* 00000000 */
+                                                    },
+                                                    {
+                                                        /* Gold Skulltula Token */
+                                                        0x00, /* 00000000 */
+                                                        0x38, /* 00111000 */
+                                                        0x44, /* 01000100 */
+                                                        0x6c, /* 01101100 */
+                                                        0x54, /* 01010100 */
+                                                        0x28, /* 00101000 */
+                                                        0x00, /* 00000000 */
+                                                        0x00, /* 00000000 */
+                                                    },
+                                                    {
+                                                        /* Stray Fairy */
+                                                        0x00, /* 00000000 */
+                                                        0x44, /* 01000100 */
+                                                        0x28, /* 00101000 */
+                                                        0x38, /* 00111000 */
+                                                        0x38, /* 00111000 */
+                                                        0x10, /* 00010000 */
+                                                        0x2c, /* 00101100 */
+                                                        0x00, /* 00000000 */
                                                     }};
-#endif

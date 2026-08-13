@@ -1,5 +1,4 @@
-#ifndef _RND_SPOILER_DATA_H_
-#define _RND_SPOILER_DATA_H_
+#pragma once
 
 #include "rnd/item_override.h"
 #include "rnd/savefile.h"
@@ -32,6 +31,7 @@ namespace rnd {
   // Location groups for checks, used to group the checks by logical location
   typedef enum {
     GROUP_NO_GROUP,
+    GROUP_INSIDE_CLOCKTOWER,
     GROUP_S_CLOCK_TOWN,
     GROUP_LAUNDRY_POOL,
     GROUP_E_CLOCK_TOWN,
@@ -111,6 +111,7 @@ namespace rnd {
     char StringData[SPOILER_STRING_DATA_SIZE];
     u16 GroupItemCounts[SPOILER_COLLECTION_GROUP_COUNT];
     u16 GroupOffsets[SPOILER_COLLECTION_GROUP_COUNT];
+    char randoVersion[14];
   } SpoilerData;
 
   typedef struct {
@@ -124,6 +125,7 @@ namespace rnd {
   char* SpoilerData_StringData(u16 itemIndex);
   SpoilerItemCollectType SpoilerData_CollectType(u16 itemIndex);
 
+  bool SpoilerData_IsUniqueLocation(u16 itemIndex);
   char* SpoilerData_GetItemLocationString(u16 itemIndex);
   char* SpoilerData_GetItemNameString(u16 itemIndex);
   SpoilerItemLocation GetSpoilerItemLocation(u8 sphere, u16 itemIndex);
@@ -140,6 +142,6 @@ namespace rnd {
   u8 SpoilerData_MagicBeansCheck(SpoilerItemLocation itemLoc);
   u8 SpoilerData_GetIsItemLocationRevealed(u16 itemIndex);
   u8 SpoilerLog_UpdateIngameLog(ItemOverride_Type type, u8 scene, u8 flag);
+  u8 SpoilerLog_CheckMultiLocationItems(ItemOverride_Type type, u8 scene, u8 flag);
+  void SpoilerData_UpdateMultiLocations(ItemOverride_Type type, u8 newScene, u8 flag);
 }  // namespace rnd
-
-#endif  // _RND_SPOILER_DATA_H_

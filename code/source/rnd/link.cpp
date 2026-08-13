@@ -10,6 +10,7 @@
  */
 
 namespace rnd::link {
+  static bool hadSword = true;
   void FixSpeedIssues() {
     // This reverts some of the MM3D changes to form-specific parameters.
 
@@ -112,7 +113,8 @@ namespace rnd::link {
     util::Print("%s: spawning %s (param=%u)\n", __func__, s_arrow_types[type].name, param);
 #endif
 
-    auto* arrow = gctx->SpawnActor(player, game::act::Id::Arrow, 0, player->angle.y, 0, param, player->pos.pos);
+    auto* arrow =
+        gctx->SpawnActor(player, game::act::Id::Arrow, 0, player->actor_shape.rot.y, 0, param, player->pos.pos);
     player->projectile_actor = arrow;
     cdata.magic_cost = 0;
     // For some reason, updating the magic cost immediately doesn't work,
@@ -195,6 +197,34 @@ namespace rnd::link {
         player->projectile_actor = nullptr;
         SpawnArrowActor(gctx, player);
       }
+    }
+  }
+
+  void FixFreeCameraReset() {
+    using namespace game;
+    auto* gctx = GetContext().gctx;
+    auto* player = gctx->GetPlayerActor();
+
+    // Only reset free camera when Z-targeting and when free camera is active
+    if (!player)
+      return;
+    if (gctx->main_camera.mode != CameraMode::FREECAMERA)
+      return;
+    if (!gctx->pad_state.input.buttons.IsSet(pad::Button::L))
+      return;
+
+    if (player->flags3.IsSet(act::Player::Flag3::ZoraFastSwimming)) {
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: resetting camera mode (Zora swimming)\n", __func__);
+#endif
+      const bool in_water = player->flags1.IsSet(act::Player::Flag1::InWater);
+      gctx->main_camera.ChangeMode(in_water ? CameraMode::GORONDASH : CameraMode::FREEFALL);
+    } else if (player->flags3.IsSet(act::Player::Flag3::GoronRolling)) {
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: resetting camera mode (Goron rolling)\n", __func__);
+#endif
+      const bool on_ground = player->flags_94.IsSet(act::Actor::Flag94::Grounded);
+      gctx->main_camera.ChangeMode(on_ground ? CameraMode::GORONDASH : CameraMode::GORONJUMP);
     }
   }
 
@@ -292,6 +322,122 @@ namespace rnd::link {
     game::SaveData& saveData = game::GetCommonData().save;
     return static_cast<u8>(saveData.inventory.masks[17]);
   }
+
+  void SongOfTimeSwordPlacement() {
+    game::SaveData& saveData = game::GetCommonData().save;
+    // Check to see if we received any sword upgrades.
+    if (gExtSaveData.givenItemChecks.progressiveSwordUpgrade == 1) {
+      saveData.equipment.data[0].item_btn_b = game::ItemId::KokiriSword;
+      saveData.equipment.sword_shield.sword = game::SwordType::KokiriSword;
+      return;
+    } else if (gExtSaveData.givenItemChecks.progressiveSwordUpgrade == 2) {
+      saveData.equipment.data[0].item_btn_b = game::ItemId::RazorSword;
+      saveData.equipment.sword_shield.sword = game::SwordType::RazorSword;
+      return;
+    } else if (gExtSaveData.givenItemChecks.progressiveSwordUpgrade == 3) {
+      saveData.equipment.data[0].item_btn_b = game::ItemId::GildedSword;
+      saveData.equipment.sword_shield.sword = game::SwordType::GildedSword;
+      return;
+    }
+    if (gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_NONE &&
+        saveData.equipment.sword_shield.sword == game::SwordType::NoSword) {
+      saveData.equipment.data[0].item_btn_b = game::ItemId::None;
+      saveData.equipment.sword_shield.sword = game::SwordType::NoSword;
+      return;
+    }
+
+    // Check sword/shield flag to see what sword to give back. Once we do that, set the form[0] of player
+    // equipment to that sword and return.
+    if (saveData.equipment.sword_shield.sword == game::SwordType::NoSword &&
+        gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_KOKIRI) {
+      saveData.equipment.data[0].item_btn_b = game::ItemId::KokiriSword;
+      saveData.equipment.sword_shield.sword = game::SwordType::KokiriSword;
+    } else if (saveData.equipment.sword_shield.sword == game::SwordType::NoSword &&
+               gSettingsContext.startingKokiriSword == (u8)StartingSwordSetting::STARTINGSWORD_RAZOR) {
+      saveData.equipment.data[0].item_btn_b = game::ItemId::RazorSword;
+      saveData.equipment.sword_shield.sword = game::SwordType::RazorSword;
+    }
+    return;
+  }
+
+  void AssignSwordForHoneyDarling() {
+    game::SaveData& saveData = game::GetCommonData().save;
+    if (saveData.equipment.sword_shield.sword == game::SwordType::NoSword &&
+        saveData.inventory.inventory_count_register.quiver_upgrade == game::Quiver::NoQuiver && saveData.day == 2) {
+      hadSword = false;
+      saveData.equipment.data[0].item_btn_b = game::ItemId::KokiriSword;
+      // saveData.equipment.sword_shield.sword = game::SwordType::KokiriSword;
+    } else {
+      hadSword = true;
+    }
+  }
+
+  void RemoveSwordFromHoneyDarling() {
+    if (!hadSword) {
+      game::SaveData& saveData = game::GetCommonData().save;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+      rnd::util::Print("%s: HAD TEMP SWORD, REMOVING.\n", __func__);
+#endif
+      saveData.equipment.data[0].item_btn_b = game::ItemId::None;
+      // saveData.equipment.sword_shield.sword = game::SwordType::NoSword;
+      hadSword = true;
+    }
+  }
+
+  void ResetPlayerForm() {
+    game::SceneId scene = GetContext().gctx->scene;
+    if (scene == game::SceneId::OdolwaLair || scene == game::SceneId::GohtLair || scene == game::SceneId::GyorgLair ||
+        scene == game::SceneId::TwinmoldLair) {
+      game::SaveData& saveData = game::GetCommonData().save;
+      saveData.mask = game::MaskId::None;
+      saveData.player_form = game::act::Player::Form::Human;
+    }
+  }
+
+  game::ItemId UseFDAnywhere(game::ItemId itemId) {
+    if (itemId == game::ItemId::FierceDeityMask) {
+      // This function is called from the ASM patch.
+      // It checks if the option is enabled to use Fierce Deity outside of boss fights.
+      if (gSettingsContext.useFierceDeityAnywhere == 0)
+        return game::ItemId::FierceDeityMask;  // Not enabled, do nothing.
+      return game::ItemId::Ocarina;            // Enabled, allow Fierce Deity to be used anywhere.
+    } else
+      return itemId;
+  }
+
+  u8 CheckIfLinkIsFD() {
+    game::SaveData& saveData = game::GetCommonData().save;
+    if (saveData.player_form == game::act::Player::Form::FierceDeity)
+      return 1;
+    return 0;
+  }
+
+  game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form form) {
+    if (form == game::act::Player::Form::FierceDeity || form == game::act::Player::Form::Deku)
+      return game::act::Player::Form::Deku;
+    return form;
+  }
+
+  u8 CheckIfOcarinaIsInInventory() {
+    // XXX: This function replaces vanilla checks in the update buttons as we are blanket converting
+    // to ensure we always have the ocarina in the inventory according to the game.
+    // This is only for visual updates in the lower screen.
+    game::SaveData& saveData = game::GetCommonData().save;
+    if (saveData.inventory.items[0] == game::ItemId::Ocarina)
+      return 0;
+    return 0xFF;
+  }
+  }
+
+  void* Link_GetCustomTunicCMAB(game::ObjectBank::ObjectBankArchive* archive, u32 originalIdx) {
+    return GAR_GetCMABByIndex(archive, originalIdx);
+  }
+
+  void** Link_EditAndRetrieveCMB(game::ObjectBank::ObjectBankArchive* archive, u32 objModelIdx) {
+    void** cmbMan = (void**)game::ObjectBank::getCMBManByIndex(archive, objModelIdx, 1);
+    // void* cmb = *cmbMan;
+
+    return cmbMan;
   }
 
 }  // namespace rnd::link

@@ -6,20 +6,17 @@
  *
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
-#ifndef _GAME_MESSAGES_H
-#define _GAME_MESSAGES_H
+#pragma once
 
 #include "common/flags.h"
 #include "common/types.h"
 #include "game/ui.h"
+#include "game/ui/layouts/message_window.h"
 
 namespace game {
 
   class Allocator;
   class FileEntity;
-  namespace ui {
-    class MessageWindow;
-  }
 
   enum class Language : u32 {
     JpJp = 0,
@@ -231,5 +228,3 @@ namespace game {
   void PlayMessagePassSound();
   void PlayMessageCancelSound();
 }  // namespace game
-
-#endif

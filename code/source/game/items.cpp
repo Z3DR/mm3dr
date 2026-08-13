@@ -792,7 +792,7 @@ namespace game {
     const auto mode = get_item_usability_mode(gctx);
 
     // Riding or Honey & Darling minigame (and more?)
-    if (player->flags1.IsSet(act::Player::Flag1::Riding) || cdata.save.anonymous_72 & 1 ||
+    if (player->flags1.IsSet(act::Player::Flag1::Riding) || cdata.save.week_event_reg_08.WEEKEVENTREG_08_01 == 1 ||
         (!(cdata.save.anonymous_13 & 2) && gctx->field_C531 >= 2)) {
       return false;
     }
@@ -811,10 +811,10 @@ namespace game {
     if (cdata.save.anonymous_13 & 2)
       return false;
 
-    if (cdata.save.gossip_stone_give_heartpiece_bitflag & 0x20)
+    if (cdata.save.week_event_reg_90.WEEKEVENTREG_90_20 == 1)
       return false;
 
-    if (cdata.save.anonymous_130 & 8)
+    if (cdata.save.week_event_reg_82.WEEKEVENTREG_82_08 == 1)
       return false;
 
     // Cutscene map
@@ -865,7 +865,7 @@ namespace game {
     if (item == ItemId::FierceDeityMask)
       return IsBossRoomScene(gctx);
 
-    if (gctx->actors.field_4) {
+    if (gctx->actors.lens_mask_size) {
       if (rnd::util::IsAnyOf(item, ItemId::FireArrow, ItemId::IceArrow, ItemId::LightArrow))
         return false;
     }

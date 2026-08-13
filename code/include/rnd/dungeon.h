@@ -1,5 +1,4 @@
-#ifndef _RND_DUNGEON_H
-#define _RND_DUNGEON_H
+#pragma once
 
 #include <string.h>
 #include "rnd/savefile.h"
@@ -52,5 +51,3 @@ namespace rnd {
   u8 Dungeon_FoundSmallKeys(u32);
 
 }  // namespace rnd
-
-#endif
