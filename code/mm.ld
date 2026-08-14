@@ -26,12 +26,12 @@ SECTIONS{
   }
 
   .patch_AwakeCallback 0x124DE8 : {
-		*(.patch_AwakeCallback)
-	}
+    *(.patch_AwakeCallback)
+  }
 
   .patch_SleepQueryCallback 0x124DF0 : {
-		*(.patch_SleepQueryCallback)
-	}
+    *(.patch_SleepQueryCallback)
+  }
 
   .patch_DontSetNextCsIdInGreatBayUntilMikauSaved 0x12A934 : {
     *(.patch_DontSetNextCsIdInGreatBayUntilMikauSaved)
@@ -73,36 +73,12 @@ SECTIONS{
     *(.patch_OverrideBombersNotebook)
   }
 
-  .patch_UseFDAnywhere 0x1B1244 : {
-    *(.patch_UseFDAnywhere)
-  }
-
-  .patch_FastTransformPatchOne 0x1EB3B8 : {
-    *(.patch_FastTransformPatchOne)
-  }
-
-  .patch_FastTransformPatchTwo 0x1EB488 : {
-    *(.patch_FastTransformPatchTwo)
-  }
-
-  .patch_FastTransformPatchThree 0x1EB510 : {
-    *(.patch_FastTransformPatchThree)
-  }
-
-  .patch_RemoveFastTransformSound 0x1EB588 : {
-    *(.patch_RemoveFastTransformSound)
-  }
-
-  .patch_FastTransformPatchFour 0x1EC420 : {
-    *(.patch_FastTransformPatchFour)
-  }
-
-  .patch_FastTransformPatchFive 0x1EC524 : {
-    *(.patch_FastTransformPatchFive)
-  }
-
   .patch_KeepBowOnEpona 0x188794 : {
     *(.patch_KeepBowOnEpona)
+  }
+
+  .patch_UseFDAnywhere 0x1B1244 : {
+    *(.patch_UseFDAnywhere)
   }
 
   .patch_OverrideCutsceneNextEntrance 0x1B1834 : {
@@ -117,6 +93,14 @@ SECTIONS{
     *(.patch_GetCustomText)
   }
 
+  .patch_RemoveMysteryMilkFlagCheck 0x1C987C : {
+    *(.patch_RemoveMysteryMilkFlagCheck)
+  }
+
+  .patch_DoNotGiveSwordBackOnReset 0x1C98DC : {
+    *(.patch_DoNotGiveSwordBackOnReset)
+  }
+
   .patch_DoNotRemoveTradeItems 0x1C9AA8 : {
     *(.patch_DoNotRemoveTradeItems)
   }
@@ -127,14 +111,6 @@ SECTIONS{
 
   .patch_DoNotRemoveKeys 0x1C9B94 : {
     *(.patch_DoNotRemoveKeys)
-  }
-
-  .patch_RemoveMysteryMilkFlagCheck 0x1C987C : {
-    *(.patch_RemoveMysteryMilkFlagCheck)
-  }
-
-  .patch_DoNotGiveSwordBackOnReset 0x1C98DC : {
-    *(.patch_DoNotGiveSwordBackOnReset)
   }
 
   .patch_OverrideBomberTextID 0x1D2764 : {
@@ -149,16 +125,16 @@ SECTIONS{
     *(.patch_ISGCrouchStabOne)
   }
 
-  .patch_RemoveDekuMaskCheckSoT 0x1D8008 : {
-    *(.patch_RemoveDekuMaskCheckSoT)
-  }
-
   .patch_RemoveMysteryMilkSoSCheck 0x1D79F8 : {
     *(.patch_RemoveMysteryMilkSoSCheck)
   }
 
   .patch_CheckExtForSongOfTime 0x1D7FEC : {
     *(.patch_CheckExtForSongOfTime)
+  }
+
+  .patch_RemoveDekuMaskCheckSoT 0x1D8008 : {
+    *(.patch_RemoveDekuMaskCheckSoT)
   }
 
   .patch_DoNotForceMaskChange 0x1DB314 : {
@@ -189,13 +165,37 @@ SECTIONS{
     *(.patch_SpawnFastElegyStatues)
   }
 
+  .patch_FastTransformPatchOne 0x1EB3B8 : {
+    *(.patch_FastTransformPatchOne)
+  }
+
+  .patch_FastTransformPatchTwo 0x1EB488 : {
+    *(.patch_FastTransformPatchTwo)
+  }
+
+  .patch_FastTransformPatchThree 0x1EB510 : {
+    *(.patch_FastTransformPatchThree)
+  }
+
+  .patch_RemoveFastTransformSound 0x1EB588 : {
+    *(.patch_RemoveFastTransformSound)
+  }
+
   .patch_FastTransformCutsceneSkipBtns 0x1EB660 : {
     *(.patch_FastTransformCutsceneSkipBtns)
   }
 
+  .patch_FastTransformPatchFour 0x1EC420 : {
+    *(.patch_FastTransformPatchFour)
+  }
+
+  .patch_FastTransformPatchFive 0x1EC524 : {
+    *(.patch_FastTransformPatchFive)
+  }
+
   .patch_BypassFirstPersonModeChecks 0x1EDFB4 : {
     *(.patch_BypassFirstPersonModeChecks)
-  } 
+  }
 
   .patch_ZoraInWaterFastSwim 0x1F0C78 : {
     *(.patch_ZoraInWaterFastSwim)
@@ -213,16 +213,16 @@ SECTIONS{
     *(.patch_LinkGetCustomTunicCMAB)
   }
 
+  .patch_RemoveGoronRollChecksWithoutMask 0x1F78CC : {
+    *(.patch_RemoveGoronRollChecksWithoutMask)
+  }
+
   .patch_EditDrawGetItemBeforeModelSpawn 0x1FF044 : {
     *(.patch_EditDrawGetItemBeforeModelSpawn)
   }
 
   .patch_EditDrawGetItemAfterModelSpawn 0x1FF130 : {
     *(.patch_EditDrawGetItemAfterModelSpawn)
-  }
-
-  .patch_RemoveGoronRollChecksWithoutMask 0x1F78CC : {
-    *(.patch_RemoveGoronRollChecksWithoutMask)
   }
 
   .patch_FifthZoraSwimCheck 0x1FFA84 : {
@@ -322,7 +322,7 @@ SECTIONS{
   }
 
   .patch_SongOfTimeCheckExtData 0x2311A4 : {
-   *(.patch_SongOfTimeCheckExtData) 
+    *(.patch_SongOfTimeCheckExtData)
   }
 
   .patch_ForceSwordUpgradeOnHuman 0x233D88 : {
@@ -341,9 +341,9 @@ SECTIONS{
     *(.patch_OverrideRemainGetItem)
   }
 
-	.patch_DisableMilkTimer 0x234BFC : {
-		*(.patch_DisableMilkTimer)
-	}
+  .patch_DisableMilkTimer 0x234BFC : {
+    *(.patch_DisableMilkTimer)
+  }
 
   .patch_RemoveRSHealthThree 0x235800 : {
     *(.patch_RemoveRazordSwordHealthThree)
@@ -390,7 +390,7 @@ SECTIONS{
   }
 
   /*2bec9c GOOD DREAM */
-  /*  
+  /*
   .patch_RemoveMeetMaskCutScene 0x2bec9c : {
     *(.patch_RemoveMeetMaskCutScene)
   } */
@@ -476,8 +476,8 @@ SECTIONS{
   }
 
   .patch_EnMa4ExtDataCheckThree 0x2E3CD0 : {
-      *(.patch_EnMa4ExtDataCheckThree)
-    }
+    *(.patch_EnMa4ExtDataCheckThree)
+  }
 
   .patch_EnMa4ExtDataCheckTwo 0x2E3D94 : {
     *(.patch_EnMa4ExtDataCheckTwo)
@@ -521,7 +521,7 @@ SECTIONS{
     *(.patch_AdjustMapAndCompassChests)
   }
 
-  .patch_EnMnkSongOverride 0x0325D58 : {
+  .patch_EnMnkSongOverride 0x325D58 : {
     *(.patch_EnMnkSongOverride)
   }
 
@@ -558,7 +558,7 @@ SECTIONS{
   }
 
   .patch_RemoveWoodfallClearConditionFromBoatHouse 0x39655C : {
-      *(.patch_RemoveWoodfallClearConditionFromBoatHouse)
+    *(.patch_RemoveWoodfallClearConditionFromBoatHouse)
   }
 
   .patch_DrawGiantAfterMoonCutscene 0x39A53C : {
@@ -567,6 +567,26 @@ SECTIONS{
 
   .patch_DmChar03ModelDraw 0x3B9254 : {
     *(.patch_DmChar03ModelDraw)
+  }
+
+  .patch_OverrideGreatFairySpawn 0x3BEC84 : {
+    *(.patch_OverrideGreatFairySpawn)
+  }
+
+  .patch_OverrideFairyGiveItem 0x3BECAC : {
+    *(.patch_OverrideFairyGiveItem)
+  }
+
+  .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {
+    *(.patch_OverrideWalletSpiderHouseTwo)
+  }
+
+  .patch_CheckOshExtData 0x3BF224 : {
+    *(.patch_CheckOshExtData)
+  }
+
+  .patch_OverrideWalletSpiderHouse 0x3BF2A8 : {
+    *(.patch_OverrideWalletSpiderHouse)
   }
 
   .patch_DmSktOcarinaAnimationPatchFive 0x3C6780 : {
@@ -589,12 +609,32 @@ SECTIONS{
     *(.patch_EnElfOrgChestCollect)
   }
 
-  .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
-    *(.patch_TingleCheckClocktownMapTwo)
-  }
-
   .patch_OverrideItem00Init 0x3D018C : {
     *(.patch_OverrideItem00Init)
+  }
+
+  .patch_OverrideArcheryTownQuiverLimit 0x3E50B8 : {
+    *(.patch_OverrideArcheryTownQuiverLimit)
+  }
+
+  .patch_OverrideQuiverArcheryTown 0x3E50E4 : {
+    *(.patch_OverrideQuiverArchery)
+  }
+
+  .patch_OverrideArcheryTownQuiverLimitTwo 0x3EA278 : {
+    *(.patch_OverrideArcheryTownQuiverLimitTwo)
+  }
+
+  .patch_OverrideQuiverArcherySwamp 0x3EA2B0 : {
+    *(.patch_OverrideQuiverArcheryTwo)
+  }
+
+  .patch_DoNotDeleteKafeiGearItem 0x3EC744 : {
+    *(.patch_DoNotDeleteKafeiGearItem)
+  }
+
+  .patch_TingleCheckClocktownMapTwo 0x3F5F00 : {
+    *(.patch_TingleCheckClocktownMapTwo)
   }
 
   .patch_TingleCheckWoodfallMapTwo 0x3F5F10 : {
@@ -617,46 +657,6 @@ SECTIONS{
     *(.patch_TingleCheckStoneTowerMapTwo)
   }
 
-  .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {
-    *(.patch_OverrideWalletSpiderHouseTwo)
-  }
-
-  .patch_CheckOshExtData 0x3BF224 : {
-    *(.patch_CheckOshExtData)
-  }
-
-  .patch_OverrideWalletSpiderHouse 0x3BF2A8 : {
-    *(.patch_OverrideWalletSpiderHouse)
-  }
-
-  .patch_OverrideArcheryTownQuiverLimit 0x3E50B8 : {
-    *(.patch_OverrideArcheryTownQuiverLimit)
-  }
-
-  .patch_OverrideQuiverArcheryTown 0x3E50E4 : {
-    *(.patch_OverrideQuiverArchery)
-  }
-
-  .patch_OverrideArcheryTownQuiverLimitTwo 0x3EA278 : {
-    *(.patch_OverrideArcheryTownQuiverLimitTwo)
-  }
-
-  .patch_OverrideQuiverArcherySwamp 0x3EA2B0 : {
-    *(.patch_OverrideQuiverArcheryTwo)
-  }
-
-  .patch_OverrideFairyGiveItem 0x3BECAC : {
-    *(.patch_OverrideFairyGiveItem)
-  }
-
-  .patch_OverrideGreatFairySpawn 0x3BEC84 : {
-    *(.patch_OverrideGreatFairySpawn)
-  }
-
-  .patch_DoNotDeleteKafeiGearItem 0x3EC744 : {
-    *(.patch_DoNotDeleteKafeiGearItem)
-  }
-
   .patch_HMSGiveItem 0x41D018 : {
     *(.patch_HMSGiveItem)
   }
@@ -665,19 +665,19 @@ SECTIONS{
     *(.patch_GoronMaskModelDraw)
   }
 
-  .patch_ZoraMaskModelDraw 0x41D4E8: {
+  .patch_ZoraMaskModelDraw 0x41D4E8 : {
     *(.patch_ZoraMaskModelDraw)
   }
 
-  .patch_GibdoMaskModelDraw 0x41D654: {
+  .patch_GibdoMaskModelDraw 0x41D654 : {
     *(.patch_GibdoMaskModelDraw)
   }
 
-  .patch_CoupleMaskModelDraw 0x41D7F4: {
+  .patch_CoupleMaskModelDraw 0x41D7F4 : {
     *(.patch_CoupleMaskModelDraw)
   }
 
-  .patch_BombersNotebookModelDraw 0x41D994: {
+  .patch_BombersNotebookModelDraw 0x41D994 : {
     *(.patch_BombersNotebookModelDraw)
   }
 
@@ -765,18 +765,17 @@ SECTIONS{
     *(.patch_SkulltulaOverrideOne)
   }
 
-  .patch_EnBjtDoNotRemoveTradeItem 0x530C90 : {
-    *(.patch_EnBjtDoNotRemoveTradeItem)
-  }
-
   .patch_SkulltulaOverrideTwo 0x52A044 : {
     *(.patch_SkulltulaOverrideTwo)
+  }
+
+  .patch_EnBjtDoNotRemoveTradeItem 0x530C90 : {
+    *(.patch_EnBjtDoNotRemoveTradeItem)
   }
 
   .patch_StrayFairyCollectMessage 0x5410C0 : {
     *(.patch_StrayFairyCollectMessage)
   }
-
 
   .patch_EnGkCheckLullabyRewardGiven 0x546294 : {
     *(.patch_EnGkCheckLullabyRewardGiven)
@@ -854,6 +853,10 @@ SECTIONS{
     *(.patch_ShorterAnimationOpenTwo)
   }
 
+  .patch_ShorterAnimationFail 0x5B183C : {
+    *(.patch_ShorterAnimationFail)
+  }
+
   .patch_ShorterAnimationNewTextTwo 0x5B1A7C : {
     *(.patch_ShorterAnimationOpenThree)
   }
@@ -870,14 +873,10 @@ SECTIONS{
     *(.patch_ShorterAnimationOpenSix)
   }
 
-  .patch_ShorterAnimationFail 0x5B183C : {
-    *(.patch_ShorterAnimationFail)
-  }
-
   /*0x05ffc70*/ /*0x177ddc*/ /*0x5bbab8 */ /* 0x5b8b24 */
-	.patch_SaveFile_init 0x5B8B24 : {
-		*(.patch_SaveFile_init)
-	}
+  .patch_SaveFile_init 0x5B8B24 : {
+    *(.patch_SaveFile_init)
+  }
 
   .patch_ItemCloseOnSelect 0x5C19E4 : {
     *(.patch_ItemCloseOnSelect)
