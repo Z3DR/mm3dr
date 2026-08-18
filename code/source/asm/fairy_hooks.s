@@ -5,6 +5,15 @@
 .rActiveItemRow_addr:
     .word rActiveItemRow
 
+.global hook_AdjustFairyHeartText
+hook_AdjustFairyHeartText:
+    push {r1-r12,lr}
+    mov r0, r1
+    bl En_Elforg_CheckHeartPieceCount
+    pop {r1-r12,lr}
+    cmp r0,r1
+    bx lr
+
 .global hook_EnElforgUpdateFairyBits
 hook_EnElforgUpdateFairyBits:
     push {r0-r12, lr}

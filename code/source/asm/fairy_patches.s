@@ -1,5 +1,10 @@
 .arm
 
+.section .patch_AdjustFairyHeartText
+.global patch_AdjustFairyHeartText
+patch_AdjustFairyHeartText:
+    bl hook_AdjustFairyHeartText
+
 .section .patch_EnElforgUpdateFairyBits
 .global patch_EnElforgUpdateFairyBits
 patch_EnElforgUpdateFairyBits:
