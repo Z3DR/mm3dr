@@ -113,13 +113,14 @@ namespace rnd {
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
                        save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
                        (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
-      game::GiveItem(game::ItemId::LetterToMama);
+      save.inventory.collect_register.sonata_of_awakening = 1;
 
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
                        save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
                        (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
-      save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE = 0;
+      // save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE = 0;
+      game::GiveItem(game::ItemId::MysteryMilk);
       /*save.inventory.woodfall_temple_keys = 2;
       save.inventory.snowhead_temple_keys = 5;
       save.inventory.great_bay_temple_keys = 5;

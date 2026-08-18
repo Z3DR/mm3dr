@@ -25,7 +25,7 @@ namespace rnd {
   ItemOverride rItemOverrides[640] = {0};
   static game::act::Actor* rDummyActor = NULL;
   static ItemOverride rPendingOverrideQueue[3] = {0};
-  static ItemOverride rActiveItemOverride = {0};
+  ItemOverride rActiveItemOverride = {0};
   // Accessed via hooks.
   ItemRow* rActiveItemRow = NULL;
   u32 rActiveItemGraphicId = 0x0;
@@ -50,10 +50,10 @@ namespace rnd {
     rItemOverrides[0].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
-    rItemOverrides[1].key.scene = 0x70;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
-    rItemOverrides[1].value.getItemId = 0x56;
-    rItemOverrides[1].value.looksLikeItemId = 0x56;
+    rItemOverrides[1].key.scene = 0x6F;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
+    rItemOverrides[1].value.getItemId = 0x0C;
+    rItemOverrides[1].value.looksLikeItemId = 0x0C;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -898,7 +898,6 @@ namespace rnd {
     ItemOverride_Activate(override);
     s16 baseItemId = rActiveItemRow->baseItemId;
 
-    // s8 baseItemId = rActiveItemRow->textId;
     if (override.value.getItemId == 0x12) {
       rActiveItemRow->effectArg1 = override.key.all >> 16;
       rActiveItemRow->effectArg2 = override.key.all & 0xFFFF;
@@ -909,10 +908,6 @@ namespace rnd {
     // to ensure that we have the same 'feel' as the base game.
     // This also ensures that if there is no override the default text still works.
     if (isGIDSongOrSoHItem(static_cast<GetItemID>(incomingGetItemId))) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: Must be a song, storing text ID %#04x for incomingItemId %#04x.\n", __func__,
-                       rActiveItemRow->textId, incomingGetItemId);
-#endif
       rStoredTextId = rActiveItemRow->textId;
     }
     givenItemOverride = true;
@@ -1211,8 +1206,11 @@ namespace rnd {
     if (override.key.all == 0) {
       return 0x11;  // Vanilla "You found a Stray Fairy" text, as a safe fallback.
     }
-
-    rStoredTextId = rActiveItemRow->textId;
+    ItemRow* row = ItemTable_GetItemRowFromIndex(override.value.getItemId);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Item text ID is %#08x\n", __func__, row->textId);
+#endif
+    rStoredTextId = row->textId;
     ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
     return rActiveItemRow->textId;
   }

@@ -9,7 +9,7 @@ SECTIONS{
     *(.patch_loader)
   }
 
-  .patch_startHeap 0x010001C : {
+  .patch_startHeap 0x10001C : {
     *(.patch_startHeap)
   }
 
@@ -111,6 +111,10 @@ SECTIONS{
 
   .patch_DoNotRemoveKeys 0x1C9B94 : {
     *(.patch_DoNotRemoveKeys)
+  }
+
+  .patch_AdjustFairyHeartText 0x1CEF54 : {
+    *(.patch_AdjustFairyHeartText)
   }
 
   .patch_OverrideBomberTextID 0x1D2764 : {

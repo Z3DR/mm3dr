@@ -101,6 +101,26 @@ namespace rnd {
       return (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (bitIndex & 0x1F));
     return false;
   }
+
+  u16 En_Elforg_CheckHeartPieceCount(u16 origTextId) {
+    game::SaveData& save = game::GetCommonData().save;
+    if (rActiveItemOverride.key.type != ItemOverride_Type::OVR_STRAY_FAIRY) {
+      if (origTextId == 0xC4)
+        return 0xC4 + save.inventory.collect_register.heart_container_pieces.Value();
+      else
+        return origTextId;
+    }
+
+    if (rActiveItemRow != NULL) {
+      if (save.inventory.collect_register.heart_container_pieces.Value() == 0 &&
+          rActiveItemOverride.key.type == ItemOverride_Type::OVR_STRAY_FAIRY)
+        return 0xC7;
+      else
+        return 0xC3 + save.inventory.collect_register.heart_container_pieces.Value();
+    }
+
+    return origTextId;
+  }
   }
 
   void En_Elforg_Destroy(game::act::Actor* self, game::GlobalContext*) {

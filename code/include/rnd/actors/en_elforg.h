@@ -52,6 +52,7 @@ namespace rnd {
   s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
   void En_Elforg_UpdateExtFairyBits(game::act::Actor*, game::GlobalContext*);
   bool En_Elforg_Chest_IsFairyObtained(u32 param, game::GlobalContext*);
+  u16 En_Elforg_CheckHeartPieceCount(u16 origTextId);
   }
   void En_Elforg_Destroy(game::act::Actor*, game::GlobalContext*);
 
