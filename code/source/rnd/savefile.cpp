@@ -121,10 +121,10 @@ namespace rnd {
 
     gSettingsContext.skipBombersMinigame = 1;
     gSettingsContext.freeScarecrow = 1;
-    saveData.week_event_reg_132.WEEKEVENTREG_SKIP_WOODFALL_PORTAL_CUTSCENE = 1;
-    saveData.week_event_reg_132.WEEKEVENTREG_SKIP_SNOWHEAD_PORTAL_CUTSCENE = 1;
-    saveData.week_event_reg_132.WEEKEVENTREGSKIP_GREAT_BAY_PORTAL_CUTSCENE = 1;
-    saveData.week_event_reg_132.WEEKEVENTREG_SKIP_STT_PORTAL_CUTSCENE = 1;
+    // saveData.week_event_reg_132.WEEKEVENTREG_SKIP_WOODFALL_PORTAL_CUTSCENE = 1;
+    // saveData.week_event_reg_132.WEEKEVENTREG_SKIP_SNOWHEAD_PORTAL_CUTSCENE = 1;
+    // saveData.week_event_reg_132.WEEKEVENTREGSKIP_GREAT_BAY_PORTAL_CUTSCENE = 1;
+    // saveData.week_event_reg_132.WEEKEVENTREG_SKIP_STT_PORTAL_CUTSCENE = 1;
     // SaveFile_FillOverWorldMapData();
     saveData.inventory.collect_register.oath_to_order = 1;
 

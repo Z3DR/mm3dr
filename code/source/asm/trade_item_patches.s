@@ -18,7 +18,7 @@ patch_EnBjtDoNotRemoveTradeItem:
 .section .patch_DoNotDeleteKafeiGearItem
 .global patch_DoNotDeleteKafeiGearItem
 patch_DoNotDeleteKafeiGearItem:
-  nop
+  bl hook_DoNotDeleteKafeiGearItem
 
 .section .patch_SwapStoredTradeItems
 .global patch_SwapStoredTradeItems
