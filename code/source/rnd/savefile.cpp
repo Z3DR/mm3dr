@@ -404,8 +404,8 @@ namespace rnd {
       saveData.inventory.stone_tower_dungeon_items.boss_key = 1;
     }
 
-    //Give all stray fairies
-    if (gSettingsContext.strayFairysanity == 1/*Start With*/) {
+    // Give all stray fairies
+    if (gSettingsContext.strayFairysanity == 1 /*Start With*/) {
       saveData.inventory.woodfall_fairies = 15;
       saveData.inventory.snowhead_fairies = 15;
       saveData.inventory.great_bay_fairies = 15;
