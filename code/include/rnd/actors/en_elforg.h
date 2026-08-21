@@ -47,7 +47,7 @@ namespace rnd {
   void En_Elforg_Draw(game::act::Actor*, game::GlobalContext*);
   void En_Elforg_Calc(game::act::Actor*, game::GlobalContext*);
   int En_Elforg_getFairyIndex(game::SceneId);
-  bool En_Elforg_IsClockTownFairyCollectedAndNonRepeatable(ItemOverride*);
+  bool En_Elforg_IsFairyCollectedAndNonRepeatable(ItemOverride*);
   extern "C" {
   s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
   void En_Elforg_UpdateExtFairyBits(game::act::Actor*, game::GlobalContext*);

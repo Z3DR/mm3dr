@@ -323,7 +323,7 @@ namespace rnd {
           En_Si_IsTokenCollectedAndNonRepeatable(actor, globalCtx->scene, &override)) {
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
-      } else if (En_Elforg_IsClockTownFairyCollectedAndNonRepeatable(&override)) {
+      } else if (En_Elforg_IsFairyCollectedAndNonRepeatable(&override)) {
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
       }
