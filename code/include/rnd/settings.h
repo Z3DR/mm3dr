@@ -292,6 +292,7 @@ namespace rnd {
     u8 mapsAndCompasses;
     u8 keysanity;
     u8 bossKeysanity;
+    u8 strayFairysanity;
 
     u8 skipEponaRace;
     u8 skipMinigamePhases;
