@@ -385,6 +385,14 @@ namespace rnd {
       saveData.inventory.stone_tower_dungeon_items.boss_key = 1;
     }
 
+    //Give all stray fairies
+    if (gSettingsContext.strayFairysanity == 1/*Start With*/) {
+      saveData.inventory.woodfall_fairies = 15;
+      saveData.inventory.snowhead_fairies = 15;
+      saveData.inventory.great_bay_fairies = 15;
+      saveData.inventory.stone_tower_fairies = 15;
+    }
+
     // starting Nuts and Sticks
     if (gSettingsContext.startingConsumables) {
       saveData.inventory.items[9] = game::ItemId::DekuNuts;
