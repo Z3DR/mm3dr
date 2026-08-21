@@ -117,9 +117,8 @@ namespace rnd {
 
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
-                       save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
-                       (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
-      // save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE = 0;
+                       save.week_event_reg_132.WEEKEVENTREG_132_40, (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
+      // save.week_event_reg_55.WEEKEVENTREG_132_40 = 0;
       game::GiveItem(game::ItemId::MysteryMilk);
       /*save.inventory.woodfall_temple_keys = 2;
       save.inventory.snowhead_temple_keys = 5;

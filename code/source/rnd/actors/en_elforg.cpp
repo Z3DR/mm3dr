@@ -24,8 +24,8 @@ namespace rnd {
     int fairyType = actor->params & 0xF;
     int bitIndex = ((actor->params << 0x10) >> 0x19);
     int fairyIdx = En_Elforg_getFairyIndex(gctx->scene);
-    bool isFlagSet = (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (bitIndex & 0x1F));
     if (fairyIdx != -1) {
+      bool isFlagSet = (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (bitIndex & 0x1F));
       switch (fairyType) {
       default:  // Regular switch flag
         if (isFlagSet)
@@ -70,13 +70,22 @@ namespace rnd {
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x424BF0)(actor, gctx);
   }
 
-  bool En_Elforg_IsClockTownFairyCollectedAndNonRepeatable(ItemOverride* override) {
+  bool En_Elforg_IsFairyCollectedAndNonRepeatable(ItemOverride* override) {
     if (override->key.type != ItemOverride_Type::OVR_STRAY_FAIRY)
       return false;
-    if (override->key.scene != (u8)game::SceneId::LaundryPool &&
-        override->key.scene != (u8)game::SceneId::EastClockTown)
-      return false;
-    if (gExtSaveData.givenItemChecks.clockTownStrayFairyCollected == 0)
+
+    bool collected;
+    if (override->key.scene == (u8)game::SceneId::LaundryPool ||
+        override->key.scene == (u8)game::SceneId::EastClockTown) {
+      collected = gExtSaveData.givenItemChecks.clockTownStrayFairyCollected != 0;
+    } else {
+      int fairyIdx = En_Elforg_getFairyIndex((game::SceneId) override->key.scene);
+      if (fairyIdx == -1)
+        return false;
+      collected = (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (override->key.flag & 0x1F)) != 0;
+    }
+
+    if (!collected)
       return false;
     return ItemOverride_IsItemObtainedOrEmptyBottle(*override);
   }

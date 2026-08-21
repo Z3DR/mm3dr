@@ -798,7 +798,7 @@ namespace rnd {
     } else if (override.key.type == ItemOverride_Type::OVR_COW && En_Cow_IsMilkedAndNonRepeatable(&override)) {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
-    } else if (En_Elforg_IsClockTownFairyCollectedAndNonRepeatable(&override)) {
+    } else if (En_Elforg_IsFairyCollectedAndNonRepeatable(&override)) {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
     }
