@@ -14,16 +14,6 @@ hook_AdjustFairyHeartText:
     cmp r0,r1
     bx lr
 
-.global hook_EnElforgUpdateFairyBits
-hook_EnElforgUpdateFairyBits:
-    push {r0-r12, lr}
-    cpy r0, r4 @actor
-    cpy r1,r8 @gctx
-    bl En_Elforg_UpdateExtFairyBits
-    pop {r0-r12, lr}
-    ldrsh r0,[r4,#0x1C]
-    bx lr
-
 .global hook_OverrideFairyItem
 hook_OverrideFairyItem:
     push {r0-r12, lr}
@@ -46,16 +36,6 @@ hook_OverrideFairyItem:
 noOverrideFairyItemID:
     cpy r0,r4
     b 0x3becf4
-
-.global hook_EnElforgUpdateFairyBitsTwo
-hook_EnElforgUpdateFairyBitsTwo:
-    push {r0-r12, lr}
-    cpy r0, r4 @actor
-    cpy r1,r8 @gctx
-    bl En_Elforg_UpdateExtFairyBits
-    pop {r0-r12, lr}
-    cpy r0,r8
-    bx lr
 
 .global hook_EnElfOrgChestCollect
 hook_EnElfOrgChestCollect:

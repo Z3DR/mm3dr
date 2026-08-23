@@ -42,15 +42,14 @@ namespace rnd {
   static_assert(offsetof(ElforgColorData, cmabIndexByArea) == 0x20);
   static_assert(sizeof(ElforgColorData) == 0x34);
 
-  int En_Elforg_getFairyIndex(game::SceneId);
   void En_Elforg_Init(game::act::Actor*, game::GlobalContext*);
   void En_Elforg_Draw(game::act::Actor*, game::GlobalContext*);
   void En_Elforg_Calc(game::act::Actor*, game::GlobalContext*);
   int En_Elforg_getFairyIndex(game::SceneId);
   bool En_Elforg_IsFairyCollectedAndNonRepeatable(ItemOverride*);
+  void En_Elforg_SetFairyCollected(game::SceneId scene, u32 flag);
   extern "C" {
   s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
-  void En_Elforg_UpdateExtFairyBits(game::act::Actor*, game::GlobalContext*);
   bool En_Elforg_Chest_IsFairyObtained(u32 param, game::GlobalContext*);
   u16 En_Elforg_CheckHeartPieceCount(u16 origTextId);
   }

@@ -5,11 +5,6 @@
 patch_AdjustFairyHeartText:
     bl hook_AdjustFairyHeartText
 
-.section .patch_EnElforgUpdateFairyBits
-.global patch_EnElforgUpdateFairyBits
-patch_EnElforgUpdateFairyBits:
-    bl hook_EnElforgUpdateFairyBits
-
 .section .patch_OverrideFairyGiveItem
 .global OverrideFairyItemID_patch
 OverrideFairyItemID_patch:
@@ -22,11 +17,6 @@ OverrideGreatFairySpawn_patch:
     @ldmia sp!,{r4 - r6, pc}
     @ldmia sp !, {r4 - r6, lr}
     @ bx lr
-
-.section .patch_EnElfOrgTreasureSwitchSet
-.global patch_EnElfOrgTreasureSwitchSet
-patch_EnElfOrgTreasureSwitchSet:
-    bl hook_EnElforgUpdateFairyBitsTwo
 
 .section .patch_EnElfOrgChestCollect
 .global patch_EnElfOrgChestCollect
