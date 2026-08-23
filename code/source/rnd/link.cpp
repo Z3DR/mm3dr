@@ -204,28 +204,38 @@ namespace rnd::link {
     using namespace game;
     auto* gctx = GetContext().gctx;
     auto* player = gctx->GetPlayerActor();
-
-    // Only reset free camera when Z-targeting and when free camera is active
     if (!player)
       return;
-    if (gctx->main_camera.mode != CameraMode::FREECAMERA)
-      return;
-    if (!gctx->pad_state.input.buttons.IsSet(pad::Button::L))
-      return;
 
-    if (player->flags3.IsSet(act::Player::Flag3::ZoraFastSwimming)) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: resetting camera mode (Zora swimming)\n", __func__);
-#endif
-      const bool in_water = player->flags1.IsSet(act::Player::Flag1::InWater);
-      gctx->main_camera.ChangeMode(in_water ? CameraMode::GORONDASH : CameraMode::FREEFALL);
-    } else if (player->flags3.IsSet(act::Player::Flag3::GoronRolling)) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      rnd::util::Print("%s: resetting camera mode (Goron rolling)\n", __func__);
-#endif
-      const bool on_ground = player->flags_94.IsSet(act::Actor::Flag94::Grounded);
-      gctx->main_camera.ChangeMode(on_ground ? CameraMode::GORONDASH : CameraMode::GORONJUMP);
+    const auto& input = gctx->pad_state.input;
+
+    if (input.buttons.IsOneSet(pad::Button::CStickRight, pad::Button::CStickLeft, pad::Button::CStickUp,
+                               pad::Button::CStickDown)) {
+      GetContext().free_look_active = true;
     }
+
+    if (!input.new_buttons.IsSet(pad::Button::L))
+      return;
+    if (!GetContext().free_look_active)
+      return;
+    GetContext().free_look_active = false;
+
+    CameraMode target;
+    if (player->flags3.IsSet(act::Player::Flag3::GoronRolling)) {
+      target = player->flags_94.IsSet(act::Actor::Flag94::Grounded) ? CameraMode::GORONDASH : CameraMode::GORONJUMP;
+    } else if (player->flags3.IsSet(act::Player::Flag3::ZoraFastSwimming)) {
+      // The dolphin jump keeps the fast-swim flag set after leaving the water.
+      target = player->flags1.IsSet(act::Player::Flag1::InWater) ? CameraMode::GORONDASH : CameraMode::FREEFALL;
+    } else if (GetCommonData().save.player_form == act::Player::Form::Zora &&
+               player->flags1.IsSet(act::Player::Flag1::InWater)) {
+      target = CameraMode::NORMAL;
+    } else {
+      return;
+    }
+
+    // changeModeEx rejects an unforced request when the camera's 0x20 lock flag is set, and again
+    // when the requested mode already matches. changeStateEx always forces for the same reason.
+    gctx->main_camera.ChangeMode(target, 1);
   }
 
   extern "C" {
