@@ -21,37 +21,10 @@ namespace rnd {
   }
 
   void En_Elforg_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
-    int fairyType = actor->params & 0xF;
-    int bitIndex = ((actor->params << 0x10) >> 0x19);
-    int fairyIdx = En_Elforg_getFairyIndex(gctx->scene);
-    if (fairyIdx != -1) {
-      bool isFlagSet = (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (bitIndex & 0x1F));
-      switch (fairyType) {
-      default:  // Regular switch flag
-        if (isFlagSet)
-          util::GetPointer<void(game::GlobalContext*, int)>(0x4C6D70)(gctx, bitIndex);
-        break;
-      case 1:
-      case 2:
-      case 3:
-      case 8:
-        break;
-      case 6:  // Treasure flag
-        if (isFlagSet) {
-          util::GetPointer<void(game::GlobalContext*, int)>(0x4C6D58)(gctx, bitIndex);  // Set Treasure
-        }
-
-        break;
-      case 7:  // Collectible flag
-        if (isFlagSet) {
-          util::GetPointer<void(game::GlobalContext*, int)>(0x494BD4)(gctx, bitIndex);  // Set Collectible
-        }
-
-        break;
-      }
-    }
-
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x3CD9D0)(actor, gctx);
+    if (actor->calc_fn == NULL) {
+      return;
+    }
     Model_SpawnByActor(actor, gctx, 0xBB);
   }
 
@@ -90,15 +63,13 @@ namespace rnd {
     return ItemOverride_IsItemObtainedOrEmptyBottle(*override);
   }
 
-  extern "C" {
-  void En_Elforg_UpdateExtFairyBits(game::act::Actor* actor, game::GlobalContext* gctx) {
-    int bitIndex = ((actor->params << 0x10) >> 0x19);
-    int fairyIdx = En_Elforg_getFairyIndex(gctx->scene);
-    if (fairyIdx != -1) {
-      gExtSaveData.dungeonFairyBitfields[fairyIdx] |= 1 << (bitIndex & 0x1F);
-    }
-    return;
+  void En_Elforg_SetFairyCollected(game::SceneId scene, u32 flag) {
+    int fairyIdx = En_Elforg_getFairyIndex(scene);
+    if (fairyIdx != -1)
+      gExtSaveData.dungeonFairyBitfields[fairyIdx] |= 1 << (flag & 0x1F);
   }
+
+  extern "C" {
   s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel* saModel, game::act::Actor* actor) {
     return Model_DrawByActor(actor, &saModel->mtx);
   }

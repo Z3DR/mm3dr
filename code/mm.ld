@@ -369,10 +369,6 @@ SECTIONS{
     *(.patch_LullabyCheckEnJg)
   }
 
-  .patch_EnElforgUpdateFairyBits 0x25A69C : {
-    *(.patch_EnElforgUpdateFairyBits)
-  }
-
   .patch_StrayFairyCollectOverride 0x25A6E8 : {
     *(.patch_StrayFairyCollectOverride)
   }
@@ -603,10 +599,6 @@ SECTIONS{
 
   .patch_ClockTownFairyFountainCheck 0x3CD85C : {
     *(.patch_ClockTownFairyFountainCheck)
-  }
-
-  .patch_EnElfOrgTreasureSwitchSet 0x3CDDEC : {
-    *(.patch_EnElfOrgTreasureSwitchSet)
   }
 
   .patch_EnElfOrgChestCollect 0x3CDE0C : {

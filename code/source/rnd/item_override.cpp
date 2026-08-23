@@ -320,6 +320,8 @@ namespace rnd {
       gExtSaveData.givenItemChecks.clockTownStrayFairyCollected = 1;
       game::GetCommonData().save.week_event_reg_08.WEEKEVENTREG_08_80 =
           1;  // Set fairy collected so it doesn't spawn anymore for the cycle.
+    } else {
+      En_Elforg_SetFairyCollected((game::SceneId)key.scene, key.flag);
     }
     SetExtData();
     SpoilerLog_UpdateIngameLog(key.type, key.scene, key.flag);
@@ -1212,7 +1214,7 @@ namespace rnd {
 #endif
     rStoredTextId = row->textId;
     ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
-    return rActiveItemRow->textId;
+    return rStoredTextId;
   }
 
   u8 ItemOverride_GetClockTownFairyGiven() {
