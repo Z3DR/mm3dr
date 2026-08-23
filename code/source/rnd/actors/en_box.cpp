@@ -9,18 +9,32 @@ namespace rnd {
     }
     s16 gid = (actor->dyna.params << 0x14) >> 0x19;
     game::SceneId scene = gctx->scene;
-    ItemOverride override = ItemOverride_Lookup((game::act::Actor*)&actor->dyna, (u16)scene, gid);
-    if (override.key.all != 0) {
-      ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
-      if (itemToBeGiven->chestType == ChestType::WOODEN_SMALL) {
-        return game::actors::EnBoxType::ENBOX_TYPE_SMALL;
-      } else if (itemToBeGiven->chestType == ChestType::WOODEN_BIG) {
-        return game::actors::EnBoxType::ENBOX_TYPE_BIG;
-      } else if (itemToBeGiven->chestType == ChestType::DECORATED_BIG) {
-        return game::actors::EnBoxType::ENBOX_TYPE_BIG_ORNATE;
-      }
+
+    ItemOverride override;
+    if (gid == 0x11) {
+      ItemOverride_Key key = {.all = 0};
+      key.scene = (u8)scene;
+      key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
+      key.flag = actor->dyna.params & 0x1F;
+      override = ItemOverride_LookupByKey(key);
     } else {
+      override = ItemOverride_Lookup((game::act::Actor*)&actor->dyna, (u16)scene, gid);
+    }
+
+    if (override.key.all == 0) {
       return (game::actors::EnBoxType)0xFF;
+    }
+
+    ItemRow* itemToBeGiven = ItemTable_GetItemRow(override.value.getItemId);
+    if (itemToBeGiven == NULL) {
+      return (game::actors::EnBoxType)0xFF;  // gap entry -- leave the chest alone
+    }
+    if (itemToBeGiven->chestType == ChestType::WOODEN_SMALL) {
+      return game::actors::EnBoxType::ENBOX_TYPE_SMALL;
+    } else if (itemToBeGiven->chestType == ChestType::WOODEN_BIG) {
+      return game::actors::EnBoxType::ENBOX_TYPE_BIG;
+    } else if (itemToBeGiven->chestType == ChestType::DECORATED_BIG) {
+      return game::actors::EnBoxType::ENBOX_TYPE_BIG_ORNATE;
     }
     return (game::actors::EnBoxType)0xFF;
   }
