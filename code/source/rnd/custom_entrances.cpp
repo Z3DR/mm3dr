@@ -46,7 +46,10 @@ namespace rnd {
         cdata.next_cutscene_index = 0xfff2;
         cdata.next_transition_type = 2;
       }
-
+      didWarp = true;
+    } else if (gctx->next_entrance == 0xbe00 && gSettingsContext.skipPiratesCs) {
+      gctx->next_entrance = 0x8C10;
+      cdata.sub13s[0].entrance_index = 0x8C10;
       didWarp = true;
     }
 
