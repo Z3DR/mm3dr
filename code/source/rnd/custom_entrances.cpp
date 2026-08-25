@@ -52,6 +52,7 @@ namespace rnd {
 
     if (didWarp)
       gctx->field_C529_one_to_clear_input = 0x14;
+    SaveFile_SetSceneDiscovered((u16)util::GetPointer<int(u32)>(0x2221F0)(gctx->next_entrance));
     return didWarp;
   }
 
