@@ -333,6 +333,18 @@ public:
     addCom(0x31, 0x01);
     return addCom(0x02);
   }
+  MsgBuilder* choiceInit(u8 choiceCount) {
+    return addCom(0x2F, choiceCount);
+  }
+  MsgBuilder* alignLeft() {
+    return addCom(0x37);
+  }  // Applies to following characters until newline
+  MsgBuilder* alignCenter() {
+    return addCom(0x38);
+  }  // Applies to following characters until newline
+  MsgBuilder* alignRight() {
+    return addCom(0x39);
+  }  // Applies to following characters until newline
   MsgBuilder* end(bool promptType) {
     addCom(0x31, promptType);
     return addCom(0x00);
@@ -389,13 +401,6 @@ public:
       sound(sfx);
     if (msg->sfxAndFlags & INSTANT_FLAG)
       instant();
-
-    // Tingle Map Choices. Add 3 choices, 2 for maps and 1 for no thanks.
-    if (msg->id >= 0x1D11 && msg->id <= 0x1D16) {
-      addCom(0x2F, 3);
-      // Disable line wrap to ensure text lines up with options
-      lineWrap = false;
-    }
 
     while (++idx < MAX_CUSTOM_MSG_SIZE && text[idx]) {
       resolvedChar = text[idx];
@@ -526,6 +531,27 @@ public:
           addChr(text[idx]);
           lineLen += width[resolvedChar];
         }
+        break;
+
+      case '>':  // Two-char command (R)
+        if (text[idx + 1] > 0x30 && text[idx + 1] < 0x36) {
+          choiceInit(text[idx++] & 0xF);
+        } else if (text[idx + 1] == '>') {
+          alignRight();
+          idx++;
+        } else if (text[idx + 1] == '<') {
+          alignCenter();
+          idx++;
+        } else
+          addChr('>');
+        break;
+
+      case '<':  // Two-char command (L)
+        if (text[idx + 1] == '<') {
+          alignLeft();
+          idx++;
+        } else
+          addChr('<');
         break;
 
       case ' ':
