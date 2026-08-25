@@ -3,6 +3,7 @@
 #include "common/advanced_context.h"
 #include "game/common_data.h"
 #include "game/sound.h"
+#include "rnd/savefile.h"
 #include "rnd/settings.h"
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
