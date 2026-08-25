@@ -535,7 +535,8 @@ public:
 
       case '>':  // Two-char command (R)
         if (text[idx + 1] > 0x30 && text[idx + 1] < 0x36) {
-          choiceInit(text[idx++] & 0xF);
+          choiceInit(text[++idx] & 0xF);
+          lineWrap = false;
         } else if (text[idx + 1] == '>') {
           alignRight();
           idx++;
