@@ -51,9 +51,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0x0C;
-    rItemOverrides[1].value.looksLikeItemId = 0x0C;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
+    rItemOverrides[1].value.getItemId = 0x47;
+    rItemOverrides[1].value.looksLikeItemId = 0x47;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -1208,7 +1208,9 @@ namespace rnd {
     if (override.key.all == 0) {
       return 0x11;  // Vanilla "You found a Stray Fairy" text, as a safe fallback.
     }
-    ItemRow* row = ItemTable_GetItemRowFromIndex(override.value.getItemId);
+    u16 resolvedGetItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
+
+    ItemRow* row = ItemTable_GetItemRowFromIndex(resolvedGetItemId);
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: Item text ID is %#08x\n", __func__, row->textId);
 #endif
