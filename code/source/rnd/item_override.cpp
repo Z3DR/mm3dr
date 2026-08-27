@@ -315,13 +315,14 @@ namespace rnd {
     if (key.type == ItemOverride_Type::OVR_COW) {
       En_Cow_SetMilked(key.flag);
     }
-    if (key.type == ItemOverride_Type::OVR_STRAY_FAIRY &&
-        (key.scene == (u8)game::SceneId::LaundryPool || key.scene == (u8)game::SceneId::EastClockTown)) {
-      gExtSaveData.givenItemChecks.clockTownStrayFairyCollected = 1;
-      game::GetCommonData().save.week_event_reg_08.WEEKEVENTREG_08_80 =
-          1;  // Set fairy collected so it doesn't spawn anymore for the cycle.
-    } else {
-      En_Elforg_SetFairyCollected((game::SceneId)key.scene, key.flag);
+    if (key.type == ItemOverride_Type::OVR_STRAY_FAIRY) {
+      if (key.scene == (u8)game::SceneId::LaundryPool || key.scene == (u8)game::SceneId::EastClockTown) {
+        gExtSaveData.givenItemChecks.clockTownStrayFairyCollected = 1;
+        // Set fairy collected so it doesn't spawn anymore for the cycle.
+        game::GetCommonData().save.week_event_reg_08.WEEKEVENTREG_08_80 = 1;
+      } else {
+        En_Elforg_SetFairyCollected((game::SceneId)key.scene, key.flag);
+      }
     }
     SetExtData();
     SpoilerLog_UpdateIngameLog(key.type, key.scene, key.flag);
