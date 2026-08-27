@@ -52,8 +52,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
-    rItemOverrides[1].value.getItemId = 0x47;
-    rItemOverrides[1].value.looksLikeItemId = 0x47;
+    rItemOverrides[1].value.getItemId = 0x70;
+    rItemOverrides[1].value.looksLikeItemId = 0x70;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -831,7 +831,9 @@ namespace rnd {
            gExtSaveData.givenItemChecks.letterToKafeiGiven == 1) ||
           (incomingGetItemId == (s16)GetItemID::GI_PENDANT_OF_MEMORIES &&
            gExtSaveData.givenItemChecks.pendantGiven == 1)) {
-        if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52)
+        if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52 &&
+            (incomingGetItemId < (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN ||
+             incomingGetItemId > (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER))
           player->get_item_id = (s16)GetItemID::GI_FISHING_HOLE_PASS;
         ItemOverride_Clear();
         return;
@@ -908,7 +910,9 @@ namespace rnd {
       rActiveItemRow->effectArg1 = override.key.all >> 16;
       rActiveItemRow->effectArg2 = override.key.all & 0xFFFF;
     }
-    if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52)
+    if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52 &&
+        (incomingGetItemId < (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN ||
+         incomingGetItemId > (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER))
       player->get_item_id = incomingNegative ? -baseItemId : baseItemId;
     // Edge case with Song of healing items. Override their show text in their own functions
     // to ensure that we have the same 'feel' as the base game.
