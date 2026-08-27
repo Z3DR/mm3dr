@@ -727,6 +727,8 @@ namespace rnd {
         // Only set if we're not a trade item.
         if ((rActiveItemRow->itemId < 0x28 || rActiveItemRow->itemId > 0x30) && (rActiveItemRow->itemId < 0x9F)) {
           gExtSaveData.chestRewarded[rActiveItemOverride.key.scene][rActiveItemOverride.key.flag] = 1;
+        } else if (rActiveItemOverride.value.getItemId > 0xBA) { // alt check for stray fairies to ensure non-repeatable.
+          gExtSaveData.chestRewarded[rActiveItemOverride.key.scene][rActiveItemOverride.key.flag] = 1;
         }
       }
       game::GlobalContext* gctx = GetContext().gctx;
