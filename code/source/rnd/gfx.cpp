@@ -22,7 +22,7 @@ namespace rnd {
   u32 pressed;
   bool handledInput;
   const char* spoilerCollectionGroupNames[] = {
-      "All Item Locations", "Inside Clock Tower", "South Clock Town",      "Laundry Pool",
+      "All Item Locations", "Clock Tower", "South Clock Town",      "Laundry Pool",
       "East Clock Town",    "StockPotInn",        "West Clock Town",       "North Clock Town",
       "Termina Field",      "Southern Swamp",     "Deku Palace",           "Woodfall",
       "Snowhead",           "Mountain Village",   "Twin Islands",          "Goron Village",
