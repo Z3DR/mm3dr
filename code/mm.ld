@@ -625,7 +625,7 @@ SECTIONS{
     *(.patch_OverrideQuiverArcheryTwo)
   }
 
-  .patch_DoNotDeleteKafeiGearItem 0x3EC744 : {
+    .patch_DoNotDeleteKafeiGearItem 0x3EC6EC : {
     *(.patch_DoNotDeleteKafeiGearItem)
   }
 
