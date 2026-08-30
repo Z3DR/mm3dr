@@ -11,8 +11,12 @@ hook_SwapStoredTradeItems:
 
 .global hook_DoNotDeleteKafeiGearItem
 hook_DoNotDeleteKafeiGearItem:
-  push {r0-r12,lr}
-  cmp r0, #0x31
-  bleq 0x4AD1B4
-  pop {r0-r12,lr}
-  bx lr
+  cmp   r0, #0x2D
+  cmpne r0, #0x2E
+  cmpne r0, #0x2F
+  cmpne r0, #0x30
+  beq   skipItemDelete
+  cmp   r0, #0x26 instruction
+  bx    lr
+skipItemDelete:
+  b     0x3EC748
