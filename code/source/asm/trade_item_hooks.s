@@ -16,7 +16,7 @@ hook_DoNotDeleteKafeiGearItem:
   cmpne r0, #0x2F
   cmpne r0, #0x30
   beq   skipItemDelete
-  cmp   r0, #0x26 instruction
+  cmp   r0, #0x26
   bx    lr
 skipItemDelete:
   b     0x3EC748
