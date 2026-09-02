@@ -165,11 +165,11 @@ namespace rnd {
     game::ItemId collectedTradeItems[9];
     u32 dungeonFairyBitfields[4];
     union OptionsRegister {
-        u8 raw;
-        BitField<0, 2, u8> skipSongReplays;
-        BitField<2, 6, u8> unused;
+      u8 raw;
+      BitField<0, 2, u8> skipSongReplays;
+      BitField<2, 6, u8> unused;
     };
-    OptionsRegister options; 
+    OptionsRegister options;
   } ExtSaveData;
 
   extern "C" ExtSaveData gExtSaveData;

@@ -661,7 +661,9 @@ namespace rnd {
 
   static void (*menu_draw_funcs[])(void) = {
       // Make sure these line up with the GfxPage enum above
-      Gfx_DrawSeedHash,    Gfx_DrawDungeonItems, Gfx_DrawSpoilerData,
+      Gfx_DrawSeedHash,
+      Gfx_DrawDungeonItems,
+      Gfx_DrawSpoilerData,
       Gfx_DrawItemTracker,  // All
       Gfx_DrawItemTracker,  // Groups
       NULL,                 // PAGE_ENTRANCETRACKER_ALL    (not implemented)
