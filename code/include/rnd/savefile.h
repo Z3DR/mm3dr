@@ -7,7 +7,7 @@
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 20
+#define EXTSAVEDATA_VERSION 21
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
@@ -164,6 +164,12 @@ namespace rnd {
     u8 chestRewarded[116][32];  // Reward table that's stored by scene and chest param/flag.
     game::ItemId collectedTradeItems[9];
     u32 dungeonFairyBitfields[4];
+    union OptionsRegister {
+        u8 raw;
+        BitField<0, 2, u8> skipSongReplays;
+        BitField<2, 6, u8> unused;
+    };
+    OptionsRegister options; 
   } ExtSaveData;
 
   extern "C" ExtSaveData gExtSaveData;

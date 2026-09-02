@@ -871,7 +871,7 @@ namespace rnd {
     // gExtSaveData.option_EnableSFX          = gSettingsContext.playSFX;
     // gExtSaveData.option_SilenceNavi        = gSettingsContext.silenceNavi;
     // gExtSaveData.option_IgnoreMaskReaction = gSettingsContext.ignoreMaskReaction;
-    // gExtSaveData.option_SkipSongReplays    = gSettingsContext.skipSongReplays;
+    gExtSaveData.options.skipSongReplays = gSettingsContext.skipSongReplays;
   }
 
   u8 SaveFile_GetIsSceneDiscovered(u8 sceneNum) {

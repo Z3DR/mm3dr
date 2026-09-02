@@ -236,6 +236,12 @@ namespace rnd {
     CHESTANIMATIONS_MATCHCONTENT,
   };
 
+  enum class SongReplaysSetting : u8 {
+    SONGREPLAYS_DONTSKIP,
+    SONGREPLAYS_SKIP_NO_SFX,
+    SONGREPLAYS_SKIP_KEEP_SFX,
+  };
+
   enum class StrayFairySanitySetting : u8 {
     STRAYFAIRYSANITY_VANILLA,
     STRAYFAIRYSANITY_ANYWHERE,
@@ -458,6 +464,9 @@ namespace rnd {
     u8 useFierceDeityAnywhere = 0;
 
     u8 showPostmanItem;
+
+    // Options in custom menu.
+    u8 skipSongReplays = 0;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;
