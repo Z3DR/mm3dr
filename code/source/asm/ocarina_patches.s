@@ -80,3 +80,13 @@ patch_FixOcarinaGearScreenZoraTwo:
 .global patch_HandleOcarinaHooks
 patch_HandleOcarinaHooks:
     b hook_HandleOcarina
+
+.section .patch_SkipSongReplayA
+.global patch_SkipSongReplayA
+patch_SkipSongReplayA:
+    bl hook_SkipSongReplay
+
+.section .patch_SkipSongReplayB
+.global patch_SkipSongReplayB
+patch_SkipSongReplayB:
+    bl hook_SkipSongReplay

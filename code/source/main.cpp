@@ -106,7 +106,7 @@ namespace rnd {
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
                        save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
                        (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
-      save.inventory.collect_register.sonata_of_awakening = 1;
+      gExtSaveData.options.skipSongReplays = 2;
 
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,

@@ -882,6 +882,14 @@ SECTIONS{
     *(.patch_HandleOcarinaHooks)
   }
 
+  .patch_SkipSongReplayA 0x604ED4 : {
+    *(.patch_SkipSongReplayA)
+  }
+
+  .patch_SkipSongReplayB 0x605074 : {
+    *(.patch_SkipSongReplayB)
+  }
+
   .patch_OverrideGetSongItem 0x60597C : {
     *(.patch_OverrideGetSongItem)
   }
