@@ -156,9 +156,6 @@ hook_HandleOcarina:
     cmp r0, #0x16 @ original instruction
     b 0x604d90
 
-@ The ocarina replay runs states 0x12..0x17 before 0x18 applies the song. State 0x18 derives
-@ the ocarina mode from the song id itself, so entering it directly skips the demonstration
-@ for every song without needing per-song setup.
 .global hook_SkipSongReplay
 hook_SkipSongReplay:
     push {r0-r3, r12, lr}
@@ -166,8 +163,8 @@ hook_SkipSongReplay:
     cmp r0, #0
     pop {r0-r3, r12, lr}
     beq noSkipSongReplay
-    mov r1, #0x18            @ jump straight to the apply state
-    mov r0, #0x1             @ and fire it on the next tick
+    mov r1, #0x18
+    mov r0, #0x1
 noSkipSongReplay:
-    str r1, [r4, #0x42c]     @ displaced instruction
+    str r1, [r4, #0x42c]
     bx lr

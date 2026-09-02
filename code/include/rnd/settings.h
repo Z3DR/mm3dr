@@ -466,7 +466,7 @@ namespace rnd {
     u8 showPostmanItem;
 
     // Options in custom menu.
-    u8 skipSongReplays;
+    u8 skipSongReplays = 0;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;

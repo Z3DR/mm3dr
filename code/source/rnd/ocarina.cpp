@@ -28,7 +28,6 @@ namespace rnd {
     gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_END;
   }
 
-  // Pure predicate: is the fast-song option enabled? No side effects -- safe to call anywhere.
   static bool SongReplaySkipEnabled() {
     const u8 mode = gExtSaveData.options.skipSongReplays;
     // 2-bit field, so 3 is representable but is not a valid setting. Anything unrecognised
@@ -39,15 +38,12 @@ namespace rnd {
 
   bool HandleOcarinaSong(game::ui::MessageWindow* self, game::OcarinaSong song) {
     if (u16(song) > 0x16) {
-      return false;  // sentinels reach us before the game's own filter at 0x604D8C
+      return false;
     }
     if (!SongReplaySkipEnabled()) {
       return false;
     }
 
-    // Songs 6 and 9 are the only ones 0x1D78F0 dispatches, and state 0x18 has no path that
-    // sets their mode -- it just flags 0x8366 and returns. Everything else is applied
-    // downstream from that flag, so it falls through to the state-machine skip instead.
     if (song != game::OcarinaSong::SongOfTime && song != game::OcarinaSong::SongOfSoaring) {
       return false;
     }
@@ -62,15 +58,12 @@ namespace rnd {
     gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_EVENT;
     self->song = u16(song);
     if (song == game::OcarinaSong::SongOfSoaring) {
-      // Soaring only: must be false or its handler refuses to show the map screen.
       util::Write<bool>(gctx, 0x83EC, false);
     }
     util::GetPointer<void(game::ui::MessageWindow*)>(0x1D78F0)(self);
     return true;
   }
 
-  // Side-effecting: called from hook_SkipSongReplay immediately before the ocarina state is
-  // forced to 0x18. Returns true only when the caller should actually skip the replay.
   bool SongReplayTrySkip() {
     if (!SongReplaySkipEnabled()) {
       return false;  // vanilla: the hook leaves state 0x12 and the timer untouched
@@ -81,9 +74,6 @@ namespace rnd {
       return false;  // no context to fix up, so let vanilla run
     }
 
-    // State 0x13 advances the prompt context before 0x18 reads it. Jumping straight to 0x18
-    // leaves it at its old value, so 0x18 treats the song as an unanswered prompt and applies
-    // no effect. Replicate the transition here -- 0x32 is the "free play, apply it" value.
     const u16 prompt = util::BitCastPtr<u16>(gctx, 0x8368);
     if (prompt == 1) {
       util::Write<u16>(gctx, 0x8368, 0x32);
@@ -92,8 +82,6 @@ namespace rnd {
     }
     util::Write<u16>(gctx, 0x8366, 1);
 
-    // 0x13 is also what starts the melody, so without it the skip is silent. This is what
-    // separates the two skip modes.
     if (gExtSaveData.options.skipSongReplays == (u8)SongReplaysSetting::SONGREPLAYS_SKIP_KEEP_SFX) {
       static const u8 kOcarinaInstruments[] = {0x01, 0x07, 0x08, 0x09};
       const auto set_instrument = util::GetPointer<void(u8)>(0x1DF440);
@@ -113,8 +101,6 @@ namespace rnd {
 
 }  // namespace rnd
 
-// These wrappers exist because the asm hooks need C linkage, and the rnd::util helpers are
-// not reachable from an extern "C" definition at global scope.
 extern "C" {
 bool HandleOcarinaSong(game::ui::MessageWindow* self, game::OcarinaSong song) {
   return rnd::HandleOcarinaSong(self, song);
