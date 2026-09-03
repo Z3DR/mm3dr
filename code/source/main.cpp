@@ -29,14 +29,26 @@ extern "C" {
 #endif
 
 namespace rnd {
-  void Init(Context& context) {
-    // XXX: Temp switch to ensure patch is running.
+  // What each StreamPlayer was playing, or was asked to play, while background music is muted.
+  // Lets the music come back on unmute without waiting for an area change.
+  static u32 sMutedStreamIds[4] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
 
+  // Called from hook_MuteStreamPlay at 0x23922C. Returns true to suppress the stream, and
+  // remembers the request so unmuting can start it.
+  static bool StreamPlayBlockedImpl(u32 id, u32 player) {
+    if (gExtSaveData.options.muteBackgroundMusic == 0) {
+      return false;
+    }
+    if (player < ARR_SIZE(sMutedStreamIds)) {
+      sMutedStreamIds[player] = id;
+    }
+    return true;
+  }
+
+  void Init(Context& context) {
     rHeap_Init();
     ItemOverride_Init();
     Actor_Init();
-    // SaveFile_LoadExtSaveData(1);
-    //  TODO: Maybe make this an option?
     link::FixSpeedIssues();
     ForceTempleFlags();
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
@@ -81,6 +93,31 @@ namespace rnd {
 #endif
 
     context.gctx = static_cast<game::GlobalContext*>(state);
+
+    static bool bgmWasMuted = false;
+    const bool bgmMuted = gExtSaveData.options.muteBackgroundMusic != 0;
+    if (bgmMuted) {
+      for (u32 p = 0; p < ARR_SIZE(sMutedStreamIds); p++) {
+        const auto player = (game::sound::StreamPlayer)p;
+        const auto id = game::sound::GetCurrentStreamId(player);
+        if (id != game::sound::StreamId::None) {
+          sMutedStreamIds[p] = (u32)id;
+          game::sound::ControlStream(player, 0, 0);
+        }
+      }
+    } else if (bgmWasMuted) {
+      // Only DEFAULT_PLAYER carries looping background music; the other players hold one-shot
+      // fanfares, and replaying a stale one on unmute would be wrong.
+      const u32 p = (u32)game::sound::StreamPlayer::DEFAULT_PLAYER;
+      if (sMutedStreamIds[p] != 0xFFFFFFFF) {
+        game::sound::PlayStream((game::sound::StreamId)sMutedStreamIds[p], game::sound::StreamPlayer::DEFAULT_PLAYER);
+      }
+      for (u32 i = 0; i < ARR_SIZE(sMutedStreamIds); i++) {
+        sMutedStreamIds[i] = 0xFFFFFFFF;
+      }
+    }
+    bgmWasMuted = bgmMuted;
+
     Input_Update();
     if (context.gctx->GetPlayerActor()) {
       ItemOverride_Update();
@@ -154,6 +191,10 @@ namespace rnd {
     for (size_t i = 0; i < size_t(__init_array_end - __init_array_start); i++) {
       __init_array_start[i]();
     }
+  }
+
+  bool StreamPlayBlocked(u32 id, u32 player) {
+    return StreamPlayBlockedImpl(id, player);
   }
 
   void PostActorCalc() {
