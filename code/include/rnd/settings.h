@@ -467,6 +467,8 @@ namespace rnd {
 
     // Options in custom menu.
     u8 skipSongReplays = 0;
+    u8 muteSoundEffects = 0;
+    u8 muteBackgroundMusic = 0;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;
