@@ -169,7 +169,8 @@ namespace rnd {
       u8 raw;
       BitField<0, 2, u8> skipSongReplays;
       BitField<2, 1, u8> muteSoundEffects;
-      BitField<3, 5, u8> unused;
+      BitField<3, 1, u8> muteBackgroundMusic;
+      BitField<4, 4, u8> unused;
     };
     OptionsRegister options;
   } ExtSaveData;

@@ -639,11 +639,20 @@ namespace rnd {
     gExtSaveData.options.muteSoundEffects = value;
   }
 
+  static u8 Option_GetMuteBackgroundMusic(void) {
+    return gExtSaveData.options.muteBackgroundMusic;
+  }
+  static void Option_SetMuteBackgroundMusic(u8 value) {
+    gExtSaveData.options.muteBackgroundMusic = value;
+  }
+
   static const MenuOption menuOptions[] = {
       {"Fast Ocarina Songs", songReplayValueNames, ARR_SIZE(songReplayValueNames), Option_GetSongReplays,
        Option_SetSongReplays},
       {"Mute Sound Effects", toggleValueNames, ARR_SIZE(toggleValueNames), Option_GetMuteSoundEffects,
        Option_SetMuteSoundEffects},
+      {"Mute Background Music", toggleValueNames, ARR_SIZE(toggleValueNames), Option_GetMuteBackgroundMusic,
+       Option_SetMuteBackgroundMusic},
   };
 
   static void Gfx_DrawOptions(void) {

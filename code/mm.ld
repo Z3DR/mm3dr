@@ -41,6 +41,10 @@ SECTIONS{
     *(.patch_EnsureTerminaIsNotFirstCycle)
   }
 
+  .patch_MuteOcarinaNotes 0x12B7C0 : {
+    *(.patch_MuteOcarinaNotes)
+  }
+
   .patch_Gfx_Update 0x1376DC : {
     *(.patch_Gfx_Update)
   }
@@ -221,6 +225,10 @@ SECTIONS{
     *(.patch_RemoveGoronRollChecksWithoutMask)
   }
 
+  .patch_MuteSoundEffectThree 0x1FDE34 : {
+    *(.patch_MuteSoundEffectThree)
+  }
+
   .patch_EditDrawGetItemBeforeModelSpawn 0x1FF044 : {
     *(.patch_EditDrawGetItemBeforeModelSpawn)
   }
@@ -359,6 +367,10 @@ SECTIONS{
 
   .patch_RemoveRSHealthThree 0x235800 : {
     *(.patch_RemoveRazordSwordHealthThree)
+  }
+
+  .patch_MuteStreamPlay 0x23922C : {
+    *(.patch_MuteStreamPlay)
   }
 
   .patch_RemoveAddingSkulltulaTokenIfOverridden 0x23975C : {
