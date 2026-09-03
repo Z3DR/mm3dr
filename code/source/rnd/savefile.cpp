@@ -947,6 +947,10 @@ namespace rnd {
     extDataClose(fileHandle);
   }
 
+  extern "C" bool SoundEffectsMuted() {
+    return gExtSaveData.options.muteSoundEffects != 0;
+  }
+
   extern "C" void SaveFile_SaveExtSaveData() {
     game::CommonData& comData = game::GetCommonData();
     char path[] = "/0.bin";

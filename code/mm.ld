@@ -245,6 +245,10 @@ SECTIONS{
     *(.patch_CheckMagicForZoraFastSwim)
   }
 
+  .patch_MuteSoundEffectOne 0x2006E8 : {
+    *(.patch_MuteSoundEffectOne)
+  }
+
   .patch_FixRemovingOcarinaFromInventory 0x201064 : {
     *(.patch_FixRemovingOcarinaFromInventory)
   }
@@ -299,6 +303,10 @@ SECTIONS{
 
   .patch_SecondZoraSwimCheck 0x2210DC : {
     *(.patch_SecondZoraSwimCheck)
+  }
+
+  .patch_MuteSoundEffectTwo 0x22621C : {
+    *(.patch_MuteSoundEffectTwo)
   }
 
   .patch_RemoveRemainsStateCheck 0x22B7BC : {

@@ -34,6 +34,7 @@ namespace rnd {
   extern "C" {
   void SaveFile_Init(game::GlobalContext*, game::SaveFile*);
   void SaveFile_SaveExtSaveData();
+  bool SoundEffectsMuted();
   void SaveFile_UpdateBossExtData();
   }
 
@@ -167,7 +168,8 @@ namespace rnd {
     union OptionsRegister {
       u8 raw;
       BitField<0, 2, u8> skipSongReplays;
-      BitField<2, 6, u8> unused;
+      BitField<2, 1, u8> muteSoundEffects;
+      BitField<3, 5, u8> unused;
     };
     OptionsRegister options;
   } ExtSaveData;
