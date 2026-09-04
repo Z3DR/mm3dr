@@ -7,7 +7,7 @@
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 21
+#define EXTSAVEDATA_VERSION 22
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
@@ -170,7 +170,8 @@ namespace rnd {
       BitField<0, 2, u8> skipSongReplays;
       BitField<2, 1, u8> muteSoundEffects;
       BitField<3, 1, u8> muteBackgroundMusic;
-      BitField<4, 4, u8> unused;
+      BitField<4, 2, u8> shuffleMusic;
+      BitField<6, 2, u8> unused;
     };
     OptionsRegister options;
   } ExtSaveData;

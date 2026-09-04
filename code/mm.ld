@@ -157,6 +157,10 @@ SECTIONS{
     *(.patch_ISGCrouchStabTwo)
   }
 
+  .patch_MusicOverridePlay 0x1DC3D4 : {
+    *(.patch_MusicOverridePlay)
+  }
+
   .patch_RemoveMysteryMilkUsabilityCheck 0x1E04D8 : {
     *(.patch_RemoveMysteryMilkUsabilityCheck)
   }
