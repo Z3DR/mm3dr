@@ -242,6 +242,13 @@ namespace rnd {
     SONGREPLAYS_SKIP_KEEP_SFX,
   };
 
+  enum class ShuffleMusicSetting : u8 {
+    SHUFFLEMUSIC_OFF,
+    SHUFFLEMUSIC_BGM_ONLY,
+    SHUFFLEMUSIC_FANFARES_ONLY,
+    SHUFFLEMUSIC_ALL,
+  };
+
   enum class StrayFairySanitySetting : u8 {
     STRAYFAIRYSANITY_VANILLA,
     STRAYFAIRYSANITY_ANYWHERE,
@@ -469,6 +476,7 @@ namespace rnd {
     u8 skipSongReplays = 0;
     u8 muteSoundEffects = 0;
     u8 muteBackgroundMusic = 0;
+    u8 shuffleMusic = 0;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;
