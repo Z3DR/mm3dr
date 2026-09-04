@@ -8,8 +8,7 @@ namespace rnd {
   constexpr u32 kBgmFlagsTable = 0x6A0DEC;
 
   static bool IsFanfare(u32 index) {
-    return (util::BitCastPtr<u32>(reinterpret_cast<const void*>(kBgmFlagsTable), index * 4) & 2) !=
-           0;
+    return (util::BitCastPtr<u32>(reinterpret_cast<const void*>(kBgmFlagsTable), index * 4) & 2) != 0;
   }
 
   static bool ShuffleAllowed(u32 index) {
@@ -18,8 +17,8 @@ namespace rnd {
       return false;
     if (mode == (u8)ShuffleMusicSetting::SHUFFLEMUSIC_ALL)
       return true;
-    return IsFanfare(index) ? mode == (u8)ShuffleMusicSetting::SHUFFLEMUSIC_FANFARES_ONLY
-                            : mode == (u8)ShuffleMusicSetting::SHUFFLEMUSIC_BGM_ONLY;
+    return IsFanfare(index) ? mode == (u8)ShuffleMusicSetting::SHUFFLEMUSIC_FANFARES_ONLY :
+                              mode == (u8)ShuffleMusicSetting::SHUFFLEMUSIC_BGM_ONLY;
   }
 
   static u32 MusicOverrideImpl(u32 original) {
@@ -36,6 +35,8 @@ namespace rnd {
 
   extern "C" {
   u32 rBGMOverrides[BGM_COUNT] = {0};
-  u32 Music_OverridePlay(u32 original) { return MusicOverrideImpl(original); }
+  u32 Music_OverridePlay(u32 original) {
+    return MusicOverrideImpl(original);
+  }
   }
 }  // namespace rnd

@@ -14,4 +14,4 @@ namespace rnd {
     SEQ_FANFARE = 1 << 3,     // item get, clear jingles
     SEQ_OCARINA = 1 << 4,     // the 0x7F OCA_MUS family
   };
-} // namespace rnd 
+}  // namespace rnd
