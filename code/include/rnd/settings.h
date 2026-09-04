@@ -242,6 +242,12 @@ namespace rnd {
     SONGREPLAYS_SKIP_KEEP_SFX,
   };
 
+  enum class ShuffleSFXSetting : u8 {
+    SHUFFLESFX_OFF,
+    SHUFFLESFX_CATEGORICAL,  // a footstep becomes another footstep
+    SHUFFLESFX_CHAOS,        // one pool for everything
+  };
+
   enum class ShuffleMusicSetting : u8 {
     SHUFFLEMUSIC_OFF,
     SHUFFLEMUSIC_BGM_ONLY,
@@ -459,7 +465,7 @@ namespace rnd {
     u32 customItemButton = 0;
     u32 customMaskButton = 0;
     u32 customNotebookButton = 0;
-    u32 customIngameSpoilerButton = 0;
+    u32 customIngameSpoilerButton = 3;
 
     // Extra MM Settings
     u8 blastMaskCooldown;
@@ -477,6 +483,7 @@ namespace rnd {
     u8 muteSoundEffects = 0;
     u8 muteBackgroundMusic = 0;
     u8 shuffleMusic = 0;
+    u8 shuffleSFX = 0;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;

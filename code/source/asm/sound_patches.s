@@ -1,9 +1,9 @@
 .arm
 
-.section .patch_MuteSoundEffectOne
-.global patch_MuteSoundEffectOne
-patch_MuteSoundEffectOne:
-    bl hook_MuteSoundEffectOne
+.section .patch_SoundEffectFilterOne
+.global patch_SoundEffectFilterOne
+patch_SoundEffectFilterOne:
+    bl hook_SoundEffectFilterOne
 
 .section .patch_MuteSoundEffectTwo
 .global patch_MuteSoundEffectTwo
@@ -15,10 +15,10 @@ patch_MuteSoundEffectTwo:
 patch_MuteStreamPlay:
     bl hook_MuteStreamPlay
 
-.section .patch_MuteSoundEffectThree
-.global patch_MuteSoundEffectThree
-patch_MuteSoundEffectThree:
-    bl hook_MuteSoundEffectThree
+.section .patch_SoundEffectFilterThree
+.global patch_SoundEffectFilterThree
+patch_SoundEffectFilterThree:
+    bl hook_SoundEffectFilterThree
 
 .section .patch_MuteOcarinaNotes
 .global patch_MuteOcarinaNotes

@@ -4,18 +4,23 @@
 @ The two vanilla sound-effect entry points. Both are patched at their second instruction so the
 @ prologue has already pushed lr, letting us return straight to PlayEffect's caller when muted.
 
-.global hook_MuteSoundEffectOne
-hook_MuteSoundEffectOne:
-    push {r0-r3, r12, lr}
-    bl SoundEffectsMuted
+.global hook_SoundEffectFilterOne
+hook_SoundEffectFilterOne:
+    push {r0, r2, r3, r4, r12, lr}
+    vpush {d0}
+    cpy r0, r1
+    bl Sfx_Filter
     cmp r0, #0x0
-    pop {r0-r3, r12, lr}
-    bne muteSoundEffectOne
-    cpy r4, r0
+    cpy r1, r0
+    vpop {d0}
+    pop {r0, r2, r3, r4, r12, lr}
+    beq soundEffectOneSuppressed
+    cpy r5, r0
     bx lr
-muteSoundEffectOne:
+soundEffectOneSuppressed:
     mov r0, #0x0
-    ldmia sp!, {r4, pc}
+    add sp, sp, #0x20
+    ldmia sp!, {pc}
 
 .global hook_MuteSoundEffectTwo
 hook_MuteSoundEffectTwo:
@@ -50,18 +55,22 @@ muteStreamPlay:
     mov r0, #0x0
     ldmia sp!, {pc}
 
-.global hook_MuteSoundEffectThree
-hook_MuteSoundEffectThree:
-    push {r0-r3, r12, lr}
+@ emitSoundEx (0x1FDE30). EffectId is argument 2, in r1, so it moves into r0 for the call and is
+@ written back after -- r1 is kept out of the pop list so the filtered value survives.
+.global hook_SoundEffectFilterThree
+hook_SoundEffectFilterThree:
+    push {r0, r2, r3, r4, r12, lr}
     vpush {d0}
-    bl SoundEffectsMuted
+    cpy r0, r1
+    bl Sfx_Filter
     cmp r0, #0x0
+    cpy r1, r0
     vpop {d0}
-    pop {r0-r3, r12, lr}
-    bne muteSoundEffectThree
+    pop {r0, r2, r3, r4, r12, lr}
+    beq soundEffectThreeSuppressed
     mov r6, #0x0
     bx lr
-muteSoundEffectThree:
+soundEffectThreeSuppressed:
     add sp, sp, #0x20
     ldmia sp!, {pc}
 

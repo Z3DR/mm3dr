@@ -81,6 +81,10 @@ SECTIONS{
     *(.patch_KeepBowOnEpona)
   }
 
+  .patch_SoundEffectFilterOne 0x197FC8 : {
+    *(.patch_SoundEffectFilterOne)
+  }
+
   .patch_UseFDAnywhere 0x1B1244 : {
     *(.patch_UseFDAnywhere)
   }
@@ -229,8 +233,8 @@ SECTIONS{
     *(.patch_RemoveGoronRollChecksWithoutMask)
   }
 
-  .patch_MuteSoundEffectThree 0x1FDE34 : {
-    *(.patch_MuteSoundEffectThree)
+  .patch_SoundEffectFilterThree 0x1FDE34 : {
+    *(.patch_SoundEffectFilterThree)
   }
 
   .patch_EditDrawGetItemBeforeModelSpawn 0x1FF044 : {
@@ -255,10 +259,6 @@ SECTIONS{
 
   .patch_CheckMagicForZoraFastSwim 0x1FFDE8 : {
     *(.patch_CheckMagicForZoraFastSwim)
-  }
-
-  .patch_MuteSoundEffectOne 0x2006E8 : {
-    *(.patch_MuteSoundEffectOne)
   }
 
   .patch_FixRemovingOcarinaFromInventory 0x201064 : {
