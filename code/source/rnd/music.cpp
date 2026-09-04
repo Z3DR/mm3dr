@@ -28,14 +28,14 @@ namespace rnd {
       return original;
     if (!ShuffleAllowed(i))
       return original;
-    const u32 repl = rBgmOverrides[i];
+    const u32 repl = rBGMOverrides[i];
     if (repl - BGM_BASE >= BGM_COUNT)
       return original;
     return repl;
   }
 
   extern "C" {
-  u32 rBgmOverrides[BGM_COUNT] = {0};
+  u32 rBGMOverrides[BGM_COUNT] = {0};
   u32 Music_OverridePlay(u32 original) { return MusicOverrideImpl(original); }
   }
 }  // namespace rnd

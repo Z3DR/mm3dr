@@ -4,7 +4,7 @@
 #define BGM_BASE 0x01000000
 #define BGM_COUNT 0x86
 namespace rnd {
-  extern "C" u32 rBgmOverrides[BGM_COUNT];
+  extern "C" u32 rBGMOverrides[BGM_COUNT];
   extern "C" u32 Music_OverridePlay(u32 original);
   enum SeqType : u8 {
     SEQ_NOSHUFFLE = 0,
