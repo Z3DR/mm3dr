@@ -633,6 +633,7 @@ namespace rnd {
 
   static const char* const toggleValueNames[] = {"Off", "On"};
   static const char* const shuffleMusicValueNames[] = {"Off", "Background Music", "Fanfares", "All"};
+  static const char* const shuffleSFXValueNames[] = {"Off", "Categorical", "Chaos"};
   static u8 Option_GetMuteSoundEffects(void) {
     return gExtSaveData.options.muteSoundEffects;
   }
@@ -654,6 +655,13 @@ namespace rnd {
     gExtSaveData.options.shuffleMusic = value;
   }
 
+  static u8 Option_GetShuffleSFX(void) {
+    return gExtSaveData.options.shuffleSFX;
+  }
+  static void Option_SetShuffleSFX(u8 value) {
+    gExtSaveData.options.shuffleSFX = value;
+  }
+
   static const MenuOption menuOptions[] = {
       {"Fast Ocarina Songs", songReplayValueNames, ARR_SIZE(songReplayValueNames), Option_GetSongReplays,
        Option_SetSongReplays},
@@ -663,6 +671,8 @@ namespace rnd {
        Option_SetMuteBackgroundMusic},
       {"Shuffle Music", shuffleMusicValueNames, ARR_SIZE(shuffleMusicValueNames), Option_GetShuffleMusic,
        Option_SetShuffleMusic},
+      {"Shuffle Sound Effects", shuffleSFXValueNames, ARR_SIZE(shuffleSFXValueNames), Option_GetShuffleSFX,
+       Option_SetShuffleSFX},
   };
 
   static void Gfx_DrawOptions(void) {

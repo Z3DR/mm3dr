@@ -140,10 +140,9 @@ namespace rnd {
     auto& cdata = game::GetCommonData();
     auto& save = cdata.save;
     if (pressedButtons == (u32)game::pad::Button::ZR) {
-      rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
-                       save.week_event_reg_55.WEEKEVENTREG_CLEARED_GREAT_BAY_TEMPLE,
-                       (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
-      gExtSaveData.options.skipSongReplays = 2;
+      rnd::util::Print("%s: cdata.sub1.field_1C %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
+                       cdata.sub1.field_1C, (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
+      cdata.sub1.field_1C = static_cast<int>(game::SceneId::SouthClockTown);
 
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,

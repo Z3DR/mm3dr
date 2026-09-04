@@ -873,6 +873,7 @@ namespace rnd {
     // gExtSaveData.option_IgnoreMaskReaction = gSettingsContext.ignoreMaskReaction;
     gExtSaveData.options.skipSongReplays = gSettingsContext.skipSongReplays;
     gExtSaveData.options.shuffleMusic = gSettingsContext.shuffleMusic;
+    gExtSaveData.options.shuffleSFX = gSettingsContext.shuffleSFX;
     gExtSaveData.options.muteSoundEffects = gSettingsContext.muteSoundEffects;
     gExtSaveData.options.muteBackgroundMusic = gSettingsContext.muteBackgroundMusic;
   }
