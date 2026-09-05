@@ -11,6 +11,7 @@ namespace rnd {
   static s8 currentItemGroup = 1;
 
   static s32 curMenuIdx = 0;
+  static s16 optionsCursor = 0;
   static bool showingLegend = false;
   static u64 lastTick = 0;
   static u64 ticksElapsed = 0;
@@ -609,14 +610,104 @@ namespace rnd {
                       MAX_ENTRY_LINES);
   }
 
+  // Table-driven so a new option is one row here plus its getter/setter.
+  typedef struct {
+    const char* name;
+    const char* const* valueNames;
+    u8 valueCount;
+    u8 (*get)(void);
+    void (*set)(u8);
+  } MenuOption;
+
+  static const char* const songReplayValueNames[] = {
+      "Don't Skip",
+      "Skip (No Audio)",
+      "Skip (Keep Audio)",
+  };
+  static u8 Option_GetSongReplays(void) {
+    return gExtSaveData.options.skipSongReplays;
+  }
+  static void Option_SetSongReplays(u8 value) {
+    gExtSaveData.options.skipSongReplays = value;
+  }
+
+  static const char* const toggleValueNames[] = {"Off", "On"};
+  static const char* const shuffleMusicValueNames[] = {"Off", "Background Music", "Fanfares", "All"};
+  static const char* const shuffleSFXValueNames[] = {"Off", "Categorical", "Chaos"};
+  static u8 Option_GetMuteSoundEffects(void) {
+    return gExtSaveData.options.muteSoundEffects;
+  }
+  static void Option_SetMuteSoundEffects(u8 value) {
+    gExtSaveData.options.muteSoundEffects = value;
+  }
+
+  static u8 Option_GetMuteBackgroundMusic(void) {
+    return gExtSaveData.options.muteBackgroundMusic;
+  }
+  static void Option_SetMuteBackgroundMusic(u8 value) {
+    gExtSaveData.options.muteBackgroundMusic = value;
+  }
+
+  static u8 Option_GetShuffleMusic(void) {
+    return gExtSaveData.options.shuffleMusic;
+  }
+  static void Option_SetShuffleMusic(u8 value) {
+    gExtSaveData.options.shuffleMusic = value;
+  }
+
+  static u8 Option_GetShuffleSFX(void) {
+    return gExtSaveData.options.shuffleSFX;
+  }
+  static void Option_SetShuffleSFX(u8 value) {
+    gExtSaveData.options.shuffleSFX = value;
+  }
+
+  static const MenuOption menuOptions[] = {
+      {"Fast Ocarina Songs", songReplayValueNames, ARR_SIZE(songReplayValueNames), Option_GetSongReplays,
+       Option_SetSongReplays},
+      {"Mute Sound Effects", toggleValueNames, ARR_SIZE(toggleValueNames), Option_GetMuteSoundEffects,
+       Option_SetMuteSoundEffects},
+      {"Mute Background Music", toggleValueNames, ARR_SIZE(toggleValueNames), Option_GetMuteBackgroundMusic,
+       Option_SetMuteBackgroundMusic},
+      {"Shuffle Music", shuffleMusicValueNames, ARR_SIZE(shuffleMusicValueNames), Option_GetShuffleMusic,
+       Option_SetShuffleMusic},
+      {"Shuffle Sound Effects", shuffleSFXValueNames, ARR_SIZE(shuffleSFXValueNames), Option_GetShuffleSFX,
+       Option_SetShuffleSFX},
+  };
+
+  static void Gfx_DrawOptions(void) {
+    Draw_DrawString(10, 16, COLOR_TITLE, "Options");
+
+    for (u32 i = 0; i < ARR_SIZE(menuOptions); i++) {
+      const MenuOption* option = &menuOptions[i];
+      const bool selected = static_cast<u32>(optionsCursor) == i;
+      const u32 posY = 16 + (SPACING_Y * (i + 2));
+      const u32 color = selected ? COLOR_WHITE : COLOR_LIGHT_GRAY;
+
+      if (selected) {
+        Draw_DrawString(10, posY, COLOR_WHITE, ">");
+      }
+      Draw_DrawString(10 + SPACING_X, posY, color, option->name);
+
+      const u8 value = option->get();
+      Draw_DrawString(180, posY, selected ? COLOR_GREEN : COLOR_LIGHT_GRAY,
+                      value < option->valueCount ? option->valueNames[value] : "Invalid");
+    }
+
+    Draw_DrawString(10, SCREEN_BOT_HEIGHT - 24, COLOR_LIGHT_GRAY, "Up/Down: select");
+    Draw_DrawString(10, SCREEN_BOT_HEIGHT - 24 + SPACING_Y, COLOR_LIGHT_GRAY, "A: change");
+  }
+
   static void (*menu_draw_funcs[])(void) = {
       // Make sure these line up with the GfxPage enum above
-      Gfx_DrawSeedHash,    Gfx_DrawDungeonItems, Gfx_DrawSpoilerData,
+      Gfx_DrawSeedHash,
+      Gfx_DrawDungeonItems,
+      Gfx_DrawSpoilerData,
       Gfx_DrawItemTracker,  // All
       Gfx_DrawItemTracker,  // Groups
-                            // Gfx_DrawEntranceTracker, // All
-                            // Gfx_DrawEntranceTracker, // Groups
-                            // Gfx_DrawOptions,
+      NULL,                 // PAGE_ENTRANCETRACKER_ALL    (not implemented)
+      NULL,                 // PAGE_ENTRANCETRACKER_GROUPS (not implemented)
+      Gfx_DrawOptions,
   };
 
   static void Gfx_DrawHeader() {
@@ -745,6 +836,28 @@ namespace rnd {
           handledInput = true;
         } else if (pressed & BUTTON_Y) {
           PrevItemGroup();
+          handledInput = true;
+        }
+      }
+
+      if (!handledInput && curMenuIdx == PAGE_OPTIONS && ARR_SIZE(menuOptions) > 0) {
+        const s16 optionCount = (s16)ARR_SIZE(menuOptions);
+        if (pressed & (BUTTON_UP | CPAD_UP)) {
+          optionsCursor = (optionsCursor == 0) ? optionCount - 1 : optionsCursor - 1;
+          handledInput = true;
+        } else if (pressed & (BUTTON_DOWN | CPAD_DOWN)) {
+          optionsCursor++;
+          if (optionsCursor >= optionCount) {
+            optionsCursor = 0;
+          }
+          handledInput = true;
+        } else if (pressed & BUTTON_A) {
+          const MenuOption* option = &menuOptions[optionsCursor];
+          u8 value = option->get() + 1;
+          if (value >= option->valueCount) {
+            value = 0;
+          }
+          option->set(value);
           handledInput = true;
         }
       }

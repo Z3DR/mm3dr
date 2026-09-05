@@ -241,6 +241,25 @@ namespace rnd {
     CHESTANIMATIONS_MATCHCONTENT,
   };
 
+  enum class SongReplaysSetting : u8 {
+    SONGREPLAYS_DONTSKIP,
+    SONGREPLAYS_SKIP_NO_SFX,
+    SONGREPLAYS_SKIP_KEEP_SFX,
+  };
+
+  enum class ShuffleSFXSetting : u8 {
+    SHUFFLESFX_OFF,
+    SHUFFLESFX_CATEGORICAL,  // a footstep becomes another footstep
+    SHUFFLESFX_CHAOS,        // one pool for everything
+  };
+
+  enum class ShuffleMusicSetting : u8 {
+    SHUFFLEMUSIC_OFF,
+    SHUFFLEMUSIC_BGM_ONLY,
+    SHUFFLEMUSIC_FANFARES_ONLY,
+    SHUFFLEMUSIC_ALL,
+  };
+
   enum class StrayFairySanitySetting : u8 {
     STRAYFAIRYSANITY_VANILLA,
     STRAYFAIRYSANITY_ANYWHERE,
@@ -451,7 +470,7 @@ namespace rnd {
     u32 customItemButton = 0;
     u32 customMaskButton = 0;
     u32 customNotebookButton = 0;
-    u32 customIngameSpoilerButton = 0;
+    u32 customIngameSpoilerButton = 3;
 
     // Extra MM Settings
     u8 blastMaskCooldown;
@@ -464,6 +483,12 @@ namespace rnd {
 
     u8 showPostmanItem;
 
+    // Options in custom menu.
+    u8 skipSongReplays = 0;
+    u8 muteSoundEffects = 0;
+    u8 muteBackgroundMusic = 0;
+    u8 shuffleMusic = 0;
+    u8 shuffleSFX = 0;
     u8 shopsanityPrices;
   } SettingsContext;
 

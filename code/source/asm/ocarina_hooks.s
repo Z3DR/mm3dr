@@ -155,3 +155,16 @@ hook_HandleOcarina:
     bne 0x606424
     cmp r0, #0x16 @ original instruction
     b 0x604d90
+
+.global hook_SkipSongReplay
+hook_SkipSongReplay:
+    push {r0-r3, r12, lr}
+    bl ShouldSkipSongReplay
+    cmp r0, #0
+    pop {r0-r3, r12, lr}
+    beq noSkipSongReplay
+    mov r1, #0x18
+    mov r0, #0x1
+noSkipSongReplay:
+    str r1, [r4, #0x42c]
+    bx lr

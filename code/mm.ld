@@ -41,6 +41,10 @@ SECTIONS{
     *(.patch_EnsureTerminaIsNotFirstCycle)
   }
 
+  .patch_MuteOcarinaNotes 0x12B7C0 : {
+    *(.patch_MuteOcarinaNotes)
+  }
+
   .patch_Gfx_Update 0x1376DC : {
     *(.patch_Gfx_Update)
   }
@@ -75,6 +79,10 @@ SECTIONS{
 
   .patch_KeepBowOnEpona 0x188794 : {
     *(.patch_KeepBowOnEpona)
+  }
+
+  .patch_SoundEffectFilterOne 0x197FC8 : {
+    *(.patch_SoundEffectFilterOne)
   }
 
   .patch_UseFDAnywhere 0x1B1244 : {
@@ -153,6 +161,10 @@ SECTIONS{
     *(.patch_ISGCrouchStabTwo)
   }
 
+  .patch_MusicOverridePlay 0x1DC3D4 : {
+    *(.patch_MusicOverridePlay)
+  }
+
   .patch_RemoveMysteryMilkUsabilityCheck 0x1E04D8 : {
     *(.patch_RemoveMysteryMilkUsabilityCheck)
   }
@@ -219,6 +231,10 @@ SECTIONS{
 
   .patch_RemoveGoronRollChecksWithoutMask 0x1F78CC : {
     *(.patch_RemoveGoronRollChecksWithoutMask)
+  }
+
+  .patch_SoundEffectFilterThree 0x1FDE34 : {
+    *(.patch_SoundEffectFilterThree)
   }
 
   .patch_EditDrawGetItemBeforeModelSpawn 0x1FF044 : {
@@ -301,6 +317,10 @@ SECTIONS{
     *(.patch_SecondZoraSwimCheck)
   }
 
+  .patch_MuteSoundEffectTwo 0x22621C : {
+    *(.patch_MuteSoundEffectTwo)
+  }
+
   .patch_RemoveRemainsStateCheck 0x22B7BC : {
     *(.patch_RemoveRemainsStateCheck)
   }
@@ -351,6 +371,10 @@ SECTIONS{
 
   .patch_RemoveRSHealthThree 0x235800 : {
     *(.patch_RemoveRazordSwordHealthThree)
+  }
+
+  .patch_MuteStreamPlay 0x23922C : {
+    *(.patch_MuteStreamPlay)
   }
 
   .patch_RemoveAddingSkulltulaTokenIfOverridden 0x23975C : {
@@ -629,7 +653,7 @@ SECTIONS{
     *(.patch_OverrideQuiverArcheryTwo)
   }
 
-  .patch_DoNotDeleteKafeiGearItem 0x3EC744 : {
+    .patch_DoNotDeleteKafeiGearItem 0x3EC6EC : {
     *(.patch_DoNotDeleteKafeiGearItem)
   }
 
@@ -884,6 +908,14 @@ SECTIONS{
 
   .patch_HandleOcarinaHooks 0x604D8C : {
     *(.patch_HandleOcarinaHooks)
+  }
+
+  .patch_SkipSongReplayA 0x604ED4 : {
+    *(.patch_SkipSongReplayA)
+  }
+
+  .patch_SkipSongReplayB 0x605074 : {
+    *(.patch_SkipSongReplayB)
   }
 
   .patch_OverrideGetSongItem 0x60597C : {

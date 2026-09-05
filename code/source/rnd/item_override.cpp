@@ -21,6 +21,15 @@ extern "C" {
 
 namespace rnd {
   static s32 rItemOverrides_Count = 0;
+
+  // Amount of frames that ItemOverride_Update cannot clear the active get item.
+  // This is used as the stray fairies circling don't set Link into a get item state with
+  // flags and the flags are stored on En_Elforg.
+  // So let's put 120 frames of delay during collection to ensure the
+  // full get item can conclude.
+  static u16 sTouchPickupHold = 0;
+  static constexpr u16 kTouchPickupHoldFrames = 120;
+
   static game::act::Id storedActorId = game::act::Id::Player;
   static GetItemID storedGetItemId = GetItemID::GI_NONE;
   ItemOverride rItemOverrides[640] = {0};
@@ -357,10 +366,13 @@ namespace rnd {
       }
     }
 
-    if (rActiveItemRow != NULL &&
-        (player->get_item_id == 0 ||
-         (player->grabbable_actor == NULL && player->flags1.IsSet(game::act::Player::Flag1::Unk40000000)))) {
-      ItemOverride_Clear();
+    if (sTouchPickupHold > 0) {
+      sTouchPickupHold--;
+    } else if (rActiveItemRow != NULL) {
+      if (player->get_item_id == 0 ||
+          (player->grabbable_actor == NULL && player->flags1.IsSet(game::act::Player::Flag1::Unk40000000))) {
+        ItemOverride_Clear();
+      }
     }
   }
 
@@ -748,6 +760,7 @@ namespace rnd {
       game::GlobalContext* gctx = GetContext().gctx;
       u16 textId = rActiveItemRow->textId;
       u8 itemId = rActiveItemRow->itemId;
+      sTouchPickupHold = 0;  // handled -- normal clearing resumes
       ItemTable_CallEffect(rActiveItemRow);
       // Only check if we have the ID set, that means text is displayed elsewhere.
       if (rStoredTextId == 0) {
@@ -1217,6 +1230,7 @@ namespace rnd {
     getItemId = ItemOverride_GetFairyGetItemFromScene(gctx->scene);
     ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
     if (rActiveItemRow != NULL) {
+      sTouchPickupHold = kTouchPickupHoldFrames;
       return true;
     }
     return false;

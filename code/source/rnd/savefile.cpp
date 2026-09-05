@@ -871,7 +871,11 @@ namespace rnd {
     // gExtSaveData.option_EnableSFX          = gSettingsContext.playSFX;
     // gExtSaveData.option_SilenceNavi        = gSettingsContext.silenceNavi;
     // gExtSaveData.option_IgnoreMaskReaction = gSettingsContext.ignoreMaskReaction;
-    // gExtSaveData.option_SkipSongReplays    = gSettingsContext.skipSongReplays;
+    gExtSaveData.options.skipSongReplays = gSettingsContext.skipSongReplays;
+    gExtSaveData.options.shuffleMusic = gSettingsContext.shuffleMusic;
+    gExtSaveData.options.shuffleSFX = gSettingsContext.shuffleSFX;
+    gExtSaveData.options.muteSoundEffects = gSettingsContext.muteSoundEffects;
+    gExtSaveData.options.muteBackgroundMusic = gSettingsContext.muteBackgroundMusic;
   }
 
   u8 SaveFile_GetIsSceneDiscovered(u8 sceneNum) {
@@ -945,6 +949,10 @@ namespace rnd {
 
     extDataUnmount(fsa);
     extDataClose(fileHandle);
+  }
+
+  extern "C" bool SoundEffectsMuted() {
+    return gExtSaveData.options.muteSoundEffects != 0;
   }
 
   extern "C" void SaveFile_SaveExtSaveData() {
