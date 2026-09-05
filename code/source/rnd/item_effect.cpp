@@ -269,8 +269,12 @@ namespace rnd {
   }
 
   void ItemEffect_BeanPack(game::CommonData* comData, s16 arg1, s16 arg2) {
+    // The bean seller is a single shuffled check rather than a repeatable purchase, so hand
+    // over a full stack. Recording it in ext data keeps the cycle reset from taking it back.
     game::GiveItem(game::ItemId::MagicBean);
-    comData->save.inventory.item_counts[15] += 10;  // 10 Magic Beans
+    comData->save.inventory.items[kMagicBeanItemSlot] = game::ItemId::MagicBean;
+    comData->save.inventory.item_counts[kMagicBeanCountSlot] = kMagicBeanPackSize;
+    gExtSaveData.magicBeanCount = kMagicBeanPackSize;
     return;
   }
 

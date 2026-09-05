@@ -61,9 +61,6 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
-    rItemOverrides[1].value.getItemId = 0x70;
-    rItemOverrides[1].value.looksLikeItemId = 0x70;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_SHOP;
     rItemOverrides[1].value.getItemId = 0x54;
     rItemOverrides[1].value.looksLikeItemId = 0x54;
@@ -86,10 +83,10 @@ namespace rnd {
     game::CommonData& cdata = game::GetCommonData();
     ItemOverride_Key retKey;
     retKey.all = 0;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Retrieving search key for actor type %#04x and ID is %#04x\n", __func__, actor->actor_type,
-                     actor->id);
-#endif
+// #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+//     rnd::util::Print("%s: Retrieving search key for actor type %#04x and ID is %#04x\n", __func__, actor->actor_type,
+//                      actor->id);
+// #endif
     if (actor->actor_type == game::act::Type::Chest) {
       // XXX: Any games like H&D or chest game to not swap?
       // Don't override WINNER purple rupee in the chest minigame scene
@@ -134,6 +131,9 @@ namespace rnd {
       }
     } else if (actor->id == game::act::Id::EnGirlA) {
       s32 slot = Shopsanity_GetSlot((game::SceneId)scene, actor->params);
+      #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+        rnd::util::Print("\n\n\n%s: INFO FOR SHOPS: PARAMS %#04x SCENE %#04x SLOT (FLAG) %#04x\n\n\n", __func__, actor->params, scene, slot);	
+      #endif
       if (slot < 0) {
         return (ItemOverride_Key){.all = 0};
       }

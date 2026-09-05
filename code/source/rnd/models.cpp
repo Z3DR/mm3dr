@@ -385,11 +385,7 @@ namespace rnd {
       Model_LookupByOverride(&model, override);  // resolves progressive items -> itemRow
       Model_GetObjectBankIndex(&model, actor, globalCtx);
     }
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    util::Print("%s: ovr.all=0x%X itemRow=%p objBankIdx=%d objectId=0x%X\n", __func__, (unsigned) override.key.all,
-                (void*)model.itemRow, (int)model.objectBankIdx,
-                (unsigned)(model.itemRow ? model.itemRow->objectId : 0));
-#endif
+
     if (model.itemRow != NULL) {
       model.actor = actor;
       model.baseItemId = baseItemId;

@@ -277,7 +277,7 @@ namespace rnd {
 
       [0x35] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MagicBean, 0x0035, 0x00C6,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MAGIC_BEAN,
-                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
+                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_BeanPack, (s16)-1, (s16)-1,
                         1.00f),  // Magic Beans
 
       [0x36] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::OneBombchu, 0x0036,

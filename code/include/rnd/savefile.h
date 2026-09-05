@@ -7,11 +7,19 @@
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 23
+#define EXTSAVEDATA_VERSION 24
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
 namespace rnd {
+  // Inventory slot 10 holds the Magic Bean item; its stack count lives in item_counts[15].
+  constexpr u8 kMagicBeanItemSlot = 10;
+  constexpr u8 kMagicBeanCountSlot = 15;
+  // Vanilla sells beans one at a time and wipes them every cycle. A shuffled bean check is a
+  // one-time pickup, so it hands over a full stack instead.
+  constexpr u8 kMagicBeanPackSize = 20;
+
+  void SaveFile_MaintainMagicBeans();
   void SaveFile_SkipMinorCutscenes();
   void SaveFile_SetFastAnimationFlags();
   void SaveFile_SetStartingOwlStatues();
@@ -174,6 +182,9 @@ namespace rnd {
       BitField<6, 2, u8> shuffleSFX;
     };
     OptionsRegister options;
+    // Beans are wiped from the inventory on every cycle reset. Mirroring the stack here lets
+    // SaveFile_MaintainMagicBeans put it back, and keeps planted beans spent.
+    u8 magicBeanCount;
   } ExtSaveData;
 
   extern "C" ExtSaveData gExtSaveData;

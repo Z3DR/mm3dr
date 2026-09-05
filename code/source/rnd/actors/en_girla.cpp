@@ -8,14 +8,6 @@ namespace rnd {
   void EnGirlA_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
     util::GetPointer<ActorOverlayFn>(0x39A7E0)(actor, gctx);  // vanilla EnGirlA::Init
 
-    const bool shopsanityOn = gSettingsContext.shopsanity != static_cast<u8>(ShopsanitySetting::SHOPSANITY_OFF);
-#if !defined ENABLE_DEBUG && !defined DEBUG_PRINT
-    if (!shopsanityOn)
-      return;
-#else
-    (void)shopsanityOn;
-#endif
-
     const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: RAN scene=%u param=%d slot=%d ovr.all=0x%X getItemId=0x%X\n", __func__,
@@ -47,21 +39,6 @@ namespace rnd {
     if (actor == nullptr || gctx == nullptr)
       return;
 
-    const u8 scene = static_cast<u8>(gctx->scene);
-
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    util::Print("%s: id=0x%X scene=%u param=%d shopsanity=%u\n", __func__, (unsigned)actor->id, (unsigned)scene,
-                (int)actor->params, (unsigned)gSettingsContext.shopsanity);
-#endif
-
-    const bool shopsanityOn = gSettingsContext.shopsanity != static_cast<u8>(ShopsanitySetting::SHOPSANITY_OFF);
-#if !defined ENABLE_DEBUG && !defined DEBUG_PRINT
-    if (!shopsanityOn)
-      return;
-#else
-    (void)shopsanityOn;
-#endif
-
     const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
     if (ovr.key.all == 0)
       return;
@@ -78,10 +55,7 @@ namespace rnd {
     //  actor->choice_text_id = 0x614A + slot;
     //  actor->text_id_maybe = 0x614A + slot + 1;
     // }
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    util::Print("%s: slot=%d -> getItemId=0x%X price=%d\n", __func__, (int)ovr.key.flag, (unsigned)ovr.value.getItemId,
-                (int)Shopsanity_GetPrice(ovr.key.flag));
-#endif
+
   }
 
   void EnGirlA_BuyOverriddenItem(game::GlobalContext* gctx, En_GirlA* actor) {
@@ -101,10 +75,7 @@ namespace rnd {
     gctx->msg_context.item_cost = price;
     util::GetPointer<SubtractRupeesFn>(0x2C1634)(-20/*price*/);
 
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    util::Print("%s: granted getItemId=0x%X, charged %d ovr key flag is %u\n", __func__, (unsigned)ovr.value.getItemId,
-                (int)price, ovr.key.flag);
-#endif
+
   }
 
   s32 EnGirlA_CanBuyOverriddenItem(game::GlobalContext* gctx) {

@@ -493,8 +493,9 @@ namespace rnd {
     }
 
     if (gSettingsContext.startingMagicBean) {
-      saveData.inventory.items[10] = game::ItemId::MagicBean;
-      saveData.inventory.item_counts[15] = 10;
+      saveData.inventory.items[kMagicBeanItemSlot] = game::ItemId::MagicBean;
+      saveData.inventory.item_counts[kMagicBeanCountSlot] = kMagicBeanPackSize;
+      gExtSaveData.magicBeanCount = kMagicBeanPackSize;
     }
 
     if (gSettingsContext.startingHookshot > 0) {
@@ -826,6 +827,21 @@ namespace rnd {
       if (saveData.inventory.items[i] == (game::ItemId)itemSlot) {
         saveData.inventory.items[i] = game::ItemId::None;
       }
+    }
+  }
+
+  // Magic beans are stripped from the inventory when the three day cycle resets. Here they are a
+  // shuffled check, so the stack has to survive that. The count is mirrored into ext data every
+  // frame while the player still holds beans, which means planting them still spends them and an
+  // emptied stack is never handed back.
+  void SaveFile_MaintainMagicBeans() {
+    game::InventoryData& inventory = game::GetCommonData().save.inventory;
+
+    if (inventory.items[kMagicBeanItemSlot] == game::ItemId::MagicBean) {
+      gExtSaveData.magicBeanCount = inventory.item_counts[kMagicBeanCountSlot];
+    } else if (gExtSaveData.magicBeanCount > 0) {
+      inventory.items[kMagicBeanItemSlot] = game::ItemId::MagicBean;
+      inventory.item_counts[kMagicBeanCountSlot] = gExtSaveData.magicBeanCount;
     }
   }
 
