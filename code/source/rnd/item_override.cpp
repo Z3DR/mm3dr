@@ -24,7 +24,7 @@ namespace rnd {
   // Amount of frames that ItemOverride_Update cannot clear the active get item.
   // This is used as the stray fairies circling don't set Link into a get item state with
   // flags and the flags are stored on En_Elforg.
-  // So let's put 120 frames of delay during collection to ensure the 
+  // So let's put 120 frames of delay during collection to ensure the
   // full get item can conclude.
   static u16 sTouchPickupHold = 0;
   static constexpr u16 kTouchPickupHoldFrames = 120;
@@ -358,8 +358,8 @@ namespace rnd {
       sTouchPickupHold--;
     } else if (rActiveItemRow != NULL) {
       if (player->get_item_id == 0 ||
-         (player->grabbable_actor == NULL && player->flags1.IsSet(game::act::Player::Flag1::Unk40000000))) {
-      ItemOverride_Clear();
+          (player->grabbable_actor == NULL && player->flags1.IsSet(game::act::Player::Flag1::Unk40000000))) {
+        ItemOverride_Clear();
       }
     }
   }
