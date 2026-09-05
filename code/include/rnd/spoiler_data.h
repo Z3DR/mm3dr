@@ -26,6 +26,7 @@ namespace rnd {
     SPOILER_CHK_SHOP_ITEM,
     SPOILER_CHK_MAGIC_BEANS,
     SPOILER_CHK_STRAY_FAIRY,
+    SPOILER_CHK_SHOP,
   } SpoilerCollectionCheckType;
 
   // Location groups for checks, used to group the checks by logical location
