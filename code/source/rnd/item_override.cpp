@@ -131,9 +131,6 @@ namespace rnd {
       }
     } else if (actor->id == game::act::Id::EnGirlA) {
       s32 slot = Shopsanity_GetSlot((game::SceneId)scene, actor->params);
-      #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-        rnd::util::Print("\n\n\n%s: INFO FOR SHOPS: PARAMS %#04x SCENE %#04x SLOT (FLAG) %#04x\n\n\n", __func__, actor->params, scene, slot);	
-      #endif
       if (slot < 0) {
         return (ItemOverride_Key){.all = 0};
       }
@@ -1238,7 +1235,7 @@ namespace rnd {
 
   ItemOverride ItemOverride_LookupShopItem(game::act::Actor* actor, game::GlobalContext* gctx) {
     ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+#if defined ENABLE_DEBUG
     if (gctx->scene == (game::SceneId)52 && actor->params == 10) {
       override.key = ItemOverride_GetSearchKey(actor, (u16)gctx->scene, 0);
       override.value.getItemId = 0xBD;
