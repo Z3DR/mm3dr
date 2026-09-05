@@ -42,43 +42,6 @@ namespace rnd {
     util::GetPointer<ActorOverlayFn>(0x39A840)(self, gctx);
   }
 
-  void EnGirlA_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
-    util::GetPointer<ActorOverlayFn>(0x39A7E0)(actor, gctx);  // vanilla EnGirlA::Init
-
-    const bool shopsanityOn = gSettingsContext.shopsanity != static_cast<u8>(ShopsanitySetting::SHOPSANITY_OFF);
-#if !defined ENABLE_DEBUG && !defined DEBUG_PRINT
-    if (!shopsanityOn)
-      return;
-#else
-    (void)shopsanityOn;
-#endif
-
-    const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    util::Print("%s: RAN scene=%u param=%d slot=%d ovr.all=0x%X getItemId=0x%X\n", __func__,
-                (unsigned)static_cast<u8>(gctx->scene), (int)actor->params, (int)ovr.key.flag, (unsigned)ovr.key.all,
-                (unsigned)ovr.value.getItemId);
-#endif
-    if (ovr.key.all == 0)
-      return;  // not shuffled: leave the vanilla shelf model in place
-
-    Model_SpawnByActorFromOverride(actor, gctx, ovr, ovr.value.getItemId);
-  }
-  void EnGirlA_Draw(game::act::Actor* actor, game::GlobalContext* gctx) {
-    // This is kind of a weird edge case.
-    // Since we control assigning the draw function in the init call,
-    // we know that the model is actually present and there is no vanilla override.
-    // However, we can use this as a safeguard to ensure the vanilla item is drawn instead.
-    if (!Model_DrawByActor(actor)) {
-      util::GetPointer<ActorOverlayFn>(0x3FAAC4)(actor, gctx);
-    }
-  }
-
-  void EnGirlA_Destroy(game::act::Actor* self, game::GlobalContext* gctx) {
-    Model_DestroyByActor(self);
-    util::GetPointer<ActorOverlayFn>(0x39A840)(self, gctx);
-  }
-
   extern "C" {
   void EnGirlA_Randomize(En_GirlA* actor, game::GlobalContext* gctx) {
     if (actor == nullptr || gctx == nullptr)
@@ -136,7 +99,7 @@ namespace rnd {
     // Charge the shopsanity price.
     const s32 price = Shopsanity_GetPrice(ovr.key.flag);
     gctx->msg_context.item_cost = price;
-    util::GetPointer<SubtractRupeesFn>(0x2C1634)(-20/*price*/);
+    util::GetPointer<SubtractRupeesFn>(0x2C1634)(-20 /*price*/);
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: granted getItemId=0x%X, charged %d ovr key flag is %u\n", __func__, (unsigned)ovr.value.getItemId,
@@ -161,34 +124,6 @@ namespace rnd {
     // TODO: Add more guards to can buy sold out as well?
     (void)gctx;
     return 2;  // vanilla "you already have that" -- blocks the purchase
-  }
-
-  void EnGirlA_ApplyItemScale(En_GirlA* actor, game::GlobalContext* gctx) {
-    if (actor == nullptr || gctx == nullptr)
-      return;
-    const ItemRow* row = GetShopItemRow(actor, gctx);
-    if (row == nullptr)
-      return;
-
-    util::GetPointer<SetModelScaleFn>(0x21E30C)(actor, 0.25f);
-  }
-
-  void EnGirlA_AfterModelLoad(En_GirlA* actor, game::GlobalContext* gctx) {
-    if (actor == nullptr || gctx == nullptr || actor->skelAnimeModel == nullptr)
-      return;
-    const ItemRow* row = GetShopItemRow(actor, gctx);
-    if (row == nullptr)
-      return;
-
-    // Items whose colour is data-driven (songs/ocarinas pick a hue via the custom TEXANIM_SONG
-    // CMAB frame, small keys via material edits) can't be expressed by the object-table's plain
-    // cmabIndex, so apply the randomizer's own CMAB pass -- the same call models.cpp uses.
-    CustomModels_ApplyItemCMAB(actor->skelAnimeModel, row->objectId, row->special);
-
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    util::Print("%s: applied CMAB objectId=0x%X special=%d scale=%d/1000\n", __func__, (unsigned)row->objectId,
-                (int)row->special, (int)(row->scale * 1000.0f));
-#endif
   }
   }
 
