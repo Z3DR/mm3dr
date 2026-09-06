@@ -6,7 +6,6 @@
 
 namespace rnd {
 
-  // Number of shuffleable shop slots across all shops (size of rShopsanityPrices).
   constexpr u32 SHOPSANITY_SLOT_COUNT = 21;
 
   struct ShopSlot {
@@ -73,10 +72,6 @@ namespace rnd {
     ShopObjectModel models[3];
   };
   static_assert(sizeof(ShopObjectTableEntry) == 8);
-
-  extern "C" s32 rShopsanityPrices[SHOPSANITY_SLOT_COUNT];
-
-  s32 Shopsanity_GetPrice(u32);
 
   s32 Shopsanity_GetSlot(game::SceneId, s16);
 

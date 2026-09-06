@@ -2,7 +2,7 @@
 
 namespace rnd {
 
-  using SubtractRupeesFn = void(int);
+  using ChargeItemCostFn = void(game::GlobalContext*);
   using ActorOverlayFn = void(game::act::Actor*, game::GlobalContext*);
 
   void EnGirlA_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
@@ -43,8 +43,14 @@ namespace rnd {
     if (ovr.key.all == 0)
       return;
 
-    // Swap the sold item and redirect the buy handler so the placed item is granted on purchase.
-    actor->get_item_id = static_cast<GetItemID>(ovr.value.getItemId);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    util::Print("%s: scene=%#04x param=%#04x ovrGI=%#04x vanillaGI=%#04x\n", __func__,
+                (unsigned)static_cast<u8>(gctx->scene), (unsigned)actor->params,
+                (unsigned)ovr.value.getItemId, (unsigned)actor->get_item_id);
+#endif
+    ItemRow* row = ItemTable_GetItemRow(ItemTable_ResolveUpgrades(ovr.value.getItemId));
+    actor->get_item_id = row != nullptr ? static_cast<GetItemID>(row->baseItemId)
+                                        : static_cast<GetItemID>(ovr.value.getItemId);
     actor->buy_function = &EnGirlA_BuyOverriddenItem;
     actor->can_buy_function = &EnGirlA_CanBuyOverriddenItem;
     actor->draw_fn = &EnGirlA_Draw;
@@ -61,6 +67,9 @@ namespace rnd {
   void EnGirlA_BuyOverriddenItem(game::GlobalContext* gctx, En_GirlA* actor) {
     if (actor == nullptr || gctx == nullptr)
       return;
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    util::Print("%s: REACHED param=%#04x\n", __func__, (unsigned)actor->params);
+#endif
 
     const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
     if (ovr.key.all == 0)
@@ -70,32 +79,36 @@ namespace rnd {
 
     actor->can_buy_function = &EnGirlA_CanBuySoldOut;
 
-    const s32 slot = Shopsanity_GetSlot(gctx->scene, actor->params);
-    if (slot < 0)
-      return;
-    const s32 price = Shopsanity_GetPrice((u32)slot);
-    gctx->msg_context.item_cost = price;
-    util::GetPointer<SubtractRupeesFn>(0x2C1634)(-20/*price*/);
+    util::GetPointer<ChargeItemCostFn>(0x2C1620)(gctx);
 
 
   }
 
-  s32 EnGirlA_CanBuyOverriddenItem(game::GlobalContext* gctx) {
+  s32 EnGirlA_CanBuyOverriddenItem(game::GlobalContext* gctx, En_GirlA* actor) {
     // TODO: More cases will need to be added such as no bottle available for liquids
     // Or shields that are already obtained.
-    if (gctx == nullptr)
-      return 0;
+    if (gctx == nullptr || actor == nullptr)
+      return 2;  // refuse the sale rather than hand off an unresolved item
 
+    
+    const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
+    ItemOverride_SetPendingShopItem(ovr.key);
+
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    util::Print("%s: REACHED cost=%d\n", __func__, (int)gctx->msg_context.item_cost);
+#endif
     const game::CommonData& cdata = game::GetCommonData();
     if (static_cast<s32>(cdata.save.player.rupee_count) < gctx->msg_context.item_cost)
       return 4;  // not enough rupees
 
-    return 0;  // can buy
+    
+    return 0;
   }
 
-  s32 EnGirlA_CanBuySoldOut(game::GlobalContext* gctx) {
+  s32 EnGirlA_CanBuySoldOut(game::GlobalContext* gctx, En_GirlA* actor) {
     // TODO: Add more guards to can buy sold out as well?
     (void)gctx;
+    (void)actor;
     return 2;  // vanilla "you already have that" -- blocks the purchase
   }
   }

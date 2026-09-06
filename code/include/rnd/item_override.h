@@ -437,6 +437,7 @@ namespace rnd {
   void SetExtData(void);
   u8 ItemOverride_SetProgressiveItemDraw(ItemOverride);
   bool ItemOverride_IsItemObtainedOrEmptyBottle(ItemOverride);
+  void ItemOverride_SetPendingShopItem(ItemOverride_Key);
   extern "C" {
   bool ItemOverride_CheckAromaGivenItem();
   bool ItemOverride_CheckMikauGivenItem();

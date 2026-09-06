@@ -51,6 +51,8 @@ namespace rnd {
 
   static u8 rSatisfiedPendingFrames = 0;
 
+  static ItemOverride_Key sPendingShopKey = {0};
+
   static bool givenItemOverride = false;
 
   void ItemOverride_Init(void) {
@@ -140,6 +142,8 @@ namespace rnd {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_SHOP;
       retKey.flag = (u8)actor->params;
+    } else if (sPendingShopKey.all != 0 && sPendingShopKey.scene == (u8)scene) {
+      retKey = sPendingShopKey;
     } else {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_BASE_ITEM;
@@ -328,10 +332,17 @@ namespace rnd {
     }
   }
 
+  void ItemOverride_SetPendingShopItem(ItemOverride_Key key) {
+    sPendingShopKey = key;
+  }
+
   void ItemOverride_AfterItemReceived(void) {
     ItemOverride_Key key = rActiveItemOverride.key;
     if (key.all == 0) {
       return;
+    }
+    if (key.type == ItemOverride_Type::OVR_SHOP) {
+      sPendingShopKey.all = 0;  // hand-off complete
     }
     if (key.type == ItemOverride_Type::OVR_COW) {
       En_Cow_SetMilked(key.flag);
@@ -1245,9 +1256,6 @@ namespace rnd {
       override.key = ItemOverride_GetSearchKey(actor, (u16)gctx->scene, 0);
       override.value.getItemId = 0xBD;
       override.value.looksLikeItemId = 0xBD;
-      const s32 debugSlot = Shopsanity_GetSlot(gctx->scene, actor->params);
-      if (debugSlot >= 0)
-        rShopsanityPrices[debugSlot] = 20;
     }
 #endif
     return override;
@@ -1265,7 +1273,20 @@ namespace rnd {
     // EnGirlA_Randomize does not repoint the shop dialogue yet, so suppressing the pipeline's
     // ShowMessage here left the vanilla text for baseItemId (GI_NUTS_30, the ***ERROR entry) as
     // the only thing on screen. Let the real message through instead.
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: param=%#04x vanillaGI=%#04x ovrGI=%#04x row.itemId=%#04x row.textId=%#06x "
+                     "row.baseItemId=%#04x row.objectId=%#06x player.get_item_id=%#04x storedText=%#06x\n",
+                     __func__, (unsigned)actor->params, (unsigned)vanillaEntry->getItemId,
+                     (unsigned)rActiveItemOverride.value.getItemId, (unsigned)rActiveItemRow->itemId,
+                     (unsigned)rActiveItemRow->textId, (unsigned)rActiveItemRow->baseItemId,
+                     (unsigned)rActiveItemRow->objectId, (unsigned)player->get_item_id,
+                     (unsigned)rStoredTextId);
+#endif
     ItemOverride_GetItemTextAndItemID(player);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: after give -- player.get_item_id=%#04x rActiveItemRow=%s\n", __func__,
+                     (unsigned)player->get_item_id, rActiveItemRow == NULL ? "NULL" : "set");
+#endif
     ItemOverride_RemoveTextId();
     return true;
   }

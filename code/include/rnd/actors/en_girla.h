@@ -20,7 +20,7 @@ namespace rnd {
   class En_GirlA;
 
   using BuyFunc = void(game::GlobalContext* gctx, En_GirlA* actor);
-  using CanBuyFunc = s32(game::GlobalContext* gctx);
+  using CanBuyFunc = s32(game::GlobalContext* gctx, En_GirlA* actor);
   using ActorFrameFunc = void(En_GirlA* actor, game::GlobalContext* gctx);
 
   struct En_GirlA : public game::act::Actor {
@@ -61,8 +61,8 @@ namespace rnd {
   extern "C" {
   void EnGirlA_Randomize(En_GirlA*, game::GlobalContext*);
   void EnGirlA_BuyOverriddenItem(game::GlobalContext*, En_GirlA*);
-  s32 EnGirlA_CanBuyOverriddenItem(game::GlobalContext*);
-  s32 EnGirlA_CanBuySoldOut(game::GlobalContext*);
+  s32 EnGirlA_CanBuyOverriddenItem(game::GlobalContext*, En_GirlA*);
+  s32 EnGirlA_CanBuySoldOut(game::GlobalContext*, En_GirlA*);
   }
 
 }  // namespace rnd
