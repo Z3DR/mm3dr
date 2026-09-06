@@ -936,8 +936,8 @@ namespace rnd {
       rActiveItemRow->effectArg2 = override.key.all & 0xFFFF;
     }
     
-    if (override.key.type != ItemOverride_Type::OVR_SHOP && incomingGetItemId != 0x44 &&
-        incomingGetItemId != 0x6D && incomingGetItemId != 0x52 &&
+
+    if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52 &&
         (incomingGetItemId < (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN ||
          incomingGetItemId > (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER))
       player->get_item_id = incomingNegative ? -baseItemId : baseItemId;
@@ -1262,9 +1262,9 @@ namespace rnd {
     if (rActiveItemRow == NULL) {
       return false;
     }
-    // The shop drives its own dialogue (EnGirlA_Randomize points text_id at the placed item), so
-    // suppress the pipeline's ShowMessage -- a non-zero rStoredTextId is the existing opt-out.
-    rStoredTextId = rActiveItemRow->textId;
+    // EnGirlA_Randomize does not repoint the shop dialogue yet, so suppressing the pipeline's
+    // ShowMessage here left the vanilla text for baseItemId (GI_NUTS_30, the ***ERROR entry) as
+    // the only thing on screen. Let the real message through instead.
     ItemOverride_GetItemTextAndItemID(player);
     ItemOverride_RemoveTextId();
     return true;
