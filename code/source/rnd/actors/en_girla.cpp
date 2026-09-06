@@ -70,8 +70,10 @@ namespace rnd {
 
     actor->can_buy_function = &EnGirlA_CanBuySoldOut;
 
-    // Charge the shopsanity price.
-    const s32 price = Shopsanity_GetPrice(ovr.key.flag);
+    const s32 slot = Shopsanity_GetSlot(gctx->scene, actor->params);
+    if (slot < 0)
+      return;
+    const s32 price = Shopsanity_GetPrice((u32)slot);
     gctx->msg_context.item_cost = price;
     util::GetPointer<SubtractRupeesFn>(0x2C1634)(-20/*price*/);
 

@@ -3,7 +3,7 @@
 #include "rnd/settings.h"
 
 namespace rnd {
-  s32 rShopsanityPrices[20] = {0};
+  s32 rShopsanityPrices[SHOPSANITY_SLOT_COUNT] = {0};
 
   s32 Shopsanity_GetPrice(u32 slot) {
     if (slot >= SHOPSANITY_SLOT_COUNT)

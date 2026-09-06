@@ -7,7 +7,7 @@
 namespace rnd {
 
   // Number of shuffleable shop slots across all shops (size of rShopsanityPrices).
-  constexpr u32 SHOPSANITY_SLOT_COUNT = 20;
+  constexpr u32 SHOPSANITY_SLOT_COUNT = 21;
 
   struct ShopSlot {
     game::SceneId scene;
@@ -31,15 +31,16 @@ namespace rnd {
       {game::SceneId::TradingPost, 8, 6},
       {game::SceneId::TradingPost, 9, 7},
       {game::SceneId::TradingPost, 43, 8},
-      // West Clock Town - Bomb Shop (3)   [global 11..13]
+      // West Clock Town - Bomb Shop (4)   [global 11..14]
       {game::SceneId::BombShop, 23, 1},
       {game::SceneId::BombShop, 25, 2},
       {game::SceneId::BombShop, 26, 3},
-      // Zora Hall (3)   [global 14..16]
+      {game::SceneId::BombShop, 24, 4},
+      // Zora Hall (3)   [global 15..17]
       {game::SceneId::ZoraHallRooms, 27, 1},
       {game::SceneId::ZoraHallRooms, 28, 2},
       {game::SceneId::ZoraHallRooms, 29, 3},
-      // Goron Village (3)   [global 17..19]
+      // Goron Village (3)   [global 18..20]
       {game::SceneId::GoronShop, 30, 1},
       {game::SceneId::GoronShop, 31, 2},
       {game::SceneId::GoronShop, 32, 3},
@@ -73,7 +74,7 @@ namespace rnd {
   };
   static_assert(sizeof(ShopObjectTableEntry) == 8);
 
-  extern "C" s32 rShopsanityPrices[20];
+  extern "C" s32 rShopsanityPrices[SHOPSANITY_SLOT_COUNT];
 
   s32 Shopsanity_GetPrice(u32);
 

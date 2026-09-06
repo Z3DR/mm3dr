@@ -62,8 +62,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_SHOP;
-    rItemOverrides[1].value.getItemId = 0x54;
-    rItemOverrides[1].value.looksLikeItemId = 0x54;
+    rItemOverrides[1].value.getItemId = 0xA3;
+    rItemOverrides[1].value.looksLikeItemId = 0xA3;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -130,13 +130,16 @@ namespace rnd {
         return (ItemOverride_Key){.all = 0};
       }
     } else if (actor->id == game::act::Id::EnGirlA) {
-      s32 slot = Shopsanity_GetSlot((game::SceneId)scene, actor->params);
-      if (slot < 0) {
+      // EnGirlA::Init (0x39A7E0) indexes sShopItemEntries straight off actor->params, so the
+      // param is the shelf's stable identity and is what the generator keys shop locations on.
+      // kShopSlots is only consulted to reject shelves that are not shuffleable; the global
+      // slot index it returns is the price table index, not the override flag.
+      if (Shopsanity_GetSlot((game::SceneId)scene, actor->params) < 0) {
         return (ItemOverride_Key){.all = 0};
       }
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_SHOP;
-      retKey.flag = slot;
+      retKey.flag = (u8)actor->params;
     } else {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_BASE_ITEM;
@@ -932,7 +935,9 @@ namespace rnd {
       rActiveItemRow->effectArg1 = override.key.all >> 16;
       rActiveItemRow->effectArg2 = override.key.all & 0xFFFF;
     }
-    if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52 &&
+    
+    if (override.key.type != ItemOverride_Type::OVR_SHOP && incomingGetItemId != 0x44 &&
+        incomingGetItemId != 0x6D && incomingGetItemId != 0x52 &&
         (incomingGetItemId < (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN ||
          incomingGetItemId > (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER))
       player->get_item_id = incomingNegative ? -baseItemId : baseItemId;
@@ -1240,7 +1245,9 @@ namespace rnd {
       override.key = ItemOverride_GetSearchKey(actor, (u16)gctx->scene, 0);
       override.value.getItemId = 0xBD;
       override.value.looksLikeItemId = 0xBD;
-      rShopsanityPrices[override.key.flag] = 20;
+      const s32 debugSlot = Shopsanity_GetSlot(gctx->scene, actor->params);
+      if (debugSlot >= 0)
+        rShopsanityPrices[debugSlot] = 20;
     }
 #endif
     return override;
