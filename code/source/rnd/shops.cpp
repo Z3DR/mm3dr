@@ -1,10 +1,23 @@
 #include "rnd/shops.h"
 
+#include "rnd/savefile.h"
 #include "rnd/settings.h"
 
 namespace rnd {
   // Prices are carried in field_4 of each shop's message entry (low 10 bits), written by the
   // generator, so the patch does not keep a price table of its own.
+
+  bool Shopsanity_IsSlotPurchased(s32 slot) {
+    if (slot < 0 || static_cast<u32>(slot) >= SHOPSANITY_SLOT_COUNT)
+      return false;
+    return (gExtSaveData.shopSlotsPurchased & (1u << slot)) != 0;
+  }
+
+  void Shopsanity_SetSlotPurchased(s32 slot) {
+    if (slot < 0 || static_cast<u32>(slot) >= SHOPSANITY_SLOT_COUNT)
+      return;
+    gExtSaveData.shopSlotsPurchased |= (1u << slot);
+  }
 
   s32 Shopsanity_GetSlot(game::SceneId scene, s16 param) {
     for (u32 i = 0; i < SHOPSANITY_SLOT_COUNT; ++i) {

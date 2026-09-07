@@ -7,7 +7,7 @@
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 24
+#define EXTSAVEDATA_VERSION 25
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
@@ -185,6 +185,9 @@ namespace rnd {
     // Beans are wiped from the inventory on every cycle reset. Mirroring the stack here lets
     // SaveFile_MaintainMagicBeans put it back, and keeps planted beans spent.
     u8 magicBeanCount;
+    // One bit per global kShopSlots index: the shelf has been bought out. Shop items are
+    // repeatable by default, so this is what makes a one-time purchase stay sold out.
+    u32 shopSlotsPurchased;
   } ExtSaveData;
 
   extern "C" ExtSaveData gExtSaveData;

@@ -32,7 +32,8 @@ namespace rnd {
     s16 choice_text_id;
     u8 gap_24a[2];
     rnd::GetItemID get_item_id;
-    int field_250;
+    s16 field_250;
+    s16 field_252;
     void* field_254;
     void* field_258;
     s16 field_25c;
@@ -56,6 +57,9 @@ namespace rnd {
 
   void EnGirlA_Init(game::act::Actor*, game::GlobalContext*);
   void EnGirlA_Draw(game::act::Actor*, game::GlobalContext*);
+  void EnGirlA_DrawSoldOut(game::act::Actor*, game::GlobalContext*);
+  void EnGirlA_ShowOverridden(game::GlobalContext*, En_GirlA*);
+  bool EnGirlA_IsSoldOut(En_GirlA*, game::GlobalContext*, const ItemOverride&);
   void EnGirlA_Destroy(game::act::Actor*, game::GlobalContext*);
   
   extern "C" {

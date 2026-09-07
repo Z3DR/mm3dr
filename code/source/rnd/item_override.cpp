@@ -343,6 +343,7 @@ namespace rnd {
     }
     if (key.type == ItemOverride_Type::OVR_SHOP) {
       sPendingShopKey.all = 0;  // hand-off complete
+      Shopsanity_SetSlotPurchased(Shopsanity_GetSlot((game::SceneId)key.scene, (s16)key.flag));
     }
     if (key.type == ItemOverride_Type::OVR_COW) {
       En_Cow_SetMilked(key.flag);

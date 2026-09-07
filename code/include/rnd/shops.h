@@ -75,6 +75,10 @@ namespace rnd {
 
   s32 Shopsanity_GetSlot(game::SceneId, s16);
 
+  bool Shopsanity_IsSlotPurchased(s32 slot);
+
+  void Shopsanity_SetSlotPurchased(s32 slot);
+
   s32 Shopsanity_GetShopItemIndex(s32);
 
   const ShopItemEntry* Shopsanity_GetVanillaEntry(s16);

@@ -5,6 +5,104 @@ namespace rnd {
   using ChargeItemCostFn = void(game::GlobalContext*);
   using ActorOverlayFn = void(game::act::Actor*, game::GlobalContext*);
 
+  static bool EnGirlA_HasAmmoContainer(const ItemRow* row) {
+    const auto& counts = game::GetCommonData().save.inventory.inventory_count_register;
+    switch ((game::ItemId)row->itemId) {
+    case game::ItemId::Bomb:
+    case game::ItemId::FiveBombs:
+    case game::ItemId::TenBombs:
+    case game::ItemId::TwentyBombs:
+    case game::ItemId::ThirtyBombs:
+    case game::ItemId::Bombchu:
+    case game::ItemId::OneBombchu:
+    case game::ItemId::OneBombchuAgain:
+    case game::ItemId::FiveBombchu:
+    case game::ItemId::TenBombchus:
+      return counts.bomb_bag_upgrade.Value() != game::BombBag::NoBag;
+    case game::ItemId::Arrow:
+    case game::ItemId::TenArrows:
+    case game::ItemId::ThirtyArrows:
+    case game::ItemId::FortyArrows:
+    case game::ItemId::FiftyArrows:
+      return counts.quiver_upgrade.Value() != game::Quiver::NoQuiver;
+    default:
+      return true;
+    }
+  }
+
+  // Consumables restock forever; everything else is a one-time purchase.
+  static bool EnGirlA_IsRestockable(const ItemRow* row) {
+    switch ((game::ItemId)row->itemId) {
+    case game::ItemId::Arrow:
+    case game::ItemId::TenArrows:
+    case game::ItemId::ThirtyArrows:
+    case game::ItemId::FortyArrows:
+    case game::ItemId::FiftyArrows:
+    case game::ItemId::Bomb:
+    case game::ItemId::FiveBombs:
+    case game::ItemId::TenBombs:
+    case game::ItemId::TwentyBombs:
+    case game::ItemId::ThirtyBombs:
+    case game::ItemId::Bombchu:
+    case game::ItemId::OneBombchu:
+    case game::ItemId::OneBombchuAgain:
+    case game::ItemId::FiveBombchu:
+    case game::ItemId::TenBombchus:
+    case game::ItemId::DekuStick:
+    case game::ItemId::TenSticks:
+    case game::ItemId::TenSticksAgain:
+    case game::ItemId::TwentySticks:
+    case game::ItemId::ThirtySticks:
+    case game::ItemId::DekuNuts:
+    case game::ItemId::FiveNuts:
+    case game::ItemId::TenNuts:
+    case game::ItemId::ThirtyNuts:
+    case game::ItemId::FortyNuts:
+    case game::ItemId::MagicBean:
+    case game::ItemId::PowderKeg:
+    case game::ItemId::ChateauRomaniFill:
+    case game::ItemId::MilkFill:
+    case game::ItemId::GoldDustFill:
+    case game::ItemId::SeahorseFill:
+    case game::ItemId::RecoveryHeart:
+    case game::ItemId::OneRupee:
+    case game::ItemId::FiveRupees:
+    case game::ItemId::TenRupees:
+    case game::ItemId::TwentyRupees:
+    case game::ItemId::FiftyRupees:
+    case game::ItemId::OneHundredRupees:
+    case game::ItemId::TwoHundredRupees:
+      return true;
+    default:
+      return false;
+    }
+  }
+
+  bool EnGirlA_IsSoldOut(En_GirlA* actor, game::GlobalContext* gctx, const ItemOverride& ovr) {
+    if (actor == nullptr || gctx == nullptr || ovr.key.all == 0)
+      return false;
+    // No resolve as we don't want bombs to convert to rupees here.
+    const ItemRow* row = ItemTable_GetItemRow(ovr.value.getItemId);
+    if (row == nullptr)
+      return false;
+
+    if (EnGirlA_IsRestockable(row))
+      return false;
+
+    return Shopsanity_IsSlotPurchased(Shopsanity_GetSlot(gctx->scene, actor->params));
+  }
+
+  // Bought out: draw nothing at all, leaving the shelf empty.
+  void EnGirlA_DrawSoldOut(game::act::Actor*, game::GlobalContext*) {}
+
+  void EnGirlA_ShowOverridden(game::GlobalContext* gctx, En_GirlA* actor) {
+    (void)gctx;
+    if (actor == nullptr)
+      return;
+    actor->field_250 = 0;
+    actor->draw_fn = &EnGirlA_Draw;
+  }
+
   void EnGirlA_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
     util::GetPointer<ActorOverlayFn>(0x39A7E0)(actor, gctx);  // vanilla EnGirlA::Init
 
@@ -17,9 +115,18 @@ namespace rnd {
     if (ovr.key.all == 0)
       return;  // not shuffled: leave the vanilla shelf model in place
 
+    if (EnGirlA_IsSoldOut(static_cast<En_GirlA*>(actor), gctx, ovr))
+      return;  // nothing to spawn; EnGirlA_Randomize suppresses the vanilla model too
+
     Model_SpawnByActorFromOverride(actor, gctx, ovr, ovr.value.getItemId);
   }
   void EnGirlA_Draw(game::act::Actor* actor, game::GlobalContext* gctx) {
+    const ItemOverride drawOvr = ItemOverride_LookupShopItem(actor, gctx);
+    const bool drawSoldOut = EnGirlA_IsSoldOut(static_cast<En_GirlA*>(actor), gctx, drawOvr);
+    if (drawSoldOut) {
+      return;
+    }
+
     // This is kind of a weird edge case.
     // Since we control assigning the draw function in the init call,
     // we know that the model is actually present and there is no vanilla override.
@@ -54,13 +161,9 @@ namespace rnd {
     actor->buy_function = &EnGirlA_BuyOverriddenItem;
     actor->can_buy_function = &EnGirlA_CanBuyOverriddenItem;
     actor->draw_fn = &EnGirlA_Draw;
-
-    // TODO: Change this to custom shopsanity text.
-    // ItemRow* row = ItemTable_GetItemRow(ItemOverride_SetProgressiveItemDraw(ovr));
-    // if (row != nullptr){
-    //  actor->choice_text_id = 0x614A + slot;
-    //  actor->text_id_maybe = 0x614A + slot + 1;
-    // }
+    // The shop hides the shelf on purchase and shows it again when the follow-up
+    // textbox closes.
+    actor->field_258 = reinterpret_cast<void*>(&EnGirlA_ShowOverridden);
 
   }
 
@@ -92,6 +195,14 @@ namespace rnd {
 
     
     const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
+    if (EnGirlA_IsSoldOut(actor, gctx, ovr))
+      return 2;  // sold out -- error jingle and the "you already have that" message
+
+    // Ammo still sits on the shelf without a bomb bag or quiver, it just cannot be bought.
+    const ItemRow* buyRow = ItemTable_GetItemRow(ovr.value.getItemId);
+    if (buyRow != nullptr && !EnGirlA_HasAmmoContainer(buyRow))
+      return 2;  // nothing to carry it in
+
     ItemOverride_SetPendingShopItem(ovr.key);
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
@@ -101,12 +212,12 @@ namespace rnd {
     if (static_cast<s32>(cdata.save.player.rupee_count) < gctx->msg_context.item_cost)
       return 4;  // not enough rupees
 
-    
+    Shopsanity_SetSlotPurchased(Shopsanity_GetSlot(gctx->scene, actor->params));
+
     return 0;
   }
 
   s32 EnGirlA_CanBuySoldOut(game::GlobalContext* gctx, En_GirlA* actor) {
-    // TODO: Add more guards to can buy sold out as well?
     (void)gctx;
     (void)actor;
     return 2;  // vanilla "you already have that" -- blocks the purchase
