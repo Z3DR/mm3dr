@@ -341,6 +341,14 @@ namespace rnd {
     if (key.all == 0) {
       return;
     }
+    // One bag, two owners. Track across areas.
+    if ((key.type == ItemOverride_Type::OVR_SHOP && key.scene == (u8)game::SceneId::BombShop &&
+         key.flag == (u8)kBigBombBagShelfParam) ||
+        (key.type == ItemOverride_Type::OVR_BASE_ITEM && key.scene == kCuriosityBombBagScene &&
+         key.flag == kCuriosityBombBagFlag)) {
+      gExtSaveData.givenItemChecks.stolenBombBagTaken = 1;
+    }
+
     if (key.type == ItemOverride_Type::OVR_SHOP) {
       sPendingShopKey.all = 0;  // hand-off complete
       Shopsanity_SetSlotPurchased(Shopsanity_GetSlot((game::SceneId)key.scene, (s16)key.flag));
@@ -842,6 +850,13 @@ namespace rnd {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
     } else if (En_Elforg_IsFairyCollectedAndNonRepeatable(&override)) {
+      override.value.getItemId = 0x02;
+      override.value.looksLikeItemId = 0x02;
+    } else if (override.key.type == ItemOverride_Type::OVR_BASE_ITEM &&
+               override.key.scene == kCuriosityBombBagScene &&
+               override.key.flag == kCuriosityBombBagFlag &&
+               gExtSaveData.givenItemChecks.stolenBombBagTaken != 0) {
+      // Already bought the same bag from the Bomb Shop this file.
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
     }

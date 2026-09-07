@@ -108,6 +108,12 @@ namespace rnd {
     if (EnGirlA_IsRestockable(row))
       return false;
 
+    // The Curiosity Shop may have already fenced this exact bag -- see shops.h.
+    if (gctx->scene == game::SceneId::BombShop && actor->params == kBigBombBagShelfParam &&
+        gExtSaveData.givenItemChecks.stolenBombBagTaken != 0) {
+      return true;
+    }
+
     return Shopsanity_IsSlotPurchased(Shopsanity_GetSlot(gctx->scene, actor->params));
   }
 

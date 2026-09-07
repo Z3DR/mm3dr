@@ -75,6 +75,14 @@ namespace rnd {
 
   s32 Shopsanity_GetSlot(game::SceneId, s16);
 
+  // The stolen bomb bag is a single item with two possible owners: Sakon fences it at the
+  // Curiosity Shop when granny is not saved, otherwise it goes back to the Bomb Shop. The two
+  // are separate locations with separate override keys, so collecting either has to retire
+  // both -- otherwise a cycle reset hands the same bag over twice.
+  constexpr s16 kBigBombBagShelfParam = 24;
+  constexpr u8 kCuriosityBombBagScene = 0x0D;
+  constexpr u8 kCuriosityBombBagFlag = 0x1D;
+
   bool Shopsanity_IsSlotPurchased(s32 slot);
 
   void Shopsanity_SetSlotPurchased(s32 slot);
