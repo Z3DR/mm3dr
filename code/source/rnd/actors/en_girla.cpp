@@ -78,6 +78,25 @@ namespace rnd {
     }
   }
 
+  static bool EnGirlA_AlreadyOwned(const ItemRow* row) {
+    const game::SaveData& save = game::GetCommonData().save;
+    const game::ItemId id = (game::ItemId)row->itemId;
+
+    if (id == game::ItemId::None)
+      return false;
+
+    switch (id) {
+    case game::ItemId::HeroShield:
+      return save.equipment.sword_shield.shield.Value() != game::ShieldType::NoShield;
+    case game::ItemId::MirrorShield:
+      return save.equipment.sword_shield.shield.Value() == game::ShieldType::MirrorShield;
+    default:
+      break;
+    }
+
+    return game::HasMask(id) || game::HasItem(id);
+  }
+
   bool EnGirlA_IsSoldOut(En_GirlA* actor, game::GlobalContext* gctx, const ItemOverride& ovr) {
     if (actor == nullptr || gctx == nullptr || ovr.key.all == 0)
       return false;
@@ -202,6 +221,10 @@ namespace rnd {
     const ItemRow* buyRow = ItemTable_GetItemRow(ovr.value.getItemId);
     if (buyRow != nullptr && !EnGirlA_HasAmmoContainer(buyRow))
       return 2;  // nothing to carry it in
+
+    // Consumables are always worth restocking; anything else the player already holds is not.
+    if (buyRow != nullptr && !EnGirlA_IsRestockable(buyRow) && EnGirlA_AlreadyOwned(buyRow))
+      return 2;  // already owned -- same refusal the vanilla handlers give
 
     ItemOverride_SetPendingShopItem(ovr.key);
 
