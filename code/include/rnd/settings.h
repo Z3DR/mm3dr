@@ -490,6 +490,14 @@ namespace rnd {
     u8 shuffleMusic = 0;
     u8 shuffleSFX = 0;
     u8 shopsanityPrices;
+
+    // In-game defaults.
+    u8 ingameLTargeting = 0;
+    u8 ingameFirstPersonCamera = 0;
+    u8 ingameFreeCamera = 0;
+    u8 ingameMotionControls = 0;
+    u8 ingameSwimmingControls = 0;
+    u8 ingameAdjustVolume = 0;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;

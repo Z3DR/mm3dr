@@ -151,6 +151,7 @@ namespace rnd {
       // OOT equivalent of starting with certain warp songs
       SaveFile_SetStartingOwlStatues();
       SaveFile_SetComfortOptions();
+      SaveFile_SetIngameOptions();
 
       saveData.player.owl_statue_flags.clock_town = 1;
 #ifdef ENABLE_DEBUG
@@ -267,6 +268,24 @@ namespace rnd {
       saveData.player.owl_statue_flags.ikana_canyon = 1;
     if (gSettingsContext.startingOwlStatues.stone_tower)
       saveData.player.owl_statue_flags.stone_tower = 1;
+  }
+
+  void SaveFile_SetIngameOptions() {
+    game::CommonDataSub1& sub1 = game::GetCommonData().sub1;
+
+    if (gSettingsContext.ingameLTargeting != 0)
+      sub1.l_targeting = gSettingsContext.ingameLTargeting - 1;
+    if (gSettingsContext.ingameFirstPersonCamera != 0)
+      sub1.first_person_camera = gSettingsContext.ingameFirstPersonCamera - 1;
+    if (gSettingsContext.ingameFreeCamera != 0)
+      sub1.free_camera = gSettingsContext.ingameFreeCamera - 1;
+    if (gSettingsContext.ingameMotionControls != 0)
+      sub1.motion_controls = gSettingsContext.ingameMotionControls - 1;
+    if (gSettingsContext.ingameSwimmingControls != 0)
+      sub1.swimming_controls = gSettingsContext.ingameSwimmingControls - 1;
+
+    if (gSettingsContext.ingameAdjustVolume != 0)
+      sub1.adjust_volume = gSettingsContext.ingameAdjustVolume - 1;
   }
 
   void SaveFile_SetComfortOptions() {
