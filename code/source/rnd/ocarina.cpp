@@ -44,7 +44,9 @@ namespace rnd {
       return false;
     }
 
-    if (song != game::OcarinaSong::SongOfTime && song != game::OcarinaSong::SongOfSoaring) {
+    // Songs handled here skip straight to their event instead of sitting through the replay.
+    if (song != game::OcarinaSong::SongOfTime && song != game::OcarinaSong::SongOfSoaring &&
+        song != game::OcarinaSong::SongOfDoubleTime) {
       return false;
     }
 
@@ -74,11 +76,19 @@ namespace rnd {
       return false;  // no context to fix up, so let vanilla run
     }
 
-    const u16 prompt = util::BitCastPtr<u16>(gctx, 0x8368);
-    if (prompt == 1) {
-      util::Write<u16>(gctx, 0x8368, 0x32);
-    } else if (prompt == 0x38) {
-      util::Write<u16>(gctx, 0x8368, 0x39);
+    if (gctx->msg_context.lastPlayedSong == game::OcarinaSong::SongOfDoubleTime) {
+      return false;
+    }
+
+    const auto prompt = static_cast<game::OcarinaSongActionId>(util::BitCastPtr<u16>(gctx, 0x8368));
+    if (prompt == game::OcarinaSongActionId::OCARINA_ACTION_FREE_PLAY) {
+      util::Write<u16>(gctx, 0x8368,
+                       (u16)game::OcarinaSongActionId::OCARINA_ACTION_FREE_PLAY_DONE);
+    } else if (prompt == game::OcarinaSongActionId::OCARINA_ACTION_CHECK_NOTIME) {
+      util::Write<u16>(gctx, 0x8368,
+                       (u16)game::OcarinaSongActionId::OCARINA_ACTION_CHECK_NOTIME_DONE);
+    } else {
+      return false;
     }
     util::Write<u16>(gctx, 0x8366, 1);
 
