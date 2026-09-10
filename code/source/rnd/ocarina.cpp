@@ -114,17 +114,15 @@ namespace rnd {
       return false;
     }
 
-    const auto prompt = static_cast<game::OcarinaSongActionId>(util::BitCastPtr<u16>(gctx, 0x8368));
-    if (prompt == game::OcarinaSongActionId::OCARINA_ACTION_FREE_PLAY) {
-      util::Write<u16>(gctx, 0x8368,
-                       (u16)game::OcarinaSongActionId::OCARINA_ACTION_FREE_PLAY_DONE);
-    } else if (prompt == game::OcarinaSongActionId::OCARINA_ACTION_CHECK_NOTIME) {
-      util::Write<u16>(gctx, 0x8368,
-                       (u16)game::OcarinaSongActionId::OCARINA_ACTION_CHECK_NOTIME_DONE);
+    auto& action = gctx->msg_context.ocarinaSongActionId;
+    if (action == game::OcarinaSongActionId::OCARINA_ACTION_FREE_PLAY) {
+      action = game::OcarinaSongActionId::OCARINA_ACTION_FREE_PLAY_DONE;
+    } else if (action == game::OcarinaSongActionId::OCARINA_ACTION_CHECK_NOTIME) {
+      action = game::OcarinaSongActionId::OCARINA_ACTION_CHECK_NOTIME_DONE;
     } else {
       return false;
     }
-    util::Write<u16>(gctx, 0x8366, 1);
+    gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_ACTIVE;
 
     if (gExtSaveData.options.skipSongReplays == (u8)SongReplaysSetting::SONGREPLAYS_SKIP_KEEP_SFX) {
       PlaySkippedSongAudio(gctx->msg_context.lastPlayedSong);
