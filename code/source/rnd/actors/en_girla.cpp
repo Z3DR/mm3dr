@@ -25,6 +25,8 @@ namespace rnd {
     case game::ItemId::FortyArrows:
     case game::ItemId::FiftyArrows:
       return counts.quiver_upgrade.Value() != game::Quiver::NoQuiver;
+    case game::ItemId::MagicBean:
+      return game::HasItem(game::ItemId::MagicBean);
     default:
       return true;
     }
@@ -65,13 +67,6 @@ namespace rnd {
     case game::ItemId::GoldDustFill:
     case game::ItemId::SeahorseFill:
     case game::ItemId::RecoveryHeart:
-    case game::ItemId::OneRupee:
-    case game::ItemId::FiveRupees:
-    case game::ItemId::TenRupees:
-    case game::ItemId::TwentyRupees:
-    case game::ItemId::FiftyRupees:
-    case game::ItemId::OneHundredRupees:
-    case game::ItemId::TwoHundredRupees:
       return true;
     default:
       return false;
