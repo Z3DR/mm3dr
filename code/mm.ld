@@ -409,6 +409,10 @@ SECTIONS{
     *(.patch_TwinmoldConsistentDamage)
   }
 
+  .patch_BeanDaddyCheckExtData 0x29A44C : {
+    *(.patch_BeanDaddyCheckExtData)
+  }
+
   .patch_UpdateBossLairExtData 0x29CF30 : {
     *(.patch_UpdateBossLairExtData)
   }
@@ -429,6 +433,10 @@ SECTIONS{
 
   .patch_EnGirlA_Randomize 0x2B8204 : {
     *(.patch_EnGirlA_Randomize)
+  }
+
+  .patch_BeanDaddyCustomSoldOutText 0x2B9A04 : {
+    *(.patch_BeanDaddyCustomSoldOutText)
   }
 
   .patch_CheckIfLinkIsFD 0x2C91D4 : {

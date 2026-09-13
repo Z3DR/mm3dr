@@ -546,6 +546,8 @@ namespace rnd {
       gExtSaveData.givenItemChecks.enJsGivenItem = 1;
     } else if (storedGetItemId == GetItemID::GI_OCARINA_OF_TIME) {
       gExtSaveData.givenItemChecks.ocarinaOfTimeGiven = 1;
+    } else if (storedActorId == game::act::Id::EnMs) {
+      gExtSaveData.givenItemChecks.beanDaddyGivenFreeBean = 1;
     }
   }
 
@@ -859,6 +861,12 @@ namespace rnd {
       // Already bought the same bag from the Bomb Shop this file.
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
+    } else if (fromActor->id == game::act::Id::EnMs &&
+               gExtSaveData.givenItemChecks.beanDaddyGivenFreeBean.Value() == 1) {
+      // Allow for regular bean purchases from bean seller if we got our item arleady.
+      ItemOverride_Clear();
+      player->get_item_id = incomingGetItemId;
+      return;
     }
 
     // This check is mainly to ensure we do not have repeatable progressive items within these base items.

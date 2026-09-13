@@ -72,6 +72,8 @@ namespace game::act {
     DmHina = 0x00DC,
     // [4] Kafei
     NpcKafei = 0x00F4,
+    // Bean Daddy
+    EnMs = 0x0075,
     // Koume (Boat Lady)
     EnTru = 0x0102,
     // Banker
