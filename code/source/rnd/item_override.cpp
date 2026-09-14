@@ -1272,17 +1272,6 @@ namespace rnd {
     return false;
   }
 
-  ItemOverride ItemOverride_LookupShopItem(game::act::Actor* actor, game::GlobalContext* gctx) {
-    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
-#if defined ENABLE_DEBUG
-    if (gctx->scene == (game::SceneId)52 && actor->params == 10) {
-      override.key = ItemOverride_GetSearchKey(actor, (u16)gctx->scene, 0);
-      override.value.getItemId = 0xBD;
-      override.value.looksLikeItemId = 0xBD;
-    }
-#endif
-    return override;
-  }
   bool ItemOverride_GiveShopItem(game::act::Actor* actor, game::GlobalContext* gctx) {
     game::act::Player* player = gctx->GetPlayerActor();
     const ShopItemEntry* vanillaEntry = Shopsanity_GetVanillaEntry(actor->params);

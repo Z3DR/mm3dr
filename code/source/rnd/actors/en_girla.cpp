@@ -27,6 +27,11 @@ namespace rnd {
       return counts.quiver_upgrade.Value() != game::Quiver::NoQuiver;
     case game::ItemId::MagicBean:
       return game::HasItem(game::ItemId::MagicBean);
+    case game::ItemId::ChateauRomaniFill:
+    case game::ItemId::MilkFill:
+    case game::ItemId::GoldDustFill:
+    case game::ItemId::SeahorseFill:
+      return game::HasBottle(game::ItemId::Bottle);
     default:
       return true;
     }
@@ -126,7 +131,7 @@ namespace rnd {
   void EnGirlA_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
     util::GetPointer<ActorOverlayFn>(0x39A7E0)(actor, gctx);  // vanilla EnGirlA::Init
 
-    const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
+    const ItemOverride ovr = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: RAN scene=%u param=%d slot=%d ovr.all=0x%X getItemId=0x%X\n", __func__,
                 (unsigned)static_cast<u8>(gctx->scene), (int)actor->params, (int)ovr.key.flag, (unsigned)ovr.key.all,
@@ -141,7 +146,7 @@ namespace rnd {
     Model_SpawnByActorFromOverride(actor, gctx, ovr, ovr.value.getItemId);
   }
   void EnGirlA_Draw(game::act::Actor* actor, game::GlobalContext* gctx) {
-    const ItemOverride drawOvr = ItemOverride_LookupShopItem(actor, gctx);
+    const ItemOverride drawOvr = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
     const bool drawSoldOut = EnGirlA_IsSoldOut(static_cast<En_GirlA*>(actor), gctx, drawOvr);
     if (drawSoldOut) {
       return;
@@ -166,7 +171,7 @@ namespace rnd {
     if (actor == nullptr || gctx == nullptr)
       return;
 
-    const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
+    const ItemOverride ovr = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
     if (ovr.key.all == 0)
       return;
 
@@ -194,7 +199,7 @@ namespace rnd {
     util::Print("%s: REACHED param=%#04x\n", __func__, (unsigned)actor->params);
 #endif
 
-    const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
+    const ItemOverride ovr = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
     if (ovr.key.all == 0)
       return;
 
@@ -213,8 +218,7 @@ namespace rnd {
     if (gctx == nullptr || actor == nullptr)
       return 2;  // refuse the sale rather than hand off an unresolved item
 
-    
-    const ItemOverride ovr = ItemOverride_LookupShopItem(actor, gctx);
+    const ItemOverride ovr = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
     if (EnGirlA_IsSoldOut(actor, gctx, ovr))
       return 2;  // sold out -- error jingle and the "you already have that" message
 
