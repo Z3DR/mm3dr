@@ -19,9 +19,19 @@ namespace rnd {
     gExtSaveData.shopSlotsPurchased |= (1u << slot);
   }
 
+  ShopShelf Shopsanity_ResolveShelf(game::SceneId scene, s16 param) {
+    for (const ShopShelfAlias& alias : kShopShelfAliases) {
+      if (alias.shelf.scene == scene && alias.shelf.param == param) {
+        return alias.canonical;
+      }
+    }
+    return {scene, param};
+  }
+
   s32 Shopsanity_GetSlot(game::SceneId scene, s16 param) {
+    const ShopShelf shelf = Shopsanity_ResolveShelf(scene, param);
     for (u32 i = 0; i < SHOPSANITY_SLOT_COUNT; ++i) {
-      if (kShopSlots[i].scene == scene && kShopSlots[i].param == param) {
+      if (kShopSlots[i].scene == shelf.scene && kShopSlots[i].param == shelf.param) {
         return static_cast<s32>(i);
       }
     }

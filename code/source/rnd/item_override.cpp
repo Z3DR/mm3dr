@@ -52,6 +52,7 @@ namespace rnd {
   static u8 rSatisfiedPendingFrames = 0;
 
   static ItemOverride_Key sPendingShopKey = {0};
+  static u16 sPendingShopScene = 0;
 
   static bool givenItemOverride = false;
 
@@ -132,17 +133,14 @@ namespace rnd {
         return (ItemOverride_Key){.all = 0};
       }
     } else if (actor->id == game::act::Id::EnGirlA) {
-      // EnGirlA::Init (0x39A7E0) indexes sShopItemEntries straight off actor->params, so the
-      // param is the shelf's stable identity and is what the generator keys shop locations on.
-      // kShopSlots is only consulted to reject shelves that are not shuffleable; the global
-      // slot index it returns is the price table index, not the override flag.
-      if (Shopsanity_GetSlot((game::SceneId)scene, actor->params) < 0) {
+      const ShopShelf shelf = Shopsanity_ResolveShelf((game::SceneId)scene, actor->params);
+      if (Shopsanity_GetSlot(shelf.scene, shelf.param) < 0) {
         return (ItemOverride_Key){.all = 0};
       }
-      retKey.scene = scene;
+      retKey.scene = (u8)shelf.scene;
       retKey.type = ItemOverride_Type::OVR_SHOP;
-      retKey.flag = (u8)actor->params;
-    } else if (sPendingShopKey.all != 0 && sPendingShopKey.scene == (u8)scene) {
+      retKey.flag = (u8)shelf.param;
+    } else if (sPendingShopKey.all != 0 && sPendingShopScene == scene) {
       retKey = sPendingShopKey;
     } else {
       retKey.scene = scene;
@@ -332,8 +330,9 @@ namespace rnd {
     }
   }
 
-  void ItemOverride_SetPendingShopItem(ItemOverride_Key key) {
+  void ItemOverride_SetPendingShopItem(ItemOverride_Key key, game::SceneId purchaseScene) {
     sPendingShopKey = key;
+    sPendingShopScene = (u16)purchaseScene;
   }
 
   void ItemOverride_AfterItemReceived(void) {

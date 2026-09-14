@@ -103,13 +103,13 @@ namespace rnd {
     if (EnGirlA_IsRestockable(row))
       return false;
 
-    // The Curiosity Shop may have already fenced this exact bag -- see shops.h.
-    if (gctx->scene == game::SceneId::BombShop && actor->params == kBigBombBagShelfParam &&
+    const ShopShelf shelf = Shopsanity_ResolveShelf(gctx->scene, actor->params);
+    if (shelf.scene == game::SceneId::BombShop && shelf.param == kBigBombBagShelfParam &&
         gExtSaveData.givenItemChecks.stolenBombBagTaken != 0) {
       return true;
     }
 
-    return Shopsanity_IsSlotPurchased(Shopsanity_GetSlot(gctx->scene, actor->params));
+    return Shopsanity_IsSlotPurchased(Shopsanity_GetSlot(shelf.scene, shelf.param));
   }
 
   // Bought out: draw nothing at all, leaving the shelf empty.
@@ -227,14 +227,14 @@ namespace rnd {
     if (buyRow != nullptr && !EnGirlA_IsRestockable(buyRow) && EnGirlA_AlreadyOwned(buyRow))
       return 2;  // already owned -- same refusal the vanilla handlers give
 
-    ItemOverride_SetPendingShopItem(ovr.key);
-
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: REACHED cost=%d\n", __func__, (int)gctx->msg_context.item_cost);
 #endif
     const game::CommonData& cdata = game::GetCommonData();
     if (static_cast<s32>(cdata.save.player.rupee_count) < gctx->msg_context.item_cost)
       return 4;  // not enough rupees
+
+    ItemOverride_SetPendingShopItem(ovr.key, gctx->scene);
 
     Shopsanity_SetSlotPurchased(Shopsanity_GetSlot(gctx->scene, actor->params));
 

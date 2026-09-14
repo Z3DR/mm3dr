@@ -46,6 +46,42 @@ namespace rnd {
   };
   static_assert(sizeof(kShopSlots) / sizeof(kShopSlots[0]) == SHOPSANITY_SLOT_COUNT);
 
+  struct ShopShelf {
+    game::SceneId scene;
+    s16 param;
+  };
+
+  struct ShopShelfAlias {
+    ShopShelf shelf;      // what the shopkeeper actually spawned
+    ShopShelf canonical;  // the kShopSlots entry it stands in for
+  };
+
+  // Shelves that sell the same check as a kShopSlots entry under a different sShopItemEntries
+  // index. The generator already mirrors their text and price onto the canonical location, so on
+  // this side they only need to resolve to the same override key and the same purchased bit.
+  constexpr ShopShelfAlias kShopShelfAliases[] = {
+      // Trading Post, part-timer (after 10pm). Same shelf position as the day stock; the
+      // shopkeeper's table at 0x67F868 lists the eight day items followed by the eight night ones.
+      {{game::SceneId::TradingPost, 0x0F}, {game::SceneId::TradingPost, 0x09}},
+      {{game::SceneId::TradingPost, 0x10}, {game::SceneId::TradingPost, 0x07}},
+      {{game::SceneId::TradingPost, 0x2C}, {game::SceneId::TradingPost, 0x2B}},
+      {{game::SceneId::TradingPost, 0x0C}, {game::SceneId::TradingPost, 0x08}},
+      {{game::SceneId::TradingPost, 0x0B}, {game::SceneId::TradingPost, 0x03}},
+      {{game::SceneId::TradingPost, 0x0E}, {game::SceneId::TradingPost, 0x05}},
+      {{game::SceneId::TradingPost, 0x11}, {game::SceneId::TradingPost, 0x06}},
+      {{game::SceneId::TradingPost, 0x12}, {game::SceneId::TradingPost, 0x0A}},
+      // Goron Shop in spring (table at 0x683910).
+      {{game::SceneId::GoronShop, 0x23}, {game::SceneId::GoronShop, 0x20}},
+      {{game::SceneId::GoronShop, 0x22}, {game::SceneId::GoronShop, 0x1F}},
+      {{game::SceneId::GoronShop, 0x21}, {game::SceneId::GoronShop, 0x1E}},
+      // The stolen bomb bag Sakon fences at the Curiosity Shop (En_Fsn::init, 0x320454) is the
+      // Bomb Shop's big bag. Keying it there gives both shelves one override and one purchased bit.
+      {{game::SceneId::CuriosityShop, 0x15}, {game::SceneId::BombShop, 0x18}},
+  };
+
+  // Maps an aliased shelf to its canonical kShopSlots identity; anything else comes back unchanged.
+  ShopShelf Shopsanity_ResolveShelf(game::SceneId scene, s16 param);
+
   struct ShopItemEntry {
     s16 objectId;
     s16 objectTableIndex;
@@ -73,6 +109,7 @@ namespace rnd {
   };
   static_assert(sizeof(ShopObjectTableEntry) == 8);
 
+  // Resolves aliases first, so every alias of a shelf shares its slot.
   s32 Shopsanity_GetSlot(game::SceneId, s16);
 
   // The stolen bomb bag is a single item with two possible owners: Sakon fences it at the
