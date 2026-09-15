@@ -104,10 +104,26 @@ namespace rnd {
     actor->draw_fn = &EnGirlA_Draw;
   }
 
+  static bool EnGirlA_IsAllNightMaskShelf(game::act::Actor* actor, game::GlobalContext* gctx) {
+    return gctx->scene == game::SceneId::CuriosityShop && actor->params == kAllNightMaskShelfParam;
+  }
+
+  // The All-Night Mask shelf draws the check En_Fsn hands over instead of a shelf override.
+  static ItemOverride EnGirlA_LookupShelfOverride(game::act::Actor* actor, game::GlobalContext* gctx) {
+    if (!EnGirlA_IsAllNightMaskShelf(actor, gctx))
+      return ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
+
+    ItemOverride_Key key = {.all = 0};
+    key.scene = (u8)game::SceneId::CuriosityShop;
+    key.type = ItemOverride_Type::OVR_BASE_ITEM;
+    key.flag = (u8)GetItemID::GI_MASK_ALL_NIGHT;
+    return ItemOverride_LookupByKey(key);
+  }
+
   void EnGirlA_Init(game::act::Actor* actor, game::GlobalContext* gctx) {
     util::GetPointer<ActorOverlayFn>(0x39A7E0)(actor, gctx);  // vanilla EnGirlA::Init
 
-    const ItemOverride ovr = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
+    const ItemOverride ovr = EnGirlA_LookupShelfOverride(actor, gctx);
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: RAN scene=%u param=%d slot=%d ovr.all=0x%X getItemId=0x%X\n", __func__,
                 (unsigned)static_cast<u8>(gctx->scene), (int)actor->params, (int)ovr.key.flag, (unsigned)ovr.key.all,
@@ -122,7 +138,7 @@ namespace rnd {
     Model_SpawnByActorFromOverride(actor, gctx, ovr, ovr.value.getItemId);
   }
   void EnGirlA_Draw(game::act::Actor* actor, game::GlobalContext* gctx) {
-    const ItemOverride drawOvr = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
+    const ItemOverride drawOvr = EnGirlA_LookupShelfOverride(actor, gctx);
     const bool drawSoldOut = EnGirlA_IsSoldOut(static_cast<En_GirlA*>(actor), gctx, drawOvr);
     if (drawSoldOut) {
       return;
@@ -146,6 +162,14 @@ namespace rnd {
   void EnGirlA_Randomize(En_GirlA* actor, game::GlobalContext* gctx) {
     if (actor == nullptr || gctx == nullptr)
       return;
+
+    if (EnGirlA_IsAllNightMaskShelf(actor, gctx)) {
+      if (EnGirlA_LookupShelfOverride(actor, gctx).key.all != 0) {
+        actor->draw_fn = &EnGirlA_Draw;
+        actor->field_258 = reinterpret_cast<void*>(&EnGirlA_ShowOverridden);
+      }
+      return;  // buying stays vanilla
+    }
 
     const ItemOverride ovr = ItemOverride_Lookup(actor, (u16)gctx->scene, 0);
     if (ovr.key.all == 0)
