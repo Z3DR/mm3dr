@@ -545,6 +545,10 @@ SECTIONS{
     *(.patch_IceArrowsAnywhere)
   }
 
+  .patch_ClockTowerRooftopTimer 0x31AE94 : {
+    *(.patch_ClockTowerRooftopTimer)
+  }
+
   .patch_DmStkInitOcarinaPatch 0x31AEC4 : {
     *(.patch_DmStkInitOcarinaPatch)
   }
