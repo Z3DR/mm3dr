@@ -3,6 +3,7 @@
 #include "common/types.h"
 #include "game/scene.h"
 #include "rnd/item_override.h"
+#include "rnd/item_table.h"
 
 namespace rnd {
 
@@ -45,6 +46,12 @@ namespace rnd {
       {game::SceneId::GoronShop, 32, 3},
   };
   static_assert(sizeof(kShopSlots) / sizeof(kShopSlots[0]) == SHOPSANITY_SLOT_COUNT);
+
+  // Purchases tracked alongside the shelves in shopSlotsPurchased, for sellers that are not En_GirlA.
+  constexpr s32 SHOPSANITY_MILK_BAR_MILK = SHOPSANITY_SLOT_COUNT;
+  constexpr s32 SHOPSANITY_MILK_BAR_CHATEAU = SHOPSANITY_SLOT_COUNT + 1;
+  constexpr u32 SHOPSANITY_PURCHASE_COUNT = SHOPSANITY_SLOT_COUNT + 2;
+  static_assert(SHOPSANITY_PURCHASE_COUNT <= 32);
 
   struct ShopShelf {
     game::SceneId scene;
@@ -121,6 +128,10 @@ namespace rnd {
   constexpr u8 kCuriosityBombBagFlag = 0x1D;
 
   bool Shopsanity_IsSlotPurchased(s32 slot);
+
+  bool Shopsanity_IsRestockable(const ItemRow* row);
+
+  bool Shopsanity_IsSoldOut(const ItemRow* row, s32 purchase);
 
   void Shopsanity_SetSlotPurchased(s32 slot);
 

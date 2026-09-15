@@ -73,70 +73,6 @@ namespace rnd {
     }
   }
 
-  // Consumables restock forever; everything else is a one-time purchase.
-  static bool EnGirlA_IsRestockable(const ItemRow* row) {
-    switch ((game::ItemId)row->itemId) {
-    case game::ItemId::Arrow:
-    case game::ItemId::TenArrows:
-    case game::ItemId::ThirtyArrows:
-    case game::ItemId::FortyArrows:
-    case game::ItemId::FiftyArrows:
-    case game::ItemId::Bomb:
-    case game::ItemId::FiveBombs:
-    case game::ItemId::TenBombs:
-    case game::ItemId::TwentyBombs:
-    case game::ItemId::ThirtyBombs:
-    case game::ItemId::Bombchu:
-    case game::ItemId::OneBombchu:
-    case game::ItemId::OneBombchuAgain:
-    case game::ItemId::FiveBombchu:
-    case game::ItemId::TenBombchus:
-    case game::ItemId::DekuStick:
-    case game::ItemId::TenSticks:
-    case game::ItemId::TenSticksAgain:
-    case game::ItemId::TwentySticks:
-    case game::ItemId::ThirtySticks:
-    case game::ItemId::DekuNuts:
-    case game::ItemId::FiveNuts:
-    case game::ItemId::TenNuts:
-    case game::ItemId::ThirtyNuts:
-    case game::ItemId::FortyNuts:
-    case game::ItemId::MagicBean:
-    case game::ItemId::PowderKeg:
-    case game::ItemId::ChateauRomaniFill:
-    case game::ItemId::MilkFill:
-    case game::ItemId::GoldDustFill:
-    case game::ItemId::SeahorseFill:
-    case game::ItemId::RecoveryHeart:
-    case game::ItemId::HeroShield:
-    // Bottled items that become refills once received (ItemUpgrade_RefillBottle), so they sell like ammo.
-    case game::ItemId::GoldDust:        // 0x6A -> 0x93
-    case game::ItemId::ChateauRomani:   // 0x6F -> 0x91
-    case game::ItemId::Milk:            // 0x60 -> 0x92
-    case game::ItemId::HookshotUnused:  // 0x59 Bottle with Red Potion -> 0x5B, see its item table row
-    case game::ItemId::RedPotion:
-    case game::ItemId::GreenPotion:
-    case game::ItemId::BluePotion:
-    case game::ItemId::Fairy:
-      return true;
-    default:
-      return false;
-    }
-  }
-
-  static bool EnGirlA_IsInventoryItem(game::ItemId id) {
-    return id <= game::ItemId::GiantMask && id != game::ItemId::Bottle;
-  }
-
-  static bool EnGirlA_IsHeld(game::ItemId id) {
-    if (game::ItemIsBottled(id))
-      return game::HasBottle(id) ||
-             (id == game::ItemId::MysteryMilk && game::HasBottle(game::ItemId::MysteryMilkSpoiled));
-    if (game::ItemIsMask(id))
-      return game::HasMask(id);
-    return game::HasItem(id);
-  }
-
   bool EnGirlA_IsSoldOut(En_GirlA* actor, game::GlobalContext* gctx, const ItemOverride& ovr) {
     if (actor == nullptr || gctx == nullptr || ovr.key.all == 0)
       return false;
@@ -145,7 +81,7 @@ namespace rnd {
     if (row == nullptr)
       return false;
 
-    if (EnGirlA_IsRestockable(row))
+    if (Shopsanity_IsRestockable(row))
       return false;
 
     const ShopShelf shelf = Shopsanity_ResolveShelf(gctx->scene, actor->params);
@@ -154,12 +90,7 @@ namespace rnd {
       return true;
     }
 
-    if (!Shopsanity_IsSlotPurchased(Shopsanity_GetSlot(shelf.scene, shelf.param)))
-      return false;
-    // Bought before. Anything the inventory can lose comes back once it is gone; the rest (hearts,
-    // dungeon items, equipment, progressive upgrades) stays sold out.
-    const game::ItemId id = (game::ItemId)row->itemId;
-    return EnGirlA_IsInventoryItem(id) ? EnGirlA_IsHeld(id) : true;
+    return Shopsanity_IsSoldOut(row, Shopsanity_GetSlot(shelf.scene, shelf.param));
   }
 
   // Bought out: draw nothing at all, leaving the shelf empty.

@@ -801,6 +801,10 @@ SECTIONS{
     *(.patch_SkulltulaOverrideTwo)
   }
 
+  .patch_EnTabGetSaleScript 0x52FA34 : {
+    *(.patch_EnTabGetSaleScript)
+  }
+
   .patch_EnBjtDoNotRemoveTradeItem 0x530C90 : {
     *(.patch_EnBjtDoNotRemoveTradeItem)
   }
