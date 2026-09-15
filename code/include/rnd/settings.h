@@ -463,7 +463,7 @@ namespace rnd {
     u8 skipMikauCutscene;
     u8 skipDarmaniCutscene;
     u8 skipGiantsCutscene;
-    u8 skipPiratesCs = 1;
+    u8 skipPiratesCs;
 
     // Custom Buttons
     u32 customMapButton = 0;
