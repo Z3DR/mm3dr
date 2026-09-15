@@ -466,11 +466,11 @@ namespace rnd {
     u8 skipPiratesCs;
 
     // Custom Buttons
-    u32 customMapButton = 0;
-    u32 customItemButton = 0;
-    u32 customMaskButton = 0;
-    u32 customNotebookButton = 0;
-    u32 customIngameSpoilerButton = 3;
+    u32 customMapButton;
+    u32 customItemButton;
+    u32 customMaskButton;
+    u32 customNotebookButton;
+    u32 customIngameSpoilerButton;
 
     // Extra MM Settings
     u8 blastMaskCooldown;
@@ -479,25 +479,25 @@ namespace rnd {
     u8 masksNeededToEnterMoon;
     u8 masksNeededForVictory;
 
-    u8 useFierceDeityAnywhere = 0;
+    u8 useFierceDeityAnywhere;
 
     u8 showPostmanItem;
 
     // Options in custom menu.
-    u8 skipSongReplays = 0;
-    u8 muteSoundEffects = 0;
-    u8 muteBackgroundMusic = 0;
-    u8 shuffleMusic = 0;
-    u8 shuffleSFX = 0;
+    u8 skipSongReplays;
+    u8 muteSoundEffects;
+    u8 muteBackgroundMusic;
+    u8 shuffleMusic;
+    u8 shuffleSFX;
     u8 shopsanityPrices;
 
     // In-game defaults.
-    u8 ingameLTargeting = 0;
-    u8 ingameFirstPersonCamera = 0;
-    u8 ingameFreeCamera = 0;
-    u8 ingameMotionControls = 0;
-    u8 ingameSwimmingControls = 0;
-    u8 ingameAdjustVolume = 0;
+    u8 ingameLTargeting;
+    u8 ingameFirstPersonCamera;
+    u8 ingameFreeCamera;
+    u8 ingameMotionControls;
+    u8 ingameSwimmingControls;
+    u8 ingameAdjustVolume;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;
