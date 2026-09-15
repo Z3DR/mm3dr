@@ -1,5 +1,7 @@
 #include "rnd/actors/en_girla.h"
 
+#include <algorithm>
+
 namespace rnd {
 
   using ChargeItemCostFn = void(game::GlobalContext*);
@@ -27,11 +29,45 @@ namespace rnd {
       return counts.quiver_upgrade.Value() != game::Quiver::NoQuiver;
     case game::ItemId::MagicBean:
       return game::HasItem(game::ItemId::MagicBean);
-    case game::ItemId::ChateauRomaniFill:
-    case game::ItemId::MilkFill:
-    case game::ItemId::GoldDustFill:
-    case game::ItemId::SeahorseFill:
-      return game::HasBottle(game::ItemId::Bottle);
+    default:
+      return true;
+    }
+  }
+
+  static bool EnGirlA_HasFreeBottleSlot() {
+    const auto& bottles = game::GetCommonData().save.inventory.bottles;
+    return std::any_of(bottles.begin(), bottles.end(), [](game::ItemId id) { return id == game::ItemId::None; });
+  }
+
+  static bool EnGirlA_HasBottleSpace(const ItemOverride& ovr) {
+    switch (ItemTable_ResolveUpgrades(ovr.value.getItemId)) {
+    case 0x59:  // Bottle with Red Potion
+    case 0x5A:  // Empty Bottle
+    case 0x60:  // Bottle with Milk
+    case 0x65:  // Bottle with Poe
+    case 0x6A:  // Bottle with Gold Dust
+    case 0x6F:  // Bottle with Chateau Romani
+    case 0x70:  // Bottle with Mystery Milk
+      return EnGirlA_HasFreeBottleSlot();  // a new bottle
+    case 0x5B:  // Red Potion
+    case 0x5C:  // Green Potion
+    case 0x5D:  // Blue Potion
+    case 0x5E:  // Fairy
+    case 0x5F:  // Deku Princess (gives a fairy)
+    case 0x62:  // Fish
+    case 0x63:  // Bug
+    case 0x66:  // Big Poe
+    case 0x67:  // Spring Water
+    case 0x68:  // Hot Spring Water
+    case 0x69:  // Zora Egg
+    case 0x6B:  // Magic Mushroom
+    case 0x6E:  // Seahorse
+    case 0x91:  // Chateau Romani refill
+    case 0x92:  // Milk refill
+    case 0x93:  // Gold Dust refill
+    case 0x94:  // Mystery Milk refill
+    case 0x95:  // Seahorse refill
+      return game::HasBottle(game::ItemId::Bottle);  // fills an empty one
     default:
       return true;
     }
@@ -72,29 +108,33 @@ namespace rnd {
     case game::ItemId::GoldDustFill:
     case game::ItemId::SeahorseFill:
     case game::ItemId::RecoveryHeart:
+    case game::ItemId::HeroShield:
+    // Bottled items that become refills once received (ItemUpgrade_RefillBottle), so they sell like ammo.
+    case game::ItemId::GoldDust:        // 0x6A -> 0x93
+    case game::ItemId::ChateauRomani:   // 0x6F -> 0x91
+    case game::ItemId::Milk:            // 0x60 -> 0x92
+    case game::ItemId::HookshotUnused:  // 0x59 Bottle with Red Potion -> 0x5B, see its item table row
+    case game::ItemId::RedPotion:
+    case game::ItemId::GreenPotion:
+    case game::ItemId::BluePotion:
+    case game::ItemId::Fairy:
       return true;
     default:
       return false;
     }
   }
 
-  static bool EnGirlA_AlreadyOwned(const ItemRow* row) {
-    const game::SaveData& save = game::GetCommonData().save;
-    const game::ItemId id = (game::ItemId)row->itemId;
+  static bool EnGirlA_IsInventoryItem(game::ItemId id) {
+    return id <= game::ItemId::GiantMask && id != game::ItemId::Bottle;
+  }
 
-    if (id == game::ItemId::None)
-      return false;
-
-    switch (id) {
-    case game::ItemId::HeroShield:
-      return save.equipment.sword_shield.shield.Value() != game::ShieldType::NoShield;
-    case game::ItemId::MirrorShield:
-      return save.equipment.sword_shield.shield.Value() == game::ShieldType::MirrorShield;
-    default:
-      break;
-    }
-
-    return game::HasMask(id) || game::HasItem(id);
+  static bool EnGirlA_IsHeld(game::ItemId id) {
+    if (game::ItemIsBottled(id))
+      return game::HasBottle(id) ||
+             (id == game::ItemId::MysteryMilk && game::HasBottle(game::ItemId::MysteryMilkSpoiled));
+    if (game::ItemIsMask(id))
+      return game::HasMask(id);
+    return game::HasItem(id);
   }
 
   bool EnGirlA_IsSoldOut(En_GirlA* actor, game::GlobalContext* gctx, const ItemOverride& ovr) {
@@ -114,7 +154,12 @@ namespace rnd {
       return true;
     }
 
-    return Shopsanity_IsSlotPurchased(Shopsanity_GetSlot(shelf.scene, shelf.param));
+    if (!Shopsanity_IsSlotPurchased(Shopsanity_GetSlot(shelf.scene, shelf.param)))
+      return false;
+    // Bought before. Anything the inventory can lose comes back once it is gone; the rest (hearts,
+    // dungeon items, equipment, progressive upgrades) stays sold out.
+    const game::ItemId id = (game::ItemId)row->itemId;
+    return EnGirlA_IsInventoryItem(id) ? EnGirlA_IsHeld(id) : true;
   }
 
   // Bought out: draw nothing at all, leaving the shelf empty.
@@ -227,9 +272,8 @@ namespace rnd {
     if (buyRow != nullptr && !EnGirlA_HasAmmoContainer(buyRow))
       return 2;  // nothing to carry it in
 
-    // Consumables are always worth restocking; anything else the player already holds is not.
-    if (buyRow != nullptr && !EnGirlA_IsRestockable(buyRow) && EnGirlA_AlreadyOwned(buyRow))
-      return 2;  // already owned -- same refusal the vanilla handlers give
+    if (!EnGirlA_HasBottleSpace(ovr))
+      return 2;  // nowhere to put it
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: REACHED cost=%d\n", __func__, (int)gctx->msg_context.item_cost);

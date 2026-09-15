@@ -450,7 +450,7 @@ namespace rnd {
 
       [0x59] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::HookshotUnused, 0x0059,
                         0x0196, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_RED_POTION,
-                        (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)3, (s16)-1, 1.00f),  // Red Potion?
+                        (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)3, (s16)-1, 1.00f),  // Red Potion?
 
       [0x5A] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Bottle, 0x005A, 0x009E,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_EMPTY_BOTTLE,
