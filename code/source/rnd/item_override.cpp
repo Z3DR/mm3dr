@@ -481,6 +481,8 @@ namespace rnd {
       } else if (storedGetItemId == GetItemID::GI_MASK_KEATON) {
         gExtSaveData.givenItemChecks.enFsnGivenItem = 1;
       }
+    } else if (storedActorId == game::act::Id::EnAkindonuts && storedGetItemId == GetItemID::GI_BOMB_BAG_40) {
+      gExtSaveData.givenItemChecks.enAkindonutsBombBagGiven = 1;
     } else if (storedActorId == game::act::Id::NpcEnPm) {
       gExtSaveData.givenItemChecks.enPmGivenItem = 1;
     } else if (storedActorId == game::act::Id::EnSsh) {

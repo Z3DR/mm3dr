@@ -124,6 +124,8 @@ namespace game::act {
     NpcAroma = 0x01F1,
     // Npc Mayor Dotour
     EnDt = 0x01FE,
+    // En_Akindonuts (Business Scrub)
+    EnAkindonuts = 0x0203,
     // [4] Rosa Sisters
     NpcRosaSisters = 0x020A,
     // En_Yb (Kamarao)

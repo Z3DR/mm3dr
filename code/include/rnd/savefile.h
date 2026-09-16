@@ -115,7 +115,7 @@ namespace rnd {
       BitField<60, 1, u64> clockTownStrayFairyCollected;
       BitField<61, 1, u64> stolenBombBagTaken;
       BitField<62, 1, u64> beanDaddyGivenFreeBean;
-      BitField<63, 1, u64> unused;
+      BitField<63, 1, u64> enAkindonutsBombBagGiven;
     };
     GivenItemRegister givenItemChecks;
     union GivenSongRegister {

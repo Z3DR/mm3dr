@@ -475,6 +475,14 @@ SECTIONS{
     *(.patch_FasterBlockMovementBack)
   }
 
+  .patch_BusinessScrubBombBagPurchased 0x2D7D2C : {
+    *(.patch_BusinessScrubBombBagPurchased)
+  }
+
+  .patch_BusinessScrubBombBagPurchasedTwo 0x2D7FFC : {
+    *(.patch_BusinessScrubBombBagPurchasedTwo)
+  }
+
   .patch_TingleCheckClocktownMap 0x2DABD0 : {
     *(.patch_TingleCheckClocktownMap)
   }
