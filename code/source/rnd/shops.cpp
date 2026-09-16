@@ -74,7 +74,8 @@ namespace rnd {
   // excluded since filling it would put a bought bottle back on the shelf, and trade items are kept on
   // hand-over and across cycle resets.
   static bool Shopsanity_IsLosableItem(game::ItemId id) {
-    return id <= game::ItemId::GiantMask && id != game::ItemId::Bottle && !game::ItemIsGear(id);
+    return id <= game::ItemId::GiantMask && id != game::ItemId::Bottle && !game::ItemIsGear(id) &&
+           id != game::ItemId::MapUnused;
   }
 
   static bool Shopsanity_IsHeld(game::ItemId id) {
