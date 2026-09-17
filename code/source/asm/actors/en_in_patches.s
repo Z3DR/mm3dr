@@ -1,0 +1,11 @@
+.arm
+
+.section .patch_EnInGormanMilkFirstChoice
+.global patch_EnInGormanMilkFirstChoice
+patch_EnInGormanMilkFirstChoice:
+  bl hook_EnInGormanMilkCanBuy
+
+.section .patch_EnInGormanMilkSecondChoice
+.global patch_EnInGormanMilkSecondChoice
+patch_EnInGormanMilkSecondChoice:
+  bl hook_EnInGormanMilkCanBuy

@@ -358,6 +358,10 @@ namespace rnd {
       else if (key.flag == (u8)GetItemID::GI_BOTTLE_CHATEAU_ROMANI_REFILL)
         Shopsanity_SetSlotPurchased(SHOPSANITY_MILK_BAR_CHATEAU);
     }
+    if (key.type == ItemOverride_Type::OVR_BASE_ITEM && key.scene == (u8)game::SceneId::GormanTrack &&
+        key.flag == (u8)GetItemID::GI_BOTTLE_MILK_REFILL) {
+      Shopsanity_SetSlotPurchased(SHOPSANITY_GORMAN_MILK);
+    }
     if (key.type == ItemOverride_Type::OVR_COW) {
       En_Cow_SetMilked(key.flag);
     }

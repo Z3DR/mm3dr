@@ -427,6 +427,14 @@ SECTIONS{
     *(.patch_FasterBlockMovement)
   }
 
+  .patch_EnInGormanMilkFirstChoice 0x2B0C64 : {
+    *(.patch_EnInGormanMilkFirstChoice)
+  }
+
+  .patch_EnInGormanMilkSecondChoice 0x2B104C : {
+    *(.patch_EnInGormanMilkSecondChoice)
+  }
+
   .patch_GiveTempSwordForHandD 0x2B523C : {
     *(.patch_GiveTempSwordForHandD)
   }

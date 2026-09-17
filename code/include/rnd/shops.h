@@ -50,7 +50,8 @@ namespace rnd {
   // Purchases tracked alongside the shelves in shopSlotsPurchased, for sellers that are not En_GirlA.
   constexpr s32 SHOPSANITY_MILK_BAR_MILK = SHOPSANITY_SLOT_COUNT;
   constexpr s32 SHOPSANITY_MILK_BAR_CHATEAU = SHOPSANITY_SLOT_COUNT + 1;
-  constexpr u32 SHOPSANITY_PURCHASE_COUNT = SHOPSANITY_SLOT_COUNT + 2;
+  constexpr s32 SHOPSANITY_GORMAN_MILK = SHOPSANITY_SLOT_COUNT + 2;
+  constexpr u32 SHOPSANITY_PURCHASE_COUNT = SHOPSANITY_SLOT_COUNT + 3;
   static_assert(SHOPSANITY_PURCHASE_COUNT <= 32);
 
   struct ShopShelf {
