@@ -18,7 +18,6 @@ namespace rnd {
   static_assert(offsetof(game::GlobalContext, msg_context.lastPlayedSong) == 0x836A);
   static_assert(offsetof(game::CommonData, save.player_form) == 0x26);
 
-
   // keepAudio: the caller is about to replay the melody itself, so the fadeout must not be armed.
   // ocarinaMgrSetFadeOut (0x4FE0BC) only stores a duration into OcarinaMgr[0x1C0], and 20-25
   // frames is roughly two notes -- long enough that the replayed song audibly starts and then
@@ -84,8 +83,7 @@ namespace rnd {
       return false;
     }
 
-    const bool keepAudio =
-        gExtSaveData.options.skipSongReplays == (u8)SongReplaysSetting::SONGREPLAYS_SKIP_KEEP_SFX;
+    const bool keepAudio = gExtSaveData.options.skipSongReplays == (u8)SongReplaysSetting::SONGREPLAYS_SKIP_KEEP_SFX;
     EndOcarinaSession(self, keepAudio);
     gctx->msg_context.lastPlayedSong = song;
     gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_EVENT;

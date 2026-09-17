@@ -41,32 +41,32 @@ namespace rnd {
 
   static bool EnGirlA_HasBottleSpace(const ItemOverride& ovr) {
     switch (ItemTable_ResolveUpgrades(ovr.value.getItemId)) {
-    case 0x59:  // Bottle with Red Potion
-    case 0x5A:  // Empty Bottle
-    case 0x60:  // Bottle with Milk
-    case 0x65:  // Bottle with Poe
-    case 0x6A:  // Bottle with Gold Dust
-    case 0x6F:  // Bottle with Chateau Romani
-    case 0x70:  // Bottle with Mystery Milk
-      return EnGirlA_HasFreeBottleSlot();  // a new bottle
-    case 0x5B:  // Red Potion
-    case 0x5C:  // Green Potion
-    case 0x5D:  // Blue Potion
-    case 0x5E:  // Fairy
-    case 0x5F:  // Deku Princess (gives a fairy)
-    case 0x62:  // Fish
-    case 0x63:  // Bug
-    case 0x66:  // Big Poe
-    case 0x67:  // Spring Water
-    case 0x68:  // Hot Spring Water
-    case 0x69:  // Zora Egg
-    case 0x6B:  // Magic Mushroom
-    case 0x6E:  // Seahorse
-    case 0x91:  // Chateau Romani refill
-    case 0x92:  // Milk refill
-    case 0x93:  // Gold Dust refill
-    case 0x94:  // Mystery Milk refill
-    case 0x95:  // Seahorse refill
+    case 0x59:                                       // Bottle with Red Potion
+    case 0x5A:                                       // Empty Bottle
+    case 0x60:                                       // Bottle with Milk
+    case 0x65:                                       // Bottle with Poe
+    case 0x6A:                                       // Bottle with Gold Dust
+    case 0x6F:                                       // Bottle with Chateau Romani
+    case 0x70:                                       // Bottle with Mystery Milk
+      return EnGirlA_HasFreeBottleSlot();            // a new bottle
+    case 0x5B:                                       // Red Potion
+    case 0x5C:                                       // Green Potion
+    case 0x5D:                                       // Blue Potion
+    case 0x5E:                                       // Fairy
+    case 0x5F:                                       // Deku Princess (gives a fairy)
+    case 0x62:                                       // Fish
+    case 0x63:                                       // Bug
+    case 0x66:                                       // Big Poe
+    case 0x67:                                       // Spring Water
+    case 0x68:                                       // Hot Spring Water
+    case 0x69:                                       // Zora Egg
+    case 0x6B:                                       // Magic Mushroom
+    case 0x6E:                                       // Seahorse
+    case 0x91:                                       // Chateau Romani refill
+    case 0x92:                                       // Milk refill
+    case 0x93:                                       // Gold Dust refill
+    case 0x94:                                       // Mystery Milk refill
+    case 0x95:                                       // Seahorse refill
       return game::HasBottle(game::ItemId::Bottle);  // fills an empty one
     default:
       return true;
@@ -177,19 +177,18 @@ namespace rnd {
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: scene=%#04x param=%#04x ovrGI=%#04x vanillaGI=%#04x\n", __func__,
-                (unsigned)static_cast<u8>(gctx->scene), (unsigned)actor->params,
-                (unsigned)ovr.value.getItemId, (unsigned)actor->get_item_id);
+                (unsigned)static_cast<u8>(gctx->scene), (unsigned)actor->params, (unsigned)ovr.value.getItemId,
+                (unsigned)actor->get_item_id);
 #endif
     ItemRow* row = ItemTable_GetItemRow(ItemTable_ResolveUpgrades(ovr.value.getItemId));
-    actor->get_item_id = row != nullptr ? static_cast<GetItemID>(row->baseItemId)
-                                        : static_cast<GetItemID>(ovr.value.getItemId);
+    actor->get_item_id =
+        row != nullptr ? static_cast<GetItemID>(row->baseItemId) : static_cast<GetItemID>(ovr.value.getItemId);
     actor->buy_function = &EnGirlA_BuyOverriddenItem;
     actor->can_buy_function = &EnGirlA_CanBuyOverriddenItem;
     actor->draw_fn = &EnGirlA_Draw;
     // The shop hides the shelf on purchase and shows it again when the follow-up
     // textbox closes.
     actor->field_258 = reinterpret_cast<void*>(&EnGirlA_ShowOverridden);
-
   }
 
   void EnGirlA_BuyOverriddenItem(game::GlobalContext* gctx, En_GirlA* actor) {
@@ -208,8 +207,6 @@ namespace rnd {
     actor->can_buy_function = &EnGirlA_CanBuySoldOut;
 
     util::GetPointer<ChargeItemCostFn>(0x2C1620)(gctx);
-
-
   }
 
   s32 EnGirlA_CanBuyOverriddenItem(game::GlobalContext* gctx, En_GirlA* actor) {

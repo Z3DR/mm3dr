@@ -86,10 +86,11 @@ namespace rnd {
     game::CommonData& cdata = game::GetCommonData();
     ItemOverride_Key retKey;
     retKey.all = 0;
-// #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-//     rnd::util::Print("%s: Retrieving search key for actor type %#04x and ID is %#04x\n", __func__, actor->actor_type,
-//                      actor->id);
-// #endif
+    // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    //     rnd::util::Print("%s: Retrieving search key for actor type %#04x and ID is %#04x\n", __func__,
+    //     actor->actor_type,
+    //                      actor->id);
+    // #endif
     if (actor->actor_type == game::act::Type::Chest) {
       // XXX: Any games like H&D or chest game to not swap?
       // Don't override WINNER purple rupee in the chest minigame scene
@@ -865,10 +866,8 @@ namespace rnd {
     } else if (En_Elforg_IsFairyCollectedAndNonRepeatable(&override)) {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
-    } else if (override.key.type == ItemOverride_Type::OVR_BASE_ITEM &&
-               override.key.scene == kCuriosityBombBagScene &&
-               override.key.flag == kCuriosityBombBagFlag &&
-               gExtSaveData.givenItemChecks.stolenBombBagTaken != 0) {
+    } else if (override.key.type == ItemOverride_Type::OVR_BASE_ITEM && override.key.scene == kCuriosityBombBagScene &&
+               override.key.flag == kCuriosityBombBagFlag && gExtSaveData.givenItemChecks.stolenBombBagTaken != 0) {
       // Already bought the same bag from the Bomb Shop this file.
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
@@ -981,7 +980,6 @@ namespace rnd {
       rActiveItemRow->effectArg1 = override.key.all >> 16;
       rActiveItemRow->effectArg2 = override.key.all & 0xFFFF;
     }
-    
 
     if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52 &&
         (incomingGetItemId < (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN ||
@@ -1303,8 +1301,7 @@ namespace rnd {
                      __func__, (unsigned)actor->params, (unsigned)vanillaEntry->getItemId,
                      (unsigned)rActiveItemOverride.value.getItemId, (unsigned)rActiveItemRow->itemId,
                      (unsigned)rActiveItemRow->textId, (unsigned)rActiveItemRow->baseItemId,
-                     (unsigned)rActiveItemRow->objectId, (unsigned)player->get_item_id,
-                     (unsigned)rStoredTextId);
+                     (unsigned)rActiveItemRow->objectId, (unsigned)player->get_item_id, (unsigned)rStoredTextId);
 #endif
     ItemOverride_GetItemTextAndItemID(player);
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT

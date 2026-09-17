@@ -5,8 +5,8 @@
 
 namespace rnd {
   extern "C" {
-    bool En_Ms_CheckBeanExtData();
-    bool En_Ms_CheckBeanInventory();
+  bool En_Ms_CheckBeanExtData();
+  bool En_Ms_CheckBeanInventory();
   }
-  
-} // namespace rnd 
+
+}  // namespace rnd

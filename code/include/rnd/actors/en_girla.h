@@ -61,7 +61,7 @@ namespace rnd {
   void EnGirlA_ShowOverridden(game::GlobalContext*, En_GirlA*);
   bool EnGirlA_IsSoldOut(En_GirlA*, game::GlobalContext*, const ItemOverride&);
   void EnGirlA_Destroy(game::act::Actor*, game::GlobalContext*);
-  
+
   extern "C" {
   void EnGirlA_Randomize(En_GirlA*, game::GlobalContext*);
   void EnGirlA_BuyOverriddenItem(game::GlobalContext*, En_GirlA*);

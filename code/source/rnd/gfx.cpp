@@ -22,15 +22,15 @@ namespace rnd {
   u32 pressed;
   bool handledInput;
   const char* spoilerCollectionGroupNames[] = {
-      "All Item Locations", "Clock Tower", "South Clock Town",      "Laundry Pool",
-      "East Clock Town",    "StockPotInn",        "West Clock Town",       "North Clock Town",
-      "Termina Field",      "Southern Swamp",     "Deku Palace",           "Woodfall",
-      "Snowhead",           "Mountain Village",   "Twin Islands",          "Goron Village",
-      "Milk Road",          "Romani Ranch",       "Great Bay Coast",       "Pinnacle Rock",
-      "Zora Cape",          "Zora Hall",          "Ikana Canyon",          "Ikana Graveyard",
-      "Stone Tower",        "Woodfall Temple",    "Snowhead Temple",       "Great Bay Temple",
-      "Stone Tower Temple", "Pirate Fortress",    "Beneath the Well",      "Ikana Castle",
-      "Secret Shrine",      "The Moon",           "Swamp Skulltula House", "Ocean Skulltula House",
+      "All Item Locations", "Clock Tower",      "South Clock Town",      "Laundry Pool",
+      "East Clock Town",    "StockPotInn",      "West Clock Town",       "North Clock Town",
+      "Termina Field",      "Southern Swamp",   "Deku Palace",           "Woodfall",
+      "Snowhead",           "Mountain Village", "Twin Islands",          "Goron Village",
+      "Milk Road",          "Romani Ranch",     "Great Bay Coast",       "Pinnacle Rock",
+      "Zora Cape",          "Zora Hall",        "Ikana Canyon",          "Ikana Graveyard",
+      "Stone Tower",        "Woodfall Temple",  "Snowhead Temple",       "Great Bay Temple",
+      "Stone Tower Temple", "Pirate Fortress",  "Beneath the Well",      "Ikana Castle",
+      "Secret Shrine",      "The Moon",         "Swamp Skulltula House", "Ocean Skulltula House",
   };
 
   static s8 spoilerGroupDungeonIds[] = {
