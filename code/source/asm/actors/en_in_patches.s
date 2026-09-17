@@ -1,5 +1,10 @@
 .arm
 
+.section .patch_EnInGormanMilkRaceChoice
+.global patch_EnInGormanMilkRaceChoice
+patch_EnInGormanMilkRaceChoice:
+  bl hook_EnInGormanMilkCanBuy
+
 .section .patch_EnInGormanMilkFirstChoice
 .global patch_EnInGormanMilkFirstChoice
 patch_EnInGormanMilkFirstChoice:
@@ -8,4 +13,9 @@ patch_EnInGormanMilkFirstChoice:
 .section .patch_EnInGormanMilkSecondChoice
 .global patch_EnInGormanMilkSecondChoice
 patch_EnInGormanMilkSecondChoice:
+  bl hook_EnInGormanMilkCanBuy
+
+.section .patch_EnInGormanMilkRepeatChoice
+.global patch_EnInGormanMilkRepeatChoice
+patch_EnInGormanMilkRepeatChoice:
   bl hook_EnInGormanMilkCanBuy
