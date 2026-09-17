@@ -195,6 +195,12 @@ patch_FasterBlockMovementBack:
 patch_IceArrowsAnywhere:
     nop
 
+@ Change clocktower countdown timer to 60 seconds instead of 5 mins.
+.section .patch_ClockTowerRooftopTimer
+.global patch_ClockTowerRooftopTimer
+patch_ClockTowerRooftopTimer:
+    mov r1, #0x3C
+
 
 .section .patch_RemoveSongCheckKaepora
 .global patch_RemoveSongCheckKaepora

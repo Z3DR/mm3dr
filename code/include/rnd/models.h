@@ -55,6 +55,8 @@ namespace rnd {
   void Model_InfoLookup(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx, u16 baseItemId);
   void Model_Create(Model* model, game::GlobalContext* globalCtx);
   void Model_SpawnByActor(game::act::Actor* actor, game::GlobalContext* globalCtx, u16 baseItemId);
+  void Model_SpawnByActorFromOverride(game::act::Actor* actor, game::GlobalContext* globalCtx, ItemOverride override,
+                                      u16 baseItemId);
   void Model_DestroyByActor(game::act::Actor* actor);
   void Model_DestroyAll(void);
   s32 Model_DrawByActor(game::act::Actor* actor, z3d_nn_math_MTX34* hardcodedMtx = NULL);

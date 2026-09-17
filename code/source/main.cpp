@@ -120,6 +120,7 @@ namespace rnd {
 
     Input_Update();
     if (context.gctx->GetPlayerActor()) {
+      SaveFile_MaintainMagicBeans();
       ItemOverride_Update();
       link::HandleFastOcarina(context.gctx);
       link::HandleFastArrowSwitch(context.gctx->GetPlayerActor());

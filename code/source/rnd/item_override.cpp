@@ -9,6 +9,7 @@
 #include "rnd/item_table.h"
 #include "rnd/rheap.h"
 #include "rnd/savefile.h"
+#include "rnd/shops.h"
 #include "rnd/spoiler_data.h"
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
@@ -50,6 +51,9 @@ namespace rnd {
 
   static u8 rSatisfiedPendingFrames = 0;
 
+  static ItemOverride_Key sPendingShopKey = {0};
+  static u16 sPendingShopScene = 0;
+
   static bool givenItemOverride = false;
 
   void ItemOverride_Init(void) {
@@ -60,9 +64,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_STRAY_FAIRY;
-    rItemOverrides[1].value.getItemId = 0xBB;
-    rItemOverrides[1].value.looksLikeItemId = 0xBB;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_SHOP;
+    rItemOverrides[1].value.getItemId = 0x6E;
+    rItemOverrides[1].value.looksLikeItemId = 0x6E;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -82,10 +86,11 @@ namespace rnd {
     game::CommonData& cdata = game::GetCommonData();
     ItemOverride_Key retKey;
     retKey.all = 0;
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    rnd::util::Print("%s: Retrieving search key for actor type %#04x and ID is %#04x\n", __func__, actor->actor_type,
-                     actor->id);
-#endif
+    // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    //     rnd::util::Print("%s: Retrieving search key for actor type %#04x and ID is %#04x\n", __func__,
+    //     actor->actor_type,
+    //                      actor->id);
+    // #endif
     if (actor->actor_type == game::act::Type::Chest) {
       // XXX: Any games like H&D or chest game to not swap?
       // Don't override WINNER purple rupee in the chest minigame scene
@@ -128,6 +133,16 @@ namespace rnd {
       if (!En_Cow_FillSearchKey(actor, (game::SceneId)scene, &retKey)) {
         return (ItemOverride_Key){.all = 0};
       }
+    } else if (actor->id == game::act::Id::EnGirlA) {
+      const ShopShelf shelf = Shopsanity_ResolveShelf((game::SceneId)scene, actor->params);
+      if (Shopsanity_GetSlot(shelf.scene, shelf.param) < 0) {
+        return (ItemOverride_Key){.all = 0};
+      }
+      retKey.scene = (u8)shelf.scene;
+      retKey.type = ItemOverride_Type::OVR_SHOP;
+      retKey.flag = (u8)shelf.param;
+    } else if (sPendingShopKey.all != 0 && sPendingShopScene == scene) {
+      retKey = sPendingShopKey;
     } else {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_BASE_ITEM;
@@ -316,10 +331,37 @@ namespace rnd {
     }
   }
 
+  void ItemOverride_SetPendingShopItem(ItemOverride_Key key, game::SceneId purchaseScene) {
+    sPendingShopKey = key;
+    sPendingShopScene = (u16)purchaseScene;
+  }
+
   void ItemOverride_AfterItemReceived(void) {
     ItemOverride_Key key = rActiveItemOverride.key;
     if (key.all == 0) {
       return;
+    }
+    // One bag, two owners. Track across areas.
+    if ((key.type == ItemOverride_Type::OVR_SHOP && key.scene == (u8)game::SceneId::BombShop &&
+         key.flag == (u8)kBigBombBagShelfParam) ||
+        (key.type == ItemOverride_Type::OVR_BASE_ITEM && key.scene == kCuriosityBombBagScene &&
+         key.flag == kCuriosityBombBagFlag)) {
+      gExtSaveData.givenItemChecks.stolenBombBagTaken = 1;
+    }
+
+    if (key.type == ItemOverride_Type::OVR_SHOP) {
+      sPendingShopKey.all = 0;  // hand-off complete
+      Shopsanity_SetSlotPurchased(Shopsanity_GetSlot((game::SceneId)key.scene, (s16)key.flag));
+    }
+    if (key.type == ItemOverride_Type::OVR_BASE_ITEM && key.scene == (u8)game::SceneId::MilkBar) {
+      if (key.flag == (u8)GetItemID::GI_BOTTLE_MILK_REFILL)
+        Shopsanity_SetSlotPurchased(SHOPSANITY_MILK_BAR_MILK);
+      else if (key.flag == (u8)GetItemID::GI_BOTTLE_CHATEAU_ROMANI_REFILL)
+        Shopsanity_SetSlotPurchased(SHOPSANITY_MILK_BAR_CHATEAU);
+    }
+    if (key.type == ItemOverride_Type::OVR_BASE_ITEM && key.scene == (u8)game::SceneId::GormanTrack &&
+        key.flag == (u8)GetItemID::GI_BOTTLE_MILK_REFILL) {
+      Shopsanity_SetSlotPurchased(SHOPSANITY_GORMAN_MILK);
     }
     if (key.type == ItemOverride_Type::OVR_COW) {
       En_Cow_SetMilked(key.flag);
@@ -444,6 +486,8 @@ namespace rnd {
       } else if (storedGetItemId == GetItemID::GI_MASK_KEATON) {
         gExtSaveData.givenItemChecks.enFsnGivenItem = 1;
       }
+    } else if (storedActorId == game::act::Id::EnAkindonuts && storedGetItemId == GetItemID::GI_BOMB_BAG_40) {
+      gExtSaveData.givenItemChecks.enAkindonutsBombBagGiven = 1;
     } else if (storedActorId == game::act::Id::NpcEnPm) {
       gExtSaveData.givenItemChecks.enPmGivenItem = 1;
     } else if (storedActorId == game::act::Id::EnSsh) {
@@ -514,6 +558,8 @@ namespace rnd {
       gExtSaveData.givenItemChecks.enJsGivenItem = 1;
     } else if (storedGetItemId == GetItemID::GI_OCARINA_OF_TIME) {
       gExtSaveData.givenItemChecks.ocarinaOfTimeGiven = 1;
+    } else if (storedActorId == game::act::Id::EnMs) {
+      gExtSaveData.givenItemChecks.beanDaddyGivenFreeBean = 1;
     }
   }
 
@@ -820,6 +866,17 @@ namespace rnd {
     } else if (En_Elforg_IsFairyCollectedAndNonRepeatable(&override)) {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
+    } else if (override.key.type == ItemOverride_Type::OVR_BASE_ITEM && override.key.scene == kCuriosityBombBagScene &&
+               override.key.flag == kCuriosityBombBagFlag && gExtSaveData.givenItemChecks.stolenBombBagTaken != 0) {
+      // Already bought the same bag from the Bomb Shop this file.
+      override.value.getItemId = 0x02;
+      override.value.looksLikeItemId = 0x02;
+    } else if (fromActor->id == game::act::Id::EnMs &&
+               gExtSaveData.givenItemChecks.beanDaddyGivenFreeBean.Value() == 1) {
+      // Allow for regular bean purchases from bean seller if we got our item arleady.
+      ItemOverride_Clear();
+      player->get_item_id = incomingGetItemId;
+      return;
     }
 
     // This check is mainly to ensure we do not have repeatable progressive items within these base items.
@@ -923,6 +980,7 @@ namespace rnd {
       rActiveItemRow->effectArg1 = override.key.all >> 16;
       rActiveItemRow->effectArg2 = override.key.all & 0xFFFF;
     }
+
     if (incomingGetItemId != 0x44 && incomingGetItemId != 0x6D && incomingGetItemId != 0x52 &&
         (incomingGetItemId < (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN ||
          incomingGetItemId > (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER))
@@ -1222,6 +1280,36 @@ namespace rnd {
       return true;
     }
     return false;
+  }
+
+  bool ItemOverride_GiveShopItem(game::act::Actor* actor, game::GlobalContext* gctx) {
+    game::act::Player* player = gctx->GetPlayerActor();
+    const ShopItemEntry* vanillaEntry = Shopsanity_GetVanillaEntry(actor->params);
+    if (vanillaEntry == NULL) {
+      return false;
+    }
+    ItemOverride_GetItem(gctx, actor, player, (s16)vanillaEntry->getItemId);
+    if (rActiveItemRow == NULL) {
+      return false;
+    }
+    // EnGirlA_Randomize does not repoint the shop dialogue yet, so suppressing the pipeline's
+    // ShowMessage here left the vanilla text for baseItemId (GI_NUTS_30, the ***ERROR entry) as
+    // the only thing on screen. Let the real message through instead.
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: param=%#04x vanillaGI=%#04x ovrGI=%#04x row.itemId=%#04x row.textId=%#06x "
+                     "row.baseItemId=%#04x row.objectId=%#06x player.get_item_id=%#04x storedText=%#06x\n",
+                     __func__, (unsigned)actor->params, (unsigned)vanillaEntry->getItemId,
+                     (unsigned)rActiveItemOverride.value.getItemId, (unsigned)rActiveItemRow->itemId,
+                     (unsigned)rActiveItemRow->textId, (unsigned)rActiveItemRow->baseItemId,
+                     (unsigned)rActiveItemRow->objectId, (unsigned)player->get_item_id, (unsigned)rStoredTextId);
+#endif
+    ItemOverride_GetItemTextAndItemID(player);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: after give -- player.get_item_id=%#04x rActiveItemRow=%s\n", __func__,
+                     (unsigned)player->get_item_id, rActiveItemRow == NULL ? "NULL" : "set");
+#endif
+    ItemOverride_RemoveTextId();
+    return true;
   }
 
   u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor* actor) {

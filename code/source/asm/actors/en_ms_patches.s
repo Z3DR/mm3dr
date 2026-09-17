@@ -1,0 +1,11 @@
+.arm
+
+.section .patch_BeanDaddyCheckExtData
+.global patch_BeanDaddyCheckExtData
+patch_BeanDaddyCheckExtData:
+  bl hook_BeanDaddyCheckExtData
+
+.section .patch_BeanDaddyCustomSoldOutText
+.global patch_BeanDaddyCustomSoldOutText
+patch_BeanDaddyCustomSoldOutText:
+  bl hook_BeanDaddyCustomSoldOutText

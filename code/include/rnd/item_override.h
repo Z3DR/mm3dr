@@ -399,6 +399,7 @@ namespace rnd {
     OVR_TEMPLE = 6,
     OVR_STRAY_FAIRY = 7,
     OVR_COW = 8,
+    OVR_SHOP = 9,
   };
 
   typedef union ItemOverride_Key {
@@ -436,6 +437,7 @@ namespace rnd {
   void SetExtData(void);
   u8 ItemOverride_SetProgressiveItemDraw(ItemOverride);
   bool ItemOverride_IsItemObtainedOrEmptyBottle(ItemOverride);
+  void ItemOverride_SetPendingShopItem(ItemOverride_Key, game::SceneId purchaseScene);
   extern "C" {
   bool ItemOverride_CheckAromaGivenItem();
   bool ItemOverride_CheckMikauGivenItem();
@@ -451,6 +453,7 @@ namespace rnd {
   u32 ItemOverride_GetOshExtData();
   u8 ItemOverride_OverrideSkullToken(game::act::Actor*);
   u8 ItemOverride_OverrideStrayFairy(game::act::Actor*);
+  bool ItemOverride_GiveShopItem(game::act::Actor*, game::GlobalContext*);
   u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor*);
   u8 ItemOverride_GetClockTownFairyGiven();
   u8 ItemOverride_CheckBossStatus();

@@ -151,6 +151,7 @@ namespace rnd {
       // OOT equivalent of starting with certain warp songs
       SaveFile_SetStartingOwlStatues();
       SaveFile_SetComfortOptions();
+      SaveFile_SetIngameOptions();
 
       saveData.player.owl_statue_flags.clock_town = 1;
 #ifdef ENABLE_DEBUG
@@ -267,6 +268,24 @@ namespace rnd {
       saveData.player.owl_statue_flags.ikana_canyon = 1;
     if (gSettingsContext.startingOwlStatues.stone_tower)
       saveData.player.owl_statue_flags.stone_tower = 1;
+  }
+
+  void SaveFile_SetIngameOptions() {
+    game::CommonDataSub1& sub1 = game::GetCommonData().sub1;
+
+    if (gSettingsContext.ingameLTargeting != 0)
+      sub1.l_targeting = gSettingsContext.ingameLTargeting - 1;
+    if (gSettingsContext.ingameFirstPersonCamera != 0)
+      sub1.first_person_camera = gSettingsContext.ingameFirstPersonCamera - 1;
+    if (gSettingsContext.ingameFreeCamera != 0)
+      sub1.free_camera = gSettingsContext.ingameFreeCamera - 1;
+    if (gSettingsContext.ingameMotionControls != 0)
+      sub1.motion_controls = gSettingsContext.ingameMotionControls - 1;
+    if (gSettingsContext.ingameSwimmingControls != 0)
+      sub1.swimming_controls = gSettingsContext.ingameSwimmingControls - 1;
+
+    if (gSettingsContext.ingameAdjustVolume != 0)
+      sub1.adjust_volume = gSettingsContext.ingameAdjustVolume - 1;
   }
 
   void SaveFile_SetComfortOptions() {
@@ -493,8 +512,9 @@ namespace rnd {
     }
 
     if (gSettingsContext.startingMagicBean) {
-      saveData.inventory.items[10] = game::ItemId::MagicBean;
-      saveData.inventory.item_counts[15] = 10;
+      saveData.inventory.items[kMagicBeanItemSlot] = game::ItemId::MagicBean;
+      saveData.inventory.item_counts[kMagicBeanCountSlot] = kMagicBeanPackSize;
+      gExtSaveData.magicBeanCount = kMagicBeanPackSize;
     }
 
     if (gSettingsContext.startingHookshot > 0) {
@@ -826,6 +846,21 @@ namespace rnd {
       if (saveData.inventory.items[i] == (game::ItemId)itemSlot) {
         saveData.inventory.items[i] = game::ItemId::None;
       }
+    }
+  }
+
+  // Magic beans are stripped from the inventory when the three day cycle resets. Here they are a
+  // shuffled check, so the stack has to survive that. The count is mirrored into ext data every
+  // frame while the player still holds beans, which means planting them still spends them and an
+  // emptied stack is never handed back.
+  void SaveFile_MaintainMagicBeans() {
+    game::InventoryData& inventory = game::GetCommonData().save.inventory;
+
+    if (inventory.items[kMagicBeanItemSlot] == game::ItemId::MagicBean) {
+      gExtSaveData.magicBeanCount = inventory.item_counts[kMagicBeanCountSlot];
+    } else if (gExtSaveData.magicBeanCount > 0) {
+      inventory.items[kMagicBeanItemSlot] = game::ItemId::MagicBean;
+      inventory.item_counts[kMagicBeanCountSlot] = gExtSaveData.magicBeanCount;
     }
   }
 

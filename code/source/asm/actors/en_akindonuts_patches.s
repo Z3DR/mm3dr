@@ -1,0 +1,11 @@
+.arm
+
+.section .patch_BusinessScrubBombBagPurchased
+.global patch_BusinessScrubBombBagPurchased
+patch_BusinessScrubBombBagPurchased:
+  bl hook_BusinessScrubBombBagPurchased
+
+.section .patch_BusinessScrubBombBagPurchasedTwo
+.global patch_BusinessScrubBombBagPurchasedTwo
+patch_BusinessScrubBombBagPurchasedTwo:
+  bl hook_BusinessScrubBombBagPurchased

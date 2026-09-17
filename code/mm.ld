@@ -409,6 +409,10 @@ SECTIONS{
     *(.patch_TwinmoldConsistentDamage)
   }
 
+  .patch_BeanDaddyCheckExtData 0x29A44C : {
+    *(.patch_BeanDaddyCheckExtData)
+  }
+
   .patch_UpdateBossLairExtData 0x29CF30 : {
     *(.patch_UpdateBossLairExtData)
   }
@@ -423,8 +427,32 @@ SECTIONS{
     *(.patch_FasterBlockMovement)
   }
 
+  .patch_EnInGormanMilkRaceChoice 0x2B068C : {
+    *(.patch_EnInGormanMilkRaceChoice)
+  }
+
+  .patch_EnInGormanMilkFirstChoice 0x2B0C64 : {
+    *(.patch_EnInGormanMilkFirstChoice)
+  }
+
+  .patch_EnInGormanMilkSecondChoice 0x2B104C : {
+    *(.patch_EnInGormanMilkSecondChoice)
+  }
+
+  .patch_EnInGormanMilkRepeatChoice 0x2B13D0 : {
+    *(.patch_EnInGormanMilkRepeatChoice)
+  }
+
   .patch_GiveTempSwordForHandD 0x2B523C : {
     *(.patch_GiveTempSwordForHandD)
+  }
+
+  .patch_EnGirlA_Randomize 0x2B8204 : {
+    *(.patch_EnGirlA_Randomize)
+  }
+
+  .patch_BeanDaddyCustomSoldOutText 0x2B9A04 : {
+    *(.patch_BeanDaddyCustomSoldOutText)
   }
 
   .patch_CheckIfLinkIsFD 0x2C91D4 : {
@@ -461,6 +489,14 @@ SECTIONS{
 
   .patch_FasterBlockMovementBack 0x2D0C0C : {
     *(.patch_FasterBlockMovementBack)
+  }
+
+  .patch_BusinessScrubBombBagPurchased 0x2D7D2C : {
+    *(.patch_BusinessScrubBombBagPurchased)
+  }
+
+  .patch_BusinessScrubBombBagPurchasedTwo 0x2D7FFC : {
+    *(.patch_BusinessScrubBombBagPurchasedTwo)
   }
 
   .patch_TingleCheckClocktownMap 0x2DABD0 : {
@@ -531,6 +567,10 @@ SECTIONS{
 
   .patch_IceArrowsAnywhere 0x31874C : {
     *(.patch_IceArrowsAnywhere)
+  }
+
+  .patch_ClockTowerRooftopTimer 0x31AE94 : {
+    *(.patch_ClockTowerRooftopTimer)
   }
 
   .patch_DmStkInitOcarinaPatch 0x31AEC4 : {
@@ -787,6 +827,10 @@ SECTIONS{
 
   .patch_SkulltulaOverrideTwo 0x52A044 : {
     *(.patch_SkulltulaOverrideTwo)
+  }
+
+  .patch_EnTabGetSaleScript 0x52FA34 : {
+    *(.patch_EnTabGetSaleScript)
   }
 
   .patch_EnBjtDoNotRemoveTradeItem 0x530C90 : {

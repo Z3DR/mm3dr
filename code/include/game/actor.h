@@ -30,6 +30,8 @@ namespace game::act {
   enum class Id : u16 {
     // [2] Player actor
     Player = 0x0000,
+    // Shop Item
+    EnGirlA = 0x0002,
     // Arrow
     Arrow = 0x000F,
     // DayTimer
@@ -70,6 +72,8 @@ namespace game::act {
     DmHina = 0x00DC,
     // [4] Kafei
     NpcKafei = 0x00F4,
+    // Bean Daddy
+    EnMs = 0x0075,
     // Koume (Boat Lady)
     EnTru = 0x0102,
     // Banker
@@ -120,6 +124,8 @@ namespace game::act {
     NpcAroma = 0x01F1,
     // Npc Mayor Dotour
     EnDt = 0x01FE,
+    // En_Akindonuts (Business Scrub)
+    EnAkindonuts = 0x0203,
     // [4] Rosa Sisters
     NpcRosaSisters = 0x020A,
     // En_Yb (Kamarao)
