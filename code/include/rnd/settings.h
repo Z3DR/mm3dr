@@ -249,9 +249,8 @@ namespace rnd {
 
   enum class ShuffleSFXSetting : u8 {
     SHUFFLESFX_OFF,
-    SHUFFLESFX_CATEGORICAL,  // within each bank: player, item, environment, enemy, system, voice
-    SHUFFLESFX_CHAOS,        // one pool for everything
-    SHUFFLESFX_LINK_ONLY,    // Link's player, item and voice sounds, each within its own group
+    SHUFFLESFX_CATEGORICAL,
+    SHUFFLESFX_CHAOS,
   };
 
   enum class ShuffleMusicSetting : u8 {
@@ -490,6 +489,8 @@ namespace rnd {
     u8 muteBackgroundMusic;
     u8 shuffleMusic;
     u8 shuffleSFX;
+    u8 shuffleSFXFootsteps;
+    u8 shuffleSFXLinkVoice;
     u8 shopsanityPrices;
 
     // In-game defaults.

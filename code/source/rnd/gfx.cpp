@@ -633,7 +633,7 @@ namespace rnd {
 
   static const char* const toggleValueNames[] = {"Off", "On"};
   static const char* const shuffleMusicValueNames[] = {"Off", "Background Music", "Fanfares", "All"};
-  static const char* const shuffleSFXValueNames[] = {"Off", "Categorical", "Chaos", "Link Only"};
+  static const char* const shuffleSFXValueNames[] = {"Off", "Categorical", "Chaos"};
   static u8 Option_GetMuteSoundEffects(void) {
     return gExtSaveData.options.muteSoundEffects;
   }
@@ -656,10 +656,26 @@ namespace rnd {
   }
 
   static u8 Option_GetShuffleSFX(void) {
-    return gExtSaveData.options.shuffleSFX;
+    // Saves from before Link Only was removed can still hold its value 3, which now means Off.
+    const u8 value = gExtSaveData.options.shuffleSFX;
+    return value < ARR_SIZE(shuffleSFXValueNames) ? value : (u8)ShuffleSFXSetting::SHUFFLESFX_OFF;
   }
   static void Option_SetShuffleSFX(u8 value) {
     gExtSaveData.options.shuffleSFX = value;
+  }
+
+  static u8 Option_GetShuffleFootsteps(void) {
+    return gExtSaveData.sfxOptions.shuffleFootsteps;
+  }
+  static void Option_SetShuffleFootsteps(u8 value) {
+    gExtSaveData.sfxOptions.shuffleFootsteps = value;
+  }
+
+  static u8 Option_GetShuffleLinkVoice(void) {
+    return gExtSaveData.sfxOptions.shuffleLinkVoice;
+  }
+  static void Option_SetShuffleLinkVoice(u8 value) {
+    gExtSaveData.sfxOptions.shuffleLinkVoice = value;
   }
 
   static const MenuOption menuOptions[] = {
@@ -673,6 +689,10 @@ namespace rnd {
        Option_SetShuffleMusic},
       {"Shuffle Sound Effects", shuffleSFXValueNames, ARR_SIZE(shuffleSFXValueNames), Option_GetShuffleSFX,
        Option_SetShuffleSFX},
+      {"  Shuffle Footsteps", toggleValueNames, ARR_SIZE(toggleValueNames), Option_GetShuffleFootsteps,
+       Option_SetShuffleFootsteps},
+      {"  Shuffle Link's Voice", toggleValueNames, ARR_SIZE(toggleValueNames), Option_GetShuffleLinkVoice,
+       Option_SetShuffleLinkVoice},
   };
 
   static void Gfx_DrawOptions(void) {
