@@ -47,18 +47,25 @@ namespace rnd {
            mode == (u8)SongReplaysSetting::SONGREPLAYS_SKIP_KEEP_SFX;
   }
 
+  static void SetOcarinaInstrument(u8 instrument) {
+    util::GetPointer<void(u8)>(0x1DF440)(instrument);
+  }
+
+  static void StopHeldOcarinaNote() {
+    SetOcarinaInstrument(0xF0);  // Stop Ocarina is 0xF0.
+  }
+
   // Restarts the melody without the visual replay. Both skip paths need this: the replay path
   // for ordinary songs, and HandleOcarinaSong for the ones it claims outright, which never reach
   // the replay code and so were silent under "Skip (Keep SFX)".
   static void PlaySkippedSongAudio(game::OcarinaSong song) {
     static const u8 kOcarinaInstruments[] = {0x01, 0x07, 0x08, 0x09};
-    const auto set_instrument = util::GetPointer<void(u8)>(0x1DF440);
     u8 form = (u8)game::GetCommonData().save.player_form;
     if (form >= ARR_SIZE(kOcarinaInstruments)) {
       form = 0;  // Human is index 4 and folds back onto 0
     }
-    set_instrument(0x01);
-    set_instrument(kOcarinaInstruments[form]);
+    SetOcarinaInstrument(0x01);
+    SetOcarinaInstrument(kOcarinaInstruments[form]);
 
     // AudioOcarina_SetPlaybackSong
     util::GetPointer<void(u8, u8)>(0x1CF15C)(u8(u16(song) + 1), 1);
@@ -91,6 +98,7 @@ namespace rnd {
     if (song == game::OcarinaSong::SongOfSoaring) {
       util::Write<bool>(gctx, 0x83EC, false);
     }
+    StopHeldOcarinaNote();
     if (keepAudio) {
       PlaySkippedSongAudio(song);
     }
@@ -122,6 +130,7 @@ namespace rnd {
     }
     gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_ACTIVE;
 
+    StopHeldOcarinaNote();
     if (gExtSaveData.options.skipSongReplays == (u8)SongReplaysSetting::SONGREPLAYS_SKIP_KEEP_SFX) {
       PlaySkippedSongAudio(gctx->msg_context.lastPlayedSong);
     }
