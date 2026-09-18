@@ -86,3 +86,21 @@ hook_MuteOcarinaNotes:
 muteOcarinaNotes:
     add sp, sp, #0x14
     ldmia sp!, {pc}
+
+.global hook_SfxStopById
+hook_SfxStopById:
+    b Sfx_StopById
+
+.global Sfx_StopByIdVanilla
+Sfx_StopByIdVanilla:
+    push {r4, r5, r6, lr}
+    b 0x1E128C
+
+.global hook_SfxIsPlayingById
+hook_SfxIsPlayingById:
+    b Sfx_IsPlayingById
+
+.global Sfx_IsPlayingByIdVanilla
+Sfx_IsPlayingByIdVanilla:
+    push {r4, r5, r6, lr}
+    b 0x5B4ADC

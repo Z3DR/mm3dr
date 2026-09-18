@@ -16,9 +16,11 @@
 #include "rnd/link.h"
 #include "rnd/models.h"
 #include "rnd/objects.h"
+#include "rnd/ocarina.h"
 #include "rnd/rheap.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
+#include "rnd/sfx.h"
 #include "z3d/z3DVec.h"
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
@@ -119,9 +121,11 @@ namespace rnd {
     bgmWasMuted = bgmMuted;
 
     Input_Update();
+    Sfx_Update();
     if (context.gctx->GetPlayerActor()) {
       SaveFile_MaintainMagicBeans();
       ItemOverride_Update();
+      Ocarina_Update();
       link::HandleFastOcarina(context.gctx);
       link::HandleFastArrowSwitch(context.gctx->GetPlayerActor());
       link::FixFreeCameraReset();

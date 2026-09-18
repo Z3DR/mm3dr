@@ -169,6 +169,10 @@ SECTIONS{
     *(.patch_RemoveMysteryMilkUsabilityCheck)
   }
 
+  .patch_SfxStopById 0x1E1288 : {
+    *(.patch_SfxStopById)
+  }
+
   .patch_OcarinaDive 0x1E1F0C : {
     *(.patch_OcarinaDive)
   }
@@ -605,6 +609,10 @@ SECTIONS{
     *(.patch_EnPmOverrideHatModel)
   }
 
+  .patch_GiantChamberCutsceneOrder 0x345D78 : {
+    *(.patch_GiantChamberCutsceneOrder)
+  }
+
   .patch_AromaItemCheck 0x35091C : {
     *(.patch_AromaItemCheck)
   }
@@ -935,6 +943,10 @@ SECTIONS{
 
   .patch_ShorterAnimationStateFailed 0x5B1A90 : {
     *(.patch_ShorterAnimationOpenSix)
+  }
+
+  .patch_SfxIsPlayingById 0x5B4AD8 : {
+    *(.patch_SfxIsPlayingById)
   }
 
   /*0x05ffc70*/ /*0x177ddc*/ /*0x5bbab8 */ /* 0x5b8b24 */

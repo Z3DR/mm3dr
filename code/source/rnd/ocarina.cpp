@@ -8,6 +8,7 @@
 #include "game/player.h"
 #include "game/sound.h"
 #include "game/ui/layouts/message_window.h"
+#include "rnd/ocarina.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
 
@@ -18,17 +19,24 @@ namespace rnd {
   static_assert(offsetof(game::GlobalContext, msg_context.lastPlayedSong) == 0x836A);
   static_assert(offsetof(game::CommonData, save.player_form) == 0x26);
 
-  // keepAudio: the caller is about to replay the melody itself, so the fadeout must not be armed.
-  // ocarinaMgrSetFadeOut (0x4FE0BC) only stores a duration into OcarinaMgr[0x1C0], and 20-25
-  // frames is roughly two notes -- long enough that the replayed song audibly starts and then
-  // dies. The replay path never gets here, which is why Epona's Song was unaffected.
+  static void ArmOcarinaFadeOut() {
+    constexpr int fade_durations[] = {20, 25, 25, 20, 20};
+    u8 form = 0;
+    if (auto* gctx = GetContext().gctx; gctx != nullptr && gctx->GetPlayerActor() != nullptr) {
+      form = u8(gctx->GetPlayerActor()->active_form);
+    }
+    if (form >= ARR_SIZE(fade_durations)) {
+      form = 0;
+    }
+    const auto set_ocarina_fadeout = util::GetPointer<void(int zero, int duration)>(0x4FE0BC);
+    set_ocarina_fadeout(0, fade_durations[form]);
+  }
+
   static void EndOcarinaSession(game::ui::MessageWindow* window, bool keepAudio) {
     auto* gctx = GetContext().gctx;
 
     if (!keepAudio) {
-      constexpr int fade_durations[] = {20, 25, 25, 20, 20};
-      const auto set_ocarina_fadeout = util::GetPointer<void(int zero, int duration)>(0x4FE0BC);
-      set_ocarina_fadeout(0, fade_durations[u8(gctx->GetPlayerActor()->active_form)]);
+      ArmOcarinaFadeOut();
     }
 
     const auto set_ocarina_mode = util::GetPointer<void(game::ui::MessageWindow*, game::OcarinaMode mode)>(0x1D1A18);
@@ -51,8 +59,10 @@ namespace rnd {
     util::GetPointer<void(u8)>(0x1DF440)(instrument);
   }
 
-  static void StopHeldOcarinaNote() {
-    SetOcarinaInstrument(0xF0);  // Stop Ocarina is 0xF0.
+  static bool sFadeAfterPlayback = false;
+
+  static bool IsOcarinaPlaybackActive() {
+    return *util::GetPointer<u8>(0x7CB2D0 + 0x23) != 0;
   }
 
   // Restarts the melody without the visual replay. Both skip paths need this: the replay path
@@ -69,6 +79,15 @@ namespace rnd {
 
     // AudioOcarina_SetPlaybackSong
     util::GetPointer<void(u8, u8)>(0x1CF15C)(u8(u16(song) + 1), 1);
+    sFadeAfterPlayback = true;
+  }
+
+  void Ocarina_Update() {
+    if (!sFadeAfterPlayback || IsOcarinaPlaybackActive()) {
+      return;
+    }
+    sFadeAfterPlayback = false;
+    ArmOcarinaFadeOut();
   }
 
   bool HandleOcarinaSong(game::ui::MessageWindow* self, game::OcarinaSong song) {
@@ -98,7 +117,6 @@ namespace rnd {
     if (song == game::OcarinaSong::SongOfSoaring) {
       util::Write<bool>(gctx, 0x83EC, false);
     }
-    StopHeldOcarinaNote();
     if (keepAudio) {
       PlaySkippedSongAudio(song);
     }
@@ -130,9 +148,10 @@ namespace rnd {
     }
     gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_ACTIVE;
 
-    StopHeldOcarinaNote();
     if (gExtSaveData.options.skipSongReplays == (u8)SongReplaysSetting::SONGREPLAYS_SKIP_KEEP_SFX) {
       PlaySkippedSongAudio(gctx->msg_context.lastPlayedSong);
+    } else {
+      ArmOcarinaFadeOut();
     }
 
     return true;
