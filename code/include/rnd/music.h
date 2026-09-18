@@ -5,6 +5,7 @@
 #define BGM_COUNT 0x86
 namespace rnd {
   extern "C" u32 rBGMOverrides[BGM_COUNT];
+  extern "C" u8 rBGMFanfares[BGM_COUNT];
   extern "C" u32 Music_OverridePlay(u32 original);
   enum SeqType : u8 {
     SEQ_NOSHUFFLE = 0,
@@ -12,6 +13,6 @@ namespace rnd {
     SEQ_BGM_EVENT = 1 << 1,   // cutscene / character themes
     SEQ_BGM_BATTLE = 1 << 2,  // boss, mini-boss, chase
     SEQ_FANFARE = 1 << 3,     // item get, clear jingles
-    SEQ_OCARINA = 1 << 4,     // the 0x7F OCA_MUS family
+    SEQ_OCARINA = 1 << 4,     // ocarina song playback (OCA_*, TIME_SPEED, TIME_JUMP)
   };
 }  // namespace rnd

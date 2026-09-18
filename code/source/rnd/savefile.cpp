@@ -874,15 +874,7 @@ namespace rnd {
   void SaveFile_InitExtSaveData(u32 saveNumber) {
     memset((void*)&gExtSaveData, 0, sizeof(gExtSaveData));
     gExtSaveData.version = EXTSAVEDATA_VERSION;  // Do not change this line
-    gExtSaveData.isNewFile = 1;
-    // TODO: BitField for event flags instead?
-    /*gExtSaveData.givenItemChecks.raw = 0;
-    gExtSaveData.fairyRewards.raw = 0;
-    gExtSaveData.tingleMaps.raw = 0;
-    gExtSaveData.playtimeSeconds = 0;
-    memset(&gExtSaveData.chestRewarded, 0, sizeof(gExtSaveData.chestRewarded));
-    memset(&gExtSaveData.scenesDiscovered, 0, sizeof(gExtSaveData.scenesDiscovered));
-    memset(&gExtSaveData.itemCollected, 0, sizeof(gExtSaveData.itemCollected));*/
+    gExtSaveData.isNewFile = 1;  
 #ifdef ENABLE_DEBUG
     gExtSaveData.collectedTradeItems[0] = game::ItemId::MoonTear;
     gExtSaveData.collectedTradeItems[1] = game::ItemId::LandTitleDeed;
@@ -899,16 +891,12 @@ namespace rnd {
     }
 #endif
 
-    // TODO: Settings options belong in ext.
-    // memset(&gExtSaveData.entrancesDiscovered, 0, sizeof(gExtSaveData.entrancesDiscovered));
-    // // Ingame Options
-    // gExtSaveData.option_EnableBGM          = gSettingsContext.playMusic;
-    // gExtSaveData.option_EnableSFX          = gSettingsContext.playSFX;
-    // gExtSaveData.option_SilenceNavi        = gSettingsContext.silenceNavi;
-    // gExtSaveData.option_IgnoreMaskReaction = gSettingsContext.ignoreMaskReaction;
+    // Ingame Options
     gExtSaveData.options.skipSongReplays = gSettingsContext.skipSongReplays;
     gExtSaveData.options.shuffleMusic = gSettingsContext.shuffleMusic;
     gExtSaveData.options.shuffleSFX = gSettingsContext.shuffleSFX;
+    gExtSaveData.sfxOptions.shuffleFootsteps = gSettingsContext.shuffleSFXFootsteps;
+    gExtSaveData.sfxOptions.shuffleLinkVoice = gSettingsContext.shuffleSFXLinkVoice;
     gExtSaveData.options.muteSoundEffects = gSettingsContext.muteSoundEffects;
     gExtSaveData.options.muteBackgroundMusic = gSettingsContext.muteBackgroundMusic;
   }

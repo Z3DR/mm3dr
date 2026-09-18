@@ -1,14 +1,11 @@
 #include "rnd/music.h"
 
-#include "common/utils.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
 
 namespace rnd {
-  constexpr u32 kBgmFlagsTable = 0x6A0DEC;
-
   static bool IsFanfare(u32 index) {
-    return (util::BitCastPtr<u32>(reinterpret_cast<const void*>(kBgmFlagsTable), index * 4) & 2) != 0;
+    return rBGMFanfares[index] != 0;
   }
 
   static bool ShuffleAllowed(u32 index) {
@@ -35,6 +32,7 @@ namespace rnd {
 
   extern "C" {
   u32 rBGMOverrides[BGM_COUNT] = {0};
+  u8 rBGMFanfares[BGM_COUNT] = {0};
   u32 Music_OverridePlay(u32 original) {
     return MusicOverrideImpl(original);
   }
