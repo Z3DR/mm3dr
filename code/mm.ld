@@ -609,6 +609,10 @@ SECTIONS{
     *(.patch_EnPmOverrideHatModel)
   }
 
+  .patch_GiantChamberCutsceneOrder 0x345D78 : {
+    *(.patch_GiantChamberCutsceneOrder)
+  }
+
   .patch_AromaItemCheck 0x35091C : {
     *(.patch_AromaItemCheck)
   }

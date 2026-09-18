@@ -9,3 +9,8 @@ patch_DrawGiantAfterMoonCutscene:
 .global patch_EnGiantDrawGiantIfMoonRequirementsMet
 patch_EnGiantDrawGiantIfMoonRequirementsMet:
     b hook_EnGiantDrawGiantIfMoonRequirementsMet
+
+.section .patch_GiantChamberCutsceneOrder
+.global patch_GiantChamberCutsceneOrder
+patch_GiantChamberCutsceneOrder:
+    b hook_GiantChamberCutsceneOrder
