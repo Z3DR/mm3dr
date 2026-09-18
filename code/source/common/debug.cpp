@@ -23,7 +23,7 @@ namespace rnd::util {
     const int written = vsnprintf_(buffer, sizeof(buffer), format, arg);
     va_end(arg);
     if (written >= 0)
-      svcOutputDebugString(buffer, sizeof(buffer));
+      svcOutputDebugString(buffer, written < (int)sizeof(buffer) ? written : (int)sizeof(buffer) - 1);
   }
 
 }  // namespace rnd::util

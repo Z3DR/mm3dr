@@ -24,3 +24,13 @@ patch_SoundEffectFilterThree:
 .global patch_MuteOcarinaNotes
 patch_MuteOcarinaNotes:
     bl hook_MuteOcarinaNotes
+
+.section .patch_SfxStopById
+.global patch_SfxStopById
+patch_SfxStopById:
+    b hook_SfxStopById
+
+.section .patch_SfxIsPlayingById
+.global patch_SfxIsPlayingById
+patch_SfxIsPlayingById:
+    b hook_SfxIsPlayingById

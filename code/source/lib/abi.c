@@ -30,16 +30,14 @@ static int __divmodsi4(int a, int b, int* rem) {
   return d;
 }
 
-struct idivmod_result {
-  int quot;
-  int rem;
-};
-
-struct idivmod_result __aeabi_idivmod(int numerator, int denominator) {
+// The EABI returns the quotient in r0 and the remainder in r1. An 8-byte struct would instead be
+// returned through a hidden pointer passed in r0, so the compiler's `%` would store the result at
+// whatever address the numerator happened to be. A 64-bit value comes back in r0:r1, low word first.
+unsigned long long __aeabi_idivmod(int numerator, int denominator) {
   int rem;
   int quot = __divmodsi4(numerator, denominator, &rem);
 
-  return (struct idivmod_result){quot, rem};
+  return ((unsigned long long)(unsigned int)rem << 32) | (unsigned int)quot;
 }
 
 unsigned int __aeabi_uidiv(unsigned int n, unsigned int d) {
@@ -93,16 +91,11 @@ static unsigned int __udivmodsi4(unsigned int a, unsigned int b, unsigned int* r
   return d;
 }
 
-struct uidivmod_result {
-  unsigned int quot;
-  unsigned int rem;
-};
-
-struct uidivmod_result __aeabi_uidivmod(unsigned int numerator, unsigned int denominator) {
+unsigned long long __aeabi_uidivmod(unsigned int numerator, unsigned int denominator) {
   unsigned int rem;
   unsigned int quot = __udivmodsi4(numerator, denominator, &rem);
 
-  return (struct uidivmod_result){quot, rem};
+  return ((unsigned long long)rem << 32) | quot;
 }
 
 typedef int si_int;
@@ -320,6 +313,7 @@ static di_int __divmoddi4(di_int a, di_int b, di_int* rem) {
   *rem = a - (d * b);
   return d;
 }
+
 
 struct ldivmod_result {
   long long quot;

@@ -20,6 +20,7 @@
 #include "rnd/rheap.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
+#include "rnd/sfx.h"
 #include "z3d/z3DVec.h"
 
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
@@ -120,6 +121,7 @@ namespace rnd {
     bgmWasMuted = bgmMuted;
 
     Input_Update();
+    Sfx_Update();
     if (context.gctx->GetPlayerActor()) {
       SaveFile_MaintainMagicBeans();
       ItemOverride_Update();

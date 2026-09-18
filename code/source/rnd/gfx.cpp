@@ -633,7 +633,7 @@ namespace rnd {
 
   static const char* const toggleValueNames[] = {"Off", "On"};
   static const char* const shuffleMusicValueNames[] = {"Off", "Background Music", "Fanfares", "All"};
-  static const char* const shuffleSFXValueNames[] = {"Off", "Categorical", "Chaos"};
+  static const char* const shuffleSFXValueNames[] = {"Off", "Categorical", "Chaos", "Link Only"};
   static u8 Option_GetMuteSoundEffects(void) {
     return gExtSaveData.options.muteSoundEffects;
   }
