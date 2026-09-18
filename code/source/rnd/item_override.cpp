@@ -1,5 +1,6 @@
 #include "rnd/item_override.h"
 #include "game/actors/great_fairy.h"
+#include "rnd/actors/en_akindonuts.h"
 #include "rnd/actors/en_cow.h"
 #include "rnd/actors/en_elforg.h"
 #include "rnd/actors/en_si.h"
@@ -362,6 +363,9 @@ namespace rnd {
     if (key.type == ItemOverride_Type::OVR_BASE_ITEM && key.scene == (u8)game::SceneId::GormanTrack &&
         key.flag == (u8)GetItemID::GI_BOTTLE_MILK_REFILL) {
       Shopsanity_SetSlotPurchased(SHOPSANITY_GORMAN_MILK);
+    }
+    if (storedActorId == game::act::Id::EnAkindonuts) {
+      En_Akindonuts_SetSaleBought(key);
     }
     if (key.type == ItemOverride_Type::OVR_COW) {
       En_Cow_SetMilked(key.flag);
@@ -864,6 +868,9 @@ namespace rnd {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
     } else if (En_Elforg_IsFairyCollectedAndNonRepeatable(&override)) {
+      override.value.getItemId = 0x02;
+      override.value.looksLikeItemId = 0x02;
+    } else if (fromActor->id == game::act::Id::EnAkindonuts && En_Akindonuts_IsSaleBoughtAndNonRepeatable(&override)) {
       override.value.getItemId = 0x02;
       override.value.looksLikeItemId = 0x02;
     } else if (override.key.type == ItemOverride_Type::OVR_BASE_ITEM && override.key.scene == kCuriosityBombBagScene &&
