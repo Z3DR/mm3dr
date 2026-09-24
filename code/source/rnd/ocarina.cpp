@@ -5,6 +5,7 @@
 #include "common/flags.h"
 #include "common/types.h"
 #include "game/context.h"
+#include "game/ocarina_mgr.h"
 #include "game/player.h"
 #include "game/sound.h"
 #include "game/ui/layouts/message_window.h"
@@ -13,11 +14,15 @@
 #include "rnd/settings.h"
 
 namespace rnd {
-  // Offsets this file pokes at directly. Verified against the struct so a layout change breaks
-  // the build rather than the ocarina.
   static_assert(offsetof(game::GlobalContext, msg_context.ocarinaSongActionId) == 0x8368);
   static_assert(offsetof(game::GlobalContext, msg_context.lastPlayedSong) == 0x836A);
   static_assert(offsetof(game::CommonData, save.player_form) == 0x26);
+
+  // Set while a fade we armed is counting down. When it expires, OcarinaMgr turns the instrument
+  // off and resets its state, including the song flags and playing staff. Vanilla never lets the
+  // player reach a new session within that window, but a skipped replay does: the reset then lands
+  // mid-song, the staff reports 0xFF, and the window shows the red X failure.
+  static bool sOwnFadePending = false;
 
   static void ArmOcarinaFadeOut() {
     constexpr int fade_durations[] = {20, 25, 25, 20, 20};
@@ -28,8 +33,8 @@ namespace rnd {
     if (form >= ARR_SIZE(fade_durations)) {
       form = 0;
     }
-    const auto set_ocarina_fadeout = util::GetPointer<void(int zero, int duration)>(0x4FE0BC);
-    set_ocarina_fadeout(0, fade_durations[form]);
+    game::sound::SetOcarinaFadeOut(0, fade_durations[form]);
+    sOwnFadePending = true;
   }
 
   static void EndOcarinaSession(game::ui::MessageWindow* window, bool keepAudio) {
@@ -55,14 +60,14 @@ namespace rnd {
            mode == (u8)SongReplaysSetting::SONGREPLAYS_SKIP_KEEP_SFX;
   }
 
-  static void SetOcarinaInstrument(u8 instrument) {
-    util::GetPointer<void(u8)>(0x1DF440)(instrument);
-  }
-
   static bool sFadeAfterPlayback = false;
 
   static bool IsOcarinaPlaybackActive() {
-    return *util::GetPointer<u8>(0x7CB2D0 + 0x23) != 0;
+    return game::sound::GetOcarinaMgr().playbackState != 0;
+  }
+
+  static bool IsNewOcarinaSessionActive() {
+    return game::sound::GetOcarinaMgr().songFlags != 0;
   }
 
   // Restarts the melody without the visual replay. Both skip paths need this: the replay path
@@ -74,15 +79,34 @@ namespace rnd {
     if (form >= ARR_SIZE(kOcarinaInstruments)) {
       form = 0;  // Human is index 4 and folds back onto 0
     }
-    SetOcarinaInstrument(0x01);
-    SetOcarinaInstrument(kOcarinaInstruments[form]);
-
-    // AudioOcarina_SetPlaybackSong
-    util::GetPointer<void(u8, u8)>(0x1CF15C)(u8(u16(song) + 1), 1);
+    game::sound::SetOcarinaInstrument(0x01);
+    game::sound::SetOcarinaInstrument(kOcarinaInstruments[form]);
+    game::sound::SetOcarinaPlaybackSong(u8(u16(song) + 1), 1);
     sFadeAfterPlayback = true;
   }
 
   void Ocarina_Update() {
+    auto& ocarinaMgr = game::sound::GetOcarinaMgr();
+    if (sOwnFadePending && ocarinaMgr.fadeOutTimer == 0) {
+      sOwnFadePending = false;
+    }
+
+    // Nothing from the skipped song may outlive into the next session: the fade would reset it,
+    // and a still-running playback mutes the player's notes and feeds the song check.
+    if (IsNewOcarinaSessionActive()) {
+      if (sOwnFadePending) {
+        ocarinaMgr.fadeOutTimer = 0;
+        sOwnFadePending = false;
+      }
+      if (sFadeAfterPlayback) {
+        if (IsOcarinaPlaybackActive()) {
+          game::sound::SetOcarinaPlaybackSong(0, 0);
+        }
+        sFadeAfterPlayback = false;
+      }
+      return;
+    }
+
     if (!sFadeAfterPlayback || IsOcarinaPlaybackActive()) {
       return;
     }
@@ -126,12 +150,12 @@ namespace rnd {
 
   bool SongReplayTrySkip() {
     if (!SongReplaySkipEnabled()) {
-      return false;  // vanilla: the hook leaves state 0x12 and the timer untouched
+      return false;
     }
 
     auto* gctx = GetContext().gctx;
     if (gctx == nullptr) {
-      return false;  // no context to fix up, so let vanilla run
+      return false;
     }
 
     if (gctx->msg_context.lastPlayedSong == game::OcarinaSong::SongOfDoubleTime) {
@@ -139,13 +163,20 @@ namespace rnd {
     }
 
     auto& action = gctx->msg_context.ocarinaSongActionId;
+    game::OcarinaSongActionId doneAction;
     if (action == game::OcarinaSongActionId::OCARINA_ACTION_FREE_PLAY) {
-      action = game::OcarinaSongActionId::OCARINA_ACTION_FREE_PLAY_DONE;
+      doneAction = game::OcarinaSongActionId::OCARINA_ACTION_FREE_PLAY_DONE;
     } else if (action == game::OcarinaSongActionId::OCARINA_ACTION_CHECK_NOTIME) {
-      action = game::OcarinaSongActionId::OCARINA_ACTION_CHECK_NOTIME_DONE;
+      doneAction = game::OcarinaSongActionId::OCARINA_ACTION_CHECK_NOTIME_DONE;
     } else {
       return false;
     }
+
+    if (gctx->msg_context.lastPlayedSong == game::OcarinaSong::SongOfStorms) {
+      // Spawns oca_eff for the song of storms as that is what causes beans to grow in soil.
+      util::GetPointer<void(game::GlobalContext*)>(0x3B7B84)(gctx);
+    }
+    action = doneAction;
     gctx->msg_context.ocarinaMode = game::OcarinaMode::OCARINA_MODE_ACTIVE;
 
     if (gExtSaveData.options.skipSongReplays == (u8)SongReplaysSetting::SONGREPLAYS_SKIP_KEEP_SFX) {
