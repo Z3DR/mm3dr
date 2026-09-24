@@ -29,7 +29,7 @@ namespace rnd {
       return script;
 
     // Always hand back the copy so the script pointer holds steady through a conversation.
-    util::GetPointer<MemCopyFn>(0x1F28E8)(sSaleScript, script, sizeof(sSaleScript));
+    util::GetPointer<MemCopyFn>(0x300154)(sSaleScript, script, sizeof(sSaleScript));
     if (En_Tab_IsSoldOut(GetItemID::GI_BOTTLE_MILK_REFILL, SHOPSANITY_MILK_BAR_MILK))
       En_Tab_RefuseChoice(ENTAB_SALE_CHOICE_MILK);
     if (En_Tab_IsSoldOut(GetItemID::GI_BOTTLE_CHATEAU_ROMANI_REFILL, SHOPSANITY_MILK_BAR_CHATEAU))
