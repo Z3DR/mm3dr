@@ -94,9 +94,6 @@ namespace rnd {
     sLastPlayedFrame[index] = sFrame;
     if (sPlayedRun[index] >= kHeldFrames && !Sfx_IsHeld(index)) {
       sHeld[index / 32] |= 1u << (index % 32);
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-      util::Print("SFX held %03X, no longer shuffled\n", index);
-#endif
     }
   }
 
@@ -214,11 +211,6 @@ namespace rnd {
       }
     }
     const u32 remapped = Sfx_Remap(Sfx_TableForMode(gExtSaveData.options.shuffleSFX), id);
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    if (remapped != id) {
-      util::Print("SFX play %03X -> %03X\n", id - SFX_BASE, remapped - SFX_BASE);
-    }
-#endif
     return remapped;
   }
 
@@ -227,10 +219,6 @@ namespace rnd {
   // memory when it ends. So this stops the vanilla id and its image in every table built so far;
   // cutting an unrelated sound short is the lesser risk.
   void Sfx_StopById(void* mgr, u32 id) {
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    util::Print("SFX stop %03X (%03X %03X %03X)\n", id - SFX_BASE, Sfx_Remap(0, id) - SFX_BASE,
-                Sfx_Remap(1, id) - SFX_BASE, Sfx_Remap(2, id) - SFX_BASE);
-#endif
     Sfx_StopByIdVanilla(mgr, id);
     for (s32 table = 0; table < kTableCount; table++) {
       const u32 remapped = Sfx_Remap(table, id);
