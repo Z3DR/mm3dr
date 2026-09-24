@@ -123,14 +123,9 @@ hook_StrayFairyCollectMessage:
     vpop {d8}
     b 0x5410C4
 strayFairyMessageOverride:
-    push {r0,r2,r3,r12,lr}
     cpy r0,r4
-    bl ItemOverride_GetStrayFairyMessageId
-    cpy r1,r0
-    bl ItemOverride_RemoveTextId
-    pop {r0,r2,r3,r12,lr}
+    cpy r1,r5
+    bl En_Elforg_ShowItemMessage
+    @ CirclePlayer's own epilogue
     vpop {d8}
-    cpy r0,r5
-    ldmia sp!,{r4,r5,r6,lr}
-    mov r2,#0x0
-    b 0x21BAFC
+    ldmia sp!,{r4,r5,r6,pc}

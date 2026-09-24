@@ -52,8 +52,10 @@ namespace rnd {
   s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
   bool En_Elforg_Chest_IsFairyObtained(u32 param, game::GlobalContext*);
   u16 En_Elforg_CheckHeartPieceCount(u16 origTextId);
+  void En_Elforg_ShowItemMessage(En_Elforg* self, game::GlobalContext* gctx);
   }
   void En_Elforg_Destroy(game::act::Actor*, game::GlobalContext*);
+  void En_Elforg_UpdateItemText(game::GlobalContext* gctx);
 
   void En_Elforg_ConfigureItemRows(game::act::ActorOverlayInfo* overlayTable);
   u16 En_Elforg_GetItemObjectId();

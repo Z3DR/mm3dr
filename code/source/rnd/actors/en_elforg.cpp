@@ -1,5 +1,8 @@
 #include "rnd/actors/en_elforg.h"
 
+#include "game/message.h"
+#include "game/player.h"
+
 namespace rnd {
   u16 sElforgItemObjectId = 0;
   int En_Elforg_getFairyIndex(game::SceneId scene) {
@@ -69,7 +72,58 @@ namespace rnd {
       gExtSaveData.dungeonFairyBitfields[fairyIdx] |= 1 << (flag & 0x1F);
   }
 
+  // Item message opened by a randomized stray fairy, still waiting to be dismissed. 0 when none.
+  static u16 sOpenItemTextId = 0;
+  static u16 sItemTextShownFrames = 0;
+  static constexpr u16 kItemTextTimeoutFrames = 90;
+
+  // Closes that message on A, or once it times out, much as vanilla's counter box fades. Item
+  // messages stop in TEXT_STATE_EVENT and wait for their owner to close them: the player's get-item
+  // action, or the actor being talked to. A stray fairy has neither, since Link keeps moving while
+  // it circles him, so this stands in as the owner.
+  void En_Elforg_UpdateItemText(game::GlobalContext* gctx) {
+    if (sOpenItemTextId == 0) {
+      return;
+    }
+    game::ui::MessageWindow* window = game::MessageMgr::Instance().message_window;
+    const auto talkStatus = util::GetPointer<u32(game::MessageContext*)>(0x1C5018)(&gctx->msg_context);
+    if (talkStatus == 0 || u16(window->msgid_2) != sOpenItemTextId) {
+      sOpenItemTextId = 0;
+      return;
+    }
+    constexpr u32 kTextStateEvent = 5;
+    if (talkStatus != kTextStateEvent) {
+      return;
+    }
+    game::act::Player* player = gctx->GetPlayerActor();
+    bool dismissed = false;
+    if (player != nullptr) {
+      const rnd::Flags<game::pad::Button>& buttons = player->controller_info.state->input.new_buttons;
+      dismissed = buttons.IsSet(game::pad::Button::A) || buttons.IsSet(game::pad::Button::B);
+    }
+    if (!dismissed && ++sItemTextShownFrames < kItemTextTimeoutFrames) {
+      return;
+    }
+    if (dismissed) {
+      game::PlayMessagePassSound();
+    }
+    util::GetPointer<void(game::ui::MessageWindow*, int)>(0x1D1A18)(window, 1);
+    sOpenItemTextId = 0;
+  }
+
   extern "C" {
+  // Replaces CirclePlayer's stray fairy counter (message 0x11) for randomized fairies.
+  void En_Elforg_ShowItemMessage(En_Elforg* self, game::GlobalContext* gctx) {
+    const u16 textId = ItemOverride_GetStrayFairyMessageId(self);
+    ItemOverride_RemoveTextId();
+    gctx->ShowMessage(textId);
+    // Track the ID actually opened, which is not always the one asked for: the text open routine
+    // swaps a Piece of Heart's 0x0C for 0xC5-0xC7 by heart piece count (see
+    // En_Elforg_CheckHeartPieceCount), and would otherwise read as another message taking over.
+    sOpenItemTextId = gctx->msg_context.current_text_id;
+    sItemTextShownFrames = 0;
+  }
+
   s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel* saModel, game::act::Actor* actor) {
     return Model_DrawByActor(actor, &saModel->mtx);
   }

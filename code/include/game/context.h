@@ -383,6 +383,7 @@ namespace game {
   };
   static_assert(offsetof(MessageContext, field_8232) == 0x232);
   static_assert(offsetof(MessageContext, ocarinaStaff_maybe) == 0x21c);
+  static_assert(offsetof(MessageContext, current_text_id) == 0x220);
   static_assert(offsetof(MessageContext, gap_8324) == 0x324);
   static_assert(sizeof(MessageContext) == 0x408);
 

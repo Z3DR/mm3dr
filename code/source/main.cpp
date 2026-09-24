@@ -7,6 +7,7 @@
 #include "game/states/state.h"
 #include "game/ui.h"
 #include "game/ui/screens/gearscreen.h"
+#include "rnd/actors/en_elforg.h"
 #include "rnd/boss.h"
 #include "rnd/custom_entrances.h"
 #include "rnd/extdata.h"
@@ -126,6 +127,7 @@ namespace rnd {
       SaveFile_MaintainMagicBeans();
       ItemOverride_Update();
       Ocarina_Update();
+      En_Elforg_UpdateItemText(context.gctx);
       link::HandleFastOcarina(context.gctx);
       link::HandleFastArrowSwitch(context.gctx->GetPlayerActor());
       link::FixFreeCameraReset();

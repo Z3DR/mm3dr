@@ -455,6 +455,7 @@ namespace rnd {
   u8 ItemOverride_OverrideStrayFairy(game::act::Actor*);
   bool ItemOverride_GiveShopItem(game::act::Actor*, game::GlobalContext*);
   u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor*);
+  void ItemOverride_RemoveTextId();
   u8 ItemOverride_GetClockTownFairyGiven();
   u8 ItemOverride_CheckBossStatus();
   u8 ItemOverride_ReceivedOcarinaFromSkt();
