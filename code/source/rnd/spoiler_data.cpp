@@ -157,12 +157,12 @@ namespace rnd {
       }
     }
     // Special case for Curiosity Shop Big Bomb Bag
-    // Since the locations use different override types and flag values 
+    // Since the locations use different override types and flag values
     // The normal multiLocs array cannot handle it so we manually convert them
-    if ((scene == 0x0D) && (flag == 0x1D) && (type == ItemOverride_Type::OVR_BASE_ITEM) ) {
+    if ((scene == 0x0D) && (flag == 0x1D) && (type == ItemOverride_Type::OVR_BASE_ITEM)) {
       SpoilerData_UpdateMultiLocations(ItemOverride_Type::OVR_SHOP, 0x68, 0x18);
     }
-    if ((scene == 0x68) && (flag == 0x18) && (type == ItemOverride_Type::OVR_SHOP) ) {
+    if ((scene == 0x68) && (flag == 0x18) && (type == ItemOverride_Type::OVR_SHOP)) {
       SpoilerData_UpdateMultiLocations(ItemOverride_Type::OVR_BASE_ITEM, 0x0D, 0x1D);
     }
     return -1;
