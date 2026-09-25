@@ -39,14 +39,14 @@ namespace rnd {
       MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x03, {0x22, 0x5A, 0x6E}),
       // GV Powder Keg Challenge
       MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x34, {0x48, 0x4D}),
-      // GV Deku Merchant Purchase
-      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x1D, {0x48, 0x4D}),
+      // GV Deku Merchant Purchase (Winter > Spring > SS Clear > SS Poison)
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x1D, {0x48, 0x4D, 0x00, 0x45}),
       // GV Deku Merchant Trade
       MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x99, {0x48, 0x4D}),
       // GV Ledge Heart Piece
       MULTI_LOC(ItemOverride_Type::OVR_COLLECTABLE, 0x00, {0x48, 0x4D}),
-      // SS Deku Merchant Purchase
-      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x35, {0x00, 0x45}),
+      // SS Deku Merchant Purchase (SS Clear, SS Poison, SCT)
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x35, {0x00, 0x45, 0x6F}),
       // SS Deku Merchant Trade
       MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x98, {0x00, 0x45}),
       // SS Tourist Center Roof HP
@@ -55,6 +55,10 @@ namespace rnd {
       MULTI_LOC(ItemOverride_Type::OVR_CHEST, 0x05, {0x16, 0x18}),
       // Clock Town Stray Fairy
       MULTI_LOC(ItemOverride_Type::OVR_STRAY_FAIRY, 0xFF, {0x70, 0x6C}),
+      // ZH Deku Merchant Purchase (Zora Hall > GV Winter > GV Spring)
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x5C, {0x4C, 0x4D, 0x48}),
+      // IC Deku Merchant Purchase (Ikana Canyon > Zora Hall)
+      MULTI_LOC(ItemOverride_Type::OVR_BASE_ITEM, 0x5D, {0x13, 0x4C}),
   };
 #undef MULTI_LOC
 
@@ -151,6 +155,15 @@ namespace rnd {
           }
         }
       }
+    }
+    // Special case for Curiosity Shop Big Bomb Bag
+    // Since the locations use different override types and flag values 
+    // The normal multiLocs array cannot handle it so we manually convert them
+    if ((scene == 0x0D) && (flag == 0x1D) && (type == ItemOverride_Type::OVR_BASE_ITEM) ) {
+      SpoilerData_UpdateMultiLocations(ItemOverride_Type::OVR_SHOP, 0x68, 0x18);
+    }
+    if ((scene == 0x68) && (flag == 0x18) && (type == ItemOverride_Type::OVR_SHOP) ) {
+      SpoilerData_UpdateMultiLocations(ItemOverride_Type::OVR_BASE_ITEM, 0x0D, 0x1D);
     }
     return -1;
   }
