@@ -22,6 +22,7 @@ namespace rnd::link {
   bool SwitchToZoraFastSwim(game::GlobalContext*, game::act::Player*, bool);
   bool CheckIfMagicAcquired();
   void HandleFastTransform();
+  bool FastTransform_ShouldSkipStoredMaskButtonCheck(game::act::Player*);
   u8 ZoraMaskCheck();
   void SongOfTimeSwordPlacement();
   void AssignSwordForHoneyDarling();

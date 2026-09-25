@@ -273,6 +273,19 @@ namespace rnd::link {
       return 1;
   }
 
+  static game::Action s_dpad_stored_transform = game::Action::None;
+
+  bool FastTransform_ShouldSkipStoredMaskButtonCheck(game::act::Player* player) {
+    if (!SettingsFastMaskCheck() || s_dpad_stored_transform == game::Action::None) {
+      return false;
+    }
+    if (player->transform_mask_action != s_dpad_stored_transform) {
+      s_dpad_stored_transform = game::Action::None;  // consumed or replaced
+      return false;
+    }
+    return true;
+  }
+
   // This patch is all taken care of in ASM now. No need to loop into the main Calc function.
   void HandleFastTransform() {
     const game::GlobalContext* gctx = GetContext().gctx;
@@ -280,6 +293,12 @@ namespace rnd::link {
     game::act::Player* player = gctx->GetPlayerActor();
     if (!player)
       return;
+
+    // Runs before the item buttons are read, so a transform the player stores from a button this
+    // frame can never be mistaken for the D-pad one.
+    if (player->transform_mask_action == game::Action::None) {
+      s_dpad_stored_transform = game::Action::None;
+    }
 
     const bool in_water = player->flags1.IsSet(game::act::Player::Flag1::InWater);
     const auto it = std::find_if(std::begin(s_actions), std::end(s_actions), [&](const TransformAction& action) {
@@ -321,6 +340,7 @@ namespace rnd::link {
     // Store the transform action in case the transformation cannot be done immediately.
     // This allows the Mask Storage technique to work with the fast transform shortcuts as well.
     player->transform_mask_action = it->action;
+    s_dpad_stored_transform = it->action;
 
     return;
   }
