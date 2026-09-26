@@ -7,7 +7,7 @@
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 25
+#define EXTSAVEDATA_VERSION 26
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
@@ -191,6 +191,13 @@ namespace rnd {
     // One bit per global kShopSlots index: the shelf has been bought out. Shop items are
     // repeatable by default, so this is what makes a one-time purchase stay sold out.
     u32 shopSlotsPurchased;
+    union SfxOptionsRegister {
+      u8 raw;
+      BitField<0, 1, u8> shuffleFootsteps;
+      BitField<1, 1, u8> shuffleLinkVoice;
+      BitField<2, 6, u8> unused;
+    };
+    SfxOptionsRegister sfxOptions;
   } ExtSaveData;
 
   extern "C" ExtSaveData gExtSaveData;
