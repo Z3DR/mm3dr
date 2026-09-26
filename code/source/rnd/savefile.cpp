@@ -874,7 +874,7 @@ namespace rnd {
   void SaveFile_InitExtSaveData(u32 saveNumber) {
     memset((void*)&gExtSaveData, 0, sizeof(gExtSaveData));
     gExtSaveData.version = EXTSAVEDATA_VERSION;  // Do not change this line
-    gExtSaveData.isNewFile = 1;  
+    gExtSaveData.isNewFile = 1;
 #ifdef ENABLE_DEBUG
     gExtSaveData.collectedTradeItems[0] = game::ItemId::MoonTear;
     gExtSaveData.collectedTradeItems[1] = game::ItemId::LandTitleDeed;
