@@ -161,7 +161,7 @@ SECTIONS{
     *(.patch_ISGCrouchStabTwo)
   }
 
-  .patch_MusicOverridePlay 0x1DC3D4 : {
+  .patch_MusicOverridePlay 0x1DC950 : {
     *(.patch_MusicOverridePlay)
   }
 
