@@ -505,6 +505,7 @@ namespace rnd {
   extern const char hashIconNames[62][25];
 
   extern "C" s32 Settings_ApplyDamageMultiplier(game::GlobalContext*, s32);
+  extern "C" u8 SettingsFastMaskCheck();
   bool Settings_MetMoonRequirements();
   bool Settings_MetVictoryRequirements();
   u32 Hash(u32);

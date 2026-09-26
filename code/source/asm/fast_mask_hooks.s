@@ -37,7 +37,8 @@ defaultMaskTransform:
 .global hook_BypassMaskEquipmentChecks
 hook_BypassMaskEquipmentChecks:
   push {r0-r12, lr}
-  bl SettingsFastMaskCheck
+  cpy r0,r4
+  bl FastTransform_ShouldSkipStoredMaskButtonCheck
   cmp r0,#0x0
   pop {r0-r12, lr}
   beq defaultDoNotBypassCheck
