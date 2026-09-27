@@ -72,18 +72,18 @@ namespace rnd {
   }
 
   // The blue warp out of a boss lair picks the Giant's Chamber cutscene from defeated_bosses, one byte
-  // per boss (read at 0x345D78): 1 plays the first giant, who teaches Oath to Order, and 2 and 3 the
-  // later ones. In the randomizer that byte can come back as 1 for more than one boss, replaying the
-  // first giant, so the Oath check decides instead: the first giant plays until it has been given, and
-  // never again after.
+  // per boss (read at 0x345D78), holding how many bosses had been cleared before it. 0 sets no cutscene
+  // index, which plays the chamber's default cutscene: the first giant, who teaches Oath to Order. 1-3
+  // select 0xFFF0-0xFFF2 for the later giants. In the randomizer bosses can be cleared in any order, so
+  // the Oath check decides instead: the first giant plays until it has been given, and never again after.
   u32 En_Giant_ChamberCutsceneOrder(u32 boss) {
     u32 order = (u32)game::GetCommonData().save.defeated_bosses;
     const u32 shift = boss * 8;
     u32 visit = (order >> shift) & 0xFF;
     if (gExtSaveData.givenSongChecks.oathToOrderGiven == 0) {
+      visit = 0;
+    } else if (visit == 0) {
       visit = 1;
-    } else if (visit < 2) {
-      visit = 2;
     }
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     util::Print("%s: boss %u stored %u, oath given %u, playing chamber cutscene for visit %u\n", __func__, boss,

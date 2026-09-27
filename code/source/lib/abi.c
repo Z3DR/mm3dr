@@ -314,7 +314,6 @@ static di_int __divmoddi4(di_int a, di_int b, di_int* rem) {
   return d;
 }
 
-
 struct ldivmod_result {
   long long quot;
   long long rem;
