@@ -18,7 +18,12 @@ patch_LullabyIntroCheckEnJg:
 .section .patch_LullabyCheckEnJg
 .global patch_LullabyCheckEnJg
 patch_LullabyCheckEnJg:
-    bl hook_LullabyCheckEnJg
+    nop
+
+.section .patch_EnJgHasMetGoronChild
+.global patch_EnJgHasMetGoronChild
+patch_EnJgHasMetGoronChild:
+    bl hook_EnJgHasMetGoronChild
 
 .section .patch_EnOsnCheckSoHExtData
 .global patch_EnOsnCheckSoHExtData

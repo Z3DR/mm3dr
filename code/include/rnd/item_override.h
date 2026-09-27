@@ -459,6 +459,7 @@ namespace rnd {
   u8 ItemOverride_CheckBossStatus();
   u8 ItemOverride_ReceivedOcarinaFromSkt();
   u8 ItemOverride_ReceivedSongOverride(s16);
+  bool ItemOverride_EnJgHasMetGoronChild();
   u8 ItemOverride_CheckIfSongOfTimeAwarded(u8);
   game::OcarinaSong ItemOverride_ChangeEnGkSong();
   void ItemOverride_EditDrawGetItemBeforeModelSpawn();
