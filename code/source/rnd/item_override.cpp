@@ -1059,7 +1059,7 @@ namespace rnd {
       fromActor = link;
     } else if (incomingItemId == 0x85) {
       gExtSaveData.givenItemChecks.kafeiGivenItem = 1;
-    } else if ((incomingItemId >= 0x61 || incomingItemId <= 0x6C) || incomingItemId == 0x73) {
+    } else if ((incomingItemId >= 0x61 && incomingItemId <= 0x6C) || incomingItemId == 0x73) {
       // Additional logic to map songs to getItemIds.
       incomingItemId = (s16)ItemOverride_MapSongsToGID(game::ItemId(incomingItemId));
       fromActor = link;
@@ -1368,7 +1368,7 @@ namespace rnd {
     case 0x61:
       return gExtSaveData.givenSongChecks.sonataGiven == 1 ? 1 : 0;
     case 0x62:
-      return gExtSaveData.givenSongChecks.goronLullabyGiven == 1 ? 1 : 0;
+      return gExtSaveData.givenSongChecks.goronLullabyGiven.Value() == 2 ? 1 : 0;
       break;
     case 0x63:
       return gExtSaveData.givenSongChecks.newWaveBossaNovaGiven == 1 ? 1 : 0;
@@ -1387,7 +1387,7 @@ namespace rnd {
     case 0x6B:
       return gExtSaveData.givenSongChecks.songOfStormsGiven == 1 ? 1 : 0;
     case 0x73:
-      return gExtSaveData.givenSongChecks.goronLullabyIntroGiven == 1 ? 1 : 0;
+      return gExtSaveData.givenSongChecks.goronLullabyGiven.Value() > 0 ? 1 : 0;
     default:
       return 0;
     }
@@ -1404,7 +1404,8 @@ namespace rnd {
   game::OcarinaSong ItemOverride_ChangeEnGkSong() {
     game::GlobalContext* gctx = GetContext().gctx;
     game::OcarinaSong lastPlayedSong = gctx->msg_context.lastPlayedSong;
-    if ((lastPlayedSong == game::OcarinaSong::GoronLullaby) && gExtSaveData.givenSongChecks.goronLullabyGiven < 2) {
+    if ((lastPlayedSong == game::OcarinaSong::GoronLullaby) &&
+        gExtSaveData.givenSongChecks.goronLullabyGiven.Value() < 2) {
       gctx->msg_context.lastPlayedSong = game::OcarinaSong::GoronLullablyIntro;
       return game::OcarinaSong::GoronLullablyIntro;
     }
