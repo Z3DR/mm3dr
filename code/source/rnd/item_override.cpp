@@ -681,7 +681,7 @@ namespace rnd {
       gExtSaveData.givenSongChecks.sonataGiven = 1;
       return GetItemID(0x4B);
     case game::ItemId::GoronLullaby:
-      gExtSaveData.givenSongChecks.goronLullabyGiven = 2;
+      gExtSaveData.givenSongChecks.goronLullabyGiven = 1;
       return GetItemID(0x4D);
     case game::ItemId::NewWaveBossaNova:
       gExtSaveData.givenSongChecks.newWaveBossaNovaGiven = 1;
@@ -708,7 +708,7 @@ namespace rnd {
       gExtSaveData.givenSongChecks.songOfStormsGiven = 1;
       return GetItemID(0x73);
     case game::ItemId::GoronLullabyIntro:
-      gExtSaveData.givenSongChecks.goronLullabyGiven = 1;
+      gExtSaveData.givenSongChecks.goronLullabyIntroGiven = 1;
       return GetItemID(0x74);
     default:
       return GetItemID::GI_NONE;
@@ -1368,8 +1368,7 @@ namespace rnd {
     case 0x61:
       return gExtSaveData.givenSongChecks.sonataGiven == 1 ? 1 : 0;
     case 0x62:
-      return gExtSaveData.givenSongChecks.goronLullabyGiven.Value() == 2 ? 1 : 0;
-      break;
+      return gExtSaveData.givenSongChecks.goronLullabyGiven == 1 ? 1 : 0;
     case 0x63:
       return gExtSaveData.givenSongChecks.newWaveBossaNovaGiven == 1 ? 1 : 0;
     case 0x64:
@@ -1387,7 +1386,7 @@ namespace rnd {
     case 0x6B:
       return gExtSaveData.givenSongChecks.songOfStormsGiven == 1 ? 1 : 0;
     case 0x73:
-      return gExtSaveData.givenSongChecks.goronLullabyGiven.Value() > 0 ? 1 : 0;
+      return gExtSaveData.givenSongChecks.goronLullabyIntroGiven == 1 ? 1 : 0;
     default:
       return 0;
     }
@@ -1404,8 +1403,7 @@ namespace rnd {
   game::OcarinaSong ItemOverride_ChangeEnGkSong() {
     game::GlobalContext* gctx = GetContext().gctx;
     game::OcarinaSong lastPlayedSong = gctx->msg_context.lastPlayedSong;
-    if ((lastPlayedSong == game::OcarinaSong::GoronLullaby) &&
-        gExtSaveData.givenSongChecks.goronLullabyGiven.Value() < 2) {
+    if ((lastPlayedSong == game::OcarinaSong::GoronLullaby) && gExtSaveData.givenSongChecks.goronLullabyGiven == 0) {
       gctx->msg_context.lastPlayedSong = game::OcarinaSong::GoronLullablyIntro;
       return game::OcarinaSong::GoronLullablyIntro;
     }

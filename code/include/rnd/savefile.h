@@ -122,7 +122,8 @@ namespace rnd {
       u16 raw;
 
       BitField<0, 1, u16> sonataGiven;
-      BitField<1, 2, u16> goronLullabyGiven;
+      BitField<1, 1, u16> goronLullabyIntroGiven;
+      BitField<2, 1, u16> goronLullabyGiven;
       BitField<3, 1, u16> newWaveBossaNovaGiven;
       BitField<4, 1, u16> elegyOfEmptinessGiven;
       BitField<5, 1, u16> oathToOrderGiven;
