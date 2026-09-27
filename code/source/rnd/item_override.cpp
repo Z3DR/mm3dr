@@ -65,9 +65,9 @@ namespace rnd {
     rItemOverrides[0].value.getItemId = 0x56;
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
-    rItemOverrides[1].key.type = ItemOverride_Type::OVR_SHOP;
-    rItemOverrides[1].value.getItemId = 0x6E;
-    rItemOverrides[1].value.looksLikeItemId = 0x6E;
+    rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
+    rItemOverrides[1].value.getItemId = 0x5C;
+    rItemOverrides[1].value.looksLikeItemId = 0x5C;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -169,10 +169,7 @@ namespace rnd {
     s32 start = 0;
     s32 end = rItemOverrides_Count - 1;
 #ifdef ENABLE_DEBUG
-    if (key.type != ItemOverride_Type::OVR_CHEST)
-      return rItemOverrides[1];
-    else
-      return (ItemOverride){0};
+    return rItemOverrides[1];
 #endif
     while (start <= end) {
       s32 midIdx = (start + end) / 2;

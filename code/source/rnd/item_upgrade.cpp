@@ -118,6 +118,12 @@ namespace rnd {
       if (gExtSaveData.givenItemChecks.bottleMysteryGivenToEnGm == 1) {
         return GetItemID::GI_RUPEE_RED;
       }
+    case GetItemID::GI_POTION_GREEN:
+    case GetItemID::GI_POTION_BLUE:
+      if (util::Contains(saveCtx->inventory.bottles, game::ItemId::Bottle))
+        return getItemId;
+      else
+        return GetItemID::GI_RUPEE_GREEN;
     default:
       return getItemId;
     }
