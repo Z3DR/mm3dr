@@ -31,13 +31,12 @@ hook_LullabyIntroCheckEnJg:
     pop {r0-r12, lr}    
     bx lr
 
-.global hook_LullabyCheckEnJg
-hook_LullabyCheckEnJg:
-    push {r0-r12, lr}
-    mov r0, #0x62
-    bl ItemOverride_ReceivedSongOverride
+.global hook_EnJgHasMetGoronChild
+hook_EnJgHasMetGoronChild:
+    push {r0-r3, r12, lr}
+    bl ItemOverride_EnJgHasMetGoronChild
     cmp r0, #0x0
-    pop {r0-r12, lr}    
+    pop {r0-r3, r12, lr}
     bx lr
 
 

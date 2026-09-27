@@ -389,6 +389,10 @@ SECTIONS{
     *(.patch_EnteringLocation)
   }
 
+  .patch_EnJgHasMetGoronChild 0x24432C : {
+    *(.patch_EnJgHasMetGoronChild)
+  }
+
   .patch_LullabyIntroCheckEnJg 0x244378 : {
     *(.patch_LullabyIntroCheckEnJg)
   }

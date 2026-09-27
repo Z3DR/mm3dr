@@ -1363,6 +1363,11 @@ namespace rnd {
     return gExtSaveData.givenItemChecks.ocarinaOfTimeGiven == 1 ? 1 : 0;
   }
 
+  bool ItemOverride_EnJgHasMetGoronChild() {
+    const game::SaveData& save = game::GetCommonData().save;
+    return save.week_event_reg_24.WEEKEVENTREG_24_80 || save.week_event_reg_22.WEEKEVENTREG_22_04;
+  }
+
   u8 ItemOverride_ReceivedSongOverride(s16 incomingItemId) {
     switch (incomingItemId) {
     case 0x61:
