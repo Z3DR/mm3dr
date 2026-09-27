@@ -82,7 +82,7 @@ namespace rnd {
     u32 visit = (order >> shift) & 0xFF;
     if (gExtSaveData.givenSongChecks.oathToOrderGiven == 0) {
       visit = 0;
-    } else if (visit == 0) {
+    } else if ((visit == 0) || (visit > 3)) {
       visit = 1;
     }
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
