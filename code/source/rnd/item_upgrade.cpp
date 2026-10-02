@@ -59,19 +59,16 @@ namespace rnd {
     return GetItemID::GI_MAGIC_POT_SMALL;
   }
 
+  // Received sword is recorded by the ItemEffect_Give*Sword effects.
   GetItemID ItemUpgrade_Sword(game::SaveData* saveCtx, GetItemID GetItemId) {
     switch (saveCtx->equipment.sword_shield.sword) {
     case game::SwordType::NoSword:
-      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 1;
       return GetItemID::GI_KOKIRI_SWORD;  // Stolen sword?
     case game::SwordType::KokiriSword:
-      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 2;
       return GetItemID::GI_RAZOR_SWORD;  // Razor sword
     case game::SwordType::RazorSword:
-      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 3;
       return GetItemID::GI_GILDED_SWORD;  // Gilded sword
     default:
-      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = 3;
       return GetItemID::GI_GILDED_SWORD;  // Restore stolen sword?
     }
   }

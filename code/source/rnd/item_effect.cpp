@@ -26,7 +26,14 @@ namespace rnd {
     return;
   }
 
+  static void ItemEffect_RecordSwordUpgrade(game::SwordType sword) {
+    if (gExtSaveData.givenItemChecks.progressiveSwordUpgrade < (u8)sword) {
+      gExtSaveData.givenItemChecks.progressiveSwordUpgrade = (u8)sword;
+    }
+  }
+
   void ItemEffect_GiveKokiriSword(game::CommonData* comData, s16 arg1, s16 arg2) {
+    ItemEffect_RecordSwordUpgrade(game::SwordType::KokiriSword);
     // If we have a better sword don't give anything.
     if (comData->save.equipment.sword_shield.sword > game::SwordType::KokiriSword) {
       return;
@@ -35,6 +42,7 @@ namespace rnd {
   }
 
   void ItemEffect_GiveRazorSword(game::CommonData* comData, s16 arg1, s16 arg2) {
+    ItemEffect_RecordSwordUpgrade(game::SwordType::RazorSword);
     // If we have a better sword don't give anything.
     if (comData->save.equipment.sword_shield.sword > game::SwordType::RazorSword) {
       return;
@@ -45,6 +53,7 @@ namespace rnd {
   }
 
   void ItemEffect_GiveGildedSword(game::CommonData* comData, s16 arg1, s16 arg2) {
+    ItemEffect_RecordSwordUpgrade(game::SwordType::GildedSword);
     comData->save.equipment.sword_shield.sword = game::SwordType::GildedSword;  // Set sword to gilded.
     comData->save.equipment.data[0].item_btn_b = game::ItemId::GildedSword;
   }
