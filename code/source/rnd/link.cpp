@@ -459,15 +459,10 @@ namespace rnd::link {
   }
   }
 
-  void* Link_GetCustomTunicCMAB(game::ObjectBank::ObjectBankArchive* archive, u32 originalIdx) {
-    return GAR_GetCMABByIndex(archive, originalIdx);
-  }
-
   void** Link_EditAndRetrieveCMB(game::ObjectBank::ObjectBankArchive* archive, u32 objModelIdx) {
-    void** cmbMan = (void**)game::ObjectBank::getCMBManByIndex(archive, objModelIdx, 1);
-    // void* cmb = *cmbMan;
-
-    return cmbMan;
+    auto* cmbMan = static_cast<game::ObjectBank::CmbMan*>(game::ObjectBank::getCMBManByIndex(archive, objModelIdx, 1));
+    Tunic_ApplyToObject(archive);
+    return reinterpret_cast<void**>(cmbMan);
   }
 
 }  // namespace rnd::link

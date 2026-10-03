@@ -1,10 +1,5 @@
 .arm
 
-.section .patch_LinkGetCustomTunicCMAB
-.global patch_LinkGetCustomTunicCMAB
-patch_LinkGetCustomTunicCMAB:
-    bl Link_GetCustomTunicCMAB
-
 @ No hook, completely override call.
 .section .patch_LinkEditAndRetrieveCMB
 .global patch_LinkEditAndRetrieveCMB

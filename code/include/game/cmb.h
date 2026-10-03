@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 #include "common/types.h"
 #include "z3d/z3DVec.h"
 namespace game::cmb {
@@ -130,7 +131,7 @@ namespace game::cmb {
     Previous = 0x8578
   };
 
-  enum class CombinerScale {
+  enum class CombinerScale : u16 {
     _One = 1,
     _Two = 2,
     _Four = 4,
@@ -162,8 +163,9 @@ namespace game::cmb {
     z3dVec3f scale;
     z3dVec3f rotation;
     z3dVec3f translation;
+    u32 unkMeta;
   };
-  static_assert(sizeof(Bone) == 0x28);
+  static_assert(sizeof(Bone) == 0x2C);
 
   struct Skeleton {
     char magic[4];
@@ -197,9 +199,9 @@ namespace game::cmb {
     CombinerOp operandAlpha0;
     CombinerOp operandAlpha1;
     CombinerOp operandAlpha2;
-    u32 constantIndex;
+    u32 constantIndex;  // index into Material::constantColors
   };
-  static_assert(sizeof(Combiner) == 0x2C);
+  static_assert(sizeof(Combiner) == 0x28);
 
   struct TextureMapper {
     s16 textureID;
@@ -316,14 +318,19 @@ namespace game::cmb {
     u16 zPassOP;
     u32 unkHash;
   };
+  static_assert(offsetof(Material, textureMappers) == 0x10);
+  static_assert(offsetof(Material, emissionColor) == 0xA0);
+  static_assert(offsetof(Material, constantColors) == 0xB4);
+  static_assert(offsetof(Material, texEnvStageUsed) == 0x120);
+  static_assert(offsetof(Material, texEnvStagesIndices) == 0x124);
   static_assert(sizeof(Material) == 0x16C);
 
   struct Mats {
     char magic[4];
     u32 size;
     u32 materialCount;
+    // Combiners follow the materials, outside the chunk's size.
     game::cmb::Material material[];
-    // game::cmb::Combiner Combiner[]; // Commented out as we cannot have two flexible arrays in a single struct.
   };
   static_assert(sizeof(Mats) == 0x0C);
 
@@ -334,15 +341,12 @@ namespace game::cmb {
     u8 isCubemap;  // Padding in OoT3D/MM3D?
     u16 width;
     u16 height;
-    union {
-      struct {
-        u16 imageFormat;
-        u16 dataType;
-      };
-    };
-    u16 dataOffset;
+    TextureFormatGL format;  // GL format
+    u32 dataOffset;          // relative to CMB_HEAD::textureDataOffset
     char name[16];
   };
+  static_assert(offsetof(TextureEntry, format) == 0x0C);
+  static_assert(offsetof(TextureEntry, name) == 0x14);
   static_assert(sizeof(TextureEntry) == 0x24);
 
   struct Tex {
@@ -412,15 +416,7 @@ namespace game::cmb {
     char magic[4];
     u32 size;
     u16 prmsCount;
-
-    u16 hasPosition;
-    u16 hasNormals;
-    u16 hasColor;
-    u16 hasUV0;
-    u16 hasUV1;
-    u16 hasUV2;
-    u16 hasIndices;
-    u16 hasWeights;
+    u16 vertFlags;  // bit n set: attribute n (position, normals, ..., weights) is present
 
     z3dVec3f meshCenter;
     z3dVec3f positionOffset;
@@ -437,12 +433,12 @@ namespace game::cmb {
 
     u16 boneDimensionCount;
     u16 usedConstantFlags;  // Bitflags for when an attribute uses contants values
-    u16 prmsOffsets[];
+    u16 prmsOffsets[];      // relative to the start of this SEPD
 
-    // Variable amount of PRMs.
-    // PRMS prm;
+    bool HasAttribute(u32 n) const { return (vertFlags >> n) & 1; }
   };
-  static_assert(sizeof(SEPD) == 0x134);
+  static_assert(offsetof(SEPD, position) == 0x24);
+  static_assert(sizeof(SEPD) == 0x124);
 
   struct CMB_MSHS {
     char magic[4];
@@ -450,7 +446,7 @@ namespace game::cmb {
     u32 meshCount;
     u16 opaqueMeshCount;  // The remainder of "OpaqueMeshCount" are transparent meshes
     u16 idCount;
-    Mesh meshes[];
+    Mesh meshes[];  // like mats, not covered by the size field
   };
   static_assert(sizeof(CMB_MSHS) == 0x10);
 
@@ -459,10 +455,49 @@ namespace game::cmb {
     u32 size;
     u32 sepdCount;
     u32 flags;
-    // Variable amount of SEPDs.
-    // SEPD sepd;
+    u16 sepdOffsets[];  // relative to the start of this chunk
   };
-  static_assert(sizeof(CMB_MSHS) == 0x10);
+  static_assert(sizeof(CMB_SHP) == 0x10);
+
+  // Bounding box quadtree. nodes[0] is the root and covers the whole model.
+  struct QtrsNode {
+    u32 unk_00;
+    z3dVec3f min;
+    z3dVec3f max;
+    s16 children[4];  // -1 for none
+  };
+  static_assert(sizeof(QtrsNode) == 0x24);
+
+  struct CMB_QTRS {
+    char magic[4];  // "qtrs"
+    u32 size;
+    u32 nodeCount;
+    u32 unk_0C;
+    QtrsNode nodes[];
+  };
+  static_assert(sizeof(CMB_QTRS) == 0x10);
+
+  struct VatrSlice {
+    u32 size;
+    u32 offset;  // relative to the start of the vatr chunk
+  };
+  static_assert(sizeof(VatrSlice) == 0x08);
+
+  struct CMB_VATR {
+    char magic[4];
+    u32 size;
+    u32 maxVertexCount;
+    VatrSlice position;
+    VatrSlice normal;
+    VatrSlice tangent;
+    VatrSlice color;
+    VatrSlice uv0;
+    VatrSlice uv1;
+    VatrSlice uv2;
+    VatrSlice boneIndices;
+    VatrSlice boneWeights;
+  };
+  static_assert(sizeof(CMB_VATR) == 0x54);
 
   struct CMB_HEAD {
     char magic[4];
@@ -493,8 +528,53 @@ namespace game::cmb {
     // CMB_SHP shp; // Meshes variable array is at the end of mshs so comment this out.
   };
 
+  template <typename T>
+  static inline T* Cmb_GetChunk(void* cmb, u32 offset) {
+    return offset == 0 ? nullptr : reinterpret_cast<T*>(static_cast<u8*>(cmb) + offset);
+  }
+
   static inline Mats* Cmb_GetMatsChunk(void* cmb) {
-    return (Mats*)(((u32)cmb) + ((CMB_HEAD*)cmb)->matsOffset);
+    return Cmb_GetChunk<Mats>(cmb, static_cast<CMB_HEAD*>(cmb)->matsOffset);
+  }
+
+  static inline CMB_QTRS* Cmb_GetQtrs(void* cmb) {
+    return Cmb_GetChunk<CMB_QTRS>(cmb, static_cast<CMB_HEAD*>(cmb)->qtrsOffset);
+  }
+
+  static inline Tex* Cmb_GetTex(void* cmb) {
+    return Cmb_GetChunk<Tex>(cmb, static_cast<CMB_HEAD*>(cmb)->texOffset);
+  }
+
+  static inline Combiner* Cmb_GetCombiners(void* cmb) {
+    Mats* mats = Cmb_GetMatsChunk(cmb);
+    return reinterpret_cast<Combiner*>(&mats->material[mats->materialCount]);
+  }
+
+  static inline Combiner* Cmb_GetMaterialStage(void* cmb, const Material* material, u32 stage) {
+    if (stage >= material->texEnvStageUsed || material->texEnvStagesIndices[stage] < 0)
+      return nullptr;
+    return &Cmb_GetCombiners(cmb)[material->texEnvStagesIndices[stage]];
+  }
+
+  static inline TextureEntry* Cmb_GetTexture(void* cmb, u32 index) {
+    Tex* tex = Cmb_GetTex(cmb);
+    if (tex == nullptr || index >= (u32)tex->textureCount)
+      return nullptr;
+    return &tex->entry[index];
+  }
+
+  static inline u8* Cmb_GetTextureData(void* cmb, const TextureEntry* texture) {
+    return static_cast<u8*>(cmb) + static_cast<CMB_HEAD*>(cmb)->textureDataOffset + texture->dataOffset;
+  }
+
+  // The model's bounding box, from the root qtrs node.
+  static inline bool Cmb_GetBounds(void* cmb, z3dVec3f* outMin, z3dVec3f* outMax) {
+    CMB_QTRS* qtrs = Cmb_GetQtrs(cmb);
+    if (qtrs == nullptr || qtrs->nodeCount == 0)
+      return false;
+    *outMin = qtrs->nodes[0].min;
+    *outMax = qtrs->nodes[0].max;
+    return true;
   }
 
   static inline Material* Cmb_GetMaterial(void* cmb, u32 index) {

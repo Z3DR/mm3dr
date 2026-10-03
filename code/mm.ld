@@ -229,10 +229,6 @@ SECTIONS{
     *(.patch_LinkEditAndRetrieveCMB)
   }
 
-  .patch_LinkGetCustomTunicCMAB 0x1F65D8 : {
-    *(.patch_LinkGetCustomTunicCMAB)
-  }
-
   .patch_RemoveGoronRollChecksWithoutMask 0x1F78CC : {
     *(.patch_RemoveGoronRollChecksWithoutMask)
   }

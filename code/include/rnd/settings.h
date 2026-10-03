@@ -341,6 +341,7 @@ namespace rnd {
     u8 iceTrapValue;
 
     u8 customTunicColors;
+    u32 customTunicColor;  // 0xRRGGBB
     u8 coloredKeys;
     u8 coloredBossKeys;
 
@@ -470,7 +471,7 @@ namespace rnd {
     u32 customItemButton;
     u32 customMaskButton;
     u32 customNotebookButton;
-    u32 customIngameSpoilerButton;
+    u32 customIngameSpoilerButton = 3;
 
     // Extra MM Settings
     u8 blastMaskCooldown;
