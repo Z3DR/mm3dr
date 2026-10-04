@@ -133,6 +133,9 @@ namespace rnd {
   constexpr u8 kCuriosityBombBagScene = 0x0D;
   constexpr u8 kCuriosityBombBagFlag = 0x1D;
 
+  // Kotake gives this shelf's item for free after the mushroom sale (text 0x881).
+  constexpr s16 kKotakeFreePotionShelfParam = 2;
+
   // En_Fsn itself as a base item, so the shelf has no shopsanity slot of its own.
   constexpr s16 kAllNightMaskShelfParam = 0x13;
 
