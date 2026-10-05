@@ -16,5 +16,6 @@ namespace rnd {
   void Tunic_SetChoice(TunicForm, u8);
   u32 Tunic_GetChoiceColor(u8);
   void Tunic_ClearObjects();
+  void Tunic_EditCMB(void*);
   extern "C" void Tunic_AttachTexAnim(game::act::Player*);
 }  // namespace rnd

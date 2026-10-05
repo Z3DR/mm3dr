@@ -1,4 +1,5 @@
 #include "rnd/link.h"
+#include "game/resarchiveheader.h"
 
 /**
  * @file link.cpp
@@ -460,10 +461,14 @@ namespace rnd::link {
   }
 
   void** Link_EditAndRetrieveCMB(game::ObjectBank::ObjectBankArchive* archive, u32 objModelIdx) {
-    void** cmbMan = (void**)game::ObjectBank::getCMBManByIndex(archive, objModelIdx, 1);
-    // void* cmb = *cmbMan;
+    for (u32 i = 0;; ++i) {
+      void* cmb = game::ResArchive_GetFileByType(archive->archive.raw, game::ResFileType::CMB, i);
+      if (cmb == nullptr)
+        break;
+      Tunic_EditCMB(cmb);
+    }
 
-    return cmbMan;
+    return (void**)game::ObjectBank::getCMBManByIndex(archive, objModelIdx, 1);
   }
 
 }  // namespace rnd::link
