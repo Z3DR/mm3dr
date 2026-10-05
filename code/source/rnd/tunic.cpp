@@ -75,7 +75,6 @@ namespace rnd {
     return util::GetPointer<s32(const char*, const char*)>(0x302E3C)(lhs, rhs);
   }
 
-  // Returns false for vanilla. Choice 0 is the seed's colour for the form.
   static bool Tunic_GetColor(TunicForm form, u8 choice, u32* rgb) {
     if (choice == 0) {
       if (!gSettingsContext.customTunicColors)
@@ -138,8 +137,6 @@ namespace rnd {
         archive, objectId, data, size, 0);
   }
 
-  // loadActorResource (0x4C01CC), with the file's cache key passed in. Loaded files are shared by key while they're
-  // alive, and the game's key is just the object id.
   static bool Tunic_LoadObject(ExtendedObjectContext* ctx, s16 objectId, u32 cacheKey) {
     game::ActorResource::ActorResource* entry = &ctx->status[ctx->num];
     entry->object_id = objectId;
@@ -178,12 +175,6 @@ namespace rnd {
     return GAR_GetCMABByIndex(&ctx->status[0].archive, static_cast<u32>(index));
   }
 
-  // --- CMB edits ----------------------------------------------------------------------------------------------------
-
-  // The tunic materials' combiner stages, as the game has them and as they become. The stage lists have to stay as
-  // they are (adding a stage or sharing a combiner makes a material fall back to texture * light), so the tint takes
-  // the first stage and what it did moves into the rest, dropping the least needed part. "Light" is the fragment
-  // lighting, "overlay" previous * constant 5 alpha + constant 5.
   enum class TunicStages : u8 {
     // light * texture, overlay -> tint, previous * light + constant 5.
     LightTexture,
