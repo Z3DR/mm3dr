@@ -2,6 +2,7 @@
 
 #include "common/types.h"
 #include "game/objectbankarchive.h"
+#include "game/player.h"
 
 namespace rnd {
   enum class TunicForm : u8 { Human, Deku, Goron, Zora, Count };
@@ -14,5 +15,6 @@ namespace rnd {
   u8 Tunic_GetChoice(TunicForm);
   void Tunic_SetChoice(TunicForm, u8);
   u32 Tunic_GetChoiceColor(u8);
-  void Tunic_ApplyToObject(game::ObjectBank::ObjectBankArchive*);
+  void Tunic_ClearObjects();
+  extern "C" void Tunic_AttachTexAnim(game::act::Player*);
 }  // namespace rnd

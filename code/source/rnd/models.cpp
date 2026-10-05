@@ -472,6 +472,9 @@ namespace rnd {
             0x34);
     strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_CUSTOM_ASSETS)].path,
             "rom:/actors/zelda2_custom_data.gar.lzs", 0x34);
+    // The colour digits are filled in by the tunic code before it loads one.
+    strncpy(resourcePathTable[static_cast<int>(ObjectId::OBJECT_TUNIC)].path, "rom:/actors/zelda2_tunic_00.gar.lzs",
+            0x34);
 
     // Point the stray fairy item rows (0xBC-0xBF) at En_Elforg's object and record the object id
     // that gates the fairy item-model path.

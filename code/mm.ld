@@ -289,6 +289,10 @@ SECTIONS{
     *(.patch_RemoveRazordSwordHealthTwo)
   }
 
+  .patch_AttachTunicTexAnim 0x216FA4 : {
+    *(.patch_AttachTunicTexAnim)
+  }
+
   .patch_FixOcarinaStandingIssue 0x21CBC4 : {
     *(.patch_FixOcarinaStandingIssue)
   }

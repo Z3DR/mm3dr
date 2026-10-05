@@ -460,9 +460,10 @@ namespace rnd::link {
   }
 
   void** Link_EditAndRetrieveCMB(game::ObjectBank::ObjectBankArchive* archive, u32 objModelIdx) {
-    auto* cmbMan = static_cast<game::ObjectBank::CmbMan*>(game::ObjectBank::getCMBManByIndex(archive, objModelIdx, 1));
-    Tunic_ApplyToObject(archive);
-    return reinterpret_cast<void**>(cmbMan);
+    void** cmbMan = (void**)game::ObjectBank::getCMBManByIndex(archive, objModelIdx, 1);
+    // void* cmb = *cmbMan;
+
+    return cmbMan;
   }
 
 }  // namespace rnd::link
