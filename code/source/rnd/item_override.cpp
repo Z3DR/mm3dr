@@ -83,26 +83,6 @@ namespace rnd {
     rDummyActor->parent_actor = NULL;
   }
 
-  // Kotake's free Blue Potion (mushroom sale) offers the Blue Potion shelf's get_item_id. With shopsanity,
-  // EnGirlA_Randomize has swapped that for the shelf item's carrier (its row's baseItemId), so work the
-  // carrier out the same way and treat a match as the free potion rather than the shelf item.
-  static bool ItemOverride_IsKotakeFreePotionCarrier(u16 scene, s16 getItemId) {
-    if (scene != (u16)game::SceneId::PotionShop) {
-      return false;
-    }
-    ItemOverride_Key shelfKey = {.all = 0};
-    shelfKey.scene = (u8)game::SceneId::PotionShop;
-    shelfKey.type = ItemOverride_Type::OVR_SHOP;
-    shelfKey.flag = (u8)kKotakeFreePotionShelfParam;
-    const ItemOverride shelfOvr = ItemOverride_LookupByKey(shelfKey);
-    if (shelfOvr.key.all == 0) {
-      return false;  // Shelf not shuffled, Kotake already offers the vanilla item.
-    }
-    const ItemRow* row = ItemTable_GetItemRow(ItemTable_ResolveUpgrades(shelfOvr.value.getItemId));
-    const s16 carrier = row != NULL ? row->baseItemId : (s16)shelfOvr.value.getItemId;
-    return getItemId == carrier;
-  }
-
   static ItemOverride_Key ItemOverride_GetSearchKey(game::act::Actor* actor, u16 scene, s16 getItemId) {
     game::CommonData& cdata = game::GetCommonData();
     ItemOverride_Key retKey;
@@ -168,12 +148,6 @@ namespace rnd {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_BASE_ITEM;
       retKey.flag = getItemId;
-      if (ItemOverride_IsKotakeFreePotionCarrier(scene, getItemId)) {
-        const ShopItemEntry* vanillaEntry = Shopsanity_GetVanillaEntry(kKotakeFreePotionShelfParam);
-        if (vanillaEntry != NULL) {
-          retKey.flag = (u8)vanillaEntry->getItemId;
-        }
-      }
     }
     return retKey;
   }

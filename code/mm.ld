@@ -463,6 +463,10 @@ SECTIONS{
     *(.patch_BeanDaddyCustomSoldOutText)
   }
 
+  .patch_KotakeMushroomSale 0x2BB380 : {
+    *(.patch_KotakeMushroomSale)
+  }
+
   .patch_CheckIfLinkIsFD 0x2C91D4 : {
     *(.patch_CheckIfLinkIsFD)
   }
