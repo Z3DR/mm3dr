@@ -75,12 +75,12 @@ namespace rnd {
     return util::GetPointer<s32(const char*, const char*)>(0x302E3C)(lhs, rhs);
   }
 
-  // Returns false for vanilla.
-  static bool Tunic_GetColor(u8 choice, u32* rgb) {
+  // Returns false for vanilla. Choice 0 is the seed's colour for the form.
+  static bool Tunic_GetColor(TunicForm form, u8 choice, u32* rgb) {
     if (choice == 0) {
       if (!gSettingsContext.customTunicColors)
         return false;
-      *rgb = gSettingsContext.customTunicColor;
+      *rgb = gSettingsContext.seedTunicColors[(u32)form];
       return true;
     }
     if (choice > ARR_SIZE(TunicPresetColors))
@@ -92,7 +92,7 @@ namespace rnd {
   // Kokiri Green for vanilla, which on the greyscale tunic looks like the original.
   static u32 Tunic_GetTintColor(TunicForm form) {
     u32 rgb = TunicPresetColors[0];
-    Tunic_GetColor(Tunic_GetChoice(form), &rgb);
+    Tunic_GetColor(form, Tunic_GetChoice(form), &rgb);
     return rgb;
   }
 
@@ -612,9 +612,9 @@ namespace rnd {
       Tunic_Attach(player, form);
   }
 
-  u32 Tunic_GetChoiceColor(u8 choice) {
+  u32 Tunic_GetChoiceColor(TunicForm form, u8 choice) {
     u32 rgb = TunicPresetColors[0];
-    Tunic_GetColor(choice, &rgb);
+    Tunic_GetColor(form, choice, &rgb);
     return rgb;
   }
 }  // namespace rnd

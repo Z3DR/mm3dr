@@ -745,7 +745,7 @@ namespace rnd {
       Draw_DrawString(10 + SPACING_X, posY, selected ? COLOR_WHITE : COLOR_LIGHT_GRAY, tunicFormNames[i]);
       // Colour swatch, with a border so dark colours still show.
       Draw_DrawRect(166, posY, 10, 10, COLOR_LIGHT_GRAY);
-      Draw_DrawRect(167, posY + 1, 8, 8, Tunic_GetChoiceColor(choice));
+      Draw_DrawRect(167, posY + 1, 8, 8, Tunic_GetChoiceColor((TunicForm)i, choice));
       Draw_DrawString(180, posY, selected ? COLOR_GREEN : COLOR_LIGHT_GRAY,
                       choice < tunicColorCount ? tunicColorNames[choice] : "Invalid");
     }
