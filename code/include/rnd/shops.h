@@ -133,6 +133,12 @@ namespace rnd {
   constexpr u8 kCuriosityBombBagScene = 0x0D;
   constexpr u8 kCuriosityBombBagFlag = 0x1D;
 
+  // Flag for free blue potion after the SS mushroom sale. Must match the flag of
+  // SOUTHERN_SWAMP_KOTAKE_MUSHROOM_SALE in the generator's item_location.cpp
+  // 0x03 avoids the Potion Shop shelf params (0-2)
+  constexpr u8 kKotakeFreePotionFlag = 0x03;
+  constexpr u16 kKotakeFreePotionTextId = 0x881;
+
   // En_Fsn itself as a base item, so the shelf has no shopsanity slot of its own.
   constexpr s16 kAllNightMaskShelfParam = 0x13;
 
