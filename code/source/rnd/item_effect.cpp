@@ -32,6 +32,37 @@ namespace rnd {
     }
   }
 
+  // Received outside Human form, for Human's B button once Link is human again.
+  static bool isSwordPending = false;
+
+  static void ItemEffect_EquipSwordOnB(game::CommonData* comData, game::ItemId sword) {
+    if (comData->save.player_form == game::act::Player::Form::Human)
+      comData->save.equipment.data[0].item_btn_b = sword;
+    else
+      isSwordPending = true;
+  }
+
+  // After player init (which also runs on transforming): equip a sword received in another form.
+  void ItemEffect_EquipPendingSword(game::act::Player* player) {
+    if (!isSwordPending || player->id != game::act::Id::Player || player->active_form != game::act::Player::Form::Human)
+      return;
+    game::SaveData& save = game::GetCommonData().save;
+    switch (save.equipment.sword_shield.sword) {
+    case game::SwordType::KokiriSword:
+      save.equipment.data[0].item_btn_b = game::ItemId::KokiriSword;
+      break;
+    case game::SwordType::RazorSword:
+      save.equipment.data[0].item_btn_b = game::ItemId::RazorSword;
+      break;
+    case game::SwordType::GildedSword:
+      save.equipment.data[0].item_btn_b = game::ItemId::GildedSword;
+      break;
+    default:
+      break;
+    }
+    isSwordPending = false;
+  }
+
   void ItemEffect_GiveKokiriSword(game::CommonData* comData, s16 arg1, s16 arg2) {
     ItemEffect_RecordSwordUpgrade(game::SwordType::KokiriSword);
     // If we have a better sword don't give anything.
@@ -39,6 +70,7 @@ namespace rnd {
       return;
     }
     comData->save.equipment.sword_shield.sword = game::SwordType::KokiriSword;  // Set sword to kokiri.
+    ItemEffect_EquipSwordOnB(comData, game::ItemId::KokiriSword);
   }
 
   void ItemEffect_GiveRazorSword(game::CommonData* comData, s16 arg1, s16 arg2) {
@@ -49,13 +81,13 @@ namespace rnd {
     }
     comData->save.player.razor_sword_hp = 100;                                 // Set to 100 hits. Maybe randomize?
     comData->save.equipment.sword_shield.sword = game::SwordType::RazorSword;  // Set sword to razor.
-    comData->save.equipment.data[0].item_btn_b = game::ItemId::RazorSword;
+    ItemEffect_EquipSwordOnB(comData, game::ItemId::RazorSword);
   }
 
   void ItemEffect_GiveGildedSword(game::CommonData* comData, s16 arg1, s16 arg2) {
     ItemEffect_RecordSwordUpgrade(game::SwordType::GildedSword);
     comData->save.equipment.sword_shield.sword = game::SwordType::GildedSword;  // Set sword to gilded.
-    comData->save.equipment.data[0].item_btn_b = game::ItemId::GildedSword;
+    ItemEffect_EquipSwordOnB(comData, game::ItemId::GildedSword);
   }
 
   void ItemEffect_GiveBottle(game::CommonData* comData, s16 bottleItemId, s16 arg2) {

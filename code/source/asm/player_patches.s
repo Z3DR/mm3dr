@@ -10,7 +10,8 @@ patch_LinkEditAndRetrieveCMB:
 .global patch_ApplyDamageMultiplier
 patch_ApplyDamageMultiplier:
     bl hook_ApplyDamageMultiplier
-.section .patch_AttachTunicTexAnim
-.global patch_AttachTunicTexAnim
-patch_AttachTunicTexAnim:
-    bl hook_AttachTunicTexAnim
+
+.section .patch_AfterPlayerFaceTexAnims
+.global patch_AfterPlayerFaceTexAnims
+patch_AfterPlayerFaceTexAnims:
+    bl hook_AfterPlayerFaceTexAnims
