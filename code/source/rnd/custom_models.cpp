@@ -111,7 +111,7 @@ namespace rnd {
     case ObjectId::OBJECT_CUSTOM_SONGS:
       CustomModel_ApplyColorEditsToOcarina(cmb, special);
       break;
-    case ObjectId::OBJECT_CUSTOM_ASSETS:
+    default:
       break;
     }
   }
@@ -132,9 +132,7 @@ namespace rnd {
       model->texAnim->anim_mode = 0;
       model->texAnim->cur_frame = special;
       break;
-    case ObjectId::OBJECT_CUSTOM_ASSETS:
-      break;
-    case ObjectId::OBJECT_CUSTOM_SMALL_KEY:
+    default:
       break;
     }
   }

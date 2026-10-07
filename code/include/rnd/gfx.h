@@ -10,6 +10,7 @@
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
 #include "rnd/spoiler_data.h"
+#include "rnd/tunic.h"
 extern "C" {
 #include <3ds/svc.h>
 }

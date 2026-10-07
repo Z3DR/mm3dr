@@ -229,10 +229,6 @@ SECTIONS{
     *(.patch_LinkEditAndRetrieveCMB)
   }
 
-  .patch_LinkGetCustomTunicCMAB 0x1F65D8 : {
-    *(.patch_LinkGetCustomTunicCMAB)
-  }
-
   .patch_RemoveGoronRollChecksWithoutMask 0x1F78CC : {
     *(.patch_RemoveGoronRollChecksWithoutMask)
   }
@@ -291,6 +287,10 @@ SECTIONS{
 
   .patch_RemoveRSHealthTwo 0x20843C : {
     *(.patch_RemoveRazordSwordHealthTwo)
+  }
+
+  .patch_AfterPlayerFaceTexAnims 0x216FA4 : {
+    *(.patch_AfterPlayerFaceTexAnims)
   }
 
   .patch_FixOcarinaStandingIssue 0x21CBC4 : {

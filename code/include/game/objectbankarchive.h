@@ -36,18 +36,79 @@ namespace game::ObjectBank {
 
   struct CmbSkeleton {
     cmb::Skeleton* skl;
-    // Likely incomplete.
+    cmb::Bone* bones;
+    struct CmbMan* owner;
   };
+  static_assert(sizeof(CmbSkeleton) == 0x0C);
+
+  struct CmbMaterialEntry {
+    cmb::Material* material;
+    cmb::Combiner* combiners;  // the CMB's whole combiner table; index it with material->texEnvStagesIndices
+    z3dVec4f* bufferColor;     // &material->BufferColor
+  };
+  static_assert(sizeof(CmbMaterialEntry) == 0x0C);
+
+  // Points into the raw CMB, so material edits show without a re-upload.
+  struct CmbMaterialSet {
+    cmb::Mats* mats;
+    cmb::Material* materials;
+    CmbMaterialEntry* entries;
+    struct CmbMan* owner;
+    u32* workSize;
+  };
+  static_assert(sizeof(CmbMaterialSet) == 0x14);
+
+  struct CmbLutSet {
+    void* luts;
+    u8 isAbs[16];  // per LUT index, from the materials' fragment lighting samplers
+  };
+  static_assert(sizeof(CmbLutSet) == 0x14);
+
+  struct GfxTexture {
+    u32 target;  // 0xDE1 (GL_TEXTURE_2D)
+    s32 mipCount;
+    u32 format;  // cmb::TextureFormatGL low half
+    u32 dataType;
+    u16 width;
+    u16 height;
+    u8* srcData;  // inside the raw CMB, which stays loaded
+    u32 size;
+    u32 glName;
+    void* gpuData;  // glGetTexParameteriv(GL_TEXTURE_2D, 0x6790): where the GPU samples from
+  };
+  static_assert(offsetof(GfxTexture, srcData) == 0x14);
+  static_assert(offsetof(GfxTexture, gpuData) == 0x20);
+  static_assert(sizeof(GfxTexture) == 0x24);
 
   struct CmbMan {
-    void** vtable;       // 0 = init(CmbMan*, void* rawCmbData)
-    cmb::CMB_HEAD* cmb;  // the raw CMB
-    u8 gap_08[0x1C];
+    void** vtable;
+    cmb::CMB_HEAD* cmb;
+    void* vertexBuffer;
+    void* indexBuffer;
+    void* shapeSet;
+    CmbMaterialSet* materialSet;
+    void* vertexAttributes;
+    CmbLutSet* lutSet;
+    GfxTexture** textures;
     CmbSkeleton* skeleton;
-    u8 gap_28[0x24];
+    void* qtrsNodes;
+    u8 isInitialized;
+    u8 archiveType;
+    u8 gap_2E[2];
+    void* gpuAllocator;
+    void* materialStates;
+    void* meshStates;
+    void* drawLists;
+    u32 workSize;
+    u8* workBuffer;
+    u8* workCursor;
   };
-  static_assert(offsetof(CmbMan, cmb) == 0x4);
+  static_assert(offsetof(CmbMan, cmb) == 0x04);
+  static_assert(offsetof(CmbMan, materialSet) == 0x14);
+  static_assert(offsetof(CmbMan, textures) == 0x20);
   static_assert(offsetof(CmbMan, skeleton) == 0x24);
+  static_assert(offsetof(CmbMan, gpuAllocator) == 0x30);
+  static_assert(offsetof(CmbMan, workCursor) == 0x48);
   static_assert(sizeof(CmbMan) == 0x4C);
 
   struct ObjectBankArchive {

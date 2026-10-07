@@ -11,6 +11,7 @@
 #include "rnd/objects.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
+#include "rnd/tunic.h"
 
 namespace rnd::link {
   void FixSpeedIssues();
@@ -32,7 +33,6 @@ namespace rnd::link {
   u8 CheckIfLinkIsFD();
   u8 CheckIfOcarinaIsInInventory();
   game::act::Player::Form FierceDeityArcheryFix(game::act::Player::Form);
-  void* Link_GetCustomTunicCMAB(game::ObjectBank::ObjectBankArchive*, u32);
   void** Link_EditAndRetrieveCMB(game::ObjectBank::ObjectBankArchive*, u32);
   }
 

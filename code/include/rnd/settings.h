@@ -341,6 +341,7 @@ namespace rnd {
     u8 iceTrapValue;
 
     u8 customTunicColors;
+    u32 seedTunicColors[4];  // 0xRRGGBB, in TunicForm order
     u8 coloredKeys;
     u8 coloredBossKeys;
 

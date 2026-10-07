@@ -66,8 +66,8 @@ namespace rnd {
     rItemOverrides[0].value.looksLikeItemId = 0x56;
     rItemOverrides[1].key.scene = 0x6F;
     rItemOverrides[1].key.type = ItemOverride_Type::OVR_COLLECTABLE;
-    rItemOverrides[1].value.getItemId = 0x5C;
-    rItemOverrides[1].value.looksLikeItemId = 0x5C;
+    rItemOverrides[1].value.getItemId = 0x4A;
+    rItemOverrides[1].value.looksLikeItemId = 0x4A;
     rItemOverrides[2].key.scene = 0x12;
     rItemOverrides[2].key.type = ItemOverride_Type::OVR_COLLECTABLE;
     rItemOverrides[2].value.getItemId = 0x37;
@@ -802,8 +802,10 @@ namespace rnd {
         gctx->ShowMessage(textId, actor);
       }
 
-      // Get_Item_Handler. Don't give ice traps, since it may cause UB.
-      if (itemId != (u8)game::ItemId::None) {
+      // Get_Item_Handler. Don't give ice traps, since it may cause UB. Swords are given in full by their item effects:
+      // the handler would put them on the current form's B button, Fierce Deity's sword included.
+      const bool isSword = itemId >= (u8)game::ItemId::KokiriSword && itemId <= (u8)game::ItemId::GildedSword;
+      if (itemId != (u8)game::ItemId::None && !isSword) {
         util::GetPointer<int(game::GlobalContext*, game::ItemId)>(0x233BEC)(gctx, (game::ItemId)itemId);
         // Since the regular get item handler does not take care of this situation, we need to do it manually.
         if (rActiveItemOverride.value.getItemId > 0xB3 && rActiveItemOverride.value.getItemId < 0xBA)

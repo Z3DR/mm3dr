@@ -195,9 +195,11 @@ namespace rnd {
       u8 raw;
       BitField<0, 1, u8> shuffleFootsteps;
       BitField<1, 1, u8> shuffleLinkVoice;
-      BitField<2, 6, u8> unused;
+      BitField<2, 5, u8> tunicColor;  // Human tunic colour
+      BitField<7, 1, u8> unused;
     };
     SfxOptionsRegister sfxOptions;
+    u8 formTunicColors[3];
   } ExtSaveData;
 
   extern "C" ExtSaveData gExtSaveData;

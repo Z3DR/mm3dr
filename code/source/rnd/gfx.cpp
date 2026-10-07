@@ -12,6 +12,9 @@ namespace rnd {
 
   static s32 curMenuIdx = 0;
   static s16 optionsCursor = 0;
+  // Tunic colours subpage on the options page.
+  static bool tunicPageOpen = false;
+  static s16 tunicCursor = 0;
   static bool showingLegend = false;
   static u64 lastTick = 0;
   static u64 ticksElapsed = 0;
@@ -146,18 +149,31 @@ namespace rnd {
     } while (gSpoilerData.GroupItemCounts[currentItemGroup] == 0 && currentItemGroup != prevGroup);
   }
 
+  static bool Gfx_OptionsCursorOpensSubpage(void);
+
   static void Gfx_DrawButtonPrompts(void) {
     u32 promptY = SCREEN_BOT_HEIGHT - 16;
     u32 textY = promptY - 1;
-    // Close prompt, always shown
+    // Close prompt, always shown. B goes back in a subpage.
+    const bool inSubpage = curMenuIdx == PAGE_OPTIONS && tunicPageOpen;
     Draw_DrawIcon(SCREEN_BOT_WIDTH - 50, promptY, COLOR_BUTTON_B, ICON_BUTTON_B);
-    Draw_DrawString(SCREEN_BOT_WIDTH - 38, textY, COLOR_TITLE, "Close");
+    Draw_DrawString(SCREEN_BOT_WIDTH - 38, textY, COLOR_TITLE, inSubpage ? "Back" : "Close");
 
     static const u8 buttonSpacing = 12;
     u16 offsetX = 10;
     const char* nextStr = NULL;
 
-    if (curMenuIdx == PAGE_DUNGEONITEMS) {
+    if (curMenuIdx == PAGE_OPTIONS) {
+      Draw_DrawIcon(offsetX, promptY, COLOR_WHITE, ICON_BUTTON_DPAD);
+      offsetX += buttonSpacing;
+      nextStr = "Select/Change";
+      Draw_DrawString(offsetX, textY, COLOR_TITLE, nextStr);
+      offsetX += (strlen(nextStr) + 1) * SPACING_X;
+      Draw_DrawIcon(offsetX, promptY, COLOR_BUTTON_A, ICON_BUTTON_A);
+      offsetX += buttonSpacing;
+      const bool onSubpageRow = !inSubpage && Gfx_OptionsCursorOpensSubpage();
+      Draw_DrawString(offsetX, textY, COLOR_TITLE, onSubpageRow ? "Open" : "Change");
+    } else if (curMenuIdx == PAGE_DUNGEONITEMS) {
       Draw_DrawIcon(offsetX, promptY, COLOR_BUTTON_A, ICON_BUTTON_A);
       offsetX += buttonSpacing;
       Draw_DrawString(offsetX, textY, COLOR_TITLE, "Toggle Legend");
@@ -617,7 +633,17 @@ namespace rnd {
     u8 valueCount;
     u8 (*get)(void);
     void (*set)(u8);
+    void (*open)(void);  // Opens a subpage instead of having a value.
   } MenuOption;
+
+  // Wraps around, out of range restarts at 0.
+  static u8 Option_Step(u8 value, u8 count, bool forward) {
+    if (value >= count)
+      return 0;
+    if (forward)
+      return value + 1 >= count ? 0 : value + 1;
+    return value == 0 ? count - 1 : value - 1;
+  }
 
   static const char* const songReplayValueNames[] = {
       "Don't Skip",
@@ -678,6 +704,11 @@ namespace rnd {
     gExtSaveData.sfxOptions.shuffleLinkVoice = value;
   }
 
+  static void Option_OpenTunicColors(void) {
+    tunicPageOpen = true;
+    tunicCursor = 0;
+  }
+
   static const MenuOption menuOptions[] = {
       {"Fast Ocarina Songs", songReplayValueNames, ARR_SIZE(songReplayValueNames), Option_GetSongReplays,
        Option_SetSongReplays},
@@ -693,9 +724,38 @@ namespace rnd {
        Option_SetShuffleFootsteps},
       {"  Shuffle Link's Voice", toggleValueNames, ARR_SIZE(toggleValueNames), Option_GetShuffleLinkVoice,
        Option_SetShuffleLinkVoice},
+      {"Tunic Colors", nullptr, 0, nullptr, nullptr, Option_OpenTunicColors},
   };
 
+  static bool Gfx_OptionsCursorOpensSubpage(void) {
+    return menuOptions[optionsCursor].open != nullptr;
+  }
+
+  static void Gfx_DrawTunicColors(void) {
+    Draw_DrawString(10, 16, COLOR_TITLE, "Options > Tunic Colors");
+
+    for (u32 i = 0; i < (u32)TunicForm::Count; i++) {
+      const bool selected = static_cast<u32>(tunicCursor) == i;
+      const u32 posY = 16 + (SPACING_Y * (i + 2));
+      const u8 choice = Tunic_GetChoice((TunicForm)i);
+
+      if (selected) {
+        Draw_DrawString(10, posY, COLOR_WHITE, ">");
+      }
+      Draw_DrawString(10 + SPACING_X, posY, selected ? COLOR_WHITE : COLOR_LIGHT_GRAY, tunicFormNames[i]);
+      // Colour swatch, with a border so dark colours still show.
+      Draw_DrawRect(166, posY, 10, 10, COLOR_LIGHT_GRAY);
+      Draw_DrawRect(167, posY + 1, 8, 8, Tunic_GetChoiceColor((TunicForm)i, choice));
+      Draw_DrawString(180, posY, selected ? COLOR_GREEN : COLOR_LIGHT_GRAY,
+                      choice < tunicColorCount ? tunicColorNames[choice] : "Invalid");
+    }
+  }
+
   static void Gfx_DrawOptions(void) {
+    if (tunicPageOpen) {
+      Gfx_DrawTunicColors();
+      return;
+    }
     Draw_DrawString(10, 16, COLOR_TITLE, "Options");
 
     for (u32 i = 0; i < ARR_SIZE(menuOptions); i++) {
@@ -709,13 +769,13 @@ namespace rnd {
       }
       Draw_DrawString(10 + SPACING_X, posY, color, option->name);
 
+      if (option->open != nullptr) {
+        continue;
+      }
       const u8 value = option->get();
       Draw_DrawString(180, posY, selected ? COLOR_GREEN : COLOR_LIGHT_GRAY,
                       value < option->valueCount ? option->valueNames[value] : "Invalid");
     }
-
-    Draw_DrawString(10, SCREEN_BOT_HEIGHT - 24, COLOR_LIGHT_GRAY, "Up/Down: select");
-    Draw_DrawString(10, SCREEN_BOT_HEIGHT - 24 + SPACING_Y, COLOR_LIGHT_GRAY, "A: change");
   }
 
   static void (*menu_draw_funcs[])(void) = {
@@ -860,7 +920,26 @@ namespace rnd {
         }
       }
 
-      if (!handledInput && curMenuIdx == PAGE_OPTIONS && ARR_SIZE(menuOptions) > 0) {
+      if (!handledInput && curMenuIdx == PAGE_OPTIONS && tunicPageOpen) {
+        const s16 formCount = (s16)TunicForm::Count;
+        const TunicForm form = (TunicForm)tunicCursor;
+        if (pressed & BUTTON_B) {
+          tunicPageOpen = false;
+          handledInput = true;
+        } else if (pressed & (BUTTON_UP | CPAD_UP)) {
+          tunicCursor = (tunicCursor == 0) ? formCount - 1 : tunicCursor - 1;
+          handledInput = true;
+        } else if (pressed & (BUTTON_DOWN | CPAD_DOWN)) {
+          tunicCursor = (tunicCursor + 1 >= formCount) ? 0 : tunicCursor + 1;
+          handledInput = true;
+        } else if (pressed & (BUTTON_A | BUTTON_RIGHT | CPAD_RIGHT)) {
+          Tunic_SetChoice(form, Option_Step(Tunic_GetChoice(form), tunicColorCount, true));
+          handledInput = true;
+        } else if (pressed & (BUTTON_LEFT | CPAD_LEFT)) {
+          Tunic_SetChoice(form, Option_Step(Tunic_GetChoice(form), tunicColorCount, false));
+          handledInput = true;
+        }
+      } else if (!handledInput && curMenuIdx == PAGE_OPTIONS && ARR_SIZE(menuOptions) > 0) {
         const s16 optionCount = (s16)ARR_SIZE(menuOptions);
         if (pressed & (BUTTON_UP | CPAD_UP)) {
           optionsCursor = (optionsCursor == 0) ? optionCount - 1 : optionsCursor - 1;
@@ -871,13 +950,18 @@ namespace rnd {
             optionsCursor = 0;
           }
           handledInput = true;
-        } else if (pressed & BUTTON_A) {
-          const MenuOption* option = &menuOptions[optionsCursor];
-          u8 value = option->get() + 1;
-          if (value >= option->valueCount) {
-            value = 0;
+        } else if (menuOptions[optionsCursor].open != nullptr) {
+          if (pressed & BUTTON_A) {
+            menuOptions[optionsCursor].open();
+            handledInput = true;
           }
-          option->set(value);
+        } else if (pressed & (BUTTON_A | BUTTON_RIGHT | CPAD_RIGHT)) {
+          const MenuOption* option = &menuOptions[optionsCursor];
+          option->set(Option_Step(option->get(), option->valueCount, true));
+          handledInput = true;
+        } else if (pressed & (BUTTON_LEFT | CPAD_LEFT)) {
+          const MenuOption* option = &menuOptions[optionsCursor];
+          option->set(Option_Step(option->get(), option->valueCount, false));
           handledInput = true;
         }
       }
@@ -885,6 +969,7 @@ namespace rnd {
       if (!handledInput) {
         if (pressed & closingButton) {
           showingLegend = false;
+          tunicPageOpen = false;
           Draw_ClearBackbuffer();
           Draw_CopyBackBuffer();
           if (!playingOnCitra)
@@ -894,6 +979,7 @@ namespace rnd {
           break;
         } else if (pressed & BUTTON_R1) {
           showingLegend = false;
+          tunicPageOpen = false;
           do {
             curMenuIdx++;
             if (static_cast<u32>(curMenuIdx) >= ARR_SIZE(menu_draw_funcs)) {
@@ -903,6 +989,7 @@ namespace rnd {
           handledInput = true;
         } else if (pressed & BUTTON_L1) {
           showingLegend = false;
+          tunicPageOpen = false;
           do {
             curMenuIdx--;
             if (curMenuIdx < 0) {

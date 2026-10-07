@@ -897,6 +897,10 @@ namespace rnd {
     gExtSaveData.options.shuffleSFX = gSettingsContext.shuffleSFX;
     gExtSaveData.sfxOptions.shuffleFootsteps = gSettingsContext.shuffleSFXFootsteps;
     gExtSaveData.sfxOptions.shuffleLinkVoice = gSettingsContext.shuffleSFXLinkVoice;
+    // Seed default for every form.
+    gExtSaveData.sfxOptions.tunicColor = 0;
+    for (u8& formTunicColor : gExtSaveData.formTunicColors)
+      formTunicColor = 0;
     gExtSaveData.options.muteSoundEffects = gSettingsContext.muteSoundEffects;
     gExtSaveData.options.muteBackgroundMusic = gSettingsContext.muteBackgroundMusic;
   }

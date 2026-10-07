@@ -1,4 +1,5 @@
 #include "rnd/objects.h"
+#include "rnd/tunic.h"
 
 namespace rnd {
   ExtendedObjectContext rExtendedObjectCtx = {0};
@@ -53,7 +54,9 @@ namespace rnd {
 
   s32 Object_FindSlotOrSpawn(s16 objectId) {
     game::GlobalContext* gctx = GetContext().gctx;
-    s32 objectSlot = Object_GetSlot(&gctx->object_context, objectId);
+    // Also checks the extended objects, which can already hold it (the custom assets are spawned early for Link's
+    // tunic).
+    s32 objectSlot = ExtendedObject_GetIndex(&gctx->object_context, objectId);
     if (objectSlot < 0) {
       objectSlot = Object_SpawnPersistent((game::ActorResource::ObjectContext*)&rExtendedObjectCtx, objectId) +
                    OBJECT_EXCHANGE_BANK_MAX;
@@ -128,6 +131,7 @@ namespace rnd {
   void ExtendedObject_Clear(game::ActorResource::ObjectContext* objectCtx) {
     Object_Clear(objectCtx);
     Object_Clear(&rExtendedObjectCtx);
+    Tunic_ClearObjects();
   }
 
   void ExtendedObject_AfterObjectListCommand() {
