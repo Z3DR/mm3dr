@@ -34,6 +34,10 @@ namespace rnd {
     util::GetPointer<void(z3d_nn_math_MTX34*, z3d_nn_math_MTX34*)>(0x1FEAB0)(dst, src);
   }
 
+  void TexAnim_Construct(game::act::SA_TextureAnimation* texAnim) {
+    util::GetPointer<void(game::act::SA_TextureAnimation*)>(0x1F224C)(texAnim);
+  }
+
   void TexAnim_Spawn(game::act::SA_TextureAnimation* texAnim, void* cmab) {
     // This pointer was extracted at runtime from the Skulltula Token init function (En_Si::init),
     // but it comes from a virtual method, so it might not work in all cases.
@@ -100,12 +104,6 @@ namespace rnd {
 
   void Model_MultiplyMatrix34(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* lhs, z3d_nn_math_MTX34* rhs) {
     util::GetPointer<void(z3d_nn_math_MTX34*, z3d_nn_math_MTX34*, z3d_nn_math_MTX34*)>(0x21B850)(dst, lhs, rhs);
-  }
-
-  z3dVec3f Model_Matrix34_MulVec(const z3d_nn_math_MTX34* m, f32 x, f32 y, f32 z) {
-    z3dVec3f r = {x, y, z};
-    util::GetPointer<void(z3dVec3f*, const z3d_nn_math_MTX34*, const z3dVec3f*)>(0x224750)(&r, m, &r);
-    return r;
   }
 
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx) {
@@ -244,7 +242,7 @@ namespace rnd {
     // of Ikana that causes the Skulltula Token to be somehow loaded already, but the buffer is NULL.
     if (GARbuf != NULL) {
       CustomModels_EditItemCMB(GARbuf, objectId, model->itemRow->special);
-      model->hasAabb = CustomModels_ComputeItemAabb(GARbuf, &model->aabbMin, &model->aabbMax);
+      model->hasAabb = CustomModels_GetItemBounds(GARbuf, &model->aabbMin, &model->aabbMax);
     }
 
     model->useActorUtil = 0;

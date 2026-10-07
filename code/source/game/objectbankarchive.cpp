@@ -3,7 +3,7 @@
 namespace game::ObjectBank {
   // set_field_5c always = 0 in code calls.
   void init(ObjectBankArchive* obj_bank_archive, u32 actor_id, ResArchiveHeader* data, int size, char set_field_5c) {
-    return rnd::util::GetPointer<void(ObjectBankArchive*, u32, ResArchiveHeader*, int, char)>(0x1F57DC)(
+    return rnd::util::GetPointer<void(ObjectBankArchive*, u32, ResArchiveHeader*, int, char)>(0x1D4844)(
         obj_bank_archive, actor_id, data, size, set_field_5c);
   }
   void* getCMBManByIndex(ObjectBankArchive* obj_bank_archive, u32 cmb_file_index, u32 archive_type) {

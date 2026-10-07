@@ -16,5 +16,5 @@ namespace rnd {
   void CustomModels_SpawnTexAnim(game::act::SA_TextureAnimation*, void*, float);
   void CustomModels_EditItemCMB(void*, u16, s8);
   void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel*, u16, s8);
-  bool CustomModels_ComputeItemAabb(void* ZARBuf, z3dVec3f* outMin, z3dVec3f* outMax);
+  bool CustomModels_GetItemBounds(void* ZARBuf, z3dVec3f* outMin, z3dVec3f* outMax);
 }  // namespace rnd
