@@ -26,6 +26,11 @@ namespace rnd::util {
     return reinterpret_cast<Type*>(GetAddr(addr));
   }
 
+  /// The game's strcmp.
+  inline s32 GameStrcmp(const char* lhs, const char* rhs) {
+    return GetPointer<s32(const char*, const char*)>(0x302E3C)(lhs, rhs);
+  }
+
   template <typename T>
   static void InitIfNeeded(T* instance, bool* init_flag, void (*init_fn)(T*)) {
     if (*init_flag)

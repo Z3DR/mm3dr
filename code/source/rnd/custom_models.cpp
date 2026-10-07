@@ -2,12 +2,7 @@
 #include <string.h>
 #include "game/cmb.h"
 #include "game/resarchiveheader.h"
-#include "rnd/cmb_aabb.h"
 
-#define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
-#define EDIT_U32(offset_, val_)                                                                                        \
-  (EDIT_BYTE((offset_) + 0, (val_) >> 24), EDIT_BYTE((offset_) + 1, (val_) >> 16),                                     \
-   EDIT_BYTE((offset_) + 2, (val_) >> 8), EDIT_BYTE((offset_) + 3, (val_)))
 namespace rnd {
   static constexpr game::cmb::RGBA OpaqueBlack{0, 0, 0, 255};
   static constexpr game::cmb::RGBA OpaqueWhite{255, 255, 255, 255};
@@ -127,20 +122,31 @@ namespace rnd {
     }
   }
 
-  bool CustomModels_ComputeItemAabb(void* ZARBuf, z3dVec3f* outMin, z3dVec3f* outMax) {
+  // The model's bounds from its root qtrs node, scaled by the root bone's rest scale (Garo's Mask is the one item
+  // whose root bone scales the mesh, and its stored bounds leave that out).
+  bool CustomModels_GetItemBounds(void* ZARBuf, z3dVec3f* outMin, z3dVec3f* outMax) {
     void* cmb = game::ResArchive_GetFileByType(ZARBuf, game::ResFileType::CMB);
-    bool ok = CmbAabb_Compute(cmb, outMin, outMax);
-#if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    if (cmb != NULL) {
-      const char* name = ((game::cmb::CMB_HEAD*)cmb)->name;
-      if (ok)
-        rnd::util::Print("%s: %s aabb min(%.1f, %.1f, %.1f) max(%.1f, %.1f, %.1f)\n", __func__, name, outMin->x,
-                         outMin->y, outMin->z, outMax->x, outMax->y, outMax->z);
-      else
-        rnd::util::Print("%s: %s aabb FAILED validation\n", __func__, name);
+    if (cmb == NULL || !game::cmb::Cmb_GetBounds(cmb, outMin, outMax))
+      return false;
+
+    game::cmb::CMB_HEAD* head = (game::cmb::CMB_HEAD*)cmb;
+    if (head->sklOffset == 0)
+      return true;
+    game::cmb::Skeleton* skl = (game::cmb::Skeleton*)((u8*)cmb + head->sklOffset);
+    if (skl->boneCount == 0)
+      return true;
+
+    const z3dVec3f& scale = skl->bone[0].scale;
+    f32* mins[3] = {&outMin->x, &outMin->y, &outMin->z};
+    f32* maxs[3] = {&outMax->x, &outMax->y, &outMax->z};
+    f32 scales[3] = {scale.x, scale.y, scale.z};
+    for (u32 axis = 0; axis < 3; ++axis) {
+      f32 lo = *mins[axis] * scales[axis];
+      f32 hi = *maxs[axis] * scales[axis];
+      *mins[axis] = lo < hi ? lo : hi;
+      *maxs[axis] = lo < hi ? hi : lo;
     }
-#endif
-    return ok;
+    return true;
   }
 
   void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel* model, u16 objectId, s8 special) {

@@ -21,7 +21,7 @@ namespace rnd {
     z3d_nn_math_MTX34* hardcodedMtx;  // used for actors that draw their models in unusual ways
     f32 scale;
     z3dVec3f posOffset;
-    z3dVec3f aabbMin;  // bind-posed model-space AABB of the object's CMB, valid when hasAabb is set
+    z3dVec3f aabbMin;  // model-space bounds from the CMB (qtrs root, root bone scale), valid when hasAabb is set
     z3dVec3f aabbMax;
     u8 hasAabb;
     u8 clampGround;                 // lift the final matrix so the AABB never dips below the actor's ground Y
@@ -31,11 +31,11 @@ namespace rnd {
     game::as::BoneMatrix boneMtxBuf[16];
   } Model;
 
+  void TexAnim_Construct(game::act::SA_TextureAnimation*);
   void TexAnim_Spawn(game::act::SA_TextureAnimation*, void*);
   game::act::SkeletonAnimationModel* SkeletonAnimationModel_Spawn(game::act::Actor*, game::GlobalContext*, s16, s32);
   void Actor_SetModelMatrix(float x, float y, float z, z3d_nn_math_MTX34* mtx, game::act::ActorShape* shape);
   void SkeletonAnimationModel_CopyMtx(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* src);
-  void TexAnim_Spawn(game::act::SA_TextureAnimation*, void*);
   void SkeletonAnimationModel_SetMeshByDrawItemID(void* model, s32 drawItemId);
   void SkeletonAnimationModel_Draw(void*, int);
   void SkeletonAnimationModel_ShowMesh(void*, s32);
@@ -47,7 +47,6 @@ namespace rnd {
   void Model_UpdateMatrixPosition(void* mtx, void* mtxTwo, void* scaleMtx);
   void Model_MultiplyMatrix(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* lhs, z3d_nn_math_MTX44* rhs);
   void Model_MultiplyMatrix34(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* lhs, z3d_nn_math_MTX34* rhs);
-  z3dVec3f Model_Matrix34_MulVec(const z3d_nn_math_MTX34* m, f32 x, f32 y, f32 z);
   void Model_GetObjectBankIndex(Model* model, game::act::Actor* actor, game::GlobalContext* globalCtx);
   void Model_SetAnim(game::act::SkeletonAnimationModel* model, s16 objectId, u32 objectAnimIndex);
 

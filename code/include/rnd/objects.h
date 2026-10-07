@@ -22,6 +22,7 @@ namespace rnd {
   void Object_UpdateBank(game::ActorResource::ObjectContext* objectCtx);
   void* GAR_GetCMABByIndex(game::ObjectBank::ObjectBankArchive* objBankArchive, u32 objectAnimIdx);
 
+  bool Object_LoadWithCacheKey(ExtendedObjectContext* ctx, s16 objectId, u32 cacheKey);
   s32 ExtendedObject_Spawn(game::ActorResource::ObjectContext* objectCtx, s16 objectId);
   game::ActorResource::ActorResource* Object_GetEntry(s16 slot);
   s32 Object_FindSlotOrSpawn(s16 objectId);

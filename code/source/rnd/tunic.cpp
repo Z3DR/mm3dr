@@ -63,14 +63,6 @@ namespace rnd {
   };
   static_assert(sizeof(PlayerFaceTexAnims) == 0x1F0);
 
-  static void TexAnim_Construct(game::act::SA_TextureAnimation* texAnim) {
-    util::GetPointer<void(game::act::SA_TextureAnimation*)>(0x1F224C)(texAnim);
-  }
-
-  static s32 GameStrcmp(const char* lhs, const char* rhs) {
-    return util::GetPointer<s32(const char*, const char*)>(0x302E3C)(lhs, rhs);
-  }
-
   static bool Tunic_GetColor(TunicForm form, u8 choice, u32* rgb) {
     if (choice == 0) {
       if (!gSettingsContext.customTunicColors)
@@ -111,59 +103,13 @@ namespace rnd {
     }
   }
 
-  static void* FileEntity_Create(const char* path) {
-    return util::GetPointer<void*(const char*)>(0x20ABEC)(path);
-  }
-
-  static void FileEntity_Start(void* entity) {
-    util::GetPointer<void(void*, void*)>(0x1F1BA0)(reinterpret_cast<void*>(0x6F8178), entity);
-  }
-
-  static void FileEntity_Wait(void* entity) {
-    util::GetPointer<void(void*)>(0x160FDC)(entity);
-  }
-
-  static void FileEntity_Delete(void* entity) {
-    util::GetPointer<void(void*)>(0x1DE364)(entity);
-  }
-
-  static void ObjectBankArchive_Init(game::ObjectBank::ObjectBankArchive* archive, u16 objectId,
-                                     game::ResArchiveHeader* data, u32 size) {
-    util::GetPointer<void(game::ObjectBank::ObjectBankArchive*, u32, game::ResArchiveHeader*, u32, u8)>(0x1D4844)(
-        archive, objectId, data, size, 0);
-  }
-
-  static bool Tunic_LoadObject(ExtendedObjectContext* ctx, s16 objectId, u32 cacheKey) {
-    game::ActorResource::ActorResource* entry = &ctx->status[ctx->num];
-    entry->object_id = objectId;
-    entry->file_data = nullptr;
-    entry->file_size = 0;
-
-    u8* entity = static_cast<u8*>(FileEntity_Create(game::ActorResource::GetActorResourcePathTable()[objectId].path));
-    *reinterpret_cast<u32*>(entity + 0xC) = cacheKey;
-    FileEntity_Start(entity);
-    FileEntity_Wait(entity);
-    const bool loaded = *reinterpret_cast<s32*>(entity + 0x8) >= 0;
-    if (loaded) {
-      entry->file_data = *reinterpret_cast<game::ResArchiveHeader**>(entity + 0x14);
-      entry->file_size = *reinterpret_cast<u32*>(entity + 0x10);
-      ObjectBankArchive_Init(&entry->archive, objectId, entry->file_data, entry->file_size);
-    } else {
-      entry->object_id = 0;
-    }
-    FileEntity_Delete(entity);
-    ctx->num++;
-    ctx->numPersistent = ctx->num;
-    return loaded;
-  }
-
   // Null if the archive is missing.
   static void* Tunic_GetTintCMAB(TunicTintCMAB index) {
     ExtendedObjectContext* ctx = &sTunicTintObject.ctx;
     const s16 objectId = static_cast<s16>(ObjectId::OBJECT_TUNIC);
     if (!Object_IsLoaded(ctx, 0)) {
       Object_Clear(ctx);
-      if (!Tunic_LoadObject(ctx, objectId, 0x40000000 | objectId)) {
+      if (!Object_LoadWithCacheKey(ctx, objectId, 0x40000000 | objectId)) {
         Object_Clear(ctx);
         return nullptr;
       }
@@ -412,17 +358,6 @@ namespace rnd {
     }
   }
 
-  static game::cmb::TextureEntry* Tunic_FindTexture(void* cmb, const char* name) {
-    game::cmb::Tex* tex = game::cmb::Cmb_GetTex(cmb);
-    if (tex == nullptr)
-      return nullptr;
-    for (s32 i = 0; i < tex->textureCount; ++i) {
-      if (GameStrcmp(tex->entry[i].name, name) == 0)
-        return &tex->entry[i];
-    }
-    return nullptr;
-  }
-
   // Called for each CMB in Link's form object before its models are built. The raw CMB stays loaded, so this only edits
   // it once.
   void Tunic_EditCMB(void* cmb) {
@@ -430,7 +365,7 @@ namespace rnd {
     const TunicModelEdit* edit = nullptr;
     u32 index = 0;
     for (; index < ARR_SIZE(TunicModelEdits); ++index) {
-      if (GameStrcmp(head->name, TunicModelEdits[index].model) == 0) {
+      if (util::GameStrcmp(head->name, TunicModelEdits[index].model) == 0) {
         edit = &TunicModelEdits[index];
         break;
       }
@@ -441,7 +376,7 @@ namespace rnd {
     // Not a CMB this was made for, or already edited (the first stage no longer matches).
     game::cmb::TextureEntry* textures[3];
     for (u32 i = 0; i < edit->textureCount; ++i) {
-      textures[i] = Tunic_FindTexture(cmb, edit->textures[i].name);
+      textures[i] = game::cmb::Cmb_FindTexture(cmb, edit->textures[i].name);
       if (textures[i] == nullptr)
         return;
     }
@@ -527,9 +462,9 @@ namespace rnd {
   static void Tunic_AttachToModel(game::act::Player* player, u32 modelOffset, TunicTintCMAB index, u32 rgb) {
     auto* model = *reinterpret_cast<game::act::SkeletonAnimationModel**>(reinterpret_cast<u8*>(player) + modelOffset);
     void* cmab = Tunic_GetTintCMAB(index);
-    CustomModels_SpawnTexAnim(model->texAnim, cmab, 0.0f);
-    if (cmab == nullptr)
+    if (model == nullptr || cmab == nullptr)
       return;
+    CustomModels_SpawnTexAnim(model->texAnim, cmab, 0.0f);
     Tunic_SetTintColor(cmab, rgb);
   }
 
@@ -545,10 +480,7 @@ namespace rnd {
       TexAnim_Construct(texAnim);
       // Binds the animation to the body model, the same value the eye and mouth slots get.
       texAnim->field_08 = *reinterpret_cast<game::act::TexAnim_Unk_10**>(body + 0x9C);
-      TexAnim_Spawn(texAnim, cmab);
-      texAnim->anim_speed = 0.0f;
-      texAnim->anim_mode = 0;
-      texAnim->cur_frame = 0.0f;
+      CustomModels_SpawnTexAnim(texAnim, cmab, 0.0f);
       faces->active[TUNIC_FACE_SLOT] = 1;
     }
     const u32 rgb = Tunic_GetTintColor(form);
