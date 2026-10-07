@@ -12,6 +12,8 @@ namespace rnd {
     OBJECT_TUNIC = 0x23,
     OBJECT_CUSTOM_ASSETS = 0xCB
   };
+
+  void CustomModels_SpawnTexAnim(game::act::SA_TextureAnimation*, void*, float);
   void CustomModels_EditItemCMB(void*, u16, s8);
   void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel*, u16, s8);
   bool CustomModels_ComputeItemAabb(void* ZARBuf, z3dVec3f* outMin, z3dVec3f* outMax);

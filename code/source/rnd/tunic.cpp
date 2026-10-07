@@ -67,10 +67,6 @@ namespace rnd {
     util::GetPointer<void(game::act::SA_TextureAnimation*)>(0x1F224C)(texAnim);
   }
 
-  static void TexAnim_Attach(game::act::SA_TextureAnimation* texAnim, void* cmabMan) {
-    util::GetPointer<void(game::act::SA_TextureAnimation*, void*)>(0x229DA4)(texAnim, cmabMan);
-  }
-
   static s32 GameStrcmp(const char* lhs, const char* rhs) {
     return util::GetPointer<s32(const char*, const char*)>(0x302E3C)(lhs, rhs);
   }
@@ -531,12 +527,9 @@ namespace rnd {
   static void Tunic_AttachToModel(game::act::Player* player, u32 modelOffset, TunicTintCMAB index, u32 rgb) {
     auto* model = *reinterpret_cast<game::act::SkeletonAnimationModel**>(reinterpret_cast<u8*>(player) + modelOffset);
     void* cmab = Tunic_GetTintCMAB(index);
-    if (model == nullptr || model->texAnim == nullptr || cmab == nullptr)
+    CustomModels_SpawnTexAnim(model->texAnim, cmab, 0.0f);
+    if (cmab == nullptr)
       return;
-    TexAnim_Attach(model->texAnim, cmab);
-    model->texAnim->anim_speed = 0.0f;
-    model->texAnim->anim_mode = 0;
-    model->texAnim->cur_frame = 0.0f;
     Tunic_SetTintColor(cmab, rgb);
   }
 
@@ -552,7 +545,7 @@ namespace rnd {
       TexAnim_Construct(texAnim);
       // Binds the animation to the body model, the same value the eye and mouth slots get.
       texAnim->field_08 = *reinterpret_cast<game::act::TexAnim_Unk_10**>(body + 0x9C);
-      TexAnim_Attach(texAnim, cmab);
+      TexAnim_Spawn(texAnim, cmab);
       texAnim->anim_speed = 0.0f;
       texAnim->anim_mode = 0;
       texAnim->cur_frame = 0.0f;

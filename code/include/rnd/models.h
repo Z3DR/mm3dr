@@ -31,6 +31,7 @@ namespace rnd {
     game::as::BoneMatrix boneMtxBuf[16];
   } Model;
 
+  void TexAnim_Spawn(game::act::SA_TextureAnimation*, void*);
   game::act::SkeletonAnimationModel* SkeletonAnimationModel_Spawn(game::act::Actor*, game::GlobalContext*, s16, s32);
   void Actor_SetModelMatrix(float x, float y, float z, z3d_nn_math_MTX34* mtx, game::act::ActorShape* shape);
   void SkeletonAnimationModel_CopyMtx(z3d_nn_math_MTX34* dst, z3d_nn_math_MTX34* src);
