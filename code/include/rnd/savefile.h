@@ -199,7 +199,6 @@ namespace rnd {
       BitField<7, 1, u8> unused;
     };
     SfxOptionsRegister sfxOptions;
-    // Deku, Goron and Zora tunic colours. Sits in the old tail padding so the size doesn't change.
     u8 formTunicColors[3];
   } ExtSaveData;
 

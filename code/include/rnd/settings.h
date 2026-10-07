@@ -471,7 +471,7 @@ namespace rnd {
     u32 customItemButton;
     u32 customMaskButton;
     u32 customNotebookButton;
-    u32 customIngameSpoilerButton = 3;
+    u32 customIngameSpoilerButton;
 
     // Extra MM Settings
     u8 blastMaskCooldown;
