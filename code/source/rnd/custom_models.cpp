@@ -92,6 +92,16 @@ namespace rnd {
     }
   }
 
+  void CustomModels_SpawnTexAnim(game::act::SA_TextureAnimation* texAnim, void* cmabMan, float specialFrame) {
+    if (texAnim == nullptr || cmabMan == nullptr)
+      return;
+    TexAnim_Spawn(texAnim, cmabMan);
+    texAnim->anim_speed = 0.00f;
+    texAnim->anim_mode = 0;
+    texAnim->cur_frame = specialFrame;
+    return;
+  }
+
   void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {
     void* cmb = game::ResArchive_GetFileByType(ZARBuf, game::ResFileType::CMB);
     if (cmb == nullptr)
@@ -144,10 +154,7 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
       rnd::util::Print("%s: Special is %u\n", __func__, special);
 #endif
-      TexAnim_Spawn(model->texAnim, cmabMan);
-      model->texAnim->anim_speed = 0.00f;
-      model->texAnim->anim_mode = 0;
-      model->texAnim->cur_frame = special;
+      CustomModels_SpawnTexAnim(model->texAnim, cmabMan, special);
       break;
     default:
       break;
