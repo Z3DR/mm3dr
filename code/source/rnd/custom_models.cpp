@@ -3,10 +3,6 @@
 #include "game/cmb.h"
 #include "game/resarchiveheader.h"
 
-#define EDIT_BYTE(offset_, val_) (BASE_[offset_] = val_)
-#define EDIT_U32(offset_, val_)                                                                                        \
-  (EDIT_BYTE((offset_) + 0, (val_) >> 24), EDIT_BYTE((offset_) + 1, (val_) >> 16),                                     \
-   EDIT_BYTE((offset_) + 2, (val_) >> 8), EDIT_BYTE((offset_) + 3, (val_)))
 namespace rnd {
   static constexpr game::cmb::RGBA OpaqueBlack{0, 0, 0, 255};
   static constexpr game::cmb::RGBA OpaqueWhite{255, 255, 255, 255};
@@ -91,6 +87,16 @@ namespace rnd {
     }
   }
 
+  void CustomModels_SpawnTexAnim(game::act::SA_TextureAnimation* texAnim, void* cmabMan, float specialFrame) {
+    if (texAnim == nullptr || cmabMan == nullptr)
+      return;
+    TexAnim_Spawn(texAnim, cmabMan);
+    texAnim->anim_speed = 0.00f;
+    texAnim->anim_mode = 0;
+    texAnim->cur_frame = specialFrame;
+    return;
+  }
+
   void CustomModels_EditItemCMB(void* ZARBuf, u16 objectId, s8 special) {
     void* cmb = game::ResArchive_GetFileByType(ZARBuf, game::ResFileType::CMB);
     if (cmb == nullptr)
@@ -116,6 +122,33 @@ namespace rnd {
     }
   }
 
+  // The model's bounds from its root qtrs node, scaled by the root bone's rest scale (Garo's Mask is the one item
+  // whose root bone scales the mesh, and its stored bounds leave that out).
+  bool CustomModels_GetItemBounds(void* ZARBuf, z3dVec3f* outMin, z3dVec3f* outMax) {
+    void* cmb = game::ResArchive_GetFileByType(ZARBuf, game::ResFileType::CMB);
+    if (cmb == NULL || !game::cmb::Cmb_GetBounds(cmb, outMin, outMax))
+      return false;
+
+    game::cmb::CMB_HEAD* head = (game::cmb::CMB_HEAD*)cmb;
+    if (head->sklOffset == 0)
+      return true;
+    game::cmb::Skeleton* skl = (game::cmb::Skeleton*)((u8*)cmb + head->sklOffset);
+    if (skl->boneCount == 0)
+      return true;
+
+    const z3dVec3f& scale = skl->bone[0].scale;
+    f32* mins[3] = {&outMin->x, &outMin->y, &outMin->z};
+    f32* maxs[3] = {&outMax->x, &outMax->y, &outMax->z};
+    f32 scales[3] = {scale.x, scale.y, scale.z};
+    for (u32 axis = 0; axis < 3; ++axis) {
+      f32 lo = *mins[axis] * scales[axis];
+      f32 hi = *maxs[axis] * scales[axis];
+      *mins[axis] = lo < hi ? lo : hi;
+      *maxs[axis] = lo < hi ? hi : lo;
+    }
+    return true;
+  }
+
   void CustomModels_ApplyItemCMAB(game::act::SkeletonAnimationModel* model, u16 objectId, s8 special) {
     void* cmabMan;
 
@@ -127,10 +160,7 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
       rnd::util::Print("%s: Special is %u\n", __func__, special);
 #endif
-      TexAnim_Spawn(model->texAnim, cmabMan);
-      model->texAnim->anim_speed = 0.00f;
-      model->texAnim->anim_mode = 0;
-      model->texAnim->cur_frame = special;
+      CustomModels_SpawnTexAnim(model->texAnim, cmabMan, special);
       break;
     default:
       break;

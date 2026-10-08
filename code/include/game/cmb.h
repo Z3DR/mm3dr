@@ -1,6 +1,7 @@
 #pragma once
 #include <cstddef>
 #include "common/types.h"
+#include "common/utils.h"
 #include "z3d/z3DVec.h"
 namespace game::cmb {
   struct RGBA {
@@ -561,6 +562,17 @@ namespace game::cmb {
     if (tex == nullptr || index >= (u32)tex->textureCount)
       return nullptr;
     return &tex->entry[index];
+  }
+
+  static inline TextureEntry* Cmb_FindTexture(void* cmb, const char* name) {
+    Tex* tex = Cmb_GetTex(cmb);
+    if (tex == nullptr)
+      return nullptr;
+    for (s32 i = 0; i < tex->textureCount; ++i) {
+      if (rnd::util::GameStrcmp(tex->entry[i].name, name) == 0)
+        return &tex->entry[i];
+    }
+    return nullptr;
   }
 
   static inline u8* Cmb_GetTextureData(void* cmb, const TextureEntry* texture) {

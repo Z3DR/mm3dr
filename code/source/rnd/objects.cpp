@@ -38,6 +38,48 @@ namespace rnd {
     return util::GetPointer<void*(void*, u32)>(0x1F28AC)(objBankArchive, objectAnimIdx);
   }
 
+  static void* FileEntity_Create(const char* path) {
+    return util::GetPointer<void*(const char*)>(0x20ABEC)(path);
+  }
+
+  static void FileEntity_Start(void* entity) {
+    util::GetPointer<void(void*, void*)>(0x1F1BA0)(reinterpret_cast<void*>(0x6F8178), entity);
+  }
+
+  static void FileEntity_Wait(void* entity) {
+    util::GetPointer<void(void*)>(0x160FDC)(entity);
+  }
+
+  static void FileEntity_Delete(void* entity) {
+    util::GetPointer<void(void*)>(0x1DE364)(entity);
+  }
+
+  // loadActorResource (0x4C01CC), with the file's cache key passed in. Loaded files are shared by key while they're
+  // alive, and the game's key is just the object id.
+  bool Object_LoadWithCacheKey(ExtendedObjectContext* ctx, s16 objectId, u32 cacheKey) {
+    game::ActorResource::ActorResource* entry = &ctx->status[ctx->num];
+    entry->object_id = objectId;
+    entry->file_data = nullptr;
+    entry->file_size = 0;
+
+    u8* entity = static_cast<u8*>(FileEntity_Create(game::ActorResource::GetActorResourcePathTable()[objectId].path));
+    *reinterpret_cast<u32*>(entity + 0xC) = cacheKey;
+    FileEntity_Start(entity);
+    FileEntity_Wait(entity);
+    const bool loaded = *reinterpret_cast<s32*>(entity + 0x8) >= 0;
+    if (loaded) {
+      entry->file_data = *reinterpret_cast<game::ResArchiveHeader**>(entity + 0x14);
+      entry->file_size = *reinterpret_cast<u32*>(entity + 0x10);
+      game::ObjectBank::init(&entry->archive, objectId, entry->file_data, entry->file_size, 0);
+    } else {
+      entry->object_id = 0;
+    }
+    FileEntity_Delete(entity);
+    ctx->num++;
+    ctx->numPersistent = ctx->num;
+    return loaded;
+  }
+
   s32 ExtendedObject_Spawn(game::ActorResource::ObjectContext* objectCtx, s16 objectId) {
     return Object_SpawnPersistent(&rExtendedObjectCtx, objectId) + OBJECT_EXCHANGE_BANK_MAX;
   }

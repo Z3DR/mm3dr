@@ -733,6 +733,10 @@ SECTIONS{
     *(.patch_TingleCheckStoneTowerMapTwo)
   }
 
+  .patch_DmChar03AnimatedDraw 0x41CEF8 : {
+    *(.patch_DmChar03AnimatedDraw)
+  }
+
   .patch_HMSGiveItem 0x41D018 : {
     *(.patch_HMSGiveItem)
   }
@@ -741,8 +745,16 @@ SECTIONS{
     *(.patch_GoronMaskModelDraw)
   }
 
+  .patch_DmChar05AnimatedDrawGoronZora 0x41D444 : {
+    *(.patch_DmChar05AnimatedDrawGoronZora)
+  }
+
   .patch_ZoraMaskModelDraw 0x41D4E8 : {
     *(.patch_ZoraMaskModelDraw)
+  }
+
+  .patch_DmChar05AnimatedDrawGibdo 0x41D5A0 : {
+    *(.patch_DmChar05AnimatedDrawGibdo)
   }
 
   .patch_GibdoMaskModelDraw 0x41D654 : {

@@ -31,6 +31,12 @@ namespace game::as {
   };
   static_assert(sizeof(State) == 0x28);
 
+  struct BoneMatrix {
+    z3d_nn_math_MTX34 mtx;
+    u32 field_30;
+  };
+  static_assert(sizeof(BoneMatrix) == 0x34);
+
   // Incomplete, and it's unclear what this is used for, so the name is temporary, too.
   struct ActorUtil {
     void PlayAnim(u32 id, float x);
@@ -60,20 +66,16 @@ namespace game::as {
     u8 field_7D;
     u8 field_7E;
     u8 field_7F;
-    u8 gap_80[8];
+    BoneMatrix* bone_mtx_0;
+    BoneMatrix* bone_mtx_1;
     u8 field_88;
     u8 field_89;
     u8 field_8A;
     u8 field_8B;
   };
   static_assert(offsetof(ActorUtil, gap_64) == 0x64);
+  static_assert(offsetof(ActorUtil, bone_mtx_0) == 0x80);
   static_assert(sizeof(ActorUtil) == 0x8C);
-
-  struct BoneMatrix {
-    z3d_nn_math_MTX34 mtx;
-    u32 field_30;
-  };
-  static_assert(sizeof(BoneMatrix) == 0x34);
 
   void ActorUtil_Construct(game::ObjectBank::ObjectBankArchive*, game::GlobalContext*, game::as::ActorUtil*, void*, s32,
                            void*);

@@ -10,8 +10,7 @@ extern "C" {
 #endif
 namespace rnd {
   struct Dm_Char03 : public game::act::Actor {
-    game::as::ActorUtil* actor_util;
-    u8 gap_1fc[136];
+    game::as::ActorUtil actor_util;
     void* field_284;
     u16 field_288;
     u8 field_28a;
@@ -22,6 +21,7 @@ namespace rnd {
   static_assert(sizeof(Dm_Char03) == 0x29C);
   void Dm_Char03_Init(game::act::Actor* actor, game::GlobalContext* gctx);
   extern "C" s32 Dm_Char03_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
+  extern "C" s32 Dm_Char03_OverrideAnimatedModelDraw(Dm_Char03*);
   void Dm_Char03_Destroy(game::act::Actor* actor, game::GlobalContext* gctx);
 
 }  // namespace rnd
