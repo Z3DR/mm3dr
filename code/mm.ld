@@ -733,47 +733,6 @@ SECTIONS{
     *(.patch_TingleCheckStoneTowerMapTwo)
   }
 
-  .patch_TradeItemDeleteMoonsTear 0x3B5214 : {
-    *(.patch_TradeItemDeleteMoonsTear)
-  }
-
-  .patch_OverrideWalletSpiderHouseTwo 0x3BF078 : {
-    *(.patch_OverrideWalletSpiderHouseTwo)
-  }
-
-  .patch_CheckOshExtData 0x3BF224 : {
-    *(.patch_CheckOshExtData)
-  }
-
-  .patch_OverrideWalletSpiderHouse 0x3BF2A8 : {
-    *(.patch_OverrideWalletSpiderHouse)
-  }
-
-  .patch_OverrideArcheryTownQuiverLimit 0x3E50B8 : {
-    *(.patch_OverrideArcheryTownQuiverLimit)
-  }
-
-  .patch_OverrideQuiverArcheryTown 0x3E50E4 : {
-    *(.patch_OverrideQuiverArchery)
-  }
-
-  .patch_OverrideArcheryTownQuiverLimitTwo 0x3EA278 : {
-    *(.patch_OverrideArcheryTownQuiverLimitTwo)
-  }
-
-  .patch_OverrideQuiverArcherySwamp 0x3EA2B0 : {
-    *(.patch_OverrideQuiverArcheryTwo)
-  }
-
-  .patch_OverrideFairyGiveItem 0x3BECAC : {
-    *(.patch_OverrideFairyGiveItem)
-  }
-
-  .patch_OverrideGreatFairySpawn 0x3BEC84 : {
-    *(.patch_OverrideGreatFairySpawn)
-  }
-
-  
   .patch_DmChar03AnimatedDraw 0x41CEF8 : {
     *(.patch_DmChar03AnimatedDraw)
   }
@@ -790,12 +749,12 @@ SECTIONS{
     *(.patch_DmChar05AnimatedDrawGoronZora)
   }
 
-  .patch_DmChar05AnimatedDrawGibdo 0x41D5A0 : {
-    *(.patch_DmChar05AnimatedDrawGibdo)
+  .patch_ZoraMaskModelDraw 0x41D4E8 : {
+    *(.patch_ZoraMaskModelDraw)
   }
 
-  .patch_ZoraMaskModelDraw 0x41D4E8: {
-    *(.patch_ZoraMaskModelDraw)
+  .patch_DmChar05AnimatedDrawGibdo 0x41D5A0 : {
+    *(.patch_DmChar05AnimatedDrawGibdo)
   }
 
   .patch_GibdoMaskModelDraw 0x41D654 : {
