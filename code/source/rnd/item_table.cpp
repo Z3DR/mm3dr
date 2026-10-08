@@ -463,17 +463,17 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Red Potion
 
-      [0x5C] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GreenPotion, 0x005C,
+      [0x5C] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::GreenPotion, 0x005C,
                         0x00C1, 0x01, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GREEN_POTION,
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Green Potion
 
-      [0x5D] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::BluePotion, 0x005D, 0x00C1,
-                        0x02, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BLUE_POTION,
+      [0x5D] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::BluePotion, 0x005D,
+                        0x00C1, 0x02, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BLUE_POTION,
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Blue Potion
 
-      [0x5E] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Fairy, 0x005E, 0x0272,
+      [0x5E] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::Fairy, 0x005E, 0x0272,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_FAIRY,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Fairy
@@ -483,51 +483,51 @@ namespace rnd {
                         DrawGraphicItemID::DI_BOTTLE_DEKU_PRINCESS, (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None,
                         (s16)-1, (s16)-1, 1.00f),  // Bottle With Deku Princess
 
-      [0x60] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Milk, 0x0060, 0x00B6, 0x00,
-                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MILK_FULL,
+      [0x60] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::Milk, 0x0060, 0x00B6,
+                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MILK_FULL,
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Milk
 
-      [0x61] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Milk, 0x0061, 0x00B6, 0x01,
-                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MILK_FULL,
+      [0x61] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::Milk, 0x0061, 0x00B6,
+                        0x01, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MILK_FULL,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Half Milk
 
-      [0x62] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Fish, 0x0062, 0x00C7, 0x00,
-                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_FISH,
+      [0x62] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::Fish, 0x0062, 0x00C7,
+                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_FISH,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Fish
 
-      [0x63] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Bug, 0x0063, 0x0137, 0x00,
-                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_BUG,
+      [0x63] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::Bug, 0x0063, 0x0137,
+                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_BUG,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Bug
 
-      [0x64] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::BlueFire, 0x0064, 0x0139,
+      [0x64] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::BlueFire, 0x0064, 0x0139,
                         0x04, (s8)0xFF, 0x02, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_NONE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Blue fire - not used
 
-      [0x65] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Poe, 0x0065, 0x0139, 0x02,
-                        (s8)0xFF, 0x00, (s8)0x00, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_POE,
+      [0x65] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::Poe, 0x0065, 0x0139,
+                        0x02, (s8)0xFF, 0x00, (s8)0x00, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_POE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Poe - not used?
 
-      [0x66] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::BigPoe, 0x0066, 0x0139,
+      [0x66] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::BigPoe, 0x0066, 0x0139,
                         0x01, (s8)0xFF, 0x04, (s8)0x02, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_BIG_POE,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Big Poe
 
-      [0x67] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Water, 0x0067, 0x0287,
+      [0x67] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::Water, 0x0067, 0x0287,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_WATER_HALF,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Water
 
-      [0x68] =
-          ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::HotSpringWater, 0x0068, 0x0288,
-                   0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_HOT_SPRING_WATER_HALF,
-                   (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
-                   1.00f),  // Bottle With Hot Spring Water
+      [0x68] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::HotSpringWater, 0x0068,
+                        0x0288, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
+                        DrawGraphicItemID::DI_BOTTLE_HOT_SPRING_WATER_HALF, (rnd::upgradeFunc)ItemUpgrade_None,
+                        ItemEffect_None, (s16)-1, (s16)-1,
+                        1.00f),  // Bottle With Hot Spring Water
 
       [0x69] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::ZoraEgg, 0x0069, 0x01AE,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_ZORA_EGG,
@@ -539,7 +539,7 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Gold Dust
 
-      [0x6B] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MagicalMushroom, 0x006B,
+      [0x6B] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::MagicalMushroom, 0x006B,
                         0x021D, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF,
                         DrawGraphicItemID::DI_BOTTLE_MAGIC_MUSHROOM, (rnd::upgradeFunc)ItemUpgrade_None,
                         ItemEffect_None, (s16)-1, (s16)-1, 1.00f),  // Bottle With Magic Mushrooms
