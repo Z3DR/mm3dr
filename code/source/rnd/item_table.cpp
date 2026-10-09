@@ -720,9 +720,8 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveSmallKey, (s16)2, (s16)-1,
                         1.00f),  // Small Key (Great Bay)
 
-      // The following bottle items either give one bottle if you do not have one, or refills any
-      // bottle if you do have an empty one. Essentially acts as if you caught something in a
-      // bottle.
+      // The following bottle items fill an empty bottle, as if you caught something in it. Without an
+      // empty bottle, ItemOverride_GetItem gives a green rupee instead.
       [0x91] =
           ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::ChateauRomaniFill, 0x0091,
                    0x0227, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_CHATEAU_ROMANI,

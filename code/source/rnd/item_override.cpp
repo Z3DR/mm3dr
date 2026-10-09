@@ -931,7 +931,9 @@ namespace rnd {
       override.value.looksLikeItemId = 0x02;
     } else if (override.value.getItemId == 0x59 || override.value.getItemId == 0x60 ||
                override.value.getItemId == 0x6A || override.value.getItemId == 0x6E ||
-               override.value.getItemId == 0x6F) {
+               override.value.getItemId == 0x6F || override.value.getItemId == 0x5B ||
+               override.value.getItemId == 0x91 || override.value.getItemId == 0x92 ||
+               override.value.getItemId == 0x93) {
       switch (override.value.getItemId) {
       case 0x59:
         if (gExtSaveData.givenItemChecks.bottleRedPotionGiven == 1) {
@@ -974,6 +976,14 @@ namespace rnd {
             override.value.getItemId = 0x91;
           override.value.looksLikeItemId = 0x6F;
         }
+        break;
+      // Refills placed directly: without an empty bottle to fill, give a green rupee instead.
+      case 0x5B:
+      case 0x91:
+      case 0x92:
+      case 0x93:
+        if (!game::HasBottle(game::ItemId::Bottle))
+          override.value.getItemId = 0x01;
         break;
       default:
         break;
