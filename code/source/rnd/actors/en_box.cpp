@@ -4,6 +4,8 @@
 namespace rnd {
   extern "C" {
   game::actors::EnBoxType En_Box_OverrideSize(game::actors::En_Box* actor, game::GlobalContext* gctx) {
+    if (gctx->scene == game::SceneId::TreasureChestShop)
+      ItemOverride_SetTreasureGameForm((u8)game::GetCommonData().save.player_form);
     if (gSettingsContext.chestSize == 0) {
       return (game::actors::EnBoxType)0xFF;
     }

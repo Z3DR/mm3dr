@@ -59,6 +59,8 @@ namespace rnd {
 
   static bool givenItemOverride = false;
 
+  static u8 rActiveTreasureGameForm = 0;
+
   void ItemOverride_Init(void) {
 #ifdef ENABLE_DEBUG
     // Manual overide example code
@@ -96,6 +98,8 @@ namespace rnd {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_CHEST;
       retKey.flag = actor->params & 0x1F;
+      if (scene == (u16)game::SceneId::TreasureChestShop)
+        retKey.flag = rActiveTreasureGameForm;
     } else if (actor->actor_type == game::act::Type::Misc) {  // Heart pieces are misc apparently
       // Only override heart pieces and keys
       const Item00Type collectibleType = static_cast<Item00Type>(actor->params & 0xFF);
@@ -160,6 +164,10 @@ namespace rnd {
       return (ItemOverride){0};
     }
     return ItemOverride_LookupByKey(key);
+  }
+
+  void ItemOverride_SetTreasureGameForm(u8 form) {
+    rActiveTreasureGameForm = form;
   }
 
   ItemOverride ItemOverride_LookupByKey(ItemOverride_Key key) {
