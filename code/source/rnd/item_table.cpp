@@ -240,10 +240,10 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveMask, (s16)0, (s16)-1,
                         1.00f),  // Odolwa's Remains
 
-      [0x2E] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::OneBombchu, 0x002E,
-                        0x00B0, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOMBCHU,
+      [0x2E] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::TwentyBombchus,
+                        0x002E, 0x00B0, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOMBCHU,
                         (rnd::upgradeFunc)ItemUpgrade_BombsToRupee, ItemEffect_None, (s16)-1, (s16)-1,
-                        1.00f),  // Bombchu (1)
+                        1.00f),  // Bombchu (20)
 
       [0x2F] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::GohtRemains, 0x0056,
                         0x01CC, 0x06, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_GOHTS_REMAINS,
@@ -300,7 +300,7 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_GiveGildedSword, (s16)-1, (s16)-1,
                         1.00f),  // Gilded Sword
 
-      [0x3A] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::FiveBombchu, 0x003A,
+      [0x3A] = ITEM_ROW((u32)GetItemID::GI_RUPEE_BLUE, ChestType::WOODEN_SMALL, (u8)game::ItemId::FiveBombchus, 0x003A,
                         0x00B0, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOMBCHU,
                         (rnd::upgradeFunc)ItemUpgrade_BombsToRupee, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bombchus (5)
@@ -488,7 +488,7 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Milk
 
-      [0x61] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::Milk, 0x0061, 0x00B6,
+      [0x61] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::MilkHalf, 0x0061, 0x00B6,
                         0x01, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MILK_FULL,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Half Milk
@@ -569,7 +569,7 @@ namespace rnd {
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Mystery Milk
 
-      [0x71] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MysteryMilk, 0x00CE,
+      [0x71] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MysteryMilkSpoiled, 0x00CE,
                         0x00B6, 0x01, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_MYSTERY_MILK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Spoiled Mystery Milk

@@ -33,9 +33,9 @@ namespace rnd {
     case game::ItemId::TwentyBombs:
     case game::ItemId::ThirtyBombs:
     case game::ItemId::Bombchu:
+    case game::ItemId::TwentyBombchus:
     case game::ItemId::OneBombchu:
-    case game::ItemId::OneBombchuAgain:
-    case game::ItemId::FiveBombchu:
+    case game::ItemId::FiveBombchus:
     case game::ItemId::TenBombchus:
     case game::ItemId::DekuStick:
     case game::ItemId::TenSticks:
