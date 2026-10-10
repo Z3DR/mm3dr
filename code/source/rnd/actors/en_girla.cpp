@@ -16,9 +16,9 @@ namespace rnd {
     case game::ItemId::TwentyBombs:
     case game::ItemId::ThirtyBombs:
     case game::ItemId::Bombchu:
+    case game::ItemId::TwentyBombchus:
     case game::ItemId::OneBombchu:
-    case game::ItemId::OneBombchuAgain:
-    case game::ItemId::FiveBombchu:
+    case game::ItemId::FiveBombchus:
     case game::ItemId::TenBombchus:
       return counts.bomb_bag_upgrade.Value() != game::BombBag::NoBag;
     case game::ItemId::Arrow:

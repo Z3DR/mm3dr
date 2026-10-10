@@ -260,7 +260,7 @@ namespace game {
           false,  // FierceDeity.KokiriSword
           false,  // FierceDeity.RazorSword
           false,  // FierceDeity.GildedSword
-          false,  // FierceDeity.FishingPass
+          false,  // FierceDeity.Item0x50
           false,  // FierceDeity.HeroShield
           false,  // FierceDeity.MirrorShield
           false,  // FierceDeity.Quiver
@@ -376,7 +376,7 @@ namespace game {
           false,  // Goron.KokiriSword
           false,  // Goron.RazorSword
           false,  // Goron.GildedSword
-          false,  // Goron.FishingPass
+          false,  // Goron.Item0x50
           false,  // Goron.HeroShield
           false,  // Goron.MirrorShield
           false,  // Goron.Quiver
@@ -492,7 +492,7 @@ namespace game {
           false,  // Zora.KokiriSword
           false,  // Zora.RazorSword
           false,  // Zora.GildedSword
-          false,  // Zora.FishingPass
+          false,  // Zora.Item0x50
           false,  // Zora.HeroShield
           false,  // Zora.MirrorShield
           false,  // Zora.Quiver
@@ -608,7 +608,7 @@ namespace game {
           false,  // Deku.KokiriSword
           false,  // Deku.RazorSword
           false,  // Deku.GildedSword
-          false,  // Deku.FishingPass
+          false,  // Deku.Item0x50
           false,  // Deku.HeroShield
           false,  // Deku.MirrorShield
           false,  // Deku.Quiver
@@ -724,7 +724,7 @@ namespace game {
           false,  // Human.KokiriSword
           false,  // Human.RazorSword
           false,  // Human.GildedSword
-          false,  // Human.FishingPass
+          false,  // Human.Item0x50
           false,  // Human.HeroShield
           false,  // Human.MirrorShield
           false,  // Human.Quiver

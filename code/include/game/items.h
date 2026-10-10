@@ -102,8 +102,6 @@ namespace game {
     RazorSword = 0x4e,
     GildedSword = 0x4f,
 
-    FishingPass = 0x50,
-
     HeroShield = 0x51,
     MirrorShield = 0x52,
 
@@ -189,14 +187,14 @@ namespace game {
     ThirtyArrows = 0x94,
     FortyArrows = 0x95,
     FiftyArrows = 0x96,
-    OneBombchu = 0x97,       // These are no item above head and allows player to move around with
-                             // textbox for GetItem Tables.
-    TenBombchus = 0x98,      // These are no item above head and allows player to move around with
-                             // textbox for GetItem Tables.
-    OneBombchuAgain = 0x99,  // These are no item above head and allows player to move around with
-                             // textbox for GetItem Tables.
-    FiveBombchu = 0x9a,      // These are no item above head and allows player to move around with
-                             // textbox for GetItem Tables.
+    TwentyBombchus = 0x97,  // These are no item above head and allows player to move around with
+                            // textbox for GetItem Tables.
+    TenBombchus = 0x98,     // These are no item above head and allows player to move around with
+                            // textbox for GetItem Tables.
+    OneBombchu = 0x99,      // These are no item above head and allows player to move around with
+                            // textbox for GetItem Tables.
+    FiveBombchus = 0x9a,    // These are no item above head and allows player to move around with
+                            // textbox for GetItem Tables.
     TwentySticks = 0x9b,
     ThirtySticks = 0x9c,
     ThirtyNuts = 0x9d,
@@ -207,6 +205,7 @@ namespace game {
     MysteryMilkFill = 0xa2,    // Gives one bottle, then fills any empty bottles. Do not use as it
                                // does not set timer to 2 mins.
     SeahorseFill = 0xa3,       // Gives one bottle, then fills any empty bottles.
+    FishingPass = 0xda,        // Adds one to the fishing pass count, up to 99.
 
     None = 0xff,
   };
