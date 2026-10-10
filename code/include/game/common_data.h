@@ -823,5 +823,8 @@ namespace game {
   static_assert(offsetof(CommonData, field_140F2) == 0x140F2);
 
   CommonData& GetCommonData();
+  inline s32 GetCurrentDay() {
+    return GetCommonData().save.day % 5;
+  }
 
 }  // namespace game

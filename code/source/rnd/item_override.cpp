@@ -3,7 +3,9 @@
 #include "rnd/actors/en_akindonuts.h"
 #include "rnd/actors/en_cow.h"
 #include "rnd/actors/en_elforg.h"
+#include "rnd/actors/en_fu.h"
 #include "rnd/actors/en_si.h"
+#include "rnd/actors/item00.h"
 #include "rnd/custom_models.h"
 #include "rnd/extdata.h"
 #include "rnd/icetrap.h"
@@ -87,32 +89,23 @@ namespace rnd {
     game::CommonData& cdata = game::GetCommonData();
     ItemOverride_Key retKey;
     retKey.all = 0;
-    // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
-    //     rnd::util::Print("%s: Retrieving search key for actor type %#04x and ID is %#04x\n", __func__,
-    //     actor->actor_type,
-    //                      actor->id);
-    // #endif
+    /*#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+            rnd::util::Print("%s: Retrieving search key for actor type %#04x and ID is %#04x, scene is %#04x\n",
+    __func__, actor->actor_type, actor->id, scene); #endif*/
     if (actor->actor_type == game::act::Type::Chest) {
-      // XXX: Any games like H&D or chest game to not swap?
-      // Don't override WINNER purple rupee in the chest minigame scene
-      // if (scene == 0x11 || scene == 0x17) {
-      //     u32 chestItemId = (actor->params >> 5) & 0x7F;
-      //     if (chestItemId == 0x75) {
-      //         return (ItemOverride_Key){ .all = 0 };
-      //     }
-      // }
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_CHEST;
       retKey.flag = actor->params & 0x1F;
     } else if (actor->actor_type == game::act::Type::Misc) {  // Heart pieces are misc apparently
       // Only override heart pieces and keys
-      u32 collectibleType = actor->params & 0xFF;
+      const Item00Type collectibleType = static_cast<Item00Type>(actor->params & 0xFF);
       // XXX: AFAIK These are correct. Heart piece was checked.
       // Marine HP lab for some reason always is a fishing pass, 0xA.
-      if (scene == 0x2F &&
+      if (scene == (u16)game::SceneId::MarineResearchLaboratory &&
           cdata.save.week_event_reg_56.WEEKEVENTREG_RECEIVED_MARINE_RESEARCH_LAB_FISH_HEART_PIECE == 1) {
         return (ItemOverride_Key){.all = 0};
-      } else if (scene != 0x2F && collectibleType != 0x06 && collectibleType != 0x11) {
+      } else if (scene != (u16)game::SceneId::MarineResearchLaboratory && collectibleType != Item00Type::HeartPiece &&
+                 collectibleType != Item00Type::SmallKey) {
         return (ItemOverride_Key){.all = 0};
       }
       retKey.scene = scene;
@@ -133,6 +126,10 @@ namespace rnd {
     } else if (actor->id == game::act::Id::EnCow) {  // Cow
       if (!En_Cow_FillSearchKey(actor, (game::SceneId)scene, &retKey)) {
         return (ItemOverride_Key){.all = 0};
+      }
+    } else if (actor->actor_type == game::act::Type::Npc && actor->id == game::act::Id::EnFu) {
+      if (scene == (u16)game::SceneId::HoneyAndDarling) {
+        retKey = En_Fu_GetItemKeyBasedOnDay(actor);
       }
     } else if (actor->id == game::act::Id::EnGirlA) {
       const ShopShelf shelf = Shopsanity_ResolveShelf((game::SceneId)scene, actor->params);

@@ -400,6 +400,7 @@ namespace rnd {
     OVR_STRAY_FAIRY = 7,
     OVR_COW = 8,
     OVR_SHOP = 9,
+    OVR_MINI_GAME = 0xA,
   };
 
   typedef union ItemOverride_Key {

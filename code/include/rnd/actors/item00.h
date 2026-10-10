@@ -15,6 +15,39 @@ namespace rnd {
   void EnItem00_rDestroy(game::act::Actor*, game::GlobalContext*);
   }
 
+  enum class Item00Type : u8 {
+    RupeeGreen = 0x00,
+    RupeeBlue = 0x01,
+    RupeeRed = 0x02,
+    RecoveryHeart = 0x03,
+    BombsA = 0x04,
+    Arrows10 = 0x05,
+    HeartPiece = 0x06,
+    HeartContainer = 0x07,
+    Arrows30 = 0x08,
+    Arrows40 = 0x09,
+    Arrows50 = 0x0A,
+    BombsB = 0x0B,
+    DekuNuts1 = 0x0C,
+    DekuStick = 0x0D,
+    MagicJarBig = 0x0E,
+    MagicJarSmall = 0x0F,
+    Mask = 0x10,
+    SmallKey = 0x11,
+    Flexible = 0x12,
+    RupeeHuge = 0x13,
+    RupeePurple = 0x14,
+    ThreeHearts = 0x15,
+    ShieldHero = 0x16,
+    DekuNuts10 = 0x17,
+    Nothing = 0x18,
+    Bombs0 = 0x19,
+    BigFairy = 0x1A,
+    Map = 0x1B,
+    Compass = 0x1C,
+    MushroomCloud = 0x1D,
+  };
+
   struct En_Item00 : public game::act::Actor {
     void* collectible_calc;
     u16 field_1FC;

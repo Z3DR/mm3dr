@@ -46,6 +46,8 @@ namespace game::act {
     EnGm = 0x0074,
     // En_Hs - Grog The Chicken Man
     EnHs = 0x0076,
+    // En_Fu - Honey and Darling
+    EnFu = 0x0080,
     // En_Js - Moon Children
     EnJs = 0x0085,
     // Cursed Man Spider House
