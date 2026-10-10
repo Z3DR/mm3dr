@@ -428,6 +428,7 @@ namespace rnd {
   };
 
   ItemOverride ItemOverride_LookupByKey(ItemOverride_Key);
+  void ItemOverride_SetTreasureGameForm(u8);
   void ItemOverride_PushDelayedOverride(u8);
   s32 ItemOverride_IsAPendingOverride(void);
   ItemOverride ItemOverride_Lookup(game::act::Actor*, u16, s16);
