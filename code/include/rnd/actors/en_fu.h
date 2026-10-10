@@ -18,5 +18,5 @@ namespace rnd {
     u16 text_id;
   };
 
-  ItemOverride_Key En_Fu_GetItemKeyBasedOnDay(game::act::Actor*);
+  ItemOverride_Key En_Fu_GetItemKeyBasedOnDay(game::act::Actor*, s16);
 }  // namespace rnd

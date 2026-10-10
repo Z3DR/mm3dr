@@ -7,7 +7,7 @@
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 26
+#define EXTSAVEDATA_VERSION 27
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
@@ -200,6 +200,13 @@ namespace rnd {
     };
     SfxOptionsRegister sfxOptions;
     u8 formTunicColors[3];
+    union MiniGameDayRegister {
+      u8 raw;
+      BitField<0, 1, u8> dayOneHoneyAndDarlingCompleted;
+      BitField<1, 1, u8> dayTwoHoneyAndDarlingCompleted;
+      BitField<2, 6, u8> unused;
+    };
+    MiniGameDayRegister miniGameCompletion;
   } ExtSaveData;
 
   extern "C" ExtSaveData gExtSaveData;

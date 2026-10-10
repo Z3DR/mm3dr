@@ -133,7 +133,7 @@ namespace rnd {
       }
     } else if (actor->actor_type == game::act::Type::Npc && actor->id == game::act::Id::EnFu) {
       if (scene == (u16)game::SceneId::HoneyAndDarling) {
-        retKey = En_Fu_GetItemKeyBasedOnDay(actor);
+        retKey = En_Fu_GetItemKeyBasedOnDay(actor, getItemId);
       }
     } else if (actor->id == game::act::Id::EnGirlA) {
       const ShopShelf shelf = Shopsanity_ResolveShelf((game::SceneId)scene, actor->params);
@@ -379,6 +379,14 @@ namespace rnd {
         game::GetCommonData().save.week_event_reg_08.WEEKEVENTREG_08_80 = 1;
       } else {
         En_Elforg_SetFairyCollected((game::SceneId)key.scene, key.flag);
+      }
+    }
+    if (key.type == ItemOverride_Type::OVR_MINI_GAME) {
+      if (key.scene == (u8)game::SceneId::HoneyAndDarling) {
+        if (key.flag == 1)
+          gExtSaveData.miniGameCompletion.dayOneHoneyAndDarlingCompleted = 1;
+        else if (key.flag == 2)
+          gExtSaveData.miniGameCompletion.dayTwoHoneyAndDarlingCompleted = 1;
       }
     }
     SetExtData();
