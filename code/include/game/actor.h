@@ -94,6 +94,8 @@ namespace game::act {
     NpcEnFsn = 0x0157,
     // Npc For Boat Photography
     EnShn = 0x0158,
+    // Deku Scrub Playground scrubs
+    EnLiftNuts = 0x015B,
     // NPC Postman
     NpcEnPm = 0x0166,
     // Fish Heart Piece

@@ -204,7 +204,9 @@ namespace rnd {
       u8 raw;
       BitField<0, 1, u8> dayOneHoneyAndDarlingCompleted;
       BitField<1, 1, u8> dayTwoHoneyAndDarlingCompleted;
-      BitField<2, 6, u8> unused;
+      BitField<2, 1, u8> dayOneDekuPlaygroundCompleted;
+      BitField<3, 1, u8> dayTwoDekuPlaygroundCompleted;
+      BitField<4, 4, u8> unused;
     };
     MiniGameDayRegister miniGameCompletion;
   } ExtSaveData;
