@@ -268,15 +268,6 @@ noOverrideGibdoItemID:
     bl 0x233BEC
     b 0x41DC4C
 
-.global hook_ZoraJarGameReward
-hook_ZoraJarGameReward:
-    push {r0-r12, lr}
-    bl ItemOverride_GiveZoraJarGameReward
-    cmp r0, #0x0
-    pop {r0-r12, lr}
-    bxne lr
-    b 0x2C1634
-
 .global hook_CouplesMaskGiveItem
 hook_CouplesMaskGiveItem:
     push {r0-r12, lr}

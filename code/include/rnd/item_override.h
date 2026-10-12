@@ -428,6 +428,7 @@ namespace rnd {
   };
 
   ItemOverride ItemOverride_LookupByKey(ItemOverride_Key);
+  void ItemOverride_PushPendingOverride(ItemOverride);
   void ItemOverride_SetTreasureGameForm(u8);
   void ItemOverride_PushDelayedOverride(u8);
   s32 ItemOverride_IsAPendingOverride(void);
@@ -467,7 +468,6 @@ namespace rnd {
   void ItemOverride_EditDrawGetItemBeforeModelSpawn();
   void ItemOverride_EditDrawGetItemAfterModelSpawn(game::act::SkeletonAnimationModel*, u8);
   u8 ItemOverride_CheckIfOcarinaInClocktower(u8);
-  bool ItemOverride_GiveZoraJarGameReward();
   }
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];

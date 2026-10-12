@@ -110,6 +110,8 @@ namespace game::act {
     EnMaYto = 0x01AF,
     // [7] Owl statue
     ObjOwlStatue = 0x01B2,
+    // Beach Zoras (Zora Cape jar game)
+    EnZot = 0x01B7,
     // Gabora
     EnKgy = 0x018F,
     // [4] Old Lady from Bomb Shop

@@ -132,11 +132,6 @@ patch_ZoraMaskGiveItem:
 patch_GibdoMaskGiveItem:
     b hook_GibdoMaskGiveItem
 
-.section .patch_ZoraJarGameReward
-.global patch_ZoraJarGameReward
-patch_ZoraJarGameReward:
-    bl hook_ZoraJarGameReward
-
 .section .patch_OverrideProgessiveWalletTwo
 .global patch_OverrideProgessiveWalletTwo
 patch_OverrideProgessiveWalletTwo:

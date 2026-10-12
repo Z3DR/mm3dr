@@ -233,7 +233,7 @@ namespace rnd {
     storedGetItemId = GetItemID::GI_NONE;
   }
 
-  static void ItemOverride_PushPendingOverride(ItemOverride override) {
+  void ItemOverride_PushPendingOverride(ItemOverride override) {
     for (u32 i = 0; i < ARR_SIZE(rPendingOverrideQueue); ++i) {
       if (rPendingOverrideQueue[i].key.all == 0) {
         rPendingOverrideQueue[i] = override;
@@ -1491,20 +1491,6 @@ namespace rnd {
     } else {
       return someAnimationIdx;
     }
-  }
-
-  bool ItemOverride_GiveZoraJarGameReward() {
-    if (gExtSaveData.miniGameCompletion.zoraJarGameCompleted)
-      return false;
-    ItemOverride_Key key = {.all = 0};
-    key.scene = (u8)game::SceneId::ZoraCape;
-    key.type = ItemOverride_Type::OVR_MINI_GAME;
-    key.flag = 1;
-    ItemOverride override = ItemOverride_LookupByKey(key);
-    if (override.key.all == 0)
-      return false;
-    ItemOverride_PushPendingOverride(override);
-    return true;
   }
   }
 }  // namespace rnd
