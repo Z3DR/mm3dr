@@ -797,6 +797,34 @@ SECTIONS{
     *(.patch_FierceDeityArcheryFix)
   }
 
+  .patch_EnZotJarGameTextIdSwitch 0x447408 : {
+    *(.patch_EnZotJarGameTextIdSwitch)
+  }
+
+  .patch_EnZotJarGameTextIdCheckOne 0x447460 : {
+    *(.patch_EnZotJarGameTextIdCheckOne)
+  }
+
+  .patch_EnZotJarGameTextIdCheckTwo 0x44747C : {
+    *(.patch_EnZotJarGameTextIdCheckTwo)
+  }
+
+  .patch_EnZotJarGameTextIdNext 0x447504 : {
+    *(.patch_EnZotJarGameTextIdNext)
+  }
+
+  .patch_EnZotJarGameRewardText 0x447514 : {
+    *(.patch_EnZotJarGameRewardText)
+  }
+
+  .patch_EnZotJarGameReward 0x447574 : {
+    *(.patch_EnZotJarGameReward)
+  }
+
+  .patch_EnZotJarGameRewardDoneText 0x447578 : {
+    *(.patch_EnZotJarGameRewardDoneText)
+  }
+
   .patch_OverrideBankerWalletReward 0x459044 : {
     *(.patch_OverrideProgessiveWalletTwo)
   }

@@ -233,7 +233,7 @@ namespace rnd {
     storedGetItemId = GetItemID::GI_NONE;
   }
 
-  static void ItemOverride_PushPendingOverride(ItemOverride override) {
+  void ItemOverride_PushPendingOverride(ItemOverride override) {
     for (u32 i = 0; i < ARR_SIZE(rPendingOverrideQueue); ++i) {
       if (rPendingOverrideQueue[i].key.all == 0) {
         rPendingOverrideQueue[i] = override;
@@ -398,6 +398,8 @@ namespace rnd {
           gExtSaveData.miniGameCompletion.dayOneDekuPlaygroundCompleted = 1;
         else if (key.flag == 2)
           gExtSaveData.miniGameCompletion.dayTwoDekuPlaygroundCompleted = 1;
+      } else if (key.scene == (u8)game::SceneId::ZoraCape) {
+        gExtSaveData.miniGameCompletion.zoraJarGameCompleted = 1;
       } else if (key.scene == (u8)game::SceneId::LotteryShop) {
         if (key.flag == 1)
           gExtSaveData.miniGameCompletion.dayOneLotteryCompleted = 1;

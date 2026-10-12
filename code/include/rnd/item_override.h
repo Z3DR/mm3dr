@@ -428,6 +428,7 @@ namespace rnd {
   };
 
   ItemOverride ItemOverride_LookupByKey(ItemOverride_Key);
+  void ItemOverride_PushPendingOverride(ItemOverride);
   void ItemOverride_SetTreasureGameForm(u8);
   void ItemOverride_PushDelayedOverride(u8);
   s32 ItemOverride_IsAPendingOverride(void);

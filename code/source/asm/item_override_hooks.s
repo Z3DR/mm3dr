@@ -17,19 +17,30 @@
 .rStoredTextId_addr:
     .word rStoredTextId
 
-.global hook_IncomingGetItemID
-hook_IncomingGetItemID:
-    push {r0-r12, lr}
-    @ According to Ghidra, r6 r5 r4 are the required 
-    @ values needed for the GetItem header, if it isn't clear.
-    cpy r0,r7
-    cpy r1,r6
-    cpy r2,r5
-    cpy r3,r4
-    bl ItemOverride_GetItem
+.global hook_AdjustCouplesMaskMessage
+hook_AdjustCouplesMaskMessage:
+    push {r1}
+    ldr r1,.rStoredTextId_addr
+    ldr r1,[r1]
+    cmp r1,#0x0
+    pop {r1}
+    beq normalText
+    ldr r1,.rStoredTextId_addr
+    ldr r1,[r1]
+    push {r0-r12,lr}
+    bl ItemOverride_RemoveTextId
     pop {r0-r12, lr}
-    bx lr
+    b 0x1867C8
+normalText:
+    mov r1,#0xA2
+    b 0x1867C8
 
+.global hook_ChangeSoHAndSongToCustomText
+hook_ChangeSoHAndSongToCustomText:
+    push {r0-r2, lr}
+    bl ItemOverride_SwapSoHAndSongGetItemText
+    pop {r0-r2, lr}
+    b 0x186814
 
 .global hook_CheckCurrentInventory
 hook_CheckCurrentInventory:
@@ -37,6 +48,23 @@ hook_CheckCurrentInventory:
     bl ItemOverride_CheckInventoryItemOverride
     pop {r1-r12, lr}
     b 0x1F3D6C
+
+.global hook_EditDrawGetItemBeforeModelSpawn
+hook_EditDrawGetItemBeforeModelSpawn:
+    push {r0-r12, lr}
+    bl ItemOverride_EditDrawGetItemBeforeModelSpawn
+    pop {r0-r12, lr}
+    mov r9,#0x0
+    bx lr
+
+.global hook_EditDrawGetItemAfterModelSpawn
+hook_EditDrawGetItemAfterModelSpawn:
+    push {r0-r12,lr}
+    cpy r1,r6
+    bl ItemOverride_EditDrawGetItemAfterModelSpawn
+    pop {r0-r12,lr}
+    add r1,r5,r6, lsl #0x2
+    bx lr
 
 .global hook_FixOcarinaStandingIssue
 hook_FixOcarinaStandingIssue:
@@ -60,21 +88,6 @@ hook_OverrideItemIdIndex:
 noOverrideItemIdIndex:
     ldrsh r0, [r0, #-6]
     bx lr
-
-.global hook_OverrideRemainGetItem
-hook_OverrideRemainGetItem:
-    push {r0-r12,lr}
-    bl ResetPlayerForm
-    pop {r0-r12,lr}
-    push {r2}
-    ldr r2,.rActiveItemRow_addr
-    ldr r2,[r2]
-    cmp r2,#0x0
-    pop {r2}
-    bne 0x23406C
-    ldr r0,[r0,#-0x174]
-    bx lr
-    
 
 .global hook_OverrideDrawIndex
 hook_OverrideDrawIndex:
@@ -129,6 +142,20 @@ noOverrideItemID:
     cpy r0,r7
     b 0x23110C
 
+.global hook_OverrideRemainGetItem
+hook_OverrideRemainGetItem:
+    push {r0-r12,lr}
+    bl ResetPlayerForm
+    pop {r0-r12,lr}
+    push {r2}
+    ldr r2,.rActiveItemRow_addr
+    ldr r2,[r2]
+    cmp r2,#0x0
+    pop {r2}
+    bne 0x23406C
+    ldr r0,[r0,#-0x174]
+    bx lr
+
 .global hook_RemoveAddingSkulltulaTokenIfOverridden
 hook_RemoveAddingSkulltulaTokenIfOverridden:
     push {r1}
@@ -154,19 +181,19 @@ doNotSpawnDarmani:
     nop
     b 0x2DE96C
 
+.global hook_OverrideRemainSpawn
+hook_OverrideRemainSpawn:
+    push {r1-r12,lr}
+    bl ItemOverride_CheckBossStatus
+    pop {r1-r12,lr}
+    bx lr
+
 .global hook_CheckOshExtData
 hook_CheckOshExtData:
     push {lr}
     bl ItemOverride_GetOshExtData
     pop {lr}
     cmp r0,#0x0
-    bx lr
-
-.global hook_OverrideRemainSpawn
-hook_OverrideRemainSpawn:
-    push {r1-r12,lr}
-    bl ItemOverride_CheckBossStatus
-    pop {r1-r12,lr}
     bx lr
 
 .global hook_GoronMaskGiveItem
@@ -262,30 +289,18 @@ hook_CouplesMaskGiveItem:
 noOverrideCouplesItemID:
     b 0x46e22c
 
-.global hook_AdjustCouplesMaskMessage
-hook_AdjustCouplesMaskMessage:
-    push {r1}
-    ldr r1,.rStoredTextId_addr
-    ldr r1,[r1]
-    cmp r1,#0x0
-    pop {r1}
-    beq normalText
-    ldr r1,.rStoredTextId_addr
-    ldr r1,[r1]
-    push {r0-r12,lr}
-    bl ItemOverride_RemoveTextId
+.global hook_IncomingGetItemID
+hook_IncomingGetItemID:
+    push {r0-r12, lr}
+    @ According to Ghidra, r6 r5 r4 are the required 
+    @ values needed for the GetItem header, if it isn't clear.
+    cpy r0,r7
+    cpy r1,r6
+    cpy r2,r5
+    cpy r3,r4
+    bl ItemOverride_GetItem
     pop {r0-r12, lr}
-    b 0x1867C8
-normalText:
-    mov r1,#0xA2
-    b 0x1867C8
-
-.global hook_ChangeSoHAndSongToCustomText
-hook_ChangeSoHAndSongToCustomText:
-    push {r0-r2, lr}
-    bl ItemOverride_SwapSoHAndSongGetItemText
-    pop {r0-r2, lr}
-    b 0x186814
+    bx lr
 
 .global hook_SkulltulaOverrideOne
 hook_SkulltulaOverrideOne:
@@ -313,7 +328,6 @@ hook_SkulltulaOverrideTwo:
 skulltulaOverriddenTwo:
     b 0x52A06C
 
-
 .global hook_OverrideGetSongItem
 hook_OverrideGetSongItem:
     push {r0-r12, lr}
@@ -333,20 +347,3 @@ hook_OverrideGetSongItem:
 noOverrideSongItemID:
     bl 0x233BEC
     b 0x605980
-
-.global hook_EditDrawGetItemAfterModelSpawn
-hook_EditDrawGetItemAfterModelSpawn:
-    push {r0-r12,lr}
-    cpy r1,r6
-    bl ItemOverride_EditDrawGetItemAfterModelSpawn
-    pop {r0-r12,lr}
-    add r1,r5,r6, lsl #0x2
-    bx lr
-
-.global hook_EditDrawGetItemBeforeModelSpawn
-hook_EditDrawGetItemBeforeModelSpawn:
-    push {r0-r12, lr}
-    bl ItemOverride_EditDrawGetItemBeforeModelSpawn
-    pop {r0-r12, lr}
-    mov r9,#0x0
-    bx lr
