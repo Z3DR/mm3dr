@@ -476,6 +476,25 @@ namespace rnd {
       ctStrayTotalColor = COLOR_DARK_GRAY;
     }
     Draw_DrawFormattedString(188, yPos, ctStrayTotalColor, "01");
+
+    // Lottery numbers, shown once the lottery shop has announced that day's winning number.
+    const u8* lotteryNumbers[3] = {saveData.winning_lottery_numbers_day_1, saveData.winning_lottery_numbers_day_2,
+                                   saveData.winning_lottery_numbers_day_3};
+    const bool lotteryRevealed[3] = {gExtSaveData.miniGameCompletion.dayOneLotteryRevealed.Value() == 1,
+                                     gExtSaveData.miniGameCompletion.dayTwoLotteryRevealed.Value() == 1,
+                                     gExtSaveData.miniGameCompletion.dayThreeLotteryRevealed.Value() == 1};
+    yPos += spacingY;
+    Draw_DrawString(10, yPos, COLOR_TITLE, "Lottery Numbers");
+    for (u32 day = 0; day < 3; ++day) {
+      yPos += spacingY;
+      Draw_DrawFormattedString(24, yPos, COLOR_WHITE, "Day %u", day + 1);
+      if (lotteryRevealed[day]) {
+        Draw_DrawFormattedString(170, yPos, COLOR_WHITE, "%u %u %u", lotteryNumbers[day][0], lotteryNumbers[day][1],
+                                 lotteryNumbers[day][2]);
+      } else {
+        Draw_DrawString(170, yPos, COLOR_DARK_GRAY, "- - -");
+      }
+    }
   }
 
   static void Gfx_DrawSpoilerData(void) {
