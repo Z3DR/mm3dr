@@ -217,6 +217,14 @@ namespace rnd {
       BitField<12, 4, u16> unused;
     };
     MiniGameDayRegister miniGameCompletion;
+    union BoatRideRegister {
+      u8 raw;
+      // The first ride in each direction on the poisoned swamp's boat runs at a faster speed.
+      BitField<0, 1, u8> swampBoatThereFastRideUsed;
+      BitField<1, 1, u8> swampBoatBackFastRideUsed;
+      BitField<2, 6, u8> unused;
+    };
+    BoatRideRegister boatRides;
   } ExtSaveData;
 
   extern "C" ExtSaveData gExtSaveData;
