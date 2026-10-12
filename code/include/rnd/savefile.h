@@ -201,12 +201,18 @@ namespace rnd {
     SfxOptionsRegister sfxOptions;
     u8 formTunicColors[3];
     union MiniGameDayRegister {
-      u8 raw;
-      BitField<0, 1, u8> dayOneHoneyAndDarlingCompleted;
-      BitField<1, 1, u8> dayTwoHoneyAndDarlingCompleted;
-      BitField<2, 1, u8> dayOneDekuPlaygroundCompleted;
-      BitField<3, 1, u8> dayTwoDekuPlaygroundCompleted;
-      BitField<4, 4, u8> unused;
+      u16 raw;
+      BitField<0, 1, u16> dayOneHoneyAndDarlingCompleted;
+      BitField<1, 1, u16> dayTwoHoneyAndDarlingCompleted;
+      BitField<2, 1, u16> dayOneDekuPlaygroundCompleted;
+      BitField<3, 1, u16> dayTwoDekuPlaygroundCompleted;
+      BitField<4, 1, u16> dayOneLotteryRevealed;
+      BitField<5, 1, u16> dayTwoLotteryRevealed;
+      BitField<6, 1, u16> dayThreeLotteryRevealed;
+      BitField<7, 1, u16> dayOneLotteryCompleted;
+      BitField<8, 1, u16> dayTwoLotteryCompleted;
+      BitField<9, 1, u16> dayThreeLotteryCompleted;
+      BitField<10, 6, u16> unused;
     };
     MiniGameDayRegister miniGameCompletion;
   } ExtSaveData;

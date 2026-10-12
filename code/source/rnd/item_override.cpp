@@ -4,6 +4,7 @@
 #include "rnd/actors/en_cow.h"
 #include "rnd/actors/en_elforg.h"
 #include "rnd/actors/en_fu.h"
+#include "rnd/actors/en_kujiya.h"
 #include "rnd/actors/en_lift_nuts.h"
 #include "rnd/actors/en_si.h"
 #include "rnd/actors/item00.h"
@@ -138,6 +139,8 @@ namespace rnd {
       }
     } else if (actor->id == game::act::Id::EnLiftNuts && scene == (u16)game::SceneId::DekuScrubPlayground) {
       retKey = EnLiftNuts_GetItemKeyBasedOnDay(getItemId);
+    } else if (actor->id == game::act::Id::EnKujiya && scene == (u16)game::SceneId::LotteryShop) {
+      retKey = EnKujiya_GetItemKeyBasedOnDay(getItemId);
     } else if (actor->id == game::act::Id::EnGirlA) {
       const ShopShelf shelf = Shopsanity_ResolveShelf((game::SceneId)scene, actor->params);
       if (Shopsanity_GetSlot(shelf.scene, shelf.param) < 0) {
@@ -395,6 +398,13 @@ namespace rnd {
           gExtSaveData.miniGameCompletion.dayOneDekuPlaygroundCompleted = 1;
         else if (key.flag == 2)
           gExtSaveData.miniGameCompletion.dayTwoDekuPlaygroundCompleted = 1;
+      } else if (key.scene == (u8)game::SceneId::LotteryShop) {
+        if (key.flag == 1)
+          gExtSaveData.miniGameCompletion.dayOneLotteryCompleted = 1;
+        else if (key.flag == 2)
+          gExtSaveData.miniGameCompletion.dayTwoLotteryCompleted = 1;
+        else if (key.flag == 3)
+          gExtSaveData.miniGameCompletion.dayThreeLotteryCompleted = 1;
       }
     }
     SetExtData();

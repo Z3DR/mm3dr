@@ -645,6 +645,10 @@ SECTIONS{
     *(.patch_DrawGiantAfterMoonCutscene)
   }
 
+  .patch_EnKujiyaSetLotteryBitRevealed 0x39D7D0 : {
+    *(.patch_EnKujiyaSetLotteryBitRevealed)
+  }
+
   .patch_DmChar03ModelDraw 0x3B9254 : {
     *(.patch_DmChar03ModelDraw)
   }

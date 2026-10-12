@@ -114,6 +114,8 @@ namespace game::act {
     EnKgy = 0x018F,
     // [4] Old Lady from Bomb Shop
     NpcEnBaba = 0x01C5,
+    // Lottery NPC
+    EnKujiya = 0x01C8,
     // Granny
     NpcEnNb = 0x01D2,
     // GuruGuru (Bremen Mask Give Item)
