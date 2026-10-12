@@ -111,6 +111,41 @@ namespace rnd {
     return dungeonId == -1 || IsDungeonDiscovered(dungeonId);
   }
 
+  static bool CanShowShopLocations() {
+    u8 sceneId = (u8)GetContext().gctx->scene;
+    if (sceneId == (u8)game::SceneId::TradingPost) {
+      u8 currentscene = 0x34;
+      if (SaveFile_GetIsSceneDiscovered(currentscene)) {
+        return true;
+      }
+    }
+    else if (sceneId == (u8)game::SceneId::BombShop) {
+      u8 currentscene = 0x68;
+      if (SaveFile_GetIsSceneDiscovered(currentscene)) {
+        return true;
+      }
+    }
+    else if (sceneId == (u8)game::SceneId::PotionShop) {
+      u8 currentscene = 0x0A;
+      if (SaveFile_GetIsSceneDiscovered(currentscene)) {
+        return true;
+      }
+    }
+    else if (sceneId == (u8)game::SceneId::GoronShop) {
+      u8 currentscene = 0x3D;
+      if (SaveFile_GetIsSceneDiscovered(currentscene)) {
+        return true;
+      }
+    }
+    else if (sceneId == (u8)game::SceneId::ZoraHallRooms) {
+      u8 currentscene = 0x4C;
+      if (SaveFile_GetIsSceneDiscovered(currentscene)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   static void Gfx_DrawScrollBar(u16 barX, u16 barY, u16 barSize, u16 currentScroll, u16 maxScroll, u16 pageSize) {
     Draw_DrawRect(barX, barY, SCROLL_BAR_THICKNESS, barSize, COLOR_SCROLL_BAR_BG);
 
@@ -605,6 +640,7 @@ namespace rnd {
       u32 locPosY = listTopY + ((SPACING_SMALL_Y + 1) * item * 2);
       u32 itemPosY = locPosY + SPACING_SMALL_Y;
       bool isCollected = SpoilerData_GetIsItemLocationCollected(locIndex);
+      bool isShopRevealed = CanShowShopLocations();
 
       // Find this item's group index, so we can see if we should hide
       // its name because it's located in an undiscovered dungeon
@@ -616,6 +652,7 @@ namespace rnd {
         }
       }
       bool canShowGroup = isCollected || CanShowSpoilerGroup(SpoilerCollectionCheckGroup(itemGroupIndex));
+      bool canShowShop = isShopRevealed && (SpoilerData_IsShopLocation(locIndex));
 
       u32 color = COLOR_WHITE;
 
@@ -628,12 +665,16 @@ namespace rnd {
           color = COLOR_GREEN;
         }
       }
+      if ((isCollected) && (isShopRevealed)) {
+        color = COLOR_DARK_GRAY;
+      } 
 
       bool itemRevealed = canShowGroup && (isCollected || SpoilerData_GetIsItemLocationRevealed(locIndex));
 
-      if (canShowGroup) {
+      if (canShowGroup || canShowShop) {
         Draw_DrawString_Small(10, locPosY, color, SpoilerData_GetItemLocationString(locIndex));
-      } else {
+      }
+      else {
         Draw_DrawFormattedString_Small(10, locPosY, color, "%s (Undiscovered)",
                                        spoilerCollectionGroupNames[itemGroupIndex]);
       }

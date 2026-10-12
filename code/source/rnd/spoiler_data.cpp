@@ -111,6 +111,13 @@ namespace rnd {
         .ItemLocations[gSpoilerData.SphereItemLocations[gSpoilerData.Spheres[sphere].ItemLocationsOffset]];
   }
 
+  bool SpoilerData_IsShopLocation(u16 itemIndex) {
+    if (gSpoilerData.ItemLocations[itemIndex].OverrideType == ItemOverride_Type::OVR_SHOP) {
+      return true;
+    }
+    return false;
+  }
+
   u8 SpoilerData_ChestCheck(SpoilerItemLocation itemLoc) {
     return -1;
   }
@@ -259,6 +266,12 @@ namespace rnd {
     }
     if (itemLoc.CollectionCheckType == SPOILER_CHK_NONE) {
       return 0;
+    }
+    if (itemLoc.CollectionCheckType == SPOILER_CHK_SHOP_ITEM) {
+      return 1;
+    }
+    if (itemLoc.CollectionCheckType == SPOILER_CHK_SHOP) {
+      return 1;
     }
     return 0;
     /*
