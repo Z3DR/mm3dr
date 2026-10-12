@@ -665,7 +665,7 @@ namespace rnd {
           color = COLOR_GREEN;
         }
       }
-      if ((isCollected) && (isShopRevealed)) {
+      if ((!isCollected) && (isShopRevealed)) {
         color = COLOR_DARK_GRAY;
       } 
 
