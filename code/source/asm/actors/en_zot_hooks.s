@@ -10,6 +10,7 @@ hook_EnZotJarGameVanillaTextId:
     pop {r0-r12, lr}
     bx lr
 
+.global hook_EnZotJarGameRewardText
 hook_EnZotJarGameRewardText:
     push {r0-r12, lr}
     cpy r0, r1
@@ -18,6 +19,7 @@ hook_EnZotJarGameRewardText:
     pop {r0-r12, lr}
     b 0x1CEE24
 
+.global hook_EnZotJarGameReward
 hook_EnZotJarGameReward:
     push {r0-r12, lr}
     bl EnZot_GiveJarGameReward
@@ -26,6 +28,7 @@ hook_EnZotJarGameReward:
     bxne lr
     b 0x2C1634
 
+.global hook_EnZotJarGameRewardDoneText
 hook_EnZotJarGameRewardDoneText:
     push {r0-r12, lr}
     ldr r0, =0x1270

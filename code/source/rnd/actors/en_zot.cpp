@@ -17,8 +17,6 @@ namespace rnd {
   }  // namespace
 
   extern "C" {
-  // The shuffled reward replaces the rupees only for the first win as Zora with all five jars; other forms reach the
-  // same reward text, so the form is checked here too.
   bool EnZot_JarGameOverrideActive() {
     return !gExtSaveData.miniGameCompletion.zoraJarGameCompleted &&
            game::GetCommonData().save.player_form == game::act::Player::Form::Zora &&
@@ -43,8 +41,6 @@ namespace rnd {
     return textId;
   }
 
-  // The Zora decides what to do next from the ID of the message on screen; read the custom texts as the messages they
-  // stand in for.
   u32 EnZot_JarGameVanillaTextId(u32 textId) {
     if (textId == customRewardTextID)
       return rewardTextiD;
@@ -52,5 +48,15 @@ namespace rnd {
       return doneTextID;
     return textId;
   }
+  }
+
+  ItemOverride_Key EnZot_GetBandRehearsalKey(s16 getItemId) {
+    ItemOverride_Key key = {.all = 0};
+    if (getItemId != (s16)GetItemID::GI_RUPEE_BLUE || gExtSaveData.miniGameCompletion.zoraHallRehearsalCompleted)
+      return key;
+    key.scene = (u8)game::SceneId::ZoraHall;
+    key.type = ItemOverride_Type::OVR_MINI_GAME;
+    key.flag = 1;
+    return key;
   }
 }  // namespace rnd
