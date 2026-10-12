@@ -7,6 +7,7 @@
 #include "rnd/actors/en_kujiya.h"
 #include "rnd/actors/en_lift_nuts.h"
 #include "rnd/actors/en_si.h"
+#include "rnd/actors/en_zot.h"
 #include "rnd/actors/item00.h"
 #include "rnd/custom_models.h"
 #include "rnd/extdata.h"
@@ -139,6 +140,8 @@ namespace rnd {
       }
     } else if (actor->id == game::act::Id::EnLiftNuts && scene == (u16)game::SceneId::DekuScrubPlayground) {
       retKey = EnLiftNuts_GetItemKeyBasedOnDay(getItemId);
+    } else if (actor->id == game::act::Id::EnZot && scene == (u16)game::SceneId::ZoraHall) {
+      retKey = EnZot_GetBandRehearsalKey(getItemId);
     } else if (actor->id == game::act::Id::EnKujiya && scene == (u16)game::SceneId::LotteryShop) {
       retKey = EnKujiya_GetItemKeyBasedOnDay(getItemId);
     } else if (actor->id == game::act::Id::EnGirlA) {
@@ -400,6 +403,8 @@ namespace rnd {
           gExtSaveData.miniGameCompletion.dayTwoDekuPlaygroundCompleted = 1;
       } else if (key.scene == (u8)game::SceneId::ZoraCape) {
         gExtSaveData.miniGameCompletion.zoraJarGameCompleted = 1;
+      } else if (key.scene == (u8)game::SceneId::ZoraHall) {
+        gExtSaveData.miniGameCompletion.zoraHallRehearsalCompleted = 1;
       } else if (key.scene == (u8)game::SceneId::LotteryShop) {
         if (key.flag == 1)
           gExtSaveData.miniGameCompletion.dayOneLotteryCompleted = 1;

@@ -11,4 +11,6 @@ namespace rnd {
   u16 EnZot_JarGameRewardText(u16);
   u32 EnZot_JarGameVanillaTextId(u32);
   }
+
+  ItemOverride_Key EnZot_GetBandRehearsalKey(s16 getItemId);
 }  // namespace rnd

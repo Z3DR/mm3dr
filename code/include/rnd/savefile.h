@@ -213,7 +213,8 @@ namespace rnd {
       BitField<8, 1, u16> dayTwoLotteryCompleted;
       BitField<9, 1, u16> dayThreeLotteryCompleted;
       BitField<10, 1, u16> zoraJarGameCompleted;
-      BitField<11, 5, u16> unused;
+      BitField<11, 1, u16> zoraHallRehearsalCompleted;
+      BitField<12, 4, u16> unused;
     };
     MiniGameDayRegister miniGameCompletion;
   } ExtSaveData;
