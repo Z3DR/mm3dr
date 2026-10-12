@@ -885,6 +885,18 @@ SECTIONS{
     *(.patch_SkulltulaOverrideTwo)
   }
 
+  .patch_ObjBoatTimeSpeedOne 0x52DBA4 : {
+    *(.patch_ObjBoatTimeSpeedOne)
+  }
+
+  .patch_ObjBoatRideFinished 0x52DBD0 : {
+    *(.patch_ObjBoatRideFinished)
+  }
+
+  .patch_ObjBoatTimeSpeedTwo 0x52DC0C : {
+    *(.patch_ObjBoatTimeSpeedTwo)
+  }
+
   .patch_EnTabGetSaleScript 0x52FA34 : {
     *(.patch_EnTabGetSaleScript)
   }

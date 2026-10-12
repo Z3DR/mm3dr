@@ -46,6 +46,8 @@ namespace game::act {
     EnGm = 0x0074,
     // En_Hs - Grog The Chicken Man
     EnHs = 0x0076,
+    // Swamp boat (Tourist Information to Deku Palace)
+    ObjBoat = 0x0077,
     // En_Fu - Honey and Darling
     EnFu = 0x0080,
     // En_Js - Moon Children
