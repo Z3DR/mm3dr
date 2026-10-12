@@ -267,12 +267,6 @@ namespace rnd {
     if (itemLoc.CollectionCheckType == SPOILER_CHK_NONE) {
       return 0;
     }
-    if (itemLoc.CollectionCheckType == SPOILER_CHK_SHOP_ITEM) {
-      return 1;
-    }
-    if (itemLoc.CollectionCheckType == SPOILER_CHK_SHOP) {
-      return 1;
-    }
     return 0;
     /*
     // game::SaveData &gSaveContext = game::GetCommonData().save;

@@ -112,7 +112,8 @@ namespace rnd {
   }
 
   static bool CanShowShopLocations(u16 locIndex) {
-    return SaveFile_GetIsSceneDiscovered(gSpoilerData.ItemLocations[locIndex].LocationScene);
+    return gSettingsContext.ingameSpoilers ||
+           SaveFile_GetIsSceneDiscovered(gSpoilerData.ItemLocations[locIndex].LocationScene);
   }
 
   static void Gfx_DrawScrollBar(u16 barX, u16 barY, u16 barSize, u16 currentScroll, u16 maxScroll, u16 pageSize) {
@@ -557,6 +558,8 @@ namespace rnd {
       Draw_DrawString(10 + SPACING_X * 2, 16 + SPACING_Y * offsetY++, COLOR_WHITE, "Repeatable");
       Draw_DrawRect(10, 16 + SPACING_Y * offsetY, squareWidth, squareWidth, COLOR_ORANGE);
       Draw_DrawString(10 + SPACING_X * 2, 16 + SPACING_Y * offsetY++, COLOR_WHITE, "Uncollectable");
+      Draw_DrawRect(10, 16 + SPACING_Y * offsetY, squareWidth, squareWidth, COLOR_LIGHT_GRAY);
+      Draw_DrawString(10 + SPACING_X * 2, 16 + SPACING_Y * offsetY++, COLOR_WHITE, "Discovered, Uncollected");
       return;
     }
     if (ViewingGroups() && !CanShowSpoilerGroup(SpoilerCollectionCheckGroup(currentItemGroup))) {
@@ -609,7 +612,8 @@ namespace rnd {
       u32 locPosY = listTopY + ((SPACING_SMALL_Y + 1) * item * 2);
       u32 itemPosY = locPosY + SPACING_SMALL_Y;
       bool isCollected = SpoilerData_GetIsItemLocationCollected(locIndex);
-      bool isShopRevealed = CanShowShopLocations(locIndex);
+      const bool isShop = SpoilerData_IsShopLocation(locIndex);
+      const bool isShopRevealed = isShop && CanShowShopLocations(locIndex);
 
       // Find this item's group index, so we can see if we should hide
       // its name because it's located in an undiscovered dungeon
@@ -620,8 +624,9 @@ namespace rnd {
           break;
         }
       }
-      const bool isShop = SpoilerData_IsShopLocation(locIndex);
-      const bool canShowName = isCollected || (isShop ? isShopRevealed : CanShowSpoilerGroup(SpoilerCollectionCheckGroup(itemGroupIndex)));
+      // Shop names are always listed; only their items stay hidden until the shop is entered.
+      const bool canShowName =
+          isCollected || isShop || CanShowSpoilerGroup(SpoilerCollectionCheckGroup(itemGroupIndex));
 
       u32 color = COLOR_WHITE;
 
@@ -633,21 +638,22 @@ namespace rnd {
         } else {
           color = COLOR_GREEN;
         }
-      } else if (isShopRevealed) {
-        color = COLOR_DARK_GRAY;
-      } 
-      
-      bool itemRevealed = isCollected || isShopRevealed || (canShowName && SpoilerData_GetIsItemLocationRevealed(locIndex));
+      }
+      // Seen in the shop but not bought yet: grey out the item and price, not the shop name.
+      const u32 itemColor =
+          (!isCollected && isShopRevealed && !gSettingsContext.ingameSpoilers) ? COLOR_LIGHT_GRAY : color;
+
+      bool itemRevealed =
+          isCollected || (isShop ? isShopRevealed : canShowName && SpoilerData_GetIsItemLocationRevealed(locIndex));
 
       if (canShowName) {
         Draw_DrawString_Small(10, locPosY, color, SpoilerData_GetItemLocationString(locIndex));
-      }
-      else {
+      } else {
         Draw_DrawFormattedString_Small(10, locPosY, color, "%s (Undiscovered)",
                                        spoilerCollectionGroupNames[itemGroupIndex]);
       }
       const char* itemText = itemRevealed ? SpoilerData_GetItemNameString(locIndex) : "???";
-      Draw_DrawString_Small(10 + (SPACING_SMALL_X * 2), itemPosY, color, itemText);
+      Draw_DrawString_Small(10 + (SPACING_SMALL_X * 2), itemPosY, itemColor, itemText);
     }
 
     Gfx_DrawScrollBar(SCREEN_BOT_WIDTH - 3, listTopY, SCREEN_BOT_HEIGHT - 40 - listTopY, *itemScroll, itemCount,
