@@ -1,0 +1,11 @@
+.arm
+
+.section .patch_EnSyatekiManTownPerfectBonus
+.global patch_EnSyatekiManTownPerfectBonus
+patch_EnSyatekiManTownPerfectBonus:
+    bl hook_EnSyatekiManTownPerfectBonus
+
+.section .patch_EnSyatekiManSwampPerfectBonus
+.global patch_EnSyatekiManSwampPerfectBonus
+patch_EnSyatekiManSwampPerfectBonus:
+    bl hook_EnSyatekiManSwampPerfectBonus

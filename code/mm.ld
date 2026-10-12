@@ -693,12 +693,20 @@ SECTIONS{
     *(.patch_OverrideItem00Init)
   }
 
+  .patch_EnSyatekiManTownPerfectBonus 0x3E4FE0 : {
+    *(.patch_EnSyatekiManTownPerfectBonus)
+  }
+
   .patch_OverrideArcheryTownQuiverLimit 0x3E50B8 : {
     *(.patch_OverrideArcheryTownQuiverLimit)
   }
 
   .patch_OverrideQuiverArcheryTown 0x3E50E4 : {
     *(.patch_OverrideQuiverArchery)
+  }
+
+  .patch_EnSyatekiManSwampPerfectBonus 0x3EA214 : {
+    *(.patch_EnSyatekiManSwampPerfectBonus)
   }
 
   .patch_OverrideArcheryTownQuiverLimitTwo 0x3EA278 : {
