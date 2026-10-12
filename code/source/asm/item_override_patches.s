@@ -1,15 +1,33 @@
 .arm
 
-.section .patch_IncomingGetItemID
-.global IncomingGetItemID_patch
-IncomingGetItemID_patch:
-    bl hook_IncomingGetItemID
+.section .patch_RemoveCouplesMaskMessage
+.global patch_RemoveCouplesMaskMessage
+patch_RemoveCouplesMaskMessage:
+    b hook_AdjustCouplesMaskMessage
 
+
+@ This should remove the overwriting message for when the
+@ user receives the Zora Mask.
+
+.section .patch_OverrideSoHAndSongText
+.global patch_OverrideSoHAndSongText
+patch_OverrideSoHAndSongText:
+    b hook_ChangeSoHAndSongToCustomText
 
 .section .patch_CheckCurrentInventoryOverrideItem
 .global patch_CheckCurrentInventoryOverrideItem
 patch_CheckCurrentInventoryOverrideItem:
     b hook_CheckCurrentInventory
+
+.section .patch_EditDrawGetItemBeforeModelSpawn
+.global patch_EditDrawGetItemBeforeModelSpawn
+patch_EditDrawGetItemBeforeModelSpawn:
+    bl hook_EditDrawGetItemBeforeModelSpawn
+
+.section .patch_EditDrawGetItemAfterModelSpawn
+.global patch_EditDrawGetItemAfterModelSpawn
+patch_EditDrawGetItemAfterModelSpawn:
+    bl hook_EditDrawGetItemAfterModelSpawn
 
 .section .patch_FixOcarinaStandingIssue
 .global patch_FixOcarinaStandingIssue
@@ -21,11 +39,6 @@ patch_FixOcarinaStandingIssue:
 patch_OverrideItemIdIndex:
 @TODO: Branch off to hook and load addr that is needed from text ID.
     bl hook_OverrideItemIdIndex
-
-.section .patch_OverrideRemainGetItem
-.global patch_OverrideRemainGetItem
-patch_OverrideRemainGetItem:
-    bl hook_OverrideRemainGetItem
 
 .section .patch_ChangeDrawItemIndex
 .global OverrideDrawIndex_patch
@@ -47,6 +60,11 @@ OverrideTextID_patch:
 OverrideItemID_patch:
     b hook_OverrideItemID
 
+.section .patch_OverrideRemainGetItem
+.global patch_OverrideRemainGetItem
+patch_OverrideRemainGetItem:
+    bl hook_OverrideRemainGetItem
+
 .section .patch_RemoveAddingSkulltulaTokenIfOverridden
 .global patch_RemoveAddingSkulltulaTokenIfOverridden
 patch_RemoveAddingSkulltulaTokenIfOverridden:
@@ -57,10 +75,27 @@ patch_RemoveAddingSkulltulaTokenIfOverridden:
 patch_RemoveGoronMaskCheckDarmani:
     b hook_DarmaniRewardCheck
 
+.section .patch_OverrideRemainSpawn
+.global patch_OverrideRemainSpawn
+patch_OverrideRemainSpawn:
+    b hook_OverrideRemainSpawn
+
+.section .patch_OverrideWalletSpiderHouseTwo
+.global patch_OverrideWalletSpiderHouseTwo
+patch_OverrideWalletSpiderHouseTwo:
+@Override to use the progressive wallet instead.
+    mov r2,#0x48
+
 .section .patch_CheckOshExtData
 .global patch_CheckOshExtData
 patch_CheckOshExtData:
     bl hook_CheckOshExtData
+
+.section .patch_OverrideWalletSpiderHouse
+.global patch_OverrideWalletSpiderHouse
+patch_OverrideWalletSpiderHouse:
+@Override to use the progressive wallet instead.
+    mov r2,#0x48
 
 .section .patch_OverrideArcheryTownQuiverLimit
 .global patch_OverrideArcheryTownQuiverLimit
@@ -82,29 +117,6 @@ patch_OverrideArcheryTownQuiverLimitTwo:
 patch_OverrideQuiverArcheryTwo:
     mov r2,#0x47
 
-.section .patch_OverrideRemainSpawn
-.global patch_OverrideRemainSpawn
-patch_OverrideRemainSpawn:
-    b hook_OverrideRemainSpawn
-
-.section .patch_OverrideWalletSpiderHouseTwo
-.global patch_OverrideWalletSpiderHouseTwo
-patch_OverrideWalletSpiderHouseTwo:
-@Override to use the progressive wallet instead.
-    mov r2,#0x48
-
-.section .patch_OverrideWalletSpiderHouse
-.global patch_OverrideWalletSpiderHouse
-patch_OverrideWalletSpiderHouse:
-@Override to use the progressive wallet instead.
-    mov r2,#0x48
-
-.section .patch_OverrideProgessiveWalletTwo
-.global patch_OverrideProgessiveWalletTwo
-patch_OverrideProgessiveWalletTwo:
-@Override to use the progressive wallet instead.
-    mov r2,#0x48
-
 .section .patch_GoronMaskGiveItem
 .global patch_GoronMaskGiveItem
 patch_GoronMaskGiveItem:
@@ -120,23 +132,26 @@ patch_ZoraMaskGiveItem:
 patch_GibdoMaskGiveItem:
     b hook_GibdoMaskGiveItem
 
+.section .patch_ZoraJarGameReward
+.global patch_ZoraJarGameReward
+patch_ZoraJarGameReward:
+    bl hook_ZoraJarGameReward
+
+.section .patch_OverrideProgessiveWalletTwo
+.global patch_OverrideProgessiveWalletTwo
+patch_OverrideProgessiveWalletTwo:
+@Override to use the progressive wallet instead.
+    mov r2,#0x48
+
 .section .patch_CouplesMaskGiveItem
 .global patch_CouplesMaskGiveItem
 patch_CouplesMaskGiveItem:
     b hook_CouplesMaskGiveItem
 
-.section .patch_RemoveCouplesMaskMessage
-.global patch_RemoveCouplesMaskMessage
-patch_RemoveCouplesMaskMessage:
-    b hook_AdjustCouplesMaskMessage
-
-
-@ This should remove the overwriting message for when the
-@ user receives the Zora Mask.
-.section .patch_OverrideSoHAndSongText
-.global patch_OverrideSoHAndSongText
-patch_OverrideSoHAndSongText:
-    b hook_ChangeSoHAndSongToCustomText
+.section .patch_IncomingGetItemID
+.global IncomingGetItemID_patch
+IncomingGetItemID_patch:
+    bl hook_IncomingGetItemID
 
 .section .patch_SkulltulaOverrideOne
 .global patch_SkulltulaOverrideOne
@@ -148,18 +163,7 @@ patch_SkulltulaOverrideOne:
 patch_SkulltulaOverrideTwo:
     bl hook_SkulltulaOverrideTwo
 
-
 .section .patch_OverrideGetSongItem
 .global patch_OverrideGetSongItem
 patch_OverrideGetSongItem:
     b hook_OverrideGetSongItem
-
-.section .patch_EditDrawGetItemAfterModelSpawn
-.global patch_EditDrawGetItemAfterModelSpawn
-patch_EditDrawGetItemAfterModelSpawn:
-    bl hook_EditDrawGetItemAfterModelSpawn
-
-.section .patch_EditDrawGetItemBeforeModelSpawn
-.global patch_EditDrawGetItemBeforeModelSpawn
-patch_EditDrawGetItemBeforeModelSpawn:
-    bl hook_EditDrawGetItemBeforeModelSpawn

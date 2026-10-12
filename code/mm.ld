@@ -797,6 +797,10 @@ SECTIONS{
     *(.patch_FierceDeityArcheryFix)
   }
 
+  .patch_ZoraJarGameReward 0x447574 : {
+    *(.patch_ZoraJarGameReward)
+  }
+
   .patch_OverrideBankerWalletReward 0x459044 : {
     *(.patch_OverrideProgessiveWalletTwo)
   }

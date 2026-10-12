@@ -467,6 +467,7 @@ namespace rnd {
   void ItemOverride_EditDrawGetItemBeforeModelSpawn();
   void ItemOverride_EditDrawGetItemAfterModelSpawn(game::act::SkeletonAnimationModel*, u8);
   u8 ItemOverride_CheckIfOcarinaInClocktower(u8);
+  bool ItemOverride_GiveZoraJarGameReward();
   }
   extern "C" u32 rActiveItemGraphicId;
   extern "C" ItemOverride rItemOverrides[640];
