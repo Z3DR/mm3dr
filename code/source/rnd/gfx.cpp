@@ -620,7 +620,7 @@ namespace rnd {
           break;
         }
       }
-
+      const bool isShop = SpoilerData_IsShopLocation(locIndex);
       const bool canShowName = isCollected || (isShop ? isShopRevealed : CanShowSpoilerGroup(SpoilerCollectionCheckGroup(itemGroupIndex)));
 
       u32 color = COLOR_WHITE;
@@ -637,7 +637,7 @@ namespace rnd {
         color = COLOR_DARK_GRAY;
       } 
       
-      bool itemRevealed = isCollected || isShopRevealed || (canShowName && SpoilerData_GetIsItemLocationRevealed(locIndex))
+      bool itemRevealed = isCollected || isShopRevealed || (canShowName && SpoilerData_GetIsItemLocationRevealed(locIndex));
 
       if (canShowName) {
         Draw_DrawString_Small(10, locPosY, color, SpoilerData_GetItemLocationString(locIndex));
