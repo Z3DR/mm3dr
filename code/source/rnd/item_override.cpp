@@ -466,7 +466,9 @@ namespace rnd {
         getItemId = incomingNegative ? -0xBA : 0xBA;
       }
     } else if (actorId == game::act::Id::NpcEnBjt) {
-      getItemId = incomingNegative ? -0x01 : 0x01;
+      // The hand pays again every cycle. Only the first payout is the check; later ones stay vanilla.
+      if (!gExtSaveData.miscNpcGiven.enBjtGivenItem)
+        getItemId = incomingNegative ? -0x01 : 0x01;
     } else if (actorId == game::act::Id::EnShn) {
       // Boathouse can give good (5 rupee), better (20 rupee) or best (PoH/Fishing Pass).
       // Ignore all values except for the PoH for this check.
@@ -492,7 +494,10 @@ namespace rnd {
     } else if (getItemId == static_cast<s16>(GetItemID::GI_MASK_CAPTAINS_HAT)) {
       gExtSaveData.givenItemChecks.enOskGivenItem = 1;
     } else if (actorId == game::act::Id::EnKitan) {
-      getItemId = incomingNegative ? -0x03 : 0x03;
+      // The quiz is one check across Clock Town, Mountain Village and Milk Road. Only the first win is the check; later
+      // wins pay vanilla's repeat reward, which must stay vanilla.
+      if (!game::GetCommonData().save.week_event_reg_79.WEEKEVENTREG_RECEIVED_KEATON_HEART_PIECE)
+        getItemId = incomingNegative ? -0x03 : 0x03;
     } else if (actorId == game::act::Id::EnGinkoMan) {
       // Check to see if we're not getting a repeat reward.
       u16 bankRupeeCount = game::GetCommonData().save.bank_rupee_count;
@@ -545,6 +550,8 @@ namespace rnd {
       gExtSaveData.givenItemChecks.enHgoGivenItem = 1;
     } else if (storedActorId == game::act::Id::EnTru) {
       gExtSaveData.givenItemChecks.enTruGivenItem = 1;
+    } else if (storedActorId == game::act::Id::NpcEnBjt) {
+      gExtSaveData.miscNpcGiven.enBjtGivenItem = 1;
     } else if (storedActorId == game::act::Id::EnPst) {
       gExtSaveData.givenItemChecks.enPstGivenItem = 1;
     } else if (storedActorId == game::act::Id::EnKgy) {
@@ -593,6 +600,10 @@ namespace rnd {
       gExtSaveData.givenItemChecks.letterToKafeiGiven = 1;
     } else if (storedGetItemId == GetItemID::GI_PENDANT_OF_MEMORIES) {
       gExtSaveData.givenItemChecks.pendantGiven = 1;
+    } else if (storedGetItemId == GetItemID::GI_MASK_DON_GEROS) {
+      gExtSaveData.givenItemChecks.enGegGivenItem = 1;
+    } else if (storedGetItemId == GetItemID::GI_MASK_ROMANIS) {
+      gExtSaveData.givenItemChecks.enMaYtoGivenItem = 1;
     } else if (storedGetItemId == GetItemID::GI_MASK_FIERCE_DEITY) {
       gExtSaveData.givenItemChecks.enJsGivenItem = 1;
     } else if (storedGetItemId == GetItemID::GI_OCARINA_OF_TIME) {
@@ -1142,7 +1153,7 @@ namespace rnd {
       return givenItems.enZogGivenItem ? (int)currentItem
         : (int)0xFF;
     } else if (currentItem == game::ItemId::LetterToMama) {
-      return givenItems.enBabaGivenItem ? (int)currentItem
+      return givenItems.letterToMamaGiven ? (int)currentItem
         : (int)0xFF;
     } else if (currentItem == game::ItemId::KeatonMask) {
       return givenItems.enFsnGivenItem ? (int)currentItem
@@ -1321,12 +1332,40 @@ namespace rnd {
     return false;
   }
 
+  static game::act::Actor* sQueuedFairies[4] = {NULL, NULL, NULL, NULL};
+
+  static bool ItemOverride_TakeQueuedFairy(game::act::Actor* actor) {
+    for (u32 i = 0; i < ARR_SIZE(sQueuedFairies); ++i) {
+      if (sQueuedFairies[i] == actor) {
+        sQueuedFairies[i] = NULL;
+        return true;
+      }
+    }
+    return false;
+  }
+
   u8 ItemOverride_OverrideStrayFairy(game::act::Actor* actor) {
     game::GlobalContext* gctx = GetContext().gctx;
     s16 getItemId = (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN;  // Default case.
     ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN);
     if (override.key.all == 0) {
       return false;
+    }
+    ItemOverride_TakeQueuedFairy(actor);  // A stale entry from a fairy that never got to show its message.
+
+    if (rActiveItemRow != NULL) {
+      if (En_Elforg_IsFairyCollectedAndNonRepeatable(&override)) {
+        override.value.getItemId = 0x02;
+        override.value.looksLikeItemId = 0x02;
+      }
+      for (u32 i = 0; i < ARR_SIZE(sQueuedFairies); ++i) {
+        if (sQueuedFairies[i] == NULL) {
+          sQueuedFairies[i] = actor;
+          break;
+        }
+      }
+      ItemOverride_PushPendingOverride(override);
+      return true;
     }
 
     getItemId = ItemOverride_GetFairyGetItemFromScene(gctx->scene);
@@ -1370,6 +1409,9 @@ namespace rnd {
 
   u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor* actor) {
     game::GlobalContext* gctx = GetContext().gctx;
+    if (ItemOverride_TakeQueuedFairy(actor)) {
+      return 0x11;  // Vanilla "You found a Stray Fairy" text. The item comes from the pending queue.
+    }
     ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN);
     if (override.key.all == 0) {
       return 0x11;  // Vanilla "You found a Stray Fairy" text, as a safe fallback.
