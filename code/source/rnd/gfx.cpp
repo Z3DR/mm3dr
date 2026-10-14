@@ -677,6 +677,14 @@ namespace rnd {
   }
 
   static const char* const toggleValueNames[] = {"Off", "On"};
+  static const char* const spoilerValueNames[] = {"Hide", "Show"};
+  static u8 Option_GetShowSpoilers(void) {
+    return gExtSaveData.options.showSpoilers;
+  }
+  static void Option_SetShowSpoilers(u8 value) {
+    gExtSaveData.options.showSpoilers = value;
+  }
+
   static const char* const shuffleMusicValueNames[] = {"Off", "Background Music", "Fanfares", "All"};
   static const char* const shuffleSFXValueNames[] = {"Off", "Categorical", "Chaos"};
   static u8 Option_GetMuteSoundEffects(void) {
@@ -710,17 +718,17 @@ namespace rnd {
   }
 
   static u8 Option_GetShuffleFootsteps(void) {
-    return gExtSaveData.sfxOptions.shuffleFootsteps;
+    return gExtSaveData.options.shuffleFootsteps;
   }
   static void Option_SetShuffleFootsteps(u8 value) {
-    gExtSaveData.sfxOptions.shuffleFootsteps = value;
+    gExtSaveData.options.shuffleFootsteps = value;
   }
 
   static u8 Option_GetShuffleLinkVoice(void) {
-    return gExtSaveData.sfxOptions.shuffleLinkVoice;
+    return gExtSaveData.options.shuffleLinkVoice;
   }
   static void Option_SetShuffleLinkVoice(u8 value) {
-    gExtSaveData.sfxOptions.shuffleLinkVoice = value;
+    gExtSaveData.options.shuffleLinkVoice = value;
   }
 
   static void Option_OpenTunicColors(void) {
@@ -729,6 +737,7 @@ namespace rnd {
   }
 
   static const MenuOption menuOptions[] = {
+      {"Spoilers", spoilerValueNames, ARR_SIZE(spoilerValueNames), Option_GetShowSpoilers, Option_SetShowSpoilers},
       {"Fast Ocarina Songs", songReplayValueNames, ARR_SIZE(songReplayValueNames), Option_GetSongReplays,
        Option_SetSongReplays},
       {"Mute Sound Effects", toggleValueNames, ARR_SIZE(toggleValueNames), Option_GetMuteSoundEffects,
@@ -809,6 +818,16 @@ namespace rnd {
       Gfx_DrawOptions,
   };
 
+  // A page without a draw function isn't part of this seed. The spheres page is also left out while the
+  // Spoilers option is on Hide, and comes back as soon as it is switched to Show.
+  static bool Gfx_IsPageAvailable(s32 page) {
+    if (menu_draw_funcs[page] == NULL)
+      return false;
+    if (page == PAGE_SPHERES && !gExtSaveData.options.showSpoilers)
+      return false;
+    return true;
+  }
+
   static void Gfx_DrawHeader() {
     const u32 totalTabsWidth = 280;
     u32 tabsCount = ARR_SIZE(menu_draw_funcs);
@@ -824,7 +843,7 @@ namespace rnd {
     Draw_DrawIcon(SCREEN_BOT_WIDTH - 11, 2, COLOR_WHITE, ICON_BUTTON_R_WIDE_2);
 
     for (u32 i = 0; i < tabsCount; i++) {
-      bool isAvailable = menu_draw_funcs[i] != NULL;
+      bool isAvailable = Gfx_IsPageAvailable(i);
       bool isCurrent = static_cast<u32>(curMenuIdx) == i;
       u32 tabX = (u32)(i * tabWidthPlusSpace);
       Draw_DrawRect(tabXStart + tabX, isCurrent ? tabYStart : tabYStart + 2,
@@ -1004,7 +1023,7 @@ namespace rnd {
             if (static_cast<u32>(curMenuIdx) >= ARR_SIZE(menu_draw_funcs)) {
               curMenuIdx = 0;
             }
-          } while (menu_draw_funcs[curMenuIdx] == NULL);
+          } while (!Gfx_IsPageAvailable(curMenuIdx));
           handledInput = true;
         } else if (pressed & BUTTON_L1) {
           showingLegend = false;
@@ -1014,7 +1033,7 @@ namespace rnd {
             if (curMenuIdx < 0) {
               curMenuIdx = (ARR_SIZE(menu_draw_funcs) - 1);
             }
-          } while (menu_draw_funcs[curMenuIdx] == NULL);
+          } while (!Gfx_IsPageAvailable(curMenuIdx));
           handledInput = true;
         }
       }
@@ -1061,9 +1080,6 @@ namespace rnd {
     else if (gSettingsContext.menuOpeningButton == 5)
       closingButton = BUTTON_B | BUTTON_LEFT;
 
-    if (!gSettingsContext.ingameSpoilers) {
-      menu_draw_funcs[PAGE_SPHERES] = NULL;
-    }
     if (gSpoilerData.ItemLocationsCount == 0) {
       menu_draw_funcs[PAGE_ITEMTRACKER_ALL] = NULL;
       menu_draw_funcs[PAGE_ITEMTRACKER_GROUPS] = NULL;

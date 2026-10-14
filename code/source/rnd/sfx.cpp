@@ -61,8 +61,8 @@ namespace rnd {
 
   // Whether the in-game toggles leave this sound alone.
   static bool Sfx_IsExcludedByOption(u32 index) {
-    return (gExtSaveData.sfxOptions.shuffleFootsteps == 0 && Sfx_InSet(rSfxData.linkFootsteps, index)) ||
-           (gExtSaveData.sfxOptions.shuffleLinkVoice == 0 && Sfx_InSet(rSfxData.linkVoice, index));
+    return (gExtSaveData.options.shuffleFootsteps == 0 && Sfx_InSet(rSfxData.linkFootsteps, index)) ||
+           (gExtSaveData.options.shuffleLinkVoice == 0 && Sfx_InSet(rSfxData.linkVoice, index));
   }
 
   static u32 Sfx_Remap(s32 table, u32 id) {

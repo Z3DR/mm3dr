@@ -326,7 +326,7 @@ namespace rnd {
   }
 
   u8 SpoilerData_GetIsItemLocationRevealed(u16 itemIndex) {
-    if (gSettingsContext.ingameSpoilers) {
+    if (gExtSaveData.options.showSpoilers) {
       return 1;
     }
 
