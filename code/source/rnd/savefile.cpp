@@ -895,10 +895,11 @@ namespace rnd {
     gExtSaveData.options.skipSongReplays = gSettingsContext.skipSongReplays;
     gExtSaveData.options.shuffleMusic = gSettingsContext.shuffleMusic;
     gExtSaveData.options.shuffleSFX = gSettingsContext.shuffleSFX;
-    gExtSaveData.sfxOptions.shuffleFootsteps = gSettingsContext.shuffleSFXFootsteps;
-    gExtSaveData.sfxOptions.shuffleLinkVoice = gSettingsContext.shuffleSFXLinkVoice;
+    gExtSaveData.options.shuffleFootsteps = gSettingsContext.shuffleSFXFootsteps;
+    gExtSaveData.options.shuffleLinkVoice = gSettingsContext.shuffleSFXLinkVoice;
+    gExtSaveData.options.showSpoilers = gSettingsContext.ingameSpoilers;
     // Seed default for every form.
-    gExtSaveData.sfxOptions.tunicColor = 0;
+    gExtSaveData.options.tunicColor = 0;
     for (u8& formTunicColor : gExtSaveData.formTunicColors)
       formTunicColor = 0;
     gExtSaveData.options.muteSoundEffects = gSettingsContext.muteSoundEffects;

@@ -583,13 +583,13 @@ namespace rnd {
 
   u8 Tunic_GetChoice(TunicForm form) {
     if (form == TunicForm::Human)
-      return gExtSaveData.sfxOptions.tunicColor;
+      return gExtSaveData.options.tunicColor;
     return gExtSaveData.formTunicColors[(u32)form - 1];
   }
 
   void Tunic_SetChoice(TunicForm form, u8 choice) {
     if (form == TunicForm::Human)
-      gExtSaveData.sfxOptions.tunicColor = choice;
+      gExtSaveData.options.tunicColor = choice;
     else
       gExtSaveData.formTunicColors[(u32)form - 1] = choice;
 

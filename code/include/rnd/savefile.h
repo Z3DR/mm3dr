@@ -7,7 +7,7 @@
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 27
+#define EXTSAVEDATA_VERSION 28
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
@@ -177,12 +177,16 @@ namespace rnd {
     game::ItemId collectedTradeItems[9];
     u32 dungeonFairyBitfields[4];
     union OptionsRegister {
-      u8 raw;
-      BitField<0, 2, u8> skipSongReplays;
-      BitField<2, 1, u8> muteSoundEffects;
-      BitField<3, 1, u8> muteBackgroundMusic;
-      BitField<4, 2, u8> shuffleMusic;
-      BitField<6, 2, u8> shuffleSFX;
+      u16 raw;
+      BitField<0, 2, u16> skipSongReplays;
+      BitField<2, 1, u16> muteSoundEffects;
+      BitField<3, 1, u16> muteBackgroundMusic;
+      BitField<4, 2, u16> shuffleMusic;
+      BitField<6, 2, u16> shuffleSFX;
+      BitField<8, 1, u16> shuffleFootsteps;
+      BitField<9, 1, u16> shuffleLinkVoice;
+      BitField<10, 5, u16> tunicColor;
+      BitField<15, 1, u16> showSpoilers;
     };
     OptionsRegister options;
     // Beans are wiped from the inventory on every cycle reset. Mirroring the stack here lets
@@ -191,14 +195,6 @@ namespace rnd {
     // One bit per global kShopSlots index: the shelf has been bought out. Shop items are
     // repeatable by default, so this is what makes a one-time purchase stay sold out.
     u32 shopSlotsPurchased;
-    union SfxOptionsRegister {
-      u8 raw;
-      BitField<0, 1, u8> shuffleFootsteps;
-      BitField<1, 1, u8> shuffleLinkVoice;
-      BitField<2, 5, u8> tunicColor;  // Human tunic colour
-      BitField<7, 1, u8> unused;
-    };
-    SfxOptionsRegister sfxOptions;
     u8 formTunicColors[3];
     union MiniGameDayRegister {
       u16 raw;
