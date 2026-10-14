@@ -12,5 +12,5 @@ namespace rnd {
   u32 EnZot_JarGameVanillaTextId(u32);
   }
 
-  ItemOverride_Key EnZot_GetBandRehearsalKey(s16 getItemId);
+  ItemOverride_Key EnZot_GetZoraHallKey(game::act::Actor* actor, s16 getItemId);
 }  // namespace rnd

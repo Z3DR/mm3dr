@@ -214,7 +214,9 @@ namespace rnd {
       BitField<9, 1, u16> dayThreeLotteryCompleted;
       BitField<10, 1, u16> zoraJarGameCompleted;
       BitField<11, 1, u16> zoraHallRehearsalCompleted;
-      BitField<12, 4, u16> unused;
+      BitField<12, 1, u16> zoraHallLuluBadPhotoCompleted;
+      BitField<13, 1, u16> zoraHallLuluGoodPhotoCompleted;
+      BitField<14, 2, u16> unused;
     };
     MiniGameDayRegister miniGameCompletion;
     union MiscNpcRegister {

@@ -141,7 +141,7 @@ namespace rnd {
     } else if (actor->id == game::act::Id::EnLiftNuts && scene == (u16)game::SceneId::DekuScrubPlayground) {
       retKey = EnLiftNuts_GetItemKeyBasedOnDay(getItemId);
     } else if (actor->id == game::act::Id::EnZot && scene == (u16)game::SceneId::ZoraHall) {
-      retKey = EnZot_GetBandRehearsalKey(getItemId);
+      retKey = EnZot_GetZoraHallKey(actor, getItemId);
     } else if (actor->id == game::act::Id::EnKujiya && scene == (u16)game::SceneId::LotteryShop) {
       retKey = EnKujiya_GetItemKeyBasedOnDay(getItemId);
     } else if (actor->id == game::act::Id::EnGirlA) {
@@ -404,7 +404,12 @@ namespace rnd {
       } else if (key.scene == (u8)game::SceneId::ZoraCape) {
         gExtSaveData.miniGameCompletion.zoraJarGameCompleted = 1;
       } else if (key.scene == (u8)game::SceneId::ZoraHall) {
-        gExtSaveData.miniGameCompletion.zoraHallRehearsalCompleted = 1;
+        if (key.flag == 1)
+          gExtSaveData.miniGameCompletion.zoraHallRehearsalCompleted = 1;
+        else if (key.flag == 2)
+          gExtSaveData.miniGameCompletion.zoraHallLuluBadPhotoCompleted = 1;
+        else if (key.flag == 3)
+          gExtSaveData.miniGameCompletion.zoraHallLuluGoodPhotoCompleted = 1;
       } else if (key.scene == (u8)game::SceneId::LotteryShop) {
         if (key.flag == 1)
           gExtSaveData.miniGameCompletion.dayOneLotteryCompleted = 1;

@@ -5,6 +5,8 @@ namespace rnd {
     constexpr u16 rewardTextiD = 0x126F;  // "Well, here's 100 Rupees..."
     constexpr u16 doneTextID = 0x1270;    // "You get 90 Rupees!"
     constexpr u16 customRewardTextID = 0x614B;
+    constexpr u16 bandRehearsalParams = 0xFC09;
+    constexpr u16 luluFanParams = 0xFC07;
     constexpr u16 customRewardDoneTextID = 0x614C;
 
     ItemOverride EnZot_LookupJarGameReward() {
@@ -50,13 +52,22 @@ namespace rnd {
   }
   }
 
-  ItemOverride_Key EnZot_GetBandRehearsalKey(s16 getItemId) {
+  ItemOverride_Key EnZot_GetZoraHallKey(game::act::Actor* actor, s16 getItemId) {
     ItemOverride_Key key = {.all = 0};
-    if (getItemId != (s16)GetItemID::GI_RUPEE_BLUE || gExtSaveData.miniGameCompletion.zoraHallRehearsalCompleted)
-      return key;
     key.scene = (u8)game::SceneId::ZoraHall;
     key.type = ItemOverride_Type::OVR_MINI_GAME;
-    key.flag = 1;
+    if (actor->params == bandRehearsalParams) {
+      if (getItemId == (s16)GetItemID::GI_RUPEE_BLUE && !gExtSaveData.miniGameCompletion.zoraHallRehearsalCompleted)
+        key.flag = 1;
+    } else if (actor->params == luluFanParams) {
+      if (getItemId == (s16)GetItemID::GI_RUPEE_BLUE && !gExtSaveData.miniGameCompletion.zoraHallLuluBadPhotoCompleted)
+        key.flag = 2;
+      else if (getItemId == (s16)GetItemID::GI_RUPEE_RED &&
+               !gExtSaveData.miniGameCompletion.zoraHallLuluGoodPhotoCompleted)
+        key.flag = 3;
+    }
+    if (key.flag == 0)
+      key.all = 0;
     return key;
   }
 }  // namespace rnd
