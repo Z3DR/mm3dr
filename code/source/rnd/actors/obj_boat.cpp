@@ -8,7 +8,7 @@ namespace rnd {
     // Times the vanilla speed.
     constexpr s32 fastRideMultiplier = 6;
     // The first part of the path runs at the vanilla speed. Link is dropped onto the moving boat and lands behind
-    constexpr float fastRideStartTimer = 1.5f;
+    constexpr float fastRideStartTimer = 0.75f;
 
     bool IsPoisonedSwampBoat(ObjBoat* boat) {
       return boat->id == game::act::Id::ObjBoat && GetContext().gctx->scene == game::SceneId::SouthernSwamp &&
