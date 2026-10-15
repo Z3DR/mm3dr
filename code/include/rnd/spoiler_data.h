@@ -130,6 +130,7 @@ namespace rnd {
   char* SpoilerData_GetItemLocationString(u16 itemIndex);
   char* SpoilerData_GetItemNameString(u16 itemIndex);
   SpoilerItemLocation GetSpoilerItemLocation(u8 sphere, u16 itemIndex);
+  bool SpoilerData_IsShopLocation(u16 itemIndex);
   u8 SpoilerData_GetIsItemLocationCollected(u16 itemIndex);
   u8 SpoilerData_ChestCheck(SpoilerItemLocation itemLoc);
   u8 SpoilerData_CollectableCheck(SpoilerItemLocation itemLoc);
