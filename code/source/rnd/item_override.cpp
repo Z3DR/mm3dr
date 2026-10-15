@@ -331,6 +331,11 @@ namespace rnd {
       if (override.key.all == 0) {
         return;
       }
+      // An item is still waiting to be applied (a stray fairy's message hook hasn't run yet). Starting this one now
+      // would replace it in the active slot and lose it.
+      if (rActiveItemRow != NULL) {
+        return;
+      }
       if (rDummyActor->parent_actor == NULL) {
         ItemOverride_Activate(override);
         player->grabbable_actor = rDummyActor;
@@ -1415,7 +1420,7 @@ namespace rnd {
   u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor* actor) {
     game::GlobalContext* gctx = GetContext().gctx;
     if (ItemOverride_TakeQueuedFairy(actor)) {
-      return 0x11;  // Vanilla "You found a Stray Fairy" text. The item comes from the pending queue.
+      return 0;  // No message: the item comes from the pending queue with its own get-item box.
     }
     ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN);
     if (override.key.all == 0) {

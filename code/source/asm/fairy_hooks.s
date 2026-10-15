@@ -126,6 +126,8 @@ strayFairyMessageOverride:
     push {r0,r2,r3,r12,lr}
     cpy r0,r4
     bl ItemOverride_GetStrayFairyMessageId
+    cmp r0,#0x0
+    beq strayFairyQueuedNoMessage
     cpy r1,r0
     bl ItemOverride_RemoveTextId
     pop {r0,r2,r3,r12,lr}
@@ -134,3 +136,7 @@ strayFairyMessageOverride:
     ldmia sp!,{r4,r5,r6,lr}
     mov r2,#0x0
     b 0x21BAFC
+strayFairyQueuedNoMessage:
+    pop {r0,r2,r3,r12,lr}
+    vpop {d8}
+    ldmia sp!,{r4,r5,r6,pc}
