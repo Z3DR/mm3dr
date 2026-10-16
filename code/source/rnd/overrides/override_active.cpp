@@ -199,7 +199,6 @@ namespace rnd {
 
   void ItemOverride_Update(void) {
     game::act::Player* player = GetContext().gctx->GetPlayerActor();
-    // TODO: Custom models, trade items.
     if (ItemOverride_PlayerIsReady()) {
       ItemOverride_PopIceTrap();
       if (IceTrap_IsPending()) {
