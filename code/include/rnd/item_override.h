@@ -439,13 +439,13 @@ namespace rnd {
   void ItemOverride_RevealMapBasedOnId(u8);
   void SetExtData(void);
   u8 ItemOverride_SetProgressiveItemDraw(ItemOverride);
-  bool ItemOverride_IsItemObtainedOrEmptyBottle(ItemOverride);
   void ItemOverride_SetPendingShopItem(ItemOverride_Key, game::SceneId purchaseScene);
   extern "C" {
   bool ItemOverride_CheckAromaGivenItem();
   bool ItemOverride_CheckMikauGivenItem();
   bool ItemOverride_CheckDarmaniGivenItem();
   void ItemOverride_GetItemTextAndItemID(game::act::Player*);
+  void ItemOverride_RemoveTextId();
   void ItemOverride_GetItem(game::GlobalContext*, game::act::Actor*, game::act::Player*, s16);
   void ItemOverride_GetFairyRewardItem(game::GlobalContext*, game::act::GreatFairy*, s16);
   void ItemOverride_GetSoHOrSongItem(game::GlobalContext*, game::act::Actor*, s16);

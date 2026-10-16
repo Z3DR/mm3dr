@@ -218,7 +218,9 @@ namespace rnd {
     union MiscNpcRegister {
       u8 raw;
       BitField<0, 1, u8> enBjtGivenItem;
-      BitField<1, 7, u8> unused;
+      BitField<1, 1, u8> seahorsePhotoGiven;
+      BitField<2, 1, u8> rosaSistersHeartPieceGiven;
+      BitField<3, 5, u8> unused;
     };
     MiscNpcRegister miscNpcGiven;
     union BoatRideRegister {

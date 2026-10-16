@@ -13,6 +13,7 @@
 #include "rnd/actors/obj_moon_stone.h"
 #include "rnd/custom_models.h"
 #include "rnd/item_table.h"
+#include "rnd/overrides/override_policy.h"
 #define LOADEDMODELS_MAX 16
 
 namespace rnd {
@@ -325,11 +326,9 @@ namespace rnd {
     ItemOverride override = ItemOverride_Lookup(actor, scene, baseItemId);
 
     if (override.key.all != 0) {
-      if (override.key.type == ItemOverride_Type::OVR_SKULL &&
-          En_Si_IsTokenCollectedAndNonRepeatable(actor, globalCtx->scene, &override)) {
-        override.value.getItemId = 0x02;
-        override.value.looksLikeItemId = 0x02;
-      } else if (En_Elforg_IsFairyCollectedAndNonRepeatable(&override)) {
+      if ((override.key.type == ItemOverride_Type::OVR_SKULL ||
+           override.key.type == ItemOverride_Type::OVR_STRAY_FAIRY) &&
+          ItemOverride_IsRepeatBlocked(actor, override)) {
         override.value.getItemId = 0x02;
         override.value.looksLikeItemId = 0x02;
       }

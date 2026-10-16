@@ -90,7 +90,7 @@ namespace rnd {
       return true;
     }
 
-    return Shopsanity_IsSoldOut(row, Shopsanity_GetSlot(shelf.scene, shelf.param));
+    return Shopsanity_IsSoldOut(ovr, Shopsanity_GetSlot(shelf.scene, shelf.param));
   }
 
   // Bought out: draw nothing at all, leaving the shelf empty.
@@ -248,4 +248,32 @@ namespace rnd {
   }
   }
 
+  extern "C" {
+  bool ItemOverride_GiveShopItem(game::act::Actor* actor, game::GlobalContext* gctx) {
+    game::act::Player* player = gctx->GetPlayerActor();
+    const ShopItemEntry* vanillaEntry = Shopsanity_GetVanillaEntry(actor->params);
+    if (vanillaEntry == NULL) {
+      return false;
+    }
+    ItemOverride_GetItem(gctx, actor, player, (s16)vanillaEntry->getItemId);
+    if (rActiveItemRow == NULL) {
+      return false;
+    }
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: param=%#04x vanillaGI=%#04x ovrGI=%#04x row.itemId=%#04x row.textId=%#06x "
+                     "row.baseItemId=%#04x row.objectId=%#06x player.get_item_id=%#04x storedText=%#06x\n",
+                     __func__, (unsigned)actor->params, (unsigned)vanillaEntry->getItemId,
+                     (unsigned)rActiveItemOverride.value.getItemId, (unsigned)rActiveItemRow->itemId,
+                     (unsigned)rActiveItemRow->textId, (unsigned)rActiveItemRow->baseItemId,
+                     (unsigned)rActiveItemRow->objectId, (unsigned)player->get_item_id, (unsigned)rStoredTextId);
+#endif
+    ItemOverride_GetItemTextAndItemID(player);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: after give -- player.get_item_id=%#04x rActiveItemRow=%s\n", __func__,
+                     (unsigned)player->get_item_id, rActiveItemRow == NULL ? "NULL" : "set");
+#endif
+    ItemOverride_RemoveTextId();
+    return true;
+  }
+  }
 }  // namespace rnd

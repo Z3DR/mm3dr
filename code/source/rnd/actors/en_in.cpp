@@ -12,8 +12,7 @@ namespace rnd {
     key.type = ItemOverride_Type::OVR_BASE_ITEM;
     key.flag = (u8)GetItemID::GI_BOTTLE_MILK_REFILL;
     const ItemOverride override = ItemOverride_LookupByKey(key);
-    if (override.key.all != 0 &&
-        Shopsanity_IsSoldOut(ItemTable_GetItemRow(override.value.getItemId), SHOPSANITY_GORMAN_MILK)) {
+    if (override.key.all != 0 && Shopsanity_IsSoldOut(override, SHOPSANITY_GORMAN_MILK)) {
       return false;
     }
     return util::GetPointer<HasBottleFn>(0x33362C)();  // vanilla: does Link have an empty bottle

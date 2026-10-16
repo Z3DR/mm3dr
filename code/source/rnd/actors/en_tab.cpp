@@ -13,7 +13,7 @@ namespace rnd {
     const ItemOverride override = ItemOverride_LookupByKey(key);
     if (override.key.all == 0)
       return false;
-    return Shopsanity_IsSoldOut(ItemTable_GetItemRow(override.value.getItemId), purchase);
+    return Shopsanity_IsSoldOut(override, purchase);
   }
 
   static void En_Tab_RefuseChoice(EnTabSaleScriptOffset choice) {

@@ -26,9 +26,9 @@ namespace rnd {
     }
   }
 
-  bool En_Akindonuts_IsSaleBoughtAndNonRepeatable(const ItemOverride* override) {
-    const s32 purchase = En_Akindonuts_GetSalePurchase(override->key);
-    return purchase >= 0 && Shopsanity_IsSoldOut(ItemTable_GetItemRow(override->value.getItemId), purchase);
+  bool En_Akindonuts_IsSaleBought(const ItemOverride& override) {
+    const s32 purchase = En_Akindonuts_GetSalePurchase(override.key);
+    return purchase >= 0 && Shopsanity_IsSoldOut(override, purchase);
   }
 
   void En_Akindonuts_SetSaleBought(ItemOverride_Key key) {

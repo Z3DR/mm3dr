@@ -20,5 +20,4 @@ namespace rnd {
   bool En_Cow_FillSearchKey(game::act::Actor* actor, game::SceneId scene, ItemOverride_Key* key);
   bool En_Cow_IsMilked(u8 cowIndex);
   void En_Cow_SetMilked(u8 cowIndex);
-  bool En_Cow_IsMilkedAndNonRepeatable(ItemOverride* override);
 }  // namespace rnd

@@ -617,6 +617,10 @@ SECTIONS{
     *(.patch_EnPmOverrideHatModel)
   }
 
+  .patch_EnRzHeartPieceFlag 0x33FD68 : {
+    *(.patch_EnRzHeartPieceFlag)
+  }
+
   .patch_GiantChamberCutsceneOrder 0x345D78 : {
     *(.patch_GiantChamberCutsceneOrder)
   }
