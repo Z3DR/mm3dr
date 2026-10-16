@@ -9,6 +9,6 @@ namespace rnd {
   bool En_Akindonuts_CheckBombBagExtData();
   }
 
-  bool En_Akindonuts_IsSaleBoughtAndNonRepeatable(const ItemOverride* override);
+  bool En_Akindonuts_IsSaleBought(const ItemOverride& override);
   void En_Akindonuts_SetSaleBought(ItemOverride_Key key);
 }  // namespace rnd

@@ -146,7 +146,7 @@ namespace rnd {
 
   bool Shopsanity_IsRestockable(const ItemRow* row);
 
-  bool Shopsanity_IsSoldOut(const ItemRow* row, s32 purchase);
+  bool Shopsanity_IsSoldOut(const ItemOverride& override, s32 purchase);
 
   void Shopsanity_SetSlotPurchased(s32 slot);
 

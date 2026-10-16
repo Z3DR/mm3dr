@@ -57,13 +57,4 @@ namespace rnd {
     if (cowIndex < 8)
       gExtSaveData.cowMilked.raw |= 1 << (cowIndex & 0x7);
   }
-
-  bool En_Cow_IsMilkedAndNonRepeatable(ItemOverride* override) {
-    if (override->key.type != ItemOverride_Type::OVR_COW)
-      return false;
-    if (!En_Cow_IsMilked(override->key.flag))
-      return false;
-    // False once the item leaves the inventory, so an item the player lost is granted again.
-    return ItemOverride_IsItemObtainedOrEmptyBottle(*override);
-  }
 }  // namespace rnd

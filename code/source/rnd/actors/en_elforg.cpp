@@ -1,4 +1,6 @@
 #include "rnd/actors/en_elforg.h"
+#include "rnd/overrides/override_policy.h"
+#include "rnd/overrides/override_state.h"
 
 namespace rnd {
   u16 sElforgItemObjectId = 0;
@@ -43,24 +45,22 @@ namespace rnd {
     util::GetPointer<void(game::act::Actor*, game::GlobalContext*)>(0x424BF0)(actor, gctx);
   }
 
-  bool En_Elforg_IsFairyCollectedAndNonRepeatable(ItemOverride* override) {
-    if (override->key.type != ItemOverride_Type::OVR_STRAY_FAIRY)
+  bool En_Elforg_IsFairyCollected(const ItemOverride& override) {
+    if (override.key.type != ItemOverride_Type::OVR_STRAY_FAIRY)
       return false;
 
     bool collected;
-    if (override->key.scene == (u8)game::SceneId::LaundryPool ||
-        override->key.scene == (u8)game::SceneId::EastClockTown) {
+    if (override.key.scene == (u8)game::SceneId::LaundryPool ||
+        override.key.scene == (u8)game::SceneId::EastClockTown) {
       collected = gExtSaveData.givenItemChecks.clockTownStrayFairyCollected != 0;
     } else {
-      int fairyIdx = En_Elforg_getFairyIndex((game::SceneId) override->key.scene);
+      int fairyIdx = En_Elforg_getFairyIndex((game::SceneId) override.key.scene);
       if (fairyIdx == -1)
         return false;
-      collected = (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (override->key.flag & 0x1F)) != 0;
+      collected = (gExtSaveData.dungeonFairyBitfields[fairyIdx] & 1 << (override.key.flag & 0x1F)) != 0;
     }
 
-    if (!collected)
-      return false;
-    return ItemOverride_IsItemObtainedOrEmptyBottle(*override);
+    return collected;
   }
 
   void En_Elforg_SetFairyCollected(game::SceneId scene, u32 flag) {
@@ -207,4 +207,103 @@ namespace rnd {
     memset(model->boneMtxBuf, 0, sizeof(model->boneMtxBuf));
   }
 
+  s16 ItemOverride_GetFairyGetItemFromScene(game::SceneId scene) {
+    s16 getItemId = (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN;
+    switch (scene) {
+    case game::SceneId::WoodfallTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_WOODFALL;
+      break;
+    case game::SceneId::SnowheadTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_SNOWHEAD;
+      break;
+    case game::SceneId::GreatBayTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_GREAT_BAY;
+      break;
+    case game::SceneId::StoneTowerTemple:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER;
+      break;
+    case game::SceneId::StoneTowerTempleInverted:
+      getItemId = (s16)GetItemID::GI_STRAY_FAIRY_STONE_TOWER;
+    default:
+      break;
+    }
+    return getItemId;
+  }
+
+  extern "C" {
+  static game::act::Actor* sQueuedFairies[4] = {NULL, NULL, NULL, NULL};
+
+  static bool ItemOverride_TakeQueuedFairy(game::act::Actor* actor) {
+    for (u32 i = 0; i < ARR_SIZE(sQueuedFairies); ++i) {
+      if (sQueuedFairies[i] == actor) {
+        sQueuedFairies[i] = NULL;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  u8 ItemOverride_OverrideStrayFairy(game::act::Actor* actor) {
+    game::GlobalContext* gctx = GetContext().gctx;
+    s16 getItemId = (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN;  // Default case.
+    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN);
+    if (override.key.all == 0) {
+      return false;
+    }
+    ItemOverride_TakeQueuedFairy(actor);  // A stale entry from a fairy that never got to show its message.
+
+    if (rActiveItemRow != NULL) {
+      if (ItemOverride_IsRepeatBlocked(actor, override)) {
+        override.value.getItemId = 0x02;
+        override.value.looksLikeItemId = 0x02;
+      }
+      for (u32 i = 0; i < ARR_SIZE(sQueuedFairies); ++i) {
+        if (sQueuedFairies[i] == NULL) {
+          sQueuedFairies[i] = actor;
+          break;
+        }
+      }
+      ItemOverride_PushPendingOverride(override);
+      return true;
+    }
+
+    getItemId = ItemOverride_GetFairyGetItemFromScene(gctx->scene);
+    ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
+    if (rActiveItemRow != NULL) {
+      ItemOverride_HoldTouchPickup();
+      return true;
+    }
+    return false;
+  }
+
+  u16 ItemOverride_GetStrayFairyMessageId(game::act::Actor* actor) {
+    game::GlobalContext* gctx = GetContext().gctx;
+    if (ItemOverride_TakeQueuedFairy(actor)) {
+      return 0;  // No message: the item comes from the pending queue with its own get-item box.
+    }
+    ItemOverride override = ItemOverride_Lookup(actor, (u16)gctx->scene, (s16)GetItemID::GI_STRAY_FAIRY_CLOCK_TOWN);
+    if (override.key.all == 0) {
+      return 0x11;  // Vanilla "You found a Stray Fairy" text, as a safe fallback.
+    }
+    u16 resolvedGetItemId = ItemTable_ResolveUpgrades(override.value.getItemId);
+
+    ItemRow* row = ItemTable_GetItemRowFromIndex(resolvedGetItemId);
+#if defined ENABLE_DEBUG || defined DEBUG_PRINT
+    rnd::util::Print("%s: Item text ID is %#08x\n", __func__, row->textId);
+#endif
+    rStoredTextId = row->textId;
+    ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
+    return rStoredTextId;
+  }
+
+  u8 ItemOverride_GetClockTownFairyGiven() {
+    if (gExtSaveData.givenItemChecks.clockTownFairyGiven == 1) {
+      return 1;
+    }
+    if (gExtSaveData.givenItemChecks.clockTownStrayFairyCollected == 1) {
+      return 0;
+    }
+    return game::GetCommonData().save.week_event_reg_08.WEEKEVENTREG_08_80 == 1 ? 1 : 0;
+  }
+  }
 }  // namespace rnd

@@ -8,25 +8,19 @@ namespace rnd {
                                    0x2D, 0x33, 0x37, 0x3B, 0x3F, 0x42, 0x46, 0x4A, 0x4F, 0x53,
                                    0x57, 0x59, 0x5D, 0x61, 0x65, 0x69, 0x6D, 0x73, 0x77, 0x7B};
 
-  bool En_Si_IsTokenCollectedAndNonRepeatable(game::act::Actor* actor, game::SceneId scene, ItemOverride* override) {
+  bool En_Si_IsTokenCollected(game::act::Actor* actor, game::SceneId scene) {
     if (actor->actor_type != game::act::Type::Item)
       return false;
     for (u8 i = 0; i < 30; i++) {
       if (scene == game::SceneId::SwampSpiderHouse) {
         if (skulltulaMapSSH[i] == (actor->params & 0xFF)) {
-          if (gExtSaveData.chestRewarded[(u8)game::SceneId::SwampSpiderHouse][i] == 1)
-            return ItemOverride_IsItemObtainedOrEmptyBottle(*override);
-          else
-            return false;
+          return gExtSaveData.chestRewarded[(u8)game::SceneId::SwampSpiderHouse][i] == 1;
         }
       } else if (scene == game::SceneId::OceansideSpiderHouse) {
         // Special case - since OSH has one chest with param 00,
         // let's ensure that it only gets the elements after the first item in the array.
         if (skulltulaMapOSH[i] == (actor->params & 0xFF)) {
-          if (gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i + 1] == 1)
-            return ItemOverride_IsItemObtainedOrEmptyBottle(*override);
-          else
-            return false;
+          return gExtSaveData.chestRewarded[(u8)game::SceneId::OceansideSpiderHouse][i + 1] == 1;
         }
       }
     }
@@ -71,4 +65,18 @@ namespace rnd {
   }
   }
 
+  extern "C" {
+  u8 ItemOverride_OverrideSkullToken(game::act::Actor* actor) {
+    game::GlobalContext* gctx = GetContext().gctx;
+    s16 getItemId = gctx->scene == game::SceneId::SwampSpiderHouse ? 0x44 : 0x6D;
+    ItemOverride_GetItem(gctx, actor, gctx->GetPlayerActor(), getItemId);
+    if (rActiveItemRow != NULL) {
+      ItemOverride_GetItemTextAndItemID(gctx->GetPlayerActor());
+      En_Si_SetSkullCollected(actor->params, gctx->scene, actor->actor_type);
+      return true;
+    }
+
+    return false;
+  }
+  }
 }  // namespace rnd

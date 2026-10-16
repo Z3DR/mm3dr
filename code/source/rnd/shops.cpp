@@ -1,5 +1,6 @@
 #include "rnd/shops.h"
 
+#include "rnd/overrides/override_policy.h"
 #include "rnd/savefile.h"
 #include "rnd/settings.h"
 
@@ -70,30 +71,11 @@ namespace rnd {
     }
   }
 
-  // Lives in the item grid, a bottle, or the mask grid, so the player can lose it again. The empty Bottle is
-  // excluded since filling it would put a bought bottle back on the shelf, and trade items are kept on
-  // hand-over and across cycle resets.
-  static bool Shopsanity_IsLosableItem(game::ItemId id) {
-    return id <= game::ItemId::GiantMask && id != game::ItemId::Bottle && !game::ItemIsGear(id) &&
-           id != game::ItemId::MapUnused;
-  }
-
-  static bool Shopsanity_IsHeld(game::ItemId id) {
-    if (game::ItemIsBottled(id))
-      return game::HasBottle(id) ||
-             (id == game::ItemId::MysteryMilk && game::HasBottle(game::ItemId::MysteryMilkSpoiled));
-    if (game::ItemIsMask(id))
-      return game::HasMask(id);
-    return game::HasItem(id);
-  }
-
-  bool Shopsanity_IsSoldOut(const ItemRow* row, s32 purchase) {
+  bool Shopsanity_IsSoldOut(const ItemOverride& override, s32 purchase) {
+    const ItemRow* row = ItemTable_GetItemRow(override.value.getItemId);
     if (row == nullptr || Shopsanity_IsRestockable(row) || !Shopsanity_IsSlotPurchased(purchase))
       return false;
-    // Bought before. Anything the inventory can lose comes back once it is gone; the rest (hearts,
-    // dungeon items, trade items, equipment, progressive upgrades) stays sold out.
-    const game::ItemId id = (game::ItemId)row->itemId;
-    return Shopsanity_IsLosableItem(id) ? Shopsanity_IsHeld(id) : true;
+    return ItemOverride_IsOnceOnly(override.value.getItemId) || ItemOverride_OwnsItem(override);
   }
 
   ShopShelf Shopsanity_ResolveShelf(game::SceneId scene, s16 param) {

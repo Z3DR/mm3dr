@@ -46,8 +46,9 @@ namespace rnd {
   void En_Elforg_Draw(game::act::Actor*, game::GlobalContext*);
   void En_Elforg_Calc(game::act::Actor*, game::GlobalContext*);
   int En_Elforg_getFairyIndex(game::SceneId);
-  bool En_Elforg_IsFairyCollectedAndNonRepeatable(ItemOverride*);
+  bool En_Elforg_IsFairyCollected(const ItemOverride&);
   void En_Elforg_SetFairyCollected(game::SceneId scene, u32 flag);
+  s16 ItemOverride_GetFairyGetItemFromScene(game::SceneId scene);
   extern "C" {
   s32 En_Elforg_OverrideModelDraw(game::act::SkeletonAnimationModel*, game::act::Actor*);
   bool En_Elforg_Chest_IsFairyObtained(u32 param, game::GlobalContext*);
