@@ -70,7 +70,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17 -Wno-invalid-offset
 							-Wno-array-bounds
 
 ASFLAGS	:=	-g $(ARCH)
-LDFLAGS	=	 -g $(ARCH) -Wl,--no-warn-rwx-segments -Wl,-Map,$(notdir $*.map) -T $(TOPDIR)/$(LINK_SCRIPT)
+LDFLAGS	=	 -g $(ARCH) -Wl,-Map,$(notdir $*.map) -T $(TOPDIR)/$(LINK_SCRIPT)
 
 LIBS	:= -lctru -lm
 
