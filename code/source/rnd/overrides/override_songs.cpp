@@ -85,18 +85,9 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     rnd::util::Print("%s: Link's getitemid %#04x incoming GID is %#04x\n", __func__, link->get_item_id, incomingItemId);
 #endif
-    if (incomingItemId == 0x7A) {
-      gExtSaveData.givenItemChecks.enZogGivenItem = 1;
-    } else if (incomingItemId == 0x79) {
-      gExtSaveData.givenItemChecks.enGgGivenItem = 1;
-    } else if (incomingItemId == 0x87) {
-      gExtSaveData.givenItemChecks.mummyDaddyGivenItem = 1;
-    } else if (incomingItemId == 0x78) {
-      gExtSaveData.givenItemChecks.enOsnGivenMask = 1;
-    } else if (incomingItemId == 0x50) {
+    const s16 vanillaItemId = incomingItemId;
+    if (incomingItemId == 0x50) {
       fromActor = link;
-    } else if (incomingItemId == 0x85) {
-      gExtSaveData.givenItemChecks.kafeiGivenItem = 1;
     } else if ((incomingItemId >= 0x61 && incomingItemId <= 0x6C) || incomingItemId == 0x73) {
       // Additional logic to map songs to getItemIds.
       incomingItemId = (s16)ItemOverride_MapSongsToGID(game::ItemId(incomingItemId));
@@ -104,6 +95,18 @@ namespace rnd {
     }
 
     ItemOverride_GetItem(gctx, fromActor, link, incomingItemId);
+
+    if (vanillaItemId == 0x7A) {
+      gExtSaveData.givenItemChecks.enZogGivenItem = 1;
+    } else if (vanillaItemId == 0x79) {
+      gExtSaveData.givenItemChecks.enGgGivenItem = 1;
+    } else if (vanillaItemId == 0x87) {
+      gExtSaveData.givenItemChecks.mummyDaddyGivenItem = 1;
+    } else if (vanillaItemId == 0x78) {
+      gExtSaveData.givenItemChecks.enOsnGivenMask = 1;
+    } else if (vanillaItemId == 0x85) {
+      gExtSaveData.givenItemChecks.kafeiGivenItem = 1;
+    }
     return;
   }
 

@@ -50,7 +50,8 @@ namespace rnd {
       {anyActor, GetItemID::GI_MASK_DON_GEROS,        0x50, game::ItemId::DonGeroMask,      QUEST_FLAG(givenItemChecks, enGegGivenItem)},
       {anyActor, GetItemID::GI_MASK_ROMANIS,          0x2D, game::ItemId::RomaniMask,       QUEST_FLAG(givenItemChecks, enMaYtoGivenItem)},
       {anyActor, GetItemID::GI_MASK_FIERCE_DEITY,     0x67, game::ItemId::FierceDeityMask,  QUEST_FLAG(givenItemChecks, enJsGivenItem)},
-      // Paid through Song of Healing, which sets these flags itself; the rows are for the gate.
+      // Paid through Song of Healing, which sets these flags itself (ItemOverride_GetSoHOrSongItem). It has to do that
+      // after ItemOverride_GetItem: these rows also decide whether the check counts as paid while it gives the item.
       {anyActor, GetItemID::GI_MASK_ZORA,             0x37, game::ItemId::ZoraMask,         QUEST_FLAG(givenItemChecks, enZogGivenItem)},
       {anyActor, GetItemID::GI_MASK_GORON,            0x4E, game::ItemId::GoronMask,        QUEST_FLAG(givenItemChecks, enGgGivenItem)},
       {anyActor, GetItemID::GI_MAGIC_BEAN,            0x07, noGate, QUEST_FLAG(givenItemChecks, beanDaddyGivenFreeBean)},
