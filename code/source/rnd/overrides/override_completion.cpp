@@ -117,7 +117,7 @@ namespace rnd {
     case ItemOverride_Type::OVR_CHEST:
       return gExtSaveData.chestRewarded[key.scene][key.flag] == 1;
     case ItemOverride_Type::OVR_SKULL:
-      return En_Si_IsTokenCollected(actor, (game::SceneId)key.scene);
+      return actor != NULL && En_Si_IsTokenCollected(actor, (game::SceneId)key.scene);
     case ItemOverride_Type::OVR_COW:
       return En_Cow_IsMilked(key.flag);
     case ItemOverride_Type::OVR_STRAY_FAIRY:
@@ -125,7 +125,7 @@ namespace rnd {
     default:
       break;
     }
-    if (actor->id == game::act::Id::EnAkindonuts && En_Akindonuts_IsSaleBought(override)) {
+    if (actor != NULL && actor->id == game::act::Id::EnAkindonuts && En_Akindonuts_IsSaleBought(override)) {
       return true;
     }
     // One bag, two owners.

@@ -79,22 +79,12 @@ namespace rnd {
       return;
     }
 
-    RepeatOutcome resolveOutcome =
-        ItemOverride_ResolveRepeat(ItemOverride_IsCheckComplete(fromActor, override), override,
-                                   incomingNegative ? -incomingGetItemId : incomingGetItemId);
-    switch (resolveOutcome) {
-    case RepeatOutcome::Payout:
-      ItemOverride_ApplyRepeatPayout(override);
-      break;
-    case RepeatOutcome::Vanilla:
+    if (ItemOverride_ApplyRepeatRules(fromActor, override, incomingNegative ? -incomingGetItemId : incomingGetItemId) ==
+        RepeatOutcome::Vanilla) {
       ItemOverride_Clear();
       player->get_item_id = incomingGetItemId;
       return;
-    case RepeatOutcome::GiveOverride:
-      break;
     }
-
-    ItemOverride_ApplyBottleRules(override);
     ItemOverride_Activate(override);
     s16 baseItemId = rActiveItemRow->baseItemId;
 

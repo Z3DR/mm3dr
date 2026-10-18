@@ -79,6 +79,18 @@ namespace rnd {
     return game::HasMask(item) || game::HasItem(item) || game::HasBottle(item);
   }
 
+  RepeatOutcome ItemOverride_ApplyRepeatRules(game::act::Actor* actor, ItemOverride& override, s16 vanillaGetItemId) {
+    const RepeatOutcome outcome =
+        ItemOverride_ResolveRepeat(ItemOverride_IsCheckComplete(actor, override), override, vanillaGetItemId);
+    if (outcome == RepeatOutcome::Payout) {
+      ItemOverride_ApplyRepeatPayout(override);
+    }
+    if (outcome != RepeatOutcome::Vanilla) {
+      ItemOverride_ApplyBottleRules(override);
+    }
+    return outcome;
+  }
+
   void ItemOverride_ApplyRepeatPayout(ItemOverride& override) {
     if (override.key.type == ItemOverride_Type::OVR_COW) {
       override.value.getItemId = (u16)GetItemID::GI_BOTTLE_MILK_REFILL;
