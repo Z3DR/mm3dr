@@ -11,5 +11,6 @@ namespace rnd {
   bool ItemOverride_IsRepeatBlocked(game::act::Actor*, const ItemOverride&);
   RepeatOutcome ItemOverride_ResolveRepeat(bool complete, const ItemOverride&, s16 vanillaGetItemId);
   void ItemOverride_ApplyRepeatPayout(ItemOverride&);
+  RepeatOutcome ItemOverride_ApplyRepeatRules(game::act::Actor*, ItemOverride&, s16 vanillaGetItemId);
   void ItemOverride_ApplyBottleRules(ItemOverride&);
 }  // namespace rnd

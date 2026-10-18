@@ -253,17 +253,17 @@ namespace rnd {
     ItemOverride_TakeQueuedFairy(actor);  // A stale entry from a fairy that never got to show its message.
 
     if (rActiveItemRow != NULL) {
-      if (ItemOverride_IsRepeatBlocked(actor, override)) {
-        override.value.getItemId = 0x02;
-        override.value.looksLikeItemId = 0x02;
-      }
       for (u32 i = 0; i < ARR_SIZE(sQueuedFairies); ++i) {
         if (sQueuedFairies[i] == NULL) {
           sQueuedFairies[i] = actor;
           break;
         }
       }
-      ItemOverride_PushPendingOverride(override);
+      // Another fairy is being applied. If a queue is full, then fallback to a regular get item with the
+      // overhead model.
+      if (!ItemOverride_DeferTouchPickup(override)) {
+        ItemOverride_PushPendingOverride(override);
+      }
       return true;
     }
 

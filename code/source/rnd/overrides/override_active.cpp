@@ -1,7 +1,9 @@
+#include "rnd/actors/en_elforg.h"
 #include "rnd/custom_models.h"
 #include "rnd/icetrap.h"
 #include "rnd/item_override.h"
 #include "rnd/item_table.h"
+#include "rnd/overrides/override_policy.h"
 #include "rnd/overrides/override_state.h"
 #include "rnd/rheap.h"
 #include "rnd/spoiler_data.h"
@@ -14,6 +16,12 @@ namespace rnd {
   // full get item can conclude.
   static u16 sTouchPickupHold = 0;
   static constexpr u16 rTouchPickupHoldFrames = 120;
+  // The active item came from a touch pickup (a stray fairy), so there is no get-item animation to wait for.
+  static bool rActiveIsTouchPickup = false;
+
+  static ItemOverride rDeferredTouchPickups[3] = {0};
+  static u16 rDeferredWaitFrames = 0;
+  static constexpr u16 rDeferredMaxWaitFrames = 600;
 
   ItemOverride_Source gItemOverrideSource = {game::act::Id::Player, GetItemID::GI_NONE};
   static game::act::Actor* rDummyActor = NULL;
@@ -43,6 +51,24 @@ namespace rnd {
 
   void ItemOverride_HoldTouchPickup(void) {
     sTouchPickupHold = rTouchPickupHoldFrames;
+    rActiveIsTouchPickup = true;
+  }
+
+  bool ItemOverride_DeferTouchPickup(ItemOverride override) {
+    for (u32 i = 0; i < ARR_SIZE(rDeferredTouchPickups); ++i) {
+      if (rDeferredTouchPickups[i].key.all == override.key.all) {
+        return true;
+      }
+      if (rDeferredTouchPickups[i].key.all == 0) {
+        rDeferredTouchPickups[i] = override;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool ItemOverride_IsTouchPickupPending(void) {
+    return sTouchPickupHold > 0 && rActiveItemRow != NULL;
   }
 
   void ItemOverride_ReleaseTouchPickup(void) {
@@ -62,6 +88,7 @@ namespace rnd {
       looksLikeRow = itemRow;
     }
 
+    rActiveIsTouchPickup = false;
     rActiveItemOverride = override;
     rActiveItemRow = itemRow;
     rActiveItemActionId = itemRow->itemId;
@@ -82,6 +109,7 @@ namespace rnd {
     rActiveItemChestType = 0;
     isItemOverrideActive = false;
     rCustomDungeonItemRetrieved = 0;
+    rActiveIsTouchPickup = false;
     gItemOverrideSource = {game::act::Id::Player, GetItemID::GI_NONE};
   }
 
@@ -143,6 +171,7 @@ namespace rnd {
       return 0;
     u32 currentAniId = player->player_util.state.id;
     switch (currentAniId) {
+    case 0x026:  // Idle with enemies nearby - Human
     case 0x07A:  // Rolling - FD
     case 0x0B9:  // Walking - FD
     case 0x0BA:  // Sidewalking - FD
@@ -152,7 +181,7 @@ namespace rnd {
     case 0x11F:  // Rolling - Human, Zora, Goron Rolling
     case 0x135:  // Walking - Human, Deku, Zora, Goron
     case 0x13D:  // Sidewalking - Human, Deku, Zora, Goron
-    case 0x150:  // Idle - Deku
+    case 0x150:  // Idle - Human, Deku
     case 0x155:  // ESS Maybe - Human, Deku, Zora, Goron
     case 0x158:  // Slow Walking - Human, Deku, Zora, Goron
     case 0x183:  // Idle - Human
@@ -197,8 +226,49 @@ namespace rnd {
     }
   }
 
+  // getTalkStatus returns TEXT_STATE_NONE (0) when the message window is idle.
+  static bool ItemOverride_TextBoxOpen(game::GlobalContext* gctx) {
+    return util::GetPointer<int(game::MessageContext*)>(0x1C5018)(&gctx->msg_context) != 0;
+  }
+
+  static void ItemOverride_TryDeferredTouchPickup(game::GlobalContext* gctx, game::act::Player* player) {
+    if (rDeferredTouchPickups[0].key.all == 0) {
+      rDeferredWaitFrames = 0;
+      return;
+    }
+    if (gctx->type != game::StateType::Play || player == NULL || gctx->IsPaused() || rActiveItemRow != NULL ||
+        sTouchPickupHold > 0) {
+      return;
+    }
+    if (ItemOverride_TextBoxOpen(gctx) && rDeferredWaitFrames++ < rDeferredMaxWaitFrames) {
+      return;
+    }
+    rDeferredWaitFrames = 0;
+
+    ItemOverride override = rDeferredTouchPickups[0];
+    for (u32 i = 1; i < ARR_SIZE(rDeferredTouchPickups); ++i) {
+      rDeferredTouchPickups[i - 1] = rDeferredTouchPickups[i];
+    }
+    rDeferredTouchPickups[ARR_SIZE(rDeferredTouchPickups) - 1] = (ItemOverride){0};
+
+    // The rules a lone fairy goes through, then the steps its own message hook takes.
+    ItemOverride_ApplyRepeatRules(NULL, override,
+                                  ItemOverride_GetFairyGetItemFromScene((game::SceneId) override.key.scene));
+    ItemOverride_Activate(override);
+    if (rActiveItemRow == NULL) {
+      return;
+    }
+    ItemOverride_HoldTouchPickup();  // marks the row as a touch pickup, so Update releases it once it is applied
+    rStoredTextId = rActiveItemRow->textId;
+    const u16 textId = rStoredTextId;
+    ItemOverride_GetItemTextAndItemID(player);
+    gctx->ShowMessage(textId);
+    ItemOverride_RemoveTextId();
+  }
+
   void ItemOverride_Update(void) {
-    game::act::Player* player = GetContext().gctx->GetPlayerActor();
+    game::GlobalContext* gctx = GetContext().gctx;
+    game::act::Player* player = gctx->GetPlayerActor();
     if (ItemOverride_PlayerIsReady()) {
       ItemOverride_PopIceTrap();
       if (IceTrap_IsPending()) {
@@ -211,11 +281,15 @@ namespace rnd {
     if (sTouchPickupHold > 0) {
       sTouchPickupHold--;
     } else if (rActiveItemRow != NULL) {
-      if (player->get_item_id == 0 ||
+      // A touch pickup has no get-item to wait for. Other get items (a chest's vanilla one) can leave get_item_id set,
+      // which would keep this row active and block the pending queue forever.
+      if (rActiveIsTouchPickup || player->get_item_id == 0 ||
           (player->grabbable_actor == NULL && player->flags1.IsSet(game::act::Player::Flag1::Unk40000000))) {
         ItemOverride_Clear();
       }
     }
+
+    ItemOverride_TryDeferredTouchPickup(gctx, player);
   }
 
   static s32 ItemOverride_IsItemVanilla() {

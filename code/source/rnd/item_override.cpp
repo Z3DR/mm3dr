@@ -70,28 +70,21 @@ namespace rnd {
       }
     }
     if (override.key.all == 0) {
-      // No override, use base game's item code
-      ItemOverride_Clear();
+      // No override, use base game's item code. A touch pickup that is still waiting (a stray fairy) must keep its
+      // override: opening a chest asks for its own vanilla item while the fairy is still on its way.
+      if (!ItemOverride_IsTouchPickupPending()) {
+        ItemOverride_Clear();
+      }
       player->get_item_id = incomingGetItemId;
       return;
     }
 
-    RepeatOutcome resolveOutcome =
-        ItemOverride_ResolveRepeat(ItemOverride_IsCheckComplete(fromActor, override), override,
-                                   incomingNegative ? -incomingGetItemId : incomingGetItemId);
-    switch (resolveOutcome) {
-    case RepeatOutcome::Payout:
-      ItemOverride_ApplyRepeatPayout(override);
-      break;
-    case RepeatOutcome::Vanilla:
+    if (ItemOverride_ApplyRepeatRules(fromActor, override, incomingNegative ? -incomingGetItemId : incomingGetItemId) ==
+        RepeatOutcome::Vanilla) {
       ItemOverride_Clear();
       player->get_item_id = incomingGetItemId;
       return;
-    case RepeatOutcome::GiveOverride:
-      break;
     }
-
-    ItemOverride_ApplyBottleRules(override);
     ItemOverride_Activate(override);
     s16 baseItemId = rActiveItemRow->baseItemId;
 
