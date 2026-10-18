@@ -70,8 +70,11 @@ namespace rnd {
       }
     }
     if (override.key.all == 0) {
-      // No override, use base game's item code
-      ItemOverride_Clear();
+      // No override, use base game's item code. A touch pickup that is still waiting (a stray fairy) must keep its
+      // override: opening a chest asks for its own vanilla item while the fairy is still on its way.
+      if (!ItemOverride_IsTouchPickupPending()) {
+        ItemOverride_Clear();
+      }
       player->get_item_id = incomingGetItemId;
       return;
     }

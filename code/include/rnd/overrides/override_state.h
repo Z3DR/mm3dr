@@ -23,6 +23,7 @@ namespace rnd {
   // Keeps a touch pickup (stray fairy) active while its get item plays out.
   void ItemOverride_HoldTouchPickup(void);
   void ItemOverride_ReleaseTouchPickup(void);
+  bool ItemOverride_IsTouchPickupPending(void);
 
   // override_completion.cpp
   void ItemOverride_AfterItemReceived(void);

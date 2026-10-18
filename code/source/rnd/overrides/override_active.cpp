@@ -14,6 +14,8 @@ namespace rnd {
   // full get item can conclude.
   static u16 sTouchPickupHold = 0;
   static constexpr u16 rTouchPickupHoldFrames = 120;
+  // The active item came from a touch pickup (a stray fairy), so there is no get-item animation to wait for.
+  static bool rActiveIsTouchPickup = false;
 
   ItemOverride_Source gItemOverrideSource = {game::act::Id::Player, GetItemID::GI_NONE};
   static game::act::Actor* rDummyActor = NULL;
@@ -43,6 +45,11 @@ namespace rnd {
 
   void ItemOverride_HoldTouchPickup(void) {
     sTouchPickupHold = rTouchPickupHoldFrames;
+    rActiveIsTouchPickup = true;
+  }
+
+  bool ItemOverride_IsTouchPickupPending(void) {
+    return sTouchPickupHold > 0 && rActiveItemRow != NULL;
   }
 
   void ItemOverride_ReleaseTouchPickup(void) {
@@ -62,6 +69,7 @@ namespace rnd {
       looksLikeRow = itemRow;
     }
 
+    rActiveIsTouchPickup = false;
     rActiveItemOverride = override;
     rActiveItemRow = itemRow;
     rActiveItemActionId = itemRow->itemId;
@@ -82,6 +90,7 @@ namespace rnd {
     rActiveItemChestType = 0;
     isItemOverrideActive = false;
     rCustomDungeonItemRetrieved = 0;
+    rActiveIsTouchPickup = false;
     gItemOverrideSource = {game::act::Id::Player, GetItemID::GI_NONE};
   }
 
@@ -143,6 +152,7 @@ namespace rnd {
       return 0;
     u32 currentAniId = player->player_util.state.id;
     switch (currentAniId) {
+    case 0x026:  // Idle with enemies nearby - Human
     case 0x07A:  // Rolling - FD
     case 0x0B9:  // Walking - FD
     case 0x0BA:  // Sidewalking - FD
@@ -152,7 +162,7 @@ namespace rnd {
     case 0x11F:  // Rolling - Human, Zora, Goron Rolling
     case 0x135:  // Walking - Human, Deku, Zora, Goron
     case 0x13D:  // Sidewalking - Human, Deku, Zora, Goron
-    case 0x150:  // Idle - Deku
+    case 0x150:  // Idle - Human, Deku
     case 0x155:  // ESS Maybe - Human, Deku, Zora, Goron
     case 0x158:  // Slow Walking - Human, Deku, Zora, Goron
     case 0x183:  // Idle - Human
@@ -211,7 +221,9 @@ namespace rnd {
     if (sTouchPickupHold > 0) {
       sTouchPickupHold--;
     } else if (rActiveItemRow != NULL) {
-      if (player->get_item_id == 0 ||
+      // A touch pickup has no get-item to wait for. Other get items (a chest's vanilla one) can leave get_item_id set,
+      // which would keep this row active and block the pending queue forever.
+      if (rActiveIsTouchPickup || player->get_item_id == 0 ||
           (player->grabbable_actor == NULL && player->flags1.IsSet(game::act::Player::Flag1::Unk40000000))) {
         ItemOverride_Clear();
       }
