@@ -125,6 +125,7 @@ namespace rnd {
     if (context.gctx->GetPlayerActor()) {
       SaveFile_MaintainMagicBeans();
       ItemOverride_Update();
+      IceTrap_Update();
       Ocarina_Update();
       link::HandleFastOcarina(context.gctx);
       link::HandleFastArrowSwitch(context.gctx->GetPlayerActor());

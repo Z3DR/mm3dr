@@ -456,7 +456,11 @@ namespace game::act {
     u32 field_11F70;
     u8 gap_11F74[140];
     u32 field_12000;
-    u8 gap_12004[76];
+    u8 gap_12004[58];
+    /// Set to 1 while Link's body is on fire. The game clears it once every flame timer has run out.
+    u8 body_is_burning;
+    /// One countdown per body part. A part keeps burning while its timer is above zero.
+    u8 body_flame_timers[17];
     u8 attacking_maybe;
     u8 form_or_5_for_kafei;
     u8 gap_12052[6];
@@ -546,6 +550,9 @@ namespace game::act {
   static_assert(offsetof(Player, field_12CCE) == 0x12CCE);
   static_assert(offsetof(Player, get_item_direction) == 0x0091E);
   static_assert(offsetof(Player, sword_active) == 0x11E3C);
+  static_assert(offsetof(Player, body_is_burning) == 0x1203E);
+  static_assert(offsetof(Player, body_flame_timers) == 0x1203F);
+  static_assert(offsetof(Player, attacking_maybe) == 0x12050);
   static_assert(offsetof(Player, gap_12A14) == 0x12A14);
   static_assert(offsetof(Player, gap_27c) == 0x0027C);
   static_assert(offsetof(Player, some_SkeletonAnimationModel_maybe) == 0x12A28);
