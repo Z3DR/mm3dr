@@ -20,9 +20,7 @@ namespace rnd {
 
   extern "C" {
   bool EnZot_JarGameOverrideActive() {
-    return !gExtSaveData.miniGameCompletion.zoraJarGameCompleted &&
-           game::GetCommonData().save.player_form == game::act::Player::Form::Zora &&
-           EnZot_LookupJarGameReward().key.all != 0;
+    return !gExtSaveData.miniGameCompletion.zoraJarGameCompleted && EnZot_LookupJarGameReward().key.all != 0;
   }
 
   bool EnZot_GiveJarGameReward() {
