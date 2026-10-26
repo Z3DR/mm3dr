@@ -483,8 +483,8 @@ namespace rnd {
                         DrawGraphicItemID::DI_BOTTLE_DEKU_PRINCESS, (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None,
                         (s16)-1, (s16)-1, 1.00f),  // Bottle With Deku Princess
 
-      [0x60] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::Milk, 0x0060, 0x00B6,
-                        0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MILK_FULL,
+      [0x60] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::Milk, 0x0060, 0x00B6, 0x00,
+                        (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_MILK_FULL,
                         (rnd::upgradeFunc)ItemUpgrade_RefillBottle, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Bottle With Milk
 
@@ -723,11 +723,11 @@ namespace rnd {
       // The following bottle items fill an empty bottle, as if you caught something in it. Without an
       // empty bottle, ItemOverride_GetItem gives a green rupee instead.
       [0x91] =
-          ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::ChateauRomaniFill, 0x0091,
+          ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::ChateauRomaniFill, 0x0091,
                    0x0227, 0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_CHATEAU_ROMANI,
                    (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1, 1.00f),  // Cheateu Refill
 
-      [0x92] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_BIG, (u8)game::ItemId::MilkFill, 0x0092, 0x00B6,
+      [0x92] = ITEM_ROW((u32)GetItemID::GI_NUTS_30, ChestType::WOODEN_SMALL, (u8)game::ItemId::MilkFill, 0x0092, 0x00B6,
                         0x00, (s8)0xFF, (s8)0xFF, (s8)0xFF, (s8)0xFF, DrawGraphicItemID::DI_BOTTLE_MILK,
                         (rnd::upgradeFunc)ItemUpgrade_None, ItemEffect_None, (s16)-1, (s16)-1,
                         1.00f),  // Milk Refill
