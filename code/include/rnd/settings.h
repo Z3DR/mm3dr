@@ -471,7 +471,7 @@ namespace rnd {
     u32 customItemButton;
     u32 customMaskButton;
     u32 customNotebookButton;
-    u32 customIngameSpoilerButton;
+    u32 customIngameSpoilerButton = 2;
 
     // Extra MM Settings
     u8 blastMaskCooldown;
@@ -501,13 +501,26 @@ namespace rnd {
     u8 ingameMotionControls;
     u8 ingameSwimmingControls;
     u8 ingameAdjustVolume;
+    float ingameCameraSpeedMult;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;
   extern const char hashIconNames[62][25];
+  static constexpr float CAMERA_MULT_MIN = 0.25f;
+  static constexpr float CAMERA_MULT_MAX = 5.00f;
+  static constexpr float CAMERA_MULT_STEP = 0.25f;
 
-  extern "C" s32 Settings_ApplyDamageMultiplier(game::GlobalContext*, s32);
-  extern "C" u8 SettingsFastMaskCheck();
+  extern "C" {
+  s32 Settings_ApplyDamageMultiplier(game::GlobalContext*, s32);
+  u8 SettingsEnabledFastSwim();
+  u8 SettingsEnableOcarinaDive();
+  u8 SettingsEnableFastElegy();
+  u8 SettingsMaskOfTruthCheck(game::GlobalContext*);
+  u8 SettingsFastMaskCheck();
+  u8 SettingsNoAnimationCheck();
+  u8 SettingsBomberAnimationCheck();
+  int SettingsAdjustCameraSpeed(int);
+  }
   bool Settings_MetMoonRequirements();
   bool Settings_MetVictoryRequirements();
   u32 Hash(u32);

@@ -1,59 +1,9 @@
 #include "rnd/settings.h"
+#include "rnd/savefile.h"
 
 namespace rnd {
   SettingsContext gSettingsContext = {0};
   u8 Damage32 = 0;
-
-  s32 Settings_ApplyDamageMultiplier(game::GlobalContext* globalCtx, s32 changeHealth) {
-    game::SaveData& saveData = game::GetCommonData().save;
-    // Fairy healing also gets sent to this function and should be ignored
-    if (changeHealth >= 0) {
-      return changeHealth;
-    }
-    // If supposed to take damage on OHKO ignore everything else
-    if (gSettingsContext.damageMultiplier == (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_OHKO) {
-      return -1000;
-    }
-
-    s32 modifiedChangeHealth = changeHealth;
-
-    if (modifiedChangeHealth < 0) {
-      switch (gSettingsContext.damageMultiplier) {
-      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_HALF:
-        modifiedChangeHealth /= 2;
-        break;
-      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_DEFAULT:
-        break;
-      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_DOUBLE:
-        modifiedChangeHealth *= 2;
-        break;
-      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_QUADRUPLE:
-        modifiedChangeHealth *= 4;
-        break;
-      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_OCTUPLE:
-        modifiedChangeHealth *= 8;
-        break;
-      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_SEXDECUPLE:
-        modifiedChangeHealth *= 16;
-        break;
-      }
-
-      // Can only be 0 if supposed to be -0.5: alternate -1 and 0
-      if (modifiedChangeHealth == 0) {
-        modifiedChangeHealth = -(Damage32 & 1);
-        Damage32 ^= 1;
-      }
-    }
-
-    // Double defense seems to round up after halving so values of -1 should instead alternate
-    // between -2 and 0 (-1 would also work, but -2 was easier)
-    if (saveData.player.double_defense == 1 && modifiedChangeHealth == -1) {
-      modifiedChangeHealth = -(Damage32 & 2);
-      Damage32 ^= 2;
-    }
-
-    return modifiedChangeHealth;
-  }
 
   u16 Settings_CountRemainsCollected() {
     game::InventoryData::CollectRegister& collect_register = game::GetCommonData().save.inventory.collect_register;
@@ -106,6 +56,57 @@ namespace rnd {
 
   // ARM patch settings.
   extern "C" {
+  s32 Settings_ApplyDamageMultiplier(game::GlobalContext* globalCtx, s32 changeHealth) {
+    game::SaveData& saveData = game::GetCommonData().save;
+    // Fairy healing also gets sent to this function and should be ignored
+    if (changeHealth >= 0) {
+      return changeHealth;
+    }
+    // If supposed to take damage on OHKO ignore everything else
+    if (gSettingsContext.damageMultiplier == (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_OHKO) {
+      return -1000;
+    }
+
+    s32 modifiedChangeHealth = changeHealth;
+
+    if (modifiedChangeHealth < 0) {
+      switch (gSettingsContext.damageMultiplier) {
+      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_HALF:
+        modifiedChangeHealth /= 2;
+        break;
+      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_DEFAULT:
+        break;
+      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_DOUBLE:
+        modifiedChangeHealth *= 2;
+        break;
+      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_QUADRUPLE:
+        modifiedChangeHealth *= 4;
+        break;
+      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_OCTUPLE:
+        modifiedChangeHealth *= 8;
+        break;
+      case (u8)DamageMultiplierSetting::DAMAGEMULTIPLIER_SEXDECUPLE:
+        modifiedChangeHealth *= 16;
+        break;
+      }
+
+      // Can only be 0 if supposed to be -0.5: alternate -1 and 0
+      if (modifiedChangeHealth == 0) {
+        modifiedChangeHealth = -(Damage32 & 1);
+        Damage32 ^= 1;
+      }
+    }
+
+    // Double defense seems to round up after halving so values of -1 should instead alternate
+    // between -2 and 0 (-1 would also work, but -2 was easier)
+    if (saveData.player.double_defense == 1 && modifiedChangeHealth == -1) {
+      modifiedChangeHealth = -(Damage32 & 2);
+      Damage32 ^= 2;
+    }
+
+    return modifiedChangeHealth;
+  }
+
   u8 SettingsEnabledFastSwim(void) {
     return gSettingsContext.enableFastZoraSwim;
   }
@@ -151,6 +152,15 @@ namespace rnd {
   }
   u8 SettingsBomberAnimationCheck() {
     return gSettingsContext.enableBomberAnimationSkipping;
+  }
+
+  int SettingsAdjustCameraSpeed(int originalSpeed) {
+    if (gExtSaveData.storedCameraMultiplier >= CAMERA_MULT_MIN &&
+        gExtSaveData.storedCameraMultiplier <= CAMERA_MULT_MAX) {
+      int modifiedSpeed = originalSpeed * gExtSaveData.storedCameraMultiplier;
+      return modifiedSpeed;
+    }
+    return originalSpeed;
   }
   }
   // TODO: Change the addr

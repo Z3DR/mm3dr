@@ -849,6 +849,14 @@ SECTIONS{
     *(.patch_CouplesMaskGiveItem)
   }
 
+  .patch_CameraSpeedAdjustmentOne 0x046FC40 : {
+    *(.patch_CameraSpeedAdjustmentOne)
+  }
+
+  .patch_CameraSpeedAdjustmentTwo 0x046FC6C : {
+    *(.patch_CameraSpeedAdjustmentTwo)
+  }
+
   .patch_DoNotDeleteOceanTitleDeed 0x477740 : {
     *(.patch_DoNotDeleteOceanTitleDeed)
   }

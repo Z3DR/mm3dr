@@ -21,3 +21,11 @@ hook_AfterPlayerFaceTexAnims:
   pop {r0-r12, lr}
   add r1,r4,#0x12000
   bx lr
+
+.global hook_AdjustCameraSpeed
+hook_AdjustCameraSpeed:
+  push {r1-r12, lr}
+  bl SettingsAdjustCameraSpeed
+  pop {r1-r12,lr}
+  mov r2,#0x1
+  bx lr
