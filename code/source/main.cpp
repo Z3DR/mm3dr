@@ -145,10 +145,14 @@ namespace rnd {
 #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     auto& cdata = game::GetCommonData();
     auto& save = cdata.save;
+    auto* link = gctx->GetPlayerActor();
     if (pressedButtons == (u32)game::pad::Button::ZR) {
       rnd::util::Print("%s: cdata.sub1.field_1C %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,
                        cdata.sub1.field_1C, (u8)gExtSaveData.givenItemChecks.enZogGivenItem);
-      cdata.sub1.field_1C = static_cast<int>(game::SceneId::SouthClockTown);
+      util::GetPointer<void(game::GlobalContext*, game::act::Player*, int, int16_t, char, int)>(0x239794)(
+          gctx, link, static_cast<int>(10), 1, 0, 1);
+      // util::GetPointer<void(game::GlobalContext*, int)>(0x21e524)(gctx, -16);
+      game::sound::EmitFormSpecificSoundForPlayer(game::sound::EffectId::NA_SE_VO_LI_FALL_L);
 
     } else if (pressedButtons == (u32)game::pad::Button::ZL) {
       rnd::util::Print("%s: weekeventreg value %u gExtSaveData.givenItemChecks.enZogGivenItem value %u \n", __func__,

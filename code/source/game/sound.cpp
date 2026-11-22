@@ -7,6 +7,8 @@
  * Brought in from the Project Restoration libraries. Edited to adjust for the randomizer.
  */
 #include "game/sound.h"
+#include "common/advanced_context.h"
+#include "game/common_data.h"
 
 #include <tuple>
 
@@ -31,6 +33,14 @@ namespace game::sound {
 
   bool PlayEffect(const act::Actor& actor, EffectId id) {
     return PlayEffect(actor.pos.pos, id);
+  }
+
+  void EmitFormSpecificSoundForPlayer(EffectId id) {
+    auto* gctx = rnd::GetContext().gctx;
+    if (gctx != NULL) {
+      auto* player = rnd::GetContext().gctx->GetPlayerActor();
+      rnd::util::GetPointer<void(game::act::Player*, EffectId)>(0x226BBC)(player, id);
+    }
   }
 
   StreamId GetCurrentStreamId(StreamPlayer player) {

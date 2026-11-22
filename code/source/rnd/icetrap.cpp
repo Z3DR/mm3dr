@@ -2,14 +2,22 @@
 
 namespace rnd {
   // The game ticks 30 times a second, so a timed trap lasts 20 seconds.
-  static constexpr u16 rTimedTrapTicks = 20 * 30;
+  static constexpr u16 rTimedTrapTicks = 21 * 30;
+  static constexpr s16 rTimerTotal = 20;
 
   enum class IceTrapKind : u8 {
     Freeze,
     Jinx,
     Fire,
     InvertedControls,
-    Count,
+    Shock,
+
+    Count,  // Always last in array.
+  };
+
+  enum class IceDamageType : int {
+    Ice = 3,
+    Shock,
   };
 
   static u8 gPendingFreezes = 0;
@@ -26,13 +34,22 @@ namespace rnd {
       timer = (u8)IceTrap_Rand(0, 200);
     }
     link->body_is_burning = 1;
-    // Returns non-zero if the burn killed Link.
+    // Returns non-zero if the burn killed Link or voided out.
     if (util::GetPointer<int(game::GlobalContext*, game::act::Player*)>(0x20DE6C)(gctx, link) != 0) {
       return;
     }
     // Small knockback, same speeds as the game uses for fire.
     util::GetPointer<void(game::GlobalContext*, game::act::Player*, int, int16_t, char, int, float, float)>(0x239794)(
         gctx, link, 1, 20, 0, 1, 4.0f, 5.0f);
+    game::sound::EmitFormSpecificSoundForPlayer(game::sound::EffectId::NA_SE_VO_LI_FALL_L);
+  }
+
+  static void IceTrap_Shock(game::GlobalContext* gctx, game::act::Player* link) {
+    s16 depleteHpBy = IceTrap_Rand(4, 32);  // Randomly select from 1-4 hearts being lost.
+    util::GetPointer<void(game::GlobalContext*, game::act::Player*, int, int16_t, char, int)>(0x239794)(
+        gctx, link, static_cast<int>(IceDamageType::Shock), 1, 0, 1);
+    util::GetPointer<void(game::GlobalContext*, int)>(0x21e524)(gctx, -depleteHpBy);
+    game::sound::EmitFormSpecificSoundForPlayer(game::sound::EffectId::NA_SE_VO_LI_FALL_L);
   }
 
   void IceTrap_Push() {
@@ -52,19 +69,29 @@ namespace rnd {
     gPendingFreezes -= 1;
     switch ((IceTrapKind)IceTrap_Rand(0, (int)IceTrapKind::Count)) {
     case IceTrapKind::Freeze:
-      util::GetPointer<void(game::GlobalContext*, game::act::Player*, int, int16_t, char, int)>(0x239794)(gctx, link, 3,
-                                                                                                          1, 0, 1);
+      util::GetPointer<void(game::GlobalContext*, game::act::Player*, int, int16_t, char, int)>(0x239794)(
+          gctx, link, static_cast<int>(IceDamageType::Ice), 1, 0, 1);
       break;
     case IceTrapKind::Jinx:
+      game::sound::EmitFormSpecificSoundForPlayer(game::sound::EffectId::NA_SE_VO_LI_DAMAGE_S);
       game::GetCommonData().save.jinxTimer = rTimedTrapTicks;
       break;
     case IceTrapKind::Fire:
       IceTrap_Burn(gctx, link);
       break;
     case IceTrapKind::InvertedControls:
+      game::sound::EmitFormSpecificSoundForPlayer(game::sound::EffectId::NA_SE_VO_LI_DAMAGE_S);
+      // Creates an interface timer to show how long effect will last for.
+      util::GetPointer<void(int, int)>(0x3B7EB0)(4, rTimerTotal);
       rInvertTicks = rTimedTrapTicks;
       break;
+    case IceTrapKind::Shock:
+      IceTrap_Shock(gctx, link);
+      break;
     default:
+      // Freeze on default.
+      util::GetPointer<void(game::GlobalContext*, game::act::Player*, int, int16_t, char, int)>(0x239794)(
+          gctx, link, static_cast<int>(IceDamageType::Ice), 1, 0, 1);
       break;
     }
   }

@@ -3,6 +3,7 @@
 #include "common/advanced_context.h"
 #include "game/common_data.h"
 #include "game/player.h"
+#include "game/sound.h"
 
 namespace rnd {
   void IceTrap_Push();
