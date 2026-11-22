@@ -849,11 +849,11 @@ SECTIONS{
     *(.patch_CouplesMaskGiveItem)
   }
 
-  .patch_CameraSpeedAdjustmentOne 0x046FC40 : {
+  .patch_CameraSpeedAdjustmentOne 0x046FC3C : {
     *(.patch_CameraSpeedAdjustmentOne)
   }
 
-  .patch_CameraSpeedAdjustmentTwo 0x046FC6C : {
+  .patch_CameraSpeedAdjustmentTwo 0x046FC68 : {
     *(.patch_CameraSpeedAdjustmentTwo)
   }
 
