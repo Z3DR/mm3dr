@@ -7,7 +7,7 @@
 #include "z3d/z3DVec.h"
 
 // Increment the version number whenever the ExtSaveData structure is changed
-#define EXTSAVEDATA_VERSION 28
+#define EXTSAVEDATA_VERSION 29
 #define SAVEFILE_SCENES_DISCOVERED_IDX_COUNT 4
 #define SAVEFILE_SPOILER_ITEM_MAX 512
 
@@ -231,6 +231,7 @@ namespace rnd {
       BitField<2, 6, u8> unused;
     };
     BoatRideRegister boatRides;
+    float storedCameraMultiplier;
   } ExtSaveData;
 
   extern "C" ExtSaveData gExtSaveData;

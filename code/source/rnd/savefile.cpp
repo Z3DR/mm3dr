@@ -905,6 +905,7 @@ namespace rnd {
       formTunicColor = 0;
     gExtSaveData.options.muteSoundEffects = gSettingsContext.muteSoundEffects;
     gExtSaveData.options.muteBackgroundMusic = gSettingsContext.muteBackgroundMusic;
+    gExtSaveData.storedCameraMultiplier = gSettingsContext.ingameCameraSpeedMult;
   }
 
   u8 SaveFile_GetIsSceneDiscovered(u8 sceneNum) {

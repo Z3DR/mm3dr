@@ -15,3 +15,13 @@ patch_ApplyDamageMultiplier:
 .global patch_AfterPlayerFaceTexAnims
 patch_AfterPlayerFaceTexAnims:
     bl hook_AfterPlayerFaceTexAnims
+
+.section .patch_CameraSpeedAdjustmentOne
+.global patch_CameraSpeedAdjustmentOne
+patch_CameraSpeedAdjustmentOne:
+    bl hook_AdjustCameraSpeed
+
+.section .patch_CameraSpeedAdjustmentTwo
+.global patch_CameraSpeedAdjustmentTwo
+patch_CameraSpeedAdjustmentTwo:
+    bl hook_AdjustCameraSpeed

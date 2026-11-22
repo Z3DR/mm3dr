@@ -668,6 +668,9 @@ namespace rnd {
     u8 (*get)(void);
     void (*set)(u8);
     void (*open)(void);  // Opens a subpage instead of having a value.
+    // Optional: numeric options that aren't an index into valueNames.
+    float (*getFloat)(void);
+    void (*step)(bool forward);
   } MenuOption;
 
   // Wraps around, out of range restarts at 0.
@@ -751,6 +754,33 @@ namespace rnd {
     tunicCursor = 0;
   }
 
+  static float Option_GetCameraMultiplier(void) {
+    return gExtSaveData.storedCameraMultiplier;
+  }
+
+  static void Option_StepCameraMultiplier(bool forward) {
+    float value = gExtSaveData.storedCameraMultiplier;
+
+    // Guard against an unset or garbage value (e.g. 0 from an older save).
+    if (!(value >= CAMERA_MULT_MIN && value <= CAMERA_MULT_MAX)) {
+      value = 1.0f;
+    }
+
+    // Snap to the step grid so repeated presses don't accumulate float error.
+    s32 steps = (s32)((value / CAMERA_MULT_STEP) + 0.5f);
+    const s32 minSteps = (s32)((CAMERA_MULT_MIN / CAMERA_MULT_STEP) + 0.5f);
+    const s32 maxSteps = (s32)((CAMERA_MULT_MAX / CAMERA_MULT_STEP) + 0.5f);
+
+    // Wraps around like the other options.
+    if (forward) {
+      steps = (steps >= maxSteps) ? minSteps : steps + 1;
+    } else {
+      steps = (steps <= minSteps) ? maxSteps : steps - 1;
+    }
+
+    gExtSaveData.storedCameraMultiplier = steps * CAMERA_MULT_STEP;
+  }
+
   static const MenuOption menuOptions[] = {
       {"Spoilers", spoilerValueNames, ARR_SIZE(spoilerValueNames), Option_GetShowSpoilers, Option_SetShowSpoilers},
       {"Fast Ocarina Songs", songReplayValueNames, ARR_SIZE(songReplayValueNames), Option_GetSongReplays,
@@ -768,6 +798,8 @@ namespace rnd {
       {"  Shuffle Link's Voice", toggleValueNames, ARR_SIZE(toggleValueNames), Option_GetShuffleLinkVoice,
        Option_SetShuffleLinkVoice},
       {"Tunic Colors", nullptr, 0, nullptr, nullptr, Option_OpenTunicColors},
+      {"Camera Multiplier", nullptr, 0, nullptr, nullptr, nullptr, Option_GetCameraMultiplier,
+       Option_StepCameraMultiplier},
   };
 
   static bool Gfx_OptionsCursorOpensSubpage(void) {
@@ -815,9 +847,15 @@ namespace rnd {
       if (option->open != nullptr) {
         continue;
       }
+
+      const u32 valueColor = selected ? COLOR_GREEN : COLOR_LIGHT_GRAY;
+      if (option->getFloat != nullptr) {
+        Draw_DrawFormattedString(180, posY, valueColor, "%.2fx", option->getFloat());
+        continue;
+      }
+
       const u8 value = option->get();
-      Draw_DrawString(180, posY, selected ? COLOR_GREEN : COLOR_LIGHT_GRAY,
-                      value < option->valueCount ? option->valueNames[value] : "Invalid");
+      Draw_DrawString(180, posY, valueColor, value < option->valueCount ? option->valueNames[value] : "Invalid");
     }
   }
 
@@ -1003,6 +1041,14 @@ namespace rnd {
             optionsCursor = 0;
           }
           handledInput = true;
+        } else if (menuOptions[optionsCursor].step != nullptr) {
+          if (pressed & (BUTTON_A | BUTTON_RIGHT | CPAD_RIGHT)) {
+            menuOptions[optionsCursor].step(true);
+            handledInput = true;
+          } else if (pressed & (BUTTON_LEFT | CPAD_LEFT)) {
+            menuOptions[optionsCursor].step(false);
+            handledInput = true;
+          }
         } else if (menuOptions[optionsCursor].open != nullptr) {
           if (pressed & BUTTON_A) {
             menuOptions[optionsCursor].open();
