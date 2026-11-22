@@ -271,7 +271,8 @@ namespace rnd {
     game::act::Player* player = gctx->GetPlayerActor();
     if (ItemOverride_PlayerIsReady()) {
       ItemOverride_PopIceTrap();
-      if (IceTrap_IsPending()) {
+      // Traps that arrive during a timed trap wait for it to end; items are not held up behind them.
+      if (IceTrap_IsPending() && !IceTrap_IsTimedActive()) {
         IceTrap_Give();
       } else {
         ItemOverride_TryPendingItem();

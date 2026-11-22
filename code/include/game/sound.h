@@ -2655,6 +2655,7 @@ namespace game::sound {
   bool PlayEffect(EffectId id);
   bool PlayEffect(const z3dVec3f& position, EffectId id);
   bool PlayEffect(const act::Actor& actor, EffectId id);
+  void EmitFormSpecificSoundForPlayer(EffectId id);
 
   enum class StreamPlayer : u32 {
     // Mostly used for BGMs

@@ -2,6 +2,7 @@ extern "C" {
 #include <3ds/types.h>
 }
 #include <string.h>
+#include "rnd/icetrap.h"
 #include "rnd/item_effect.h"
 #include "rnd/item_table.h"
 #include "rnd/savefile.h"
@@ -931,6 +932,7 @@ namespace rnd {
 
   extern "C" {
   void SaveFile_LoadExtSaveData() {
+    IceTrap_Reset();
     char path[] = "/0.bin";
     u32 version;
     u64 fileSize;
