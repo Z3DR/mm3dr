@@ -67,32 +67,37 @@ namespace rnd {
       return;
     }
     gPendingFreezes -= 1;
-    switch ((IceTrapKind)IceTrap_Rand(0, (int)IceTrapKind::Count)) {
-    case IceTrapKind::Freeze:
+    if (gSettingsContext.enableMoreIceTraps != 1) {
       util::GetPointer<void(game::GlobalContext*, game::act::Player*, int, int16_t, char, int)>(0x239794)(
           gctx, link, static_cast<int>(IceDamageType::Ice), 1, 0, 1);
-      break;
-    case IceTrapKind::Jinx:
-      game::sound::EmitFormSpecificSoundForPlayer(game::sound::EffectId::NA_SE_VO_LI_DAMAGE_S);
-      game::GetCommonData().save.jinxTimer = rTimedTrapTicks;
-      break;
-    case IceTrapKind::Fire:
-      IceTrap_Burn(gctx, link);
-      break;
-    case IceTrapKind::InvertedControls:
-      game::sound::EmitFormSpecificSoundForPlayer(game::sound::EffectId::NA_SE_VO_LI_DAMAGE_S);
-      // Creates an interface timer to show how long effect will last for.
-      util::GetPointer<void(int, int)>(0x3B7EB0)(4, rTimerTotal);
-      rInvertTicks = rTimedTrapTicks;
-      break;
-    case IceTrapKind::Shock:
-      IceTrap_Shock(gctx, link);
-      break;
-    default:
-      // Freeze on default.
-      util::GetPointer<void(game::GlobalContext*, game::act::Player*, int, int16_t, char, int)>(0x239794)(
-          gctx, link, static_cast<int>(IceDamageType::Ice), 1, 0, 1);
-      break;
+    } else {
+      switch ((IceTrapKind)IceTrap_Rand(0, (int)IceTrapKind::Count)) {
+      case IceTrapKind::Freeze:
+        util::GetPointer<void(game::GlobalContext*, game::act::Player*, int, int16_t, char, int)>(0x239794)(
+            gctx, link, static_cast<int>(IceDamageType::Ice), 1, 0, 1);
+        break;
+      case IceTrapKind::Jinx:
+        game::sound::EmitFormSpecificSoundForPlayer(game::sound::EffectId::NA_SE_VO_LI_DAMAGE_S);
+        game::GetCommonData().save.jinxTimer = rTimedTrapTicks;
+        break;
+      case IceTrapKind::Fire:
+        IceTrap_Burn(gctx, link);
+        break;
+      case IceTrapKind::InvertedControls:
+        game::sound::EmitFormSpecificSoundForPlayer(game::sound::EffectId::NA_SE_VO_LI_DAMAGE_S);
+        // Creates an interface timer to show how long effect will last for.
+        util::GetPointer<void(int, int)>(0x3B7EB0)(4, rTimerTotal);
+        rInvertTicks = rTimedTrapTicks;
+        break;
+      case IceTrapKind::Shock:
+        IceTrap_Shock(gctx, link);
+        break;
+      default:
+        // Freeze on default.
+        util::GetPointer<void(game::GlobalContext*, game::act::Player*, int, int16_t, char, int)>(0x239794)(
+            gctx, link, static_cast<int>(IceDamageType::Ice), 1, 0, 1);
+        break;
+      }
     }
   }
 
