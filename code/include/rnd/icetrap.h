@@ -4,6 +4,7 @@
 #include "game/common_data.h"
 #include "game/player.h"
 #include "game/sound.h"
+#include "rnd/settings.h"
 
 namespace rnd {
   void IceTrap_Push();

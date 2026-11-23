@@ -502,6 +502,7 @@ namespace rnd {
     u8 ingameSwimmingControls;
     u8 ingameAdjustVolume;
     float ingameCameraSpeedMult;
+    u8 enableMoreIceTraps;
   } SettingsContext;
 
   extern "C" SettingsContext gSettingsContext;
