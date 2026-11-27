@@ -1,5 +1,4 @@
 #include "rnd/link.h"
-#include "game/resarchiveheader.h"
 
 /**
  * @file link.cpp
@@ -125,7 +124,8 @@ namespace rnd::link {
   }
 
   void HandleFastArrowSwitch(game::act::Player* player) {
-    if (gSettingsContext.enableFastArrowSwap == 0) {
+    // Only allow arrow swaps if the setting is enabled, and the user is on the main screen and not gear screens.
+    if (gSettingsContext.enableFastArrowSwap == 0 && game::ui::CheckCurrentScreen(game::ui::ScreenType::Main)) {
       return;
     }
     game::CommonData& cdata = game::GetCommonData();
